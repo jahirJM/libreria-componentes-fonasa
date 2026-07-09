@@ -1,4 +1,4 @@
-import type { ComponentVariant } from "../registry";
+import type { ComponentVariant } from "../../registry";
 import { CodePanel } from "./CodePanel";
 
 interface PreviewPanelProps {
@@ -7,10 +7,10 @@ interface PreviewPanelProps {
 
 export function PreviewPanel({ variant }: PreviewPanelProps) {
   return (
-    <div className="rounded-lg border border-gray-200 overflow-hidden">
+    <div className="rounded-lg border border-gray-800 overflow-hidden">
       {/* Label de la variante */}
-      <div className="border-b border-gray-200 bg-gray-50 px-4 py-2">
-        <span className="text-sm font-medium text-gray-700">
+      <div className="border-b border-gray-800 bg-gray-900 px-4 py-2">
+        <span className="text-sm font-medium text-gray-300">
           {variant.label}
         </span>
       </div>

@@ -1,9 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import * as fc from "fast-check";
-import { CodePanel } from "../components/CodePanel";
-import { PreviewPanel } from "../components/PreviewPanel";
-import { ComponentPreview } from "../components/ComponentPreview";
+import { CodePanel } from "../app/projectComponents/CodePanel";
+import { PreviewPanel } from "../app/projectComponents/PreviewPanel";
+import { ComponentPreview } from "../app/projectComponents/ComponentPreview";
 import type { ComponentVariant, ComponentEntry } from "../registry";
 
 /**
@@ -94,9 +95,10 @@ describe("Property 2: All variants are rendered", () => {
             variants,
           };
           const { container, unmount } = render(
-            <ComponentPreview entry={entry} />
+            <MemoryRouter>
+              <ComponentPreview entry={entry} />
+            </MemoryRouter>
           );
-          // Each variant renders its label in a span inside a header bar
           const variantLabels = container.querySelectorAll(
             ".border-b .text-sm.font-medium"
           );
@@ -137,7 +139,9 @@ describe("Property 3: Component name displayed as heading", () => {
             ],
           };
           const { container, unmount } = render(
-            <ComponentPreview entry={entry} />
+            <MemoryRouter>
+              <ComponentPreview entry={entry} />
+            </MemoryRouter>
           );
           const h2 = container.querySelector("h2");
           expect(h2).not.toBeNull();

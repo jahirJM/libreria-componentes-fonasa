@@ -1,7 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { CodePanel } from "../components/CodePanel";
-import { ComponentPreview } from "../components/ComponentPreview";
+import { MemoryRouter } from "react-router-dom";
+import { CodePanel } from "../app/projectComponents/CodePanel";
+import { ComponentPreview } from "../app/projectComponents/ComponentPreview";
 import { registry } from "../registry";
 
 describe("Unit Tests", () => {
@@ -36,7 +37,7 @@ describe("Unit Tests", () => {
   });
 
   describe("Layout: código fuente primero, variantes después", () => {
-    it("source code section appears before variants section", () => {
+    it("source code section appears before examples section", () => {
       const entry = {
         name: "TestComponent",
         code: "const x = 1;",
@@ -50,9 +51,12 @@ describe("Unit Tests", () => {
         ],
       };
 
-      const { container } = render(<ComponentPreview entry={entry} />);
+      const { container } = render(
+        <MemoryRouter>
+          <ComponentPreview entry={entry} />
+        </MemoryRouter>
+      );
       const h3s = container.querySelectorAll("h3");
-      // First h3 is "Código fuente", second is "Ejemplos"
       expect(h3s.length).toBeGreaterThanOrEqual(2);
       expect(h3s[0].textContent).toBe("Código fuente");
       expect(h3s[1].textContent).toBe("Ejemplos");

@@ -1,20 +1,33 @@
-import { registry } from "./registry";
-import { ComponentPreview } from "./components/ComponentPreview";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import { ComponentsLayout } from "./app/layouts/ComponentsLayout";
+import { ComponentsIndex } from "./app/pages/ComponentsIndex";
+import { DefaultLayout } from "./app/layouts/DefaultLayout";
+import { ComponentPage } from "./app/pages/ComponentPage";
+
+import { Home } from "./app/pages/Home";
+import { Docs } from "./app/pages/Docs";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="mx-auto max-w-4xl">
-        <h1 className="text-3xl font-bold text-gray-900 mb-10">
-          Librería de Componentes
-        </h1>
-        <div className="flex flex-col gap-12">
-          {registry.map((entry) => (
-            <ComponentPreview key={entry.name} entry={entry} />
-          ))}
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* Rutas sin sidebar */}
+        <Route element={<DefaultLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/docs" element={<Docs />} />
+        </Route>
+
+        {/* Rutas con sidebar */}
+        <Route element={<ComponentsLayout />}>
+          <Route path="/components" element={<ComponentsIndex />} />
+          <Route path="/components/:name" element={<ComponentPage />} />
+        </Route>
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

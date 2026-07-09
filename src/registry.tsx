@@ -1,4 +1,4 @@
-import { Input } from "./components/Input";
+import { Input } from "./componentsUI/Input";
 
 export interface ComponentVariant {
   label: string;

@@ -7,6 +7,7 @@ import { ComponentPage } from "./app/pages/ComponentPage";
 
 import { Home } from "./app/pages/Home";
 import { Docs } from "./app/pages/Docs";
+import { ColorsPage } from "./app/pages/ColorsPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/colors" element={<ColorsPage />} />
         </Route>
 
         {/* Rutas con sidebar */}

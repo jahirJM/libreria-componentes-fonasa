@@ -43,20 +43,20 @@ export const UploadBox = ({
       ) : confirmacion ? (
         <>
           <FaRegCheckCircle size={32} className="fill-green-500" />
-          <p className="mb-0 text-center select-none">
+          <p className="mb-0 text-center select-none text-gray-700">
             <strong>{textStrong}</strong> {text}
           </p>
-          <p className="mb-0 select-none italic text-sm! mt-2">
+          <p className="mb-0 select-none italic text-sm! mt-2 text-gray-500">
             {"Haz click aqui para subir un nuevo documento"}
           </p>
         </>
       ) : (
         <>
-          <AiOutlineCloudUpload size={32} />
-          <p className="mb-0 text-center select-none">
+          <AiOutlineCloudUpload size={32} className="text-gray-600" />
+          <p className="mb-0 text-center select-none text-gray-700">
             <strong>{textStrong}</strong> {text}
           </p>
-          <p className="mb-0 select-none">
+          <p className="mb-0 select-none text-gray-500">
             .pdf,.doc,.docx,.jpg,.jpeg,.png (Max 10MB)
           </p>
         </>

@@ -102,7 +102,7 @@ export const SolicitudCard = ({
               {/* Documento de respuesta */}
               {documentoRespuesta && (
                 <div className="flex items-center justify-between text-xs px-4 py-2 bg-gray-100">
-                  <span className="truncate text-sm font-bold uppercase">
+                  <span className="truncate text-sm font-bold uppercase text-gray-800">
                     {documentoRespuesta.nombre}
                   </span>
                   <button
@@ -121,7 +121,7 @@ export const SolicitudCard = ({
                   key={doc.id}
                   className="flex items-center justify-between text-xs px-4 py-1 hover:bg-gray-50"
                 >
-                  <span className="truncate text-sm">{doc.nombre}</span>
+                  <span className="truncate text-sm text-gray-700">{doc.nombre}</span>
                   <button
                     type="button"
                     onClick={doc.onVer}

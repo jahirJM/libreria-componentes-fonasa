@@ -16,7 +16,7 @@ export const TablaBasica = ({
   ...props
 }: TablaBasicaProps) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden text-gray-700">
       <div className="overflow-x-auto">
         <table className={clsx("w-full", classTable)} {...props}>
           <thead>

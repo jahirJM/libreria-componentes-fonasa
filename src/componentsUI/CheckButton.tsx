@@ -66,7 +66,8 @@ export const CheckButton = ({
             <label
               htmlFor={opcion.id}
               className={clsx(
-                isDisabled && "opacity-60 cursor-default",
+                "text-gray-700 cursor-pointer",
+                isDisabled && "opacity-60 cursor-default!",
                 customClassLabel
               )}
             >

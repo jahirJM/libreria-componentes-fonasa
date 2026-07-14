@@ -71,6 +71,42 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         </div>
       )}
 
+      {/* Colores utilizados */}
+      {entry.colors && entry.colors.length > 0 && (
+        <div className="mb-12">
+          <h3 className="text-lg font-semibold text-white mb-3">
+            Colores utilizados
+          </h3>
+          <p className="text-sm text-gray-400 mb-4">
+            Paleta de colores que utiliza este componente.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {entry.colors.map((color) => (
+              <div
+                key={color.name + color.value}
+                className="rounded-lg border border-gray-800 bg-gray-900 p-3 flex flex-col gap-2"
+              >
+                <div
+                  className="h-8 w-full rounded-md border border-gray-700"
+                  style={{ backgroundColor: color.value }}
+                />
+                <div>
+                  <p className="text-xs font-medium text-gray-200 truncate">
+                    {color.name}
+                  </p>
+                  <p className="text-[10px] font-mono text-gray-500">
+                    {color.value}
+                  </p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">
+                    {color.usage}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Payload esperado (interface) */}
       {entry.propsInterface && (
         <div className="mb-12">

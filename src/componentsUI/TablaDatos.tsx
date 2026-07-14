@@ -31,8 +31,8 @@ export const TablaDatos = ({
 }: TablaDatosProps) => {
   const baseStyles = "mt-5 rounded-t-md p-2";
   const variantStyles = {
-    primary: "bg-(--primary-color)",
-    secondary: "bg-(--secondary-color)",
+    primary: "bg-[#008CB5]",
+    secondary: "bg-[#414951]",
   };
 
   const mostrarAcciones = Boolean(botonEdit || botonDelete);
@@ -86,7 +86,7 @@ export const TablaDatos = ({
             }
           >
             {columnas.map((columna) => (
-              <div className="text-sm" key={columna}>
+              <div className="text-sm text-gray-700" key={columna}>
                 {item[columna] ?? "-"}
               </div>
             ))}
@@ -95,7 +95,7 @@ export const TablaDatos = ({
                 {botonEdit && (
                   <button
                     type="button"
-                    className="cursor-pointer hover:bg-gray-200 p-2 rounded-2xl transition-all ease-in-out duration-300"
+                    className="cursor-pointer text-gray-600 hover:text-gray-800 hover:bg-gray-200 p-2 rounded-2xl transition-all ease-in-out duration-300"
                     onClick={() => botonEdit(item)}
                   >
                     <MdOutlineEdit />
@@ -104,7 +104,7 @@ export const TablaDatos = ({
                 {botonDelete && (
                   <button
                     type="button"
-                    className="cursor-pointer hover:bg-gray-200 p-2 rounded-2xl transition-all ease-in-out duration-300"
+                    className="cursor-pointer text-gray-600 hover:text-red-600 hover:bg-gray-200 p-2 rounded-2xl transition-all ease-in-out duration-300"
                     onClick={() => botonDelete(item)}
                   >
                     <FaRegTrashAlt />

@@ -56,7 +56,7 @@ export const Paginacion = ({
         type="button"
         disabled={!hayAnterior}
         onClick={() => onCambiarPagina(paginaActual - 1)}
-        className="p-1.5 rounded-md text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="p-1.5 rounded-md text-[#0572CE] hover:bg-blue-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
       >
         <HiChevronLeft className="size-4" />
       </button>
@@ -68,8 +68,8 @@ export const Paginacion = ({
           onClick={() => onCambiarPagina(pagina)}
           className={`cursor-pointer min-w-[32px] h-8 px-2 rounded-md text-xs font-medium transition-colors ${
             pagina === paginaActual
-              ? "bg-(--primary-color) text-white"
-              : "text-gray-600 hover:bg-gray-100"
+              ? "bg-[#0572CE] text-white shadow-sm"
+              : "text-[#0572CE] hover:bg-blue-100"
           }`}
         >
           {pagina}
@@ -80,7 +80,7 @@ export const Paginacion = ({
         type="button"
         disabled={!haySiguiente}
         onClick={() => onCambiarPagina(paginaActual + 1)}
-        className="p-1.5 rounded-md text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="p-1.5 rounded-md text-[#0572CE] hover:bg-blue-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
       >
         <HiChevronRight className="size-4" />
       </button>

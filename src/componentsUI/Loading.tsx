@@ -19,11 +19,11 @@ interface LoadingSectionProps {
 
 export const LoadingSection = ({ mensaje }: LoadingSectionProps) => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center bg-gray-900/70 rounded-xl p-8">
       <div className="bg-white p-4 rounded-full">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#0572CE]"></div>
       </div>
-      <p className="text-sm font-bold mt-3">{mensaje}</p>
+      <p className="text-white text-sm font-bold mt-3">{mensaje}</p>
     </div>
   );
 };
@@ -34,7 +34,7 @@ export const LoadingSection = ({ mensaje }: LoadingSectionProps) => {
  */
 export const LoadingFonasa = ({ mensaje }: FullLoadingProps) => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center bg-gray-900/70 rounded-xl p-8">
       <div className="relative">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#0572CE]"></div>
         <div className="absolute inset-0 flex items-center justify-center">
@@ -42,7 +42,7 @@ export const LoadingFonasa = ({ mensaje }: FullLoadingProps) => {
         </div>
       </div>
       {mensaje && (
-        <p className="text-sm font-bold mt-3">{mensaje}</p>
+        <p className="text-white text-sm font-bold mt-3">{mensaje}</p>
       )}
     </div>
   );

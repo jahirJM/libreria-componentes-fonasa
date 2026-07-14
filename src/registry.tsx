@@ -54,12 +54,19 @@ export interface ComponentVariant {
   usageCode: string;
 }
 
+export interface ComponentColor {
+  name: string;
+  value: string;
+  usage: string;
+}
+
 export interface ComponentEntry {
   name: string;
   description?: string;
   code: string;
   dependencies?: string[];
   propsInterface?: string;
+  colors?: ComponentColor[];
   variants: ComponentVariant[];
 }
 
@@ -153,7 +160,7 @@ function StepperDemo({
       <div className="flex justify-center gap-2 mt-2">
         <button
           onClick={() => setPaso((p) => Math.max(1, p - 1))}
-          className="px-3 py-1 text-xs bg-gray-200 rounded hover:bg-gray-300"
+          className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
         >
           Anterior
         </button>
@@ -1253,6 +1260,11 @@ interface StepperProps {
   totalPaginas: number;
   onCambiarPagina: (pagina: number) => void;
 }`,
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Texto de los números de página y fondo de la página activa" },
+      { name: "white", value: "#ffffff", usage: "Texto del número de página activa" },
+      { name: "blue-100", value: "#dbeafe", usage: "Fondo hover de los botones de página" },
+    ],
     variants: [
       {
         label: "Pocas páginas (3)",

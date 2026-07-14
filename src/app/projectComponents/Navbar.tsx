@@ -35,6 +35,18 @@ export function Navbar() {
               Componentes
             </NavLink>
             <NavLink
+              to="/colors"
+              className={({ isActive }) =>
+                `rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-gray-800 text-white"
+                    : "text-gray-400 hover:text-white"
+                }`
+              }
+            >
+              Colores
+            </NavLink>
+            <NavLink
               to="/docs"
               className={({ isActive }) =>
                 `rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${

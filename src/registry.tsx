@@ -419,14 +419,17 @@ export const registry: ComponentEntry[] = [
   {
     name: "Table (Simple)",
     description:
-      "Tabla HTML simple con header estilizado, columnas configurables y contenedor con bordes redondeados.",
+      "Tabla HTML con header estilizado, columnas configurables, opción de ocultar columnas al hacer click y redimensionar columnas tipo Excel.",
     code: tableCode,
+    dependencies: ["clsx"],
     propsInterface: `interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
-  classTable?: string;
-  classTh?: string;
-  nombreColumnas: string[];
-  children: ReactNode;
-}`,
+      classTable?: string;
+      classTh?: string;
+      nombreColumnas: string[];
+      children: ReactNode;
+      ocultable?: boolean;
+      redimensionable?: boolean;
+    }`,
     variants: [
       {
         label: "Básica",
@@ -448,29 +451,57 @@ export const registry: ComponentEntry[] = [
         usageCode: `<Table nombreColumnas={["Nombre", "Email", "Rol"]}>\n  <tr>\n    <td className="px-4 py-2 text-sm">Juan Pérez</td>\n    <td className="px-4 py-2 text-sm">juan@email.com</td>\n    <td className="px-4 py-2 text-sm">Admin</td>\n  </tr>\n</Table>`,
       },
       {
-        label: "Con clases personalizadas",
-        props: {
-          nombreColumnas: ["ID", "Estado"],
-          classTable: "text-center",
-          classTh: "text-center",
-        },
+        label: "Ocultable (click en header)",
+        props: { nombreColumnas: ["Nombre", "Email", "Rol"], ocultable: true },
         render: () => (
-          <Table
-            nombreColumnas={["ID", "Estado"]}
-            classTable="text-center"
-            classTh="text-center"
-          >
+          <Table nombreColumnas={["Nombre", "Email", "Rol"]} ocultable>
+            <tr className="border-b border-gray-100">
+              <td className="px-4 py-2 text-sm">Juan Pérez</td>
+              <td className="px-4 py-2 text-sm">juan@email.com</td>
+              <td className="px-4 py-2 text-sm">Admin</td>
+            </tr>
+            <tr className="border-b border-gray-100">
+              <td className="px-4 py-2 text-sm">María López</td>
+              <td className="px-4 py-2 text-sm">maria@email.com</td>
+              <td className="px-4 py-2 text-sm">Usuario</td>
+            </tr>
+          </Table>
+        ),
+        usageCode: `<Table nombreColumnas={["Nombre", "Email", "Rol"]} ocultable>\n  {/* Click en header contrae la columna a "..." */}\n  <tr>\n    <td className="px-4 py-2 text-sm">Juan Pérez</td>\n  </tr>\n</Table>`,
+      },
+      {
+        label: "Redimensionable",
+        props: { nombreColumnas: ["ID", "Nombre", "Estado"], redimensionable: true },
+        render: () => (
+          <Table nombreColumnas={["ID", "Nombre", "Estado"]} redimensionable>
             <tr className="border-b border-gray-100">
               <td className="px-4 py-2 text-sm">001</td>
+              <td className="px-4 py-2 text-sm">Solicitud inscripción</td>
               <td className="px-4 py-2 text-sm">Activo</td>
             </tr>
             <tr className="border-b border-gray-100">
               <td className="px-4 py-2 text-sm">002</td>
-              <td className="px-4 py-2 text-sm">Inactivo</td>
+              <td className="px-4 py-2 text-sm">Solicitud renuncia</td>
+              <td className="px-4 py-2 text-sm">Pendiente</td>
             </tr>
           </Table>
         ),
-        usageCode: `<Table nombreColumnas={["ID", "Estado"]} classTable="text-center" classTh="text-center">\n  <tr>\n    <td className="px-4 py-2 text-sm">001</td>\n    <td className="px-4 py-2 text-sm">Activo</td>\n  </tr>\n</Table>`,
+        usageCode: `<Table nombreColumnas={["ID", "Nombre", "Estado"]} redimensionable>\n  <tr>\n    <td className="px-4 py-2 text-sm">001</td>\n    <td className="px-4 py-2 text-sm">Solicitud inscripción</td>\n    <td className="px-4 py-2 text-sm">Activo</td>\n  </tr>\n</Table>`,
+      },
+      {
+        label: "Ocultable + Redimensionable",
+        props: { nombreColumnas: ["Nombre", "RUT", "Email", "Rol"], ocultable: true, redimensionable: true },
+        render: () => (
+          <Table nombreColumnas={["Nombre", "RUT", "Email", "Rol"]} ocultable redimensionable>
+            <tr className="border-b border-gray-100">
+              <td className="px-4 py-2 text-sm">Juan Pérez</td>
+              <td className="px-4 py-2 text-sm">12.345.678-9</td>
+              <td className="px-4 py-2 text-sm">juan@email.com</td>
+              <td className="px-4 py-2 text-sm">Admin</td>
+            </tr>
+          </Table>
+        ),
+        usageCode: `<Table nombreColumnas={["Nombre", "RUT", "Email", "Rol"]} ocultable redimensionable>\n  <tr>\n    <td className="px-4 py-2 text-sm">Juan Pérez</td>\n    <td className="px-4 py-2 text-sm">12.345.678-9</td>\n    <td className="px-4 py-2 text-sm">juan@email.com</td>\n    <td className="px-4 py-2 text-sm">Admin</td>\n  </tr>\n</Table>`,
       },
     ],
   },

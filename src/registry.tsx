@@ -391,10 +391,10 @@ export const registry: ComponentEntry[] = [
     description:
       "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     code: textAreaCode,
+    dependencies: ["clsx"],
     propsInterface: `interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  error?: boolean;
-  className?: string;
-}`,
+      error?: boolean;
+    }`,
     variants: [
       {
         label: "Normal",
@@ -404,13 +404,13 @@ export const registry: ComponentEntry[] = [
       },
       {
         label: "Con error",
-        props: { placeholder: "Escribe aquí...", error: true },
+        props: { error: true },
         render: () => <TextArea placeholder="Escribe aquí..." error />,
         usageCode: `<TextArea placeholder="Escribe aquí..." error />`,
       },
       {
         label: "Deshabilitado",
-        props: { placeholder: "No disponible", disabled: true },
+        props: { disabled: true },
         render: () => <TextArea placeholder="No disponible" disabled />,
         usageCode: `<TextArea placeholder="No disponible" disabled />`,
       },

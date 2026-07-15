@@ -89,13 +89,12 @@ function ModalDemo({
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <>
-      <button
+    <div className="flex flex-col items-center gap-1 w-full">
+      <BotonPrimario
+        label="Abrir Modal"
         onClick={() => setOpen(true)}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
-      >
-        Abrir Modal ({size})
-      </button>
+      />
+      <span className="text-xs text-gray-500">({size})</span>
       <CustomModal
         size={size}
         title={title}
@@ -104,7 +103,7 @@ function ModalDemo({
       >
         <p className="text-gray-700">Contenido de ejemplo dentro del modal.</p>
       </CustomModal>
-    </>
+    </div>
   );
 }
 
@@ -168,18 +167,14 @@ function StepperDemo({
         puedeNavegar={navegable}
       />
       <div className="flex justify-center gap-2 mt-2">
-        <button
+        <BotonSecundario
+          label="Anterior"
           onClick={() => setPaso((p) => Math.max(1, p - 1))}
-          className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-        >
-          Anterior
-        </button>
-        <button
+        />
+        <BotonPrimario
+          label="Siguiente"
           onClick={() => setPaso((p) => Math.min(pasos.length, p + 1))}
-          className="px-3 py-1 text-xs bg-[#0572CE] text-white rounded hover:bg-blue-700"
-        >
-          Siguiente
-        </button>
+        />
       </div>
     </div>
   );
@@ -234,7 +229,7 @@ function SidebarResponsiveWrapper({ children }: { children: (isOpen: boolean) =>
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const width = entry.contentRect.width;
-        setIsOpen(width >= 500);
+        setIsOpen(width >= 200);
       }
     });
     observer.observe(el);
@@ -290,6 +285,15 @@ export const registry: ComponentEntry[] = [
       "Input con soporte para múltiples tipos, íconos, loading y copyable.",
     code: inputCode,
     dependencies: ["clsx", "react-icons"],
+    colors: [
+      { name: "white", value: "#ffffff", usage: "Fondo del input" },
+      { name: "gray-100", value: "#f3f4f6", usage: "Fondo del input deshabilitado" },
+      { name: "gray-300", value: "#d1d5db", usage: "Borde del input normal" },
+      { name: "gray-500", value: "#6b7280", usage: "Placeholder, íconos y texto auxiliar" },
+      { name: "blue-900", value: "#1e3a8a", usage: "Borde y ring en focus" },
+      { name: "red-500", value: "#ef4444", usage: "Borde, focus ring y borde en estado error" },
+      { name: "black", value: "#000000", usage: "Texto del input" },
+    ],
     propsInterface: `interface InputProps
       extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value"> {
       error?: boolean;
@@ -393,6 +397,11 @@ export const registry: ComponentEntry[] = [
       "Etiqueta de texto con asterisco de campo obligatorio y mensaje de error 'requerido' con ícono.",
     code: labelCode,
     dependencies: ["clsx", "react-icons"],
+    colors: [
+      { name: "gray-600", value: "#4b5563", usage: "Texto del label" },
+      { name: "red-500", value: "#ef4444", usage: "Asterisco de campo requerido (*)" },
+      { name: "red-400", value: "#f87171", usage: "Texto e ícono del mensaje de error 'requerido'" },
+    ],
     propsInterface: `interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
       text: string;
       indicador?: boolean;
@@ -428,9 +437,15 @@ export const registry: ComponentEntry[] = [
   {
     name: "CustomModal",
     description:
-      "Modal con animaciones de transición, tamaños configurables (sm, md, lg), header con título y botón de cierre.",
+      "Utiliza: Botones. Modal con animaciones de transición, tamaños configurables (sm, md, lg), header con título y botón de cierre.",
     code: customModalCode,
     dependencies: ["@headlessui/react", "react-icons"],
+    colors: [
+      { name: "white", value: "#ffffff", usage: "Fondo del modal" },
+      { name: "gray-800/50", value: "rgba(31,41,55,0.5)", usage: "Overlay de fondo" },
+      { name: "blue-900", value: "#1e3a8a", usage: "Título del modal" },
+      { name: "gray-700", value: "#374151", usage: "Ícono de cierre" },
+    ],
     propsInterface: `interface CustomModalProps {
   size: "sm" | "md" | "lg";
   title?: string;
@@ -466,6 +481,14 @@ export const registry: ComponentEntry[] = [
       "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     code: textAreaCode,
     dependencies: ["clsx"],
+    colors: [
+      { name: "white", value: "#ffffff", usage: "Fondo del textarea" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Fondo del textarea deshabilitado" },
+      { name: "gray-300", value: "#d1d5db", usage: "Borde normal" },
+      { name: "gray-600", value: "#4b5563", usage: "Texto del textarea" },
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Ring y borde en focus" },
+      { name: "red-500", value: "#ef4444", usage: "Borde y ring en estado error" },
+    ],
     propsInterface: `interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
       error?: boolean;
     }`,
@@ -496,6 +519,12 @@ export const registry: ComponentEntry[] = [
       "Tabla HTML simple sin lógica, con header estilizado y columnas configurables.",
     code: tablaBasicaCode,
     dependencies: ["clsx"],
+    colors: [
+      { name: "blue-900", value: "#1e3a8a", usage: "Fondo del header" },
+      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
+      { name: "gray-700", value: "#374151", usage: "Texto del cuerpo" },
+    ],
     propsInterface: `interface TablaBasicaProps extends TableHTMLAttributes<HTMLTableElement> {
   classTable?: string;
   classTh?: string;
@@ -555,6 +584,15 @@ export const registry: ComponentEntry[] = [
       "Utiliza: Tabla Básica. Tabla con columnas ocultables (se contraen a '...') y redimensionables tipo Excel.",
     code: tableCode,
     dependencies: ["clsx"],
+    colors: [
+      { name: "blue-900", value: "#1e3a8a", usage: "Fondo del header" },
+      { name: "blue-800", value: "#1e40af", usage: "Fondo hover del header (ocultable)" },
+      { name: "blue-700", value: "#1d4ed8", usage: "Borde entre columnas contraídas" },
+      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
+      { name: "gray-400", value: "#9ca3af", usage: "Texto de celda contraída (...)" },
+      { name: "gray-700", value: "#374151", usage: "Texto del cuerpo" },
+    ],
     propsInterface: `interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
       classTable?: string;
       classTh?: string;
@@ -654,6 +692,14 @@ export const registry: ComponentEntry[] = [
     description:
       "Select desplegable con soporte para estados de error y deshabilitado.",
     code: selectCode,
+    colors: [
+      { name: "white", value: "#ffffff", usage: "Fondo del select" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Fondo del select deshabilitado" },
+      { name: "gray-300", value: "#d1d5db", usage: "Borde normal" },
+      { name: "gray-600", value: "#4b5563", usage: "Texto del select" },
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Ring y borde en focus" },
+      { name: "red-500", value: "#ef4444", usage: "Borde y ring en estado error" },
+    ],
     propsInterface: `interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   error?: boolean;
   className?: string;
@@ -701,6 +747,18 @@ export const registry: ComponentEntry[] = [
       "Conjunto de botones (Confirmar, Cancelar, Primario, Secundario) con soporte para íconos y estado deshabilitado.",
     code: botonesCode,
     dependencies: ["react-icons"],
+    colors: [
+      { name: "cyan-600", value: "#0891b2", usage: "Fondo BotonConfirmar" },
+      { name: "cyan-500", value: "#06b6d4", usage: "Fondo hover BotonConfirmar" },
+      { name: "red-600", value: "#dc2626", usage: "Fondo BotonCancelar" },
+      { name: "red-500", value: "#ef4444", usage: "Fondo hover BotonCancelar" },
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Fondo BotonPrimario" },
+      { name: "blue-700", value: "#1d4ed8", usage: "Fondo hover BotonPrimario" },
+      { name: "gray-400", value: "#9ca3af", usage: "Fondo BotonSecundario" },
+      { name: "gray-500", value: "#6b7280", usage: "Fondo hover BotonSecundario" },
+      { name: "gray-300", value: "#d1d5db", usage: "Fondo de todos los botones deshabilitados" },
+      { name: "white", value: "#ffffff", usage: "Texto de todos los botones" },
+    ],
     propsInterface: `interface BotonesProps {
   label: React.ReactNode;
   icon?: IconType;
@@ -713,31 +771,31 @@ export const registry: ComponentEntry[] = [
       {
         label: "BotonConfirmar",
         props: { label: "Confirmar" },
-        render: () => <BotonConfirmar label="Confirmar" />,
+        render: () => <div className="flex justify-center w-full"><BotonConfirmar label="Confirmar" /></div>,
         usageCode: `<BotonConfirmar label="Confirmar" />`,
       },
       {
         label: "BotonCancelar",
         props: { label: "Cancelar" },
-        render: () => <BotonCancelar label="Cancelar" />,
+        render: () => <div className="flex justify-center w-full"><BotonCancelar label="Cancelar" /></div>,
         usageCode: `<BotonCancelar label="Cancelar" />`,
       },
       {
         label: "BotonPrimario",
         props: { label: "Guardar" },
-        render: () => <BotonPrimario label="Guardar" />,
+        render: () => <div className="flex justify-center w-full"><BotonPrimario label="Guardar" /></div>,
         usageCode: `<BotonPrimario label="Guardar" />`,
       },
       {
         label: "BotonSecundario",
         props: { label: "Volver" },
-        render: () => <BotonSecundario label="Volver" />,
+        render: () => <div className="flex justify-center w-full"><BotonSecundario label="Volver" /></div>,
         usageCode: `<BotonSecundario label="Volver" />`,
       },
       {
         label: "Deshabilitado",
         props: { label: "No disponible", isDisabled: true },
-        render: () => <BotonPrimario label="No disponible" isDisabled />,
+        render: () => <div className="flex justify-center w-full"><BotonPrimario label="No disponible" isDisabled /></div>,
         usageCode: `<BotonPrimario label="No disponible" isDisabled />`,
       },
     ],
@@ -745,9 +803,22 @@ export const registry: ComponentEntry[] = [
   {
     name: "Toast (Sonner)",
     description:
-      "Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
+      "Utiliza: Botones. Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
     code: toastCode,
     dependencies: ["sonner"],
+    colors: [
+      { name: "green-50 (ecfdf5)", value: "#ecfdf5", usage: "Fondo toast éxito" },
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Borde toast éxito e info" },
+      { name: "green-900 (064e3b)", value: "#064e3b", usage: "Texto toast éxito" },
+      { name: "red-50 (fef2f2)", value: "#fef2f2", usage: "Fondo toast error" },
+      { name: "red-600", value: "#dc2626", usage: "Borde toast error" },
+      { name: "red-900 (991b1b)", value: "#991b1b", usage: "Texto toast error" },
+      { name: "blue-50 (eff6ff)", value: "#eff6ff", usage: "Fondo toast info" },
+      { name: "blue-900 (1e3a5f)", value: "#1e3a5f", usage: "Texto toast info" },
+      { name: "amber-50 (fffbeb)", value: "#fffbeb", usage: "Fondo toast advertencia" },
+      { name: "amber-600", value: "#d97706", usage: "Borde toast advertencia" },
+      { name: "amber-900 (92400e)", value: "#92400e", usage: "Texto toast advertencia" },
+    ],
     propsInterface: `// No recibe props como componente.
 // Se usa via funciones utilitarias:
 
@@ -763,17 +834,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Éxito",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonConfirmar
+              label="Mostrar Toast Éxito"
               onClick={() =>
                 fonasaToast.success("Operación realizada correctamente")
               }
-              className="px-4 py-2 bg-cyan-600 text-white rounded-xl text-sm hover:bg-cyan-500"
-            >
-              Mostrar Toast Éxito
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.success("Operación realizada correctamente")`,
       },
@@ -781,17 +850,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Error",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonCancelar
+              label="Mostrar Toast Error"
               onClick={() =>
                 fonasaToast.error("Ocurrió un error al procesar la solicitud")
               }
-              className="px-4 py-2 bg-red-600 text-white rounded-xl text-sm hover:bg-red-500"
-            >
-              Mostrar Toast Error
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.error("Ocurrió un error al procesar la solicitud")`,
       },
@@ -799,17 +866,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Info",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonPrimario
+              label="Mostrar Toast Info"
               onClick={() =>
                 fonasaToast.info("Se ha enviado un correo de verificación")
               }
-              className="px-4 py-2 bg-[#0572CE] text-white rounded-xl text-sm hover:bg-blue-700"
-            >
-              Mostrar Toast Info
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.info("Se ha enviado un correo de verificación")`,
       },
@@ -817,17 +882,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Advertencia",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonSecundario
+              label="Mostrar Toast Advertencia"
               onClick={() =>
                 fonasaToast.warning("Su sesión expirará en 5 minutos")
               }
-              className="px-4 py-2 bg-amber-600 text-white rounded-xl text-sm hover:bg-amber-500"
-            >
-              Mostrar Toast Advertencia
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.warning("Su sesión expirará en 5 minutos")`,
       },
@@ -838,6 +901,12 @@ fonasaToast.warning(mensaje: string): void;
     description:
       "Componentes de carga: Loading (pantalla completa), LoadingSection (en sección), LoadingFonasa (con favicon de Fonasa al centro).",
     code: loadingCode,
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Borde del spinner (border-t y border-b)" },
+      { name: "white", value: "#ffffff", usage: "Fondo del círculo contenedor del spinner y texto del mensaje" },
+      { name: "gray-900/80", value: "rgba(17,24,39,0.8)", usage: "Overlay oscuro del loading fullscreen" },
+      { name: "gray-900/70", value: "rgba(17,24,39,0.7)", usage: "Fondo de LoadingSection y LoadingFonasa" },
+    ],
     propsInterface: `interface FullLoadingProps {
   mensaje?: string;
 }
@@ -849,16 +918,15 @@ fonasaToast.warning(mensaje: string): void;
       {
         label: "Loading (fullscreen)",
         props: { mensaje: "Cargando datos..." },
+        responsive: true,
         render: () => (
-          <div className="relative h-48 w-full rounded-xl overflow-hidden">
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80">
-              <div className="bg-white p-3 rounded-full mb-3">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-[#0572CE]"></div>
-              </div>
-              <p className="text-white text-sm font-semibold">
-                Cargando datos...
-              </p>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80 rounded-xl">
+            <div className="bg-white p-3 rounded-full mb-3">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-[#0572CE]"></div>
             </div>
+            <p className="text-white text-sm font-semibold">
+              Cargando datos...
+            </p>
           </div>
         ),
         usageCode: `<Loading mensaje="Cargando datos..." />`,
@@ -867,9 +935,7 @@ fonasaToast.warning(mensaje: string): void;
         label: "LoadingSection",
         props: { mensaje: "Procesando..." },
         render: () => (
-          <div className="py-8">
-            <LoadingSection mensaje="Procesando..." />
-          </div>
+          <LoadingSection mensaje="Procesando..." />
         ),
         usageCode: `<LoadingSection mensaje="Procesando..." />`,
       },
@@ -877,9 +943,7 @@ fonasaToast.warning(mensaje: string): void;
         label: "LoadingFonasa (con favicon)",
         props: { mensaje: "Cargando..." },
         render: () => (
-          <div className="py-8">
-            <LoadingFonasa mensaje="Cargando..." />
-          </div>
+          <LoadingFonasa mensaje="Cargando..." />
         ),
         usageCode: `<LoadingFonasa mensaje="Cargando..." />`,
       },
@@ -891,6 +955,23 @@ fonasaToast.warning(mensaje: string): void;
       "Badge/pill para indicar estados, contadores y categorías. Variantes de color según contexto.",
     code: badgeCode,
     dependencies: ["clsx"],
+    colors: [
+      { name: "yellow-100", value: "#fef9c3", usage: "Fondo badge pendiente" },
+      { name: "yellow-800", value: "#854d0e", usage: "Texto badge pendiente" },
+      { name: "yellow-300", value: "#fde047", usage: "Borde badge pendiente" },
+      { name: "blue-100", value: "#dbeafe", usage: "Fondo badge revisión" },
+      { name: "blue-800", value: "#1e40af", usage: "Texto badge revisión" },
+      { name: "blue-300", value: "#93c5fd", usage: "Borde badge revisión" },
+      { name: "green-100", value: "#dcfce7", usage: "Fondo badge aprobada" },
+      { name: "green-800", value: "#166534", usage: "Texto badge aprobada" },
+      { name: "green-300", value: "#86efac", usage: "Borde badge aprobada" },
+      { name: "red-200", value: "#fecaca", usage: "Fondo badge rechazada" },
+      { name: "red-900", value: "#7f1d1d", usage: "Texto badge rechazada" },
+      { name: "red-400", value: "#f87171", usage: "Borde badge rechazada" },
+      { name: "gray-100", value: "#f3f4f6", usage: "Fondo badge counter/default" },
+      { name: "gray-500", value: "#6b7280", usage: "Texto badge counter" },
+      { name: "gray-700", value: "#374151", usage: "Texto badge default" },
+    ],
     propsInterface: `type BadgeVariant =
   | "counter"
   | "documentos"
@@ -951,6 +1032,10 @@ interface BadgeProps {
       "Checkbox/radio button group con variantes primary (checkbox múltiple) y secondary (radio single).",
     code: checkButtonCode,
     dependencies: ["clsx"],
+    colors: [
+      { name: "gray-700", value: "#374151", usage: "Texto de los labels" },
+      { name: "Accent (primary-color)", value: "#0572CE", usage: "Color del checkbox/radio cuando está seleccionado (accent-color CSS)" },
+    ],
     propsInterface: `interface Opcion {
   id: string;
   label: string;
@@ -1011,6 +1096,18 @@ interface CheckButtonProps {
       "Zona de carga de archivos con estados: default, confirmación y error. Estilo drag & drop.",
     code: uploadBoxCode,
     dependencies: ["clsx", "react-icons"],
+    colors: [
+      { name: "gray-200", value: "#e5e7eb", usage: "Fondo del estado default" },
+      { name: "gray-300", value: "#d1d5db", usage: "Borde punteado del estado default" },
+      { name: "gray-500", value: "#6b7280", usage: "Texto secundario y texto de formato" },
+      { name: "gray-600", value: "#4b5563", usage: "Ícono de upload" },
+      { name: "gray-700", value: "#374151", usage: "Texto principal" },
+      { name: "green-500", value: "#22c55e", usage: "Ícono de confirmación" },
+      { name: "red-50", value: "#fef2f2", usage: "Fondo del estado error" },
+      { name: "red-300", value: "#fca5a5", usage: "Borde del estado error" },
+      { name: "red-500", value: "#ef4444", usage: "Ícono y texto secundario de error" },
+      { name: "red-600", value: "#dc2626", usage: "Texto principal de error" },
+    ],
     propsInterface: `interface UploadBoxProps {
   text: string;
   textStrong: string;
@@ -1069,6 +1166,15 @@ interface CheckButtonProps {
       "Tabla con grid dinámico, variantes de color en header, y botones de editar/eliminar por fila. Incluye su propio Skeleton loader.",
     code: tablaDatosCode,
     dependencies: ["clsx", "react-icons"],
+    colors: [
+      { name: "Primary (Celeste/Teal)", value: "#008CB5", usage: "Fondo del header en variante primary" },
+      { name: "Secondary (Gris oscuro)", value: "#414951", usage: "Fondo del header en variante secondary" },
+      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de las filas" },
+      { name: "gray-400", value: "#9ca3af", usage: "Bordes de las filas" },
+      { name: "gray-600", value: "#4b5563", usage: "Íconos de editar/eliminar" },
+      { name: "gray-700", value: "#374151", usage: "Texto de las celdas" },
+      { name: "red-600", value: "#dc2626", usage: "Ícono de eliminar en hover" },
+    ],
     propsInterface: `interface TablaDatoFila {
   id: string;
   [key: string]: string | number | undefined;
@@ -1090,18 +1196,18 @@ interface TablaDatosProps {
         props: {},
         render: () => (
           <TablaDatos
-            listaHeaders={["Nombre", "RUT", "Edad"]}
+            listaHeaders={["Nom.", "RUT", "Edad"]}
             columnas={["nombre", "rut", "edad"]}
             listaDatos={[
               {
                 id: "1",
-                nombre: "Juan Pérez",
+                nombre: "Juan",
                 rut: "12.345.678-9",
                 edad: "35",
               },
               {
                 id: "2",
-                nombre: "María López",
+                nombre: "María",
                 rut: "98.765.432-1",
                 edad: "28",
               },
@@ -1115,11 +1221,11 @@ interface TablaDatosProps {
         props: {},
         render: () => (
           <TablaDatos
-            listaHeaders={["Nombre", "Email", "Acciones"]}
+            listaHeaders={["Nom.", "Email", ""]}
             columnas={["nombre", "email"]}
             listaDatos={[
-              { id: "1", nombre: "Juan Pérez", email: "juan@email.com" },
-              { id: "2", nombre: "María López", email: "maria@email.com" },
+              { id: "1", nombre: "Juan", email: "juan@mail.com" },
+              { id: "2", nombre: "María", email: "maria@mail.com" },
             ]}
             botonEdit={(item) => alert(`Editar: ${item.nombre}`)}
             botonDelete={(item) => alert(`Eliminar: ${item.nombre}`)}
@@ -1133,10 +1239,10 @@ interface TablaDatosProps {
         render: () => (
           <TablaDatos
             variant="secondary"
-            listaHeaders={["Código", "Descripción"]}
+            listaHeaders={["Cód.", "Desc."]}
             columnas={["codigo", "descripcion"]}
             listaDatos={[
-              { id: "1", codigo: "A01", descripcion: "Consulta general" },
+              { id: "1", codigo: "A01", descripcion: "Consulta" },
               { id: "2", codigo: "B02", descripcion: "Especialidad" },
             ]}
           />
@@ -1148,8 +1254,15 @@ interface TablaDatosProps {
   {
     name: "Stepper",
     description:
-      "Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
+      "Utiliza: Botones. Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
     code: stepperCode,
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Círculos activos, línea de progreso, texto del paso actual y borde del badge mobile" },
+      { name: "white", value: "#ffffff", usage: "Texto dentro de los círculos" },
+      { name: "gray-300", value: "#d1d5db", usage: "Círculos inactivos y línea de fondo" },
+      { name: "gray-500", value: "#6b7280", usage: "Texto de labels inactivos" },
+      { name: "gray-700", value: "#374151", usage: "Texto del label en vista mobile" },
+    ],
     propsInterface: `interface Paso {
   id: string;
   label: string;
@@ -1168,9 +1281,9 @@ interface StepperProps {
         render: () => (
           <StepperDemo
             pasos={[
-              { id: "1", label: "Datos personales" },
-              { id: "2", label: "Documentos" },
-              { id: "3", label: "Confirmación" },
+              { id: "1", label: "Paso 1" },
+              { id: "2", label: "Paso 2" },
+              { id: "3", label: "Paso 3" },
             ]}
           />
         ),
@@ -1182,11 +1295,11 @@ interface StepperProps {
         render: () => (
           <StepperDemo
             pasos={[
-              { id: "1", label: "Inicio" },
-              { id: "2", label: "Datos" },
-              { id: "3", label: "Documentos" },
-              { id: "4", label: "Revisión" },
-              { id: "5", label: "Envío" },
+              { id: "1", label: "Paso 1" },
+              { id: "2", label: "Paso 2" },
+              { id: "3", label: "Paso 3" },
+              { id: "4", label: "Paso 4" },
+              { id: "5", label: "Paso 5" },
             ]}
           />
         ),
@@ -1216,6 +1329,19 @@ interface StepperProps {
       "Utiliza: Paginación, Badge, SkeletonSolicitud. Contenedor de lista de solicitudes con skeleton de carga, manejo de error, contador de resultados y paginación integrada.",
     code: listaPaginadaCode,
     dependencies: ["react-icons"],
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "ID de solicitud, enlaces 'Ver', acordeón de documentos" },
+      { name: "white", value: "#ffffff", usage: "Fondo del header de la card" },
+      { name: "blue-50", value: "#eff6ff", usage: "Fondo del badge de ID y hover del acordeón" },
+      { name: "gray-50", value: "#f9fafb", usage: "Fondo de la sección de fechas" },
+      { name: "gray-100", value: "#f3f4f6", usage: "Fondo de motivo de resolución y documento respuesta" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Bordes de la card y separadores" },
+      { name: "gray-400", value: "#9ca3af", usage: "Texto del contador de resultados" },
+      { name: "gray-700", value: "#374151", usage: "Texto del tipo de solicitud y documentos" },
+      { name: "gray-800", value: "#1f2937", usage: "Título de la lista y texto de documento respuesta" },
+      { name: "red-500", value: "#ef4444", usage: "Borde y fondo del mensaje de error" },
+      { name: "red-900", value: "#7f1d1d", usage: "Texto del mensaje de error" },
+    ],
     propsInterface: `interface ListaPaginadaProps {
   titulo?: string;
   isLoading: boolean;
@@ -1335,6 +1461,15 @@ interface StepperProps {
       "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
     code: sidebarCode,
     dependencies: ["react-icons"],
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Texto de ítems, íconos, fondo de ítem activo y hover" },
+      { name: "white", value: "#ffffff", usage: "Texto e íconos del ítem activo" },
+      { name: "gray-100", value: "#f3f4f6", usage: "Fondo del sidebar" },
+      { name: "gray-300", value: "#d1d5db", usage: "Bordes, separadores y fondo de ítems bloqueados" },
+      { name: "gray-500", value: "#6b7280", usage: "Texto del título, subtítulo y elementos deshabilitados" },
+      { name: "gray-600", value: "#4b5563", usage: "Texto de subítems inactivos" },
+      { name: "gray-900", value: "#111827", usage: "Texto de ítems de menú inactivos" },
+    ],
     propsInterface: `interface SidebarSubItem {
   label: string;
   path: string;
@@ -1560,19 +1695,19 @@ interface SidebarProps {
     ],
     variants: [
       {
-        label: "Pocas páginas (3)",
+        label: "3 Páginas",
         props: { totalPaginas: 3 },
         render: () => <PaginacionDemo totalPaginas={3} />,
         usageCode: `<Paginacion paginaActual={pagina} totalPaginas={3} onCambiarPagina={setPagina} />`,
       },
       {
-        label: "Muchas páginas (10)",
+        label: "10 Páginas",
         props: { totalPaginas: 10 },
         render: () => <PaginacionDemo totalPaginas={10} />,
         usageCode: `<Paginacion paginaActual={pagina} totalPaginas={10} onCambiarPagina={setPagina} />`,
       },
       {
-        label: "20 páginas",
+        label: "20 Páginas",
         props: { totalPaginas: 20 },
         render: () => <PaginacionDemo totalPaginas={20} />,
         usageCode: `<Paginacion paginaActual={pagina} totalPaginas={20} onCambiarPagina={setPagina} />`,

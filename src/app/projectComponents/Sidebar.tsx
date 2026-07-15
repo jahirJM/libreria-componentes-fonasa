@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { registry } from "../../registry";
+import { registry } from "../../docs/registry";
 
 export function Sidebar() {
   const location = useLocation();

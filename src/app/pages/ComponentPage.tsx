@@ -1,5 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
-import { registry } from "../../registry";
+import { registry } from "../../docs/registry";
 import { ComponentPreview } from "../projectComponents/ComponentPreview";
 
 export function ComponentPage() {

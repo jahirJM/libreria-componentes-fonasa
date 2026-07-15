@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
-import type { ComponentVariant } from "../../registry";
 import { CodePanel } from "./CodePanel";
+import type { ComponentVariant } from "../../docs/registry/types";
 
 interface PreviewPanelProps {
   variant: ComponentVariant;

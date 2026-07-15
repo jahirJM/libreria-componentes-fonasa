@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { registry } from "../../registry";
+import { registry } from "../../docs/registry";
 
 export function ComponentsIndex() {
   return (

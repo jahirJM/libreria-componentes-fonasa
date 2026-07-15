@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { CodePanel } from "../app/projectComponents/CodePanel";
 import { ComponentPreview } from "../app/projectComponents/ComponentPreview";
-import { registry } from "../registry";
+import { registry } from "../docs/registry";
 
 describe("Unit Tests", () => {
   describe("Clipboard error shows message", () => {

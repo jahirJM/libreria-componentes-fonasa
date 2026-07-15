@@ -5,7 +5,7 @@ import * as fc from "fast-check";
 import { CodePanel } from "../app/projectComponents/CodePanel";
 import { PreviewPanel } from "../app/projectComponents/PreviewPanel";
 import { ComponentPreview } from "../app/projectComponents/ComponentPreview";
-import type { ComponentVariant, ComponentEntry } from "../registry";
+import type { ComponentVariant, ComponentEntry } from "../docs/registry/types";
 
 /**
  * Feature: component-library-preview, Property 1: Code fidelity — display and copy preserve source exactly

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ComponentEntry } from "../../registry";
+import type { ComponentEntry } from "../../docs/registry/types";
 import { CodePanel } from "./CodePanel";
 import { PreviewPanel } from "./PreviewPanel";
 

@@ -99,6 +99,31 @@ toast.error("Ocurrió un error");
 toast.info("Información importante");
 toast("Mensaje neutral");`,
   },
+  {
+    id: "date-holidays",
+    name: "date-holidays",
+    description:
+      "Librería para obtener feriados oficiales de múltiples países. Soporta Chile (CL) con todos los feriados públicos, incluyendo feriados móviles como Viernes Santo y feriados regionales.",
+    install: "npm install date-holidays",
+    docsUrl: "https://github.com/commenthol/date-holidays",
+    usage: `import Holidays from "date-holidays";
+
+// Inicializar con país Chile
+const hd = new Holidays("CL");
+
+// Obtener todos los feriados de un año
+const feriados2026 = hd.getHolidays(2026);
+
+// Filtrar solo feriados públicos (excluir observancias)
+const feriadosPublicos = feriados2026.filter(h => h.type === "public");
+
+// Cada feriado tiene: { date, name, type }
+// Ejemplo: { date: "2026-09-18...", name: "Independencia Nacional", type: "public" }
+
+// Verificar si una fecha específica es feriado
+const esFeriado = hd.isHoliday(new Date(2026, 8, 18));
+// Retorna array con info del feriado o false`,
+  },
 ];
 
 export function Docs() {

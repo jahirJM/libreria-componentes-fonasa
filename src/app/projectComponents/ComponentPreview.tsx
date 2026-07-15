@@ -157,7 +157,7 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
       <div className="rounded-xl border border-gray-800 bg-gray-900/50 overflow-hidden flex flex-col h-full">
         {/* Preview */}
         <div className="bg-white p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-hidden">
-          <div className={variant.responsive ? "w-full relative h-[420px]" : "w-full"}>
+          <div className={variant.responsive ? "w-full relative h-[580px]" : "w-full"}>
             {variant.render()}
           </div>
         </div>
@@ -270,7 +270,12 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
           <h3 className="text-lg font-semibold text-white mb-4">Ejemplos</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {entry.variants.map((variant) => (
-              <VariantCard key={variant.label} variant={variant} />
+              <div
+                key={variant.label}
+                className={variant.responsive ? "col-span-1 sm:col-span-2" : ""}
+              >
+                <VariantCard variant={variant} />
+              </div>
             ))}
           </div>
         </div>

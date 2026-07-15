@@ -7,6 +7,14 @@ export const selectEntry: ComponentEntry =   {
     description:
       "Select desplegable con soporte para estados de error y deshabilitado.",
     code: selectCode,
+    colors: [
+      { name: "white", value: "#ffffff", usage: "Fondo del select" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Fondo del select deshabilitado" },
+      { name: "gray-300", value: "#d1d5db", usage: "Borde normal" },
+      { name: "gray-600", value: "#4b5563", usage: "Texto del select" },
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Ring y borde en focus" },
+      { name: "red-500", value: "#ef4444", usage: "Borde y ring en estado error" },
+    ],
     propsInterface: `interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   error?: boolean;
   className?: string;

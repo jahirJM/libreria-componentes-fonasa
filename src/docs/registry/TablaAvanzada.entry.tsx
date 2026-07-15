@@ -3,11 +3,21 @@ import { Table } from "../../componentsUI/Table";
 import type { ComponentEntry } from "./types";
 
 export const tablaAvanzadaEntry: ComponentEntry =   {
-    name: "Tabla (Avanzada)",
+    name: "Tabla - Avanzada",
     description:
-      "Utiliza: Tabla Básica. Tabla con columnas ocultables (se contraen a '...') y redimensionables tipo Excel.",
+      "Utiliza: Tabla - Básica. Tabla con columnas ocultables (se contraen a '...') y redimensionables tipo Excel.",
     code: tableCode,
+    group: "Tablas",
     dependencies: ["clsx"],
+    colors: [
+      { name: "blue-900", value: "#1e3a8a", usage: "Fondo del header" },
+      { name: "blue-800", value: "#1e40af", usage: "Fondo hover del header (ocultable)" },
+      { name: "blue-700", value: "#1d4ed8", usage: "Borde entre columnas contraídas" },
+      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
+      { name: "gray-400", value: "#9ca3af", usage: "Texto de celda contraída (...)" },
+      { name: "gray-700", value: "#374151", usage: "Texto del cuerpo" },
+    ],
     propsInterface: `interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
       classTable?: string;
       classTh?: string;

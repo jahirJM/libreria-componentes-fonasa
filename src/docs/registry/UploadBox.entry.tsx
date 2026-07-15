@@ -8,6 +8,18 @@ export const uploadBoxEntry: ComponentEntry =   {
       "Zona de carga de archivos con estados: default, confirmación y error. Estilo drag & drop.",
     code: uploadBoxCode,
     dependencies: ["clsx", "react-icons"],
+    colors: [
+      { name: "gray-200", value: "#e5e7eb", usage: "Fondo del estado default" },
+      { name: "gray-300", value: "#d1d5db", usage: "Borde punteado del estado default" },
+      { name: "gray-500", value: "#6b7280", usage: "Texto secundario y texto de formato" },
+      { name: "gray-600", value: "#4b5563", usage: "Ícono de upload" },
+      { name: "gray-700", value: "#374151", usage: "Texto principal" },
+      { name: "green-500", value: "#22c55e", usage: "Ícono de confirmación" },
+      { name: "red-50", value: "#fef2f2", usage: "Fondo del estado error" },
+      { name: "red-300", value: "#fca5a5", usage: "Borde del estado error" },
+      { name: "red-500", value: "#ef4444", usage: "Ícono y texto secundario de error" },
+      { name: "red-600", value: "#dc2626", usage: "Texto principal de error" },
+    ],
     propsInterface: `interface UploadBoxProps {
   text: string;
   textStrong: string;

@@ -3,11 +3,18 @@ import { TablaBasica } from "../../componentsUI/TablaBasica";
 import type { ComponentEntry } from "./types";
 
 export const tablaBasicaEntry: ComponentEntry =   {
-    name: "Tabla Básica",
+    name: "Tabla - Básica",
     description:
       "Tabla HTML simple sin lógica, con header estilizado y columnas configurables.",
     code: tablaBasicaCode,
+    group: "Tablas",
     dependencies: ["clsx"],
+    colors: [
+      { name: "blue-900", value: "#1e3a8a", usage: "Fondo del header" },
+      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
+      { name: "gray-700", value: "#374151", usage: "Texto del cuerpo" },
+    ],
     propsInterface: `interface TablaBasicaProps extends TableHTMLAttributes<HTMLTableElement> {
   classTable?: string;
   classTh?: string;

@@ -5,8 +5,15 @@ import type { ComponentEntry } from "./types";
 export const stepperEntry: ComponentEntry =   {
     name: "Stepper",
     description:
-      "Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
+      "Utiliza: Botones. Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
     code: stepperCode,
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Círculos activos, línea de progreso, texto del paso actual y borde del badge mobile" },
+      { name: "white", value: "#ffffff", usage: "Texto dentro de los círculos" },
+      { name: "gray-300", value: "#d1d5db", usage: "Círculos inactivos y línea de fondo" },
+      { name: "gray-500", value: "#6b7280", usage: "Texto de labels inactivos" },
+      { name: "gray-700", value: "#374151", usage: "Texto del label en vista mobile" },
+    ],
     propsInterface: `interface Paso {
   id: string;
   label: string;
@@ -25,9 +32,9 @@ interface StepperProps {
         render: () => (
           <StepperDemo
             pasos={[
-              { id: "1", label: "Datos personales" },
-              { id: "2", label: "Documentos" },
-              { id: "3", label: "Confirmación" },
+              { id: "1", label: "Paso 1" },
+              { id: "2", label: "Paso 2" },
+              { id: "3", label: "Paso 3" },
             ]}
           />
         ),
@@ -39,11 +46,11 @@ interface StepperProps {
         render: () => (
           <StepperDemo
             pasos={[
-              { id: "1", label: "Inicio" },
-              { id: "2", label: "Datos" },
-              { id: "3", label: "Documentos" },
-              { id: "4", label: "Revisión" },
-              { id: "5", label: "Envío" },
+              { id: "1", label: "Paso 1" },
+              { id: "2", label: "Paso 2" },
+              { id: "3", label: "Paso 3" },
+              { id: "4", label: "Paso 4" },
+              { id: "5", label: "Paso 5" },
             ]}
           />
         ),

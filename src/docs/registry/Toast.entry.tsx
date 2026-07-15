@@ -1,13 +1,27 @@
 import { fonasaToast, FonasaToaster } from "../../componentsUI/Toast";
+import { BotonConfirmar, BotonCancelar, BotonPrimario, BotonSecundario } from "../../componentsUI/Botones";
 import toastCode from "../../componentsUI/Toast.tsx?raw"
 import type { ComponentEntry } from "./types";
 
 export const toastEntry: ComponentEntry =   {
     name: "Toast (Sonner)",
     description:
-      "Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
+      "Utiliza: Botones. Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
     code: toastCode,
     dependencies: ["sonner"],
+    colors: [
+      { name: "green-50", value: "#ecfdf5", usage: "Fondo toast éxito" },
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Borde toast éxito e info" },
+      { name: "green-900", value: "#064e3b", usage: "Texto toast éxito" },
+      { name: "red-50", value: "#fef2f2", usage: "Fondo toast error" },
+      { name: "red-600", value: "#dc2626", usage: "Borde toast error" },
+      { name: "red-900", value: "#991b1b", usage: "Texto toast error" },
+      { name: "blue-50", value: "#eff6ff", usage: "Fondo toast info" },
+      { name: "blue-900", value: "#1e3a5f", usage: "Texto toast info" },
+      { name: "amber-50", value: "#fffbeb", usage: "Fondo toast advertencia" },
+      { name: "amber-600", value: "#d97706", usage: "Borde toast advertencia" },
+      { name: "amber-900", value: "#92400e", usage: "Texto toast advertencia" },
+    ],
     propsInterface: `// No recibe props como componente.
 // Se usa via funciones utilitarias:
 
@@ -23,17 +37,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Éxito",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonConfirmar
+              label="Mostrar Toast Éxito"
               onClick={() =>
                 fonasaToast.success("Operación realizada correctamente")
               }
-              className="px-4 py-2 bg-cyan-600 text-white rounded-xl text-sm hover:bg-cyan-500"
-            >
-              Mostrar Toast Éxito
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.success("Operación realizada correctamente")`,
       },
@@ -41,17 +53,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Error",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonCancelar
+              label="Mostrar Toast Error"
               onClick={() =>
                 fonasaToast.error("Ocurrió un error al procesar la solicitud")
               }
-              className="px-4 py-2 bg-red-600 text-white rounded-xl text-sm hover:bg-red-500"
-            >
-              Mostrar Toast Error
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.error("Ocurrió un error al procesar la solicitud")`,
       },
@@ -59,17 +69,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Info",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonPrimario
+              label="Mostrar Toast Info"
               onClick={() =>
                 fonasaToast.info("Se ha enviado un correo de verificación")
               }
-              className="px-4 py-2 bg-[#0572CE] text-white rounded-xl text-sm hover:bg-blue-700"
-            >
-              Mostrar Toast Info
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.info("Se ha enviado un correo de verificación")`,
       },
@@ -77,17 +85,15 @@ fonasaToast.warning(mensaje: string): void;
         label: "Advertencia",
         props: {},
         render: () => (
-          <>
+          <div className="flex justify-center w-full">
             <FonasaToaster />
-            <button
+            <BotonSecundario
+              label="Mostrar Toast Advertencia"
               onClick={() =>
                 fonasaToast.warning("Su sesión expirará en 5 minutos")
               }
-              className="px-4 py-2 bg-amber-600 text-white rounded-xl text-sm hover:bg-amber-500"
-            >
-              Mostrar Toast Advertencia
-            </button>
-          </>
+            />
+          </div>
         ),
         usageCode: `fonasaToast.warning("Su sesión expirará en 5 minutos")`,
       },

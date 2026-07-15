@@ -11,6 +11,19 @@ export const listaPaginadaEntry: ComponentEntry =   {
       "Utiliza: Paginación, Badge, SkeletonSolicitud. Contenedor de lista de solicitudes con skeleton de carga, manejo de error, contador de resultados y paginación integrada.",
     code: listaPaginadaCode,
     dependencies: ["react-icons"],
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "ID de solicitud, enlaces 'Ver', acordeón de documentos" },
+      { name: "white", value: "#ffffff", usage: "Fondo del header de la card" },
+      { name: "blue-50", value: "#eff6ff", usage: "Fondo del badge de ID y hover del acordeón" },
+      { name: "gray-50", value: "#f9fafb", usage: "Fondo de la sección de fechas" },
+      { name: "gray-100", value: "#f3f4f6", usage: "Fondo de motivo de resolución y documento respuesta" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Bordes de la card y separadores" },
+      { name: "gray-400", value: "#9ca3af", usage: "Texto del contador de resultados" },
+      { name: "gray-700", value: "#374151", usage: "Texto del tipo de solicitud y documentos" },
+      { name: "gray-800", value: "#1f2937", usage: "Título de la lista y texto de documento respuesta" },
+      { name: "red-500", value: "#ef4444", usage: "Borde y fondo del mensaje de error" },
+      { name: "red-900", value: "#7f1d1d", usage: "Texto del mensaje de error" },
+    ],
     propsInterface: `interface ListaPaginadaProps {
   titulo?: string;
   isLoading: boolean;

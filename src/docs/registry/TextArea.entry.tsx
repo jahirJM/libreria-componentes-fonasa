@@ -8,6 +8,14 @@ export const textAreaEntry: ComponentEntry =   {
       "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     code: textAreaCode,
     dependencies: ["clsx"],
+    colors: [
+      { name: "white", value: "#ffffff", usage: "Fondo del textarea" },
+      { name: "gray-200", value: "#e5e7eb", usage: "Fondo del textarea deshabilitado" },
+      { name: "gray-300", value: "#d1d5db", usage: "Borde normal" },
+      { name: "gray-600", value: "#4b5563", usage: "Texto del textarea" },
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Ring y borde en focus" },
+      { name: "red-500", value: "#ef4444", usage: "Borde y ring en estado error" },
+    ],
     propsInterface: `interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
       error?: boolean;
     }`,

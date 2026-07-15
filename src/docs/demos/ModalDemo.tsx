@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CustomModal } from "../../componentsUI/CustomModal";
+import { BotonPrimario } from "../../componentsUI/Botones";
 
 export function ModalDemo({
   size,
@@ -10,13 +11,12 @@ export function ModalDemo({
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <>
-      <button
+    <div className="flex flex-col items-center gap-1 w-full">
+      <BotonPrimario
+        label="Abrir Modal"
         onClick={() => setOpen(true)}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
-      >
-        Abrir Modal ({size})
-      </button>
+      />
+      <span className="text-xs text-gray-500">({size})</span>
       <CustomModal
         size={size}
         title={title}
@@ -25,6 +25,6 @@ export function ModalDemo({
       >
         <p className="text-gray-700">Contenido de ejemplo dentro del modal.</p>
       </CustomModal>
-    </>
+    </div>
   );
 }

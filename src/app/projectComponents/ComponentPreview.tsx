@@ -1,150 +1,319 @@
 import { useState } from "react";
-import type { ComponentEntry } from "../../docs/registry/types";
+import { Link } from "react-router-dom";
+import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types";
 import { CodePanel } from "./CodePanel";
-import { PreviewPanel } from "./PreviewPanel";
+import { FiCode, FiCopy, FiX } from "react-icons/fi";
+import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
 
 interface ComponentPreviewProps {
   entry: ComponentEntry;
 }
 
-export function ComponentPreview({ entry }: ComponentPreviewProps) {
-  const [copiedDeps, setCopiedDeps] = useState(false);
+function ColorPill({ color }: { color: { name: string; value: string; usage: string } }) {
+  function handleCopy() {
+    navigator.clipboard.writeText(color.value);
+    fonasaToast.success(`Color ${color.value} copiado`);
+  }
 
-  const installCommand = entry.dependencies
-    ? `npm install ${entry.dependencies.join(" ")}`
-    : "";
+  return (
+    <button
+      onClick={handleCopy}
+      className="flex items-center gap-2 rounded-lg border border-gray-800 bg-gray-900 px-2.5 py-1.5 hover:border-gray-600 transition-colors cursor-pointer"
+    >
+      <div
+        className="size-5 rounded-md border border-gray-700 shrink-0"
+        style={{ backgroundColor: color.value }}
+      />
+      <div className="flex flex-col">
+        <span className="text-[11px] font-medium text-gray-300 leading-tight">
+          {color.name}
+        </span>
+        <span className="text-[10px] font-mono text-gray-500 leading-tight">
+          {color.value}
+        </span>
+      </div>
+    </button>
+  );
+}
 
-  async function handleCopyDeps() {
+function VariantCodeModal({
+  variant,
+  onClose,
+}: {
+  variant: ComponentVariant;
+  onClose: () => void;
+}) {
+  const [copyState, setCopyState] = useState<"idle" | "success">("idle");
+
+  /** Formatea JSX de una línea a multilínea con props indentadas */
+  function formatCode(code: string): string {
+    if (code.includes("\n")) return code;
+    const match = code.match(/^(<\w+)\s+(.*?)\s*(\/?>)(.*)$/s);
+    if (!match) return code;
+    const [, tag, propsStr, closing, rest] = match;
+    const props: string[] = [];
+    let current = "";
+    let depth = 0;
+    let inString: string | null = null;
+    for (const ch of propsStr) {
+      if (inString) {
+        current += ch;
+        if (ch === inString) inString = null;
+      } else if (ch === '"' || ch === "'" || ch === "`") {
+        current += ch;
+        inString = ch;
+      } else if (ch === "{") {
+        depth++;
+        current += ch;
+      } else if (ch === "}") {
+        depth--;
+        current += ch;
+      } else if (ch === " " && depth === 0 && current.trim()) {
+        props.push(current.trim());
+        current = "";
+      } else {
+        current += ch;
+      }
+    }
+    if (current.trim()) props.push(current.trim());
+    if (props.length <= 1) return code;
+    const indented = props.map((p) => `  ${p}`).join("\n");
+    return `${tag}\n${indented}\n${closing}${rest}`;
+  }
+
+  const formattedCode = formatCode(variant.usageCode);
+
+  async function handleCopy() {
     try {
-      await navigator.clipboard.writeText(installCommand);
-      setCopiedDeps(true);
-      setTimeout(() => setCopiedDeps(false), 2000);
+      await navigator.clipboard.writeText(variant.usageCode);
+      fonasaToast.success("Código copiado");
+      setCopyState("success");
+      setTimeout(() => setCopyState("idle"), 2000);
     } catch {
       // silently fail
     }
   }
 
   return (
-    <section>
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-        Componentes
-      </p>
-      <h2 className="text-4xl font-bold text-white mb-2">{entry.name}</h2>
-      {entry.description && (
-        <p className="text-gray-400 mb-8">{entry.description}</p>
-      )}
-
-      {/* Dependencias externas */}
-      {entry.dependencies && entry.dependencies.length > 0 && (
-        <div className="mb-8 rounded-lg border border-yellow-700/50 bg-yellow-900/20 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-400">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            <span className="text-sm font-semibold text-yellow-300">
-              Requiere dependencias externas
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {entry.dependencies.map((dep) => (
-              <span
-                key={dep}
-                className="inline-flex items-center rounded-md bg-yellow-800/40 px-2.5 py-0.5 text-xs font-medium text-yellow-200 border border-yellow-700/50"
-              >
-                {dep}
-              </span>
-            ))}
-          </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Overlay */}
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      {/* Modal */}
+      <div className="relative w-full max-w-2xl rounded-xl border border-gray-700 bg-[#1a1a2e] shadow-2xl overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-gray-700 px-5 py-3">
+          <span className="text-sm font-semibold text-gray-200">
+            Código — {variant.label}
+          </span>
           <div className="flex items-center gap-2">
-            <code className="flex-1 rounded bg-gray-900 px-3 py-1.5 text-xs text-gray-300 font-mono">
-              {installCommand}
-            </code>
             <button
-              onClick={handleCopyDeps}
-              className="shrink-0 rounded border border-gray-600 bg-gray-800 px-2 py-1.5 text-xs text-gray-300 hover:bg-gray-700 transition-colors"
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 rounded-md border border-gray-600 bg-gray-800 px-2.5 py-1.5 text-xs text-gray-300 hover:bg-gray-700 transition-colors"
             >
-              {copiedDeps ? <span className="text-green-400">✓ Copiado</span> : "Copiar"}
+              <FiCopy className="size-3.5" />
+              {copyState === "success" ? (
+                <span className="text-green-400">Copiado</span>
+              ) : (
+                "Copiar"
+              )}
+            </button>
+            <button
+              onClick={onClose}
+              className="rounded-md p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+            >
+              <FiX className="size-4" />
             </button>
           </div>
         </div>
-      )}
+        {/* Code - vertical scroll */}
+        <div className="max-h-[60vh] overflow-y-auto">
+          <CodePanel code={formattedCode} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-      {/* Colores utilizados */}
-      {entry.colors && entry.colors.length > 0 && (
-        <div className="mb-12">
-          <h3 className="text-lg font-semibold text-white mb-3">
-            Colores utilizados
-          </h3>
-          <p className="text-sm text-gray-400 mb-4">
-            Paleta de colores que utiliza este componente.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {entry.colors.map((color) => (
-              <div
-                key={color.name + color.value}
-                className="rounded-lg border border-gray-800 bg-gray-900 p-3 flex flex-col gap-2"
-              >
-                <div
-                  className="h-8 w-full rounded-md border border-gray-700"
-                  style={{ backgroundColor: color.value }}
-                />
-                <div>
-                  <p className="text-xs font-medium text-gray-200 truncate">
-                    {color.name}
-                  </p>
-                  <p className="text-[10px] font-mono text-gray-500">
-                    {color.value}
-                  </p>
-                  <p className="text-[10px] text-gray-400 mt-0.5">
-                    {color.usage}
-                  </p>
-                </div>
-              </div>
-            ))}
+function VariantCard({ variant }: { variant: ComponentVariant }) {
+  const [showModal, setShowModal] = useState(false);
+  const [copyState, setCopyState] = useState<"idle" | "success">("idle");
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(variant.usageCode);
+      fonasaToast.success("Código copiado");
+      setCopyState("success");
+      setTimeout(() => setCopyState("idle"), 2000);
+    } catch {
+      // silently fail
+    }
+  }
+
+  return (
+    <>
+      <div className="rounded-xl border border-gray-800 bg-gray-900/50 overflow-hidden flex flex-col h-full">
+        {/* Preview */}
+        <div className="bg-white p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-hidden">
+          <div className={variant.responsive ? "w-full relative h-[420px]" : "w-full"}>
+            {variant.render()}
           </div>
         </div>
-      )}
-
-      {/* Payload esperado (interface) */}
-      {entry.propsInterface && (
-        <div className="mb-12">
-          <h3 className="text-lg font-semibold text-white mb-3">
-            Payload esperado
-          </h3>
-          <p className="text-sm text-gray-400 mb-4">
-            Interface TypeScript que define las props del componente.
-          </p>
-          <div className="rounded-lg border border-gray-800 overflow-hidden">
-            <CodePanel code={entry.propsInterface} language="typescript" />
+        {/* Footer con label + acciones */}
+        <div className="flex items-center justify-between border-t border-gray-800 px-4 py-2.5 bg-gray-900">
+          <span className="text-xs font-medium text-gray-300 truncate">
+            {variant.label}
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setShowModal(true)}
+              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-800 transition-colors"
+              title="Ver código"
+            >
+              <FiCode className="size-4" />
+            </button>
+            <button
+              onClick={handleCopy}
+              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-800 transition-colors"
+              title="Copiar código"
+            >
+              {copyState === "success" ? (
+                <span className="text-green-400 text-xs font-medium">✓</span>
+              ) : (
+                <FiCopy className="size-4" />
+              )}
+            </button>
           </div>
-        </div>
-      )}
-
-      {/* Código fuente completo del componente */}
-      <div className="mb-12">
-        <h3 className="text-lg font-semibold text-white mb-3">
-          Código fuente
-        </h3>
-        <p className="text-sm text-gray-400 mb-4">
-          Copia este componente directamente en tu proyecto.
-        </p>
-        <div className="rounded-lg border border-gray-800 overflow-hidden">
-          <CodePanel code={entry.code} />
         </div>
       </div>
 
-      {/* Variantes / Ejemplos */}
-      <div>
-        <h3 className="text-lg font-semibold text-white mb-4">
-          Ejemplos
-        </h3>
-        <div className="space-y-8">
-          {entry.variants.map((variant) => (
-            <PreviewPanel key={variant.label} variant={variant} />
-          ))}
+      {showModal && (
+        <VariantCodeModal
+          variant={variant}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </>
+  );
+}
+
+export function ComponentPreview({ entry }: ComponentPreviewProps) {
+  const [showCode, setShowCode] = useState(false);
+
+  return (
+    <section className="flex gap-0 overflow-hidden">
+      <FonasaToaster />
+      {/* Columna izquierda: todo el contenido */}
+      <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "pr-4" : "pr-0"}`}>
+        {/* Nombre y descripción */}
+        <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
+          Componentes
+        </p>
+        <h2 className="text-4xl font-bold text-white mb-2">{entry.name}</h2>
+        {entry.description && (
+          <p className="text-gray-400 mb-3">{entry.description}</p>
+        )}
+
+        {/* Dependencias como pills */}
+        {entry.dependencies && entry.dependencies.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span className="text-[11px] text-gray-500 uppercase tracking-wider font-medium">
+              Requiere:
+            </span>
+            {entry.dependencies.map((dep) => (
+              <Link
+                key={dep}
+                to={`/docs#dep-${dep}`}
+                className="inline-flex items-center rounded-full bg-yellow-900/30 px-3 py-1 text-xs font-medium text-yellow-300 border border-yellow-700/40 hover:bg-yellow-800/40 hover:border-yellow-600/60 transition-colors"
+              >
+                {dep}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Metadata: colores + interface en fila */}
+        {(entry.colors?.length || entry.propsInterface) && (
+          <div className="flex flex-col lg:flex-row gap-4 mb-8">
+            {/* Colores — grid 3 cols, max 3 filas, scroll-y */}
+            {entry.colors && entry.colors.length > 0 && (
+              <div className="lg:w-1/2">
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  Colores
+                </p>
+                <div className="grid grid-cols-3 gap-2 max-h-[132px] overflow-y-auto pb-2 pr-1">
+                  {entry.colors.map((color) => (
+                    <ColorPill key={color.name + color.value} color={color} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Interface — max ~10 líneas, scroll-y */}
+            {entry.propsInterface && (
+              <div className="lg:w-1/2 min-w-0">
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  Interface
+                </p>
+                <div className="rounded-lg border border-gray-800 overflow-hidden max-h-[240px] overflow-y-auto">
+                  <CodePanel code={entry.propsInterface} language="typescript" />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Ejemplos */}
+        <div className="mb-12">
+          <h3 className="text-lg font-semibold text-white mb-4">Ejemplos</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {entry.variants.map((variant) => (
+              <VariantCard key={variant.label} variant={variant} />
+            ))}
+          </div>
         </div>
+      </div>
+
+      {/* Columna derecha: código fuente colapsable */}
+      <div
+        className={`sticky top-0 self-start transition-all duration-300 overflow-hidden shrink-0 ${
+          showCode ? "w-[40%] rounded-lg border border-gray-800" : "w-auto"
+        }`}
+      >
+        {!showCode ? (
+          <button
+            onClick={() => setShowCode(true)}
+            className="flex items-center gap-2 rounded-lg border border-gray-800 bg-gray-900 hover:bg-gray-800 px-3 py-2 transition-colors cursor-pointer"
+            title="Ver código fuente"
+          >
+            <FiCode className="size-4 text-gray-400" />
+            <span className="text-xs text-gray-400 font-medium whitespace-nowrap">
+              Código fuente
+            </span>
+          </button>
+        ) : (
+          <div className="flex flex-col h-[calc(100vh-6rem)]">
+            {/* Header del panel */}
+            <div className="flex items-center justify-between border-b border-gray-800 bg-gray-900 px-4 py-2.5 shrink-0">
+              <span className="text-xs font-medium text-gray-300">
+                Código fuente
+              </span>
+              <button
+                onClick={() => setShowCode(false)}
+                className="rounded-md p-1 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+                title="Cerrar"
+              >
+                <FiX className="size-4" />
+              </button>
+            </div>
+            {/* Code scrollable */}
+            <div className="overflow-y-auto flex-1">
+              <CodePanel code={entry.code} />
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { registry } from "../../docs/registry";
+import { slugify } from "../../docs/registry/slugify";
 
 export function ComponentsIndex() {
   return (
@@ -18,7 +19,7 @@ export function ComponentsIndex() {
         {registry.map((entry) => (
           <Link
             key={entry.name}
-            to={`/components/${entry.name.toLowerCase()}`}
+            to={`/components/${slugify(entry.name)}`}
             className="group rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-gray-700 hover:bg-gray-800/50"
           >
             <h3 className="text-base font-medium text-white group-hover:text-blue-400 transition-colors">

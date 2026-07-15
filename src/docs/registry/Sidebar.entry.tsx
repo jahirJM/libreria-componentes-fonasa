@@ -12,6 +12,15 @@ export const sidebarEntry: ComponentEntry =   {
       "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
     code: sidebarCode,
     dependencies: ["react-icons"],
+    colors: [
+      { name: "Azul Fonasa", value: "#0572CE", usage: "Texto de ítems, íconos, fondo de ítem activo y hover" },
+      { name: "white", value: "#ffffff", usage: "Texto e íconos del ítem activo" },
+      { name: "gray-100", value: "#f3f4f6", usage: "Fondo del sidebar" },
+      { name: "gray-300", value: "#d1d5db", usage: "Bordes, separadores y fondo de ítems bloqueados" },
+      { name: "gray-500", value: "#6b7280", usage: "Texto del título, subtítulo y elementos deshabilitados" },
+      { name: "gray-600", value: "#4b5563", usage: "Texto de subítems inactivos" },
+      { name: "gray-900", value: "#111827", usage: "Texto de ítems de menú inactivos" },
+    ],
     propsInterface: `interface SidebarSubItem {
   label: string;
   path: string;

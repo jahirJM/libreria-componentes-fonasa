@@ -167,7 +167,7 @@ function SidebarItem({ item, isActive, activePath, onNavigate }: SidebarItemProp
                   <button
                     type="button"
                     onClick={() => onNavigate?.(sub.path)}
-                    className={`w-full flex items-center text-left px-2 py-1.5 text-sm rounded-lg transition-colors duration-100 ${
+                    className={`w-full flex items-center text-left px-2 py-1.5 text-sm rounded-lg group transition-colors duration-100 ${
                       isSubActive
                         ? "bg-[#0572CE] text-white font-semibold"
                         : "text-gray-600 hover:bg-[#0572CE] hover:text-white"
@@ -175,8 +175,8 @@ function SidebarItem({ item, isActive, activePath, onNavigate }: SidebarItemProp
                   >
                     {SubIcon && (
                       <SubIcon
-                        className={`shrink-0 text-sm mr-2 transition-colors duration-100 ${
-                          isSubActive ? "text-white" : "text-[#0572CE]"
+                        className={`shrink-0 text-base mr-2 transition-colors duration-100 ${
+                          isSubActive ? "text-white" : "text-gray-600 group-hover:text-white"
                         }`}
                       />
                     )}

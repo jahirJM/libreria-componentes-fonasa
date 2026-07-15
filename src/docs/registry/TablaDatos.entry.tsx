@@ -3,11 +3,21 @@ import { TablaDatos } from "../../componentsUI/TablaDatos";
 import type { ComponentEntry } from "./types";
 
 export const tablaDatosEntry: ComponentEntry =   {
-    name: "Tabla de datos",
+    name: "Tabla - Básica Tipo 2",
     description:
       "Tabla con grid dinámico, variantes de color en header, y botones de editar/eliminar por fila. Incluye su propio Skeleton loader.",
     code: tablaDatosCode,
+    group: "Tablas",
     dependencies: ["clsx", "react-icons"],
+    colors: [
+      { name: "Primary (Celeste/Teal)", value: "#008CB5", usage: "Fondo del header en variante primary" },
+      { name: "Secondary (Gris oscuro)", value: "#414951", usage: "Fondo del header en variante secondary" },
+      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de las filas" },
+      { name: "gray-400", value: "#9ca3af", usage: "Bordes de las filas" },
+      { name: "gray-600", value: "#4b5563", usage: "Íconos de editar/eliminar" },
+      { name: "gray-700", value: "#374151", usage: "Texto de las celdas" },
+      { name: "red-600", value: "#dc2626", usage: "Ícono de eliminar en hover" },
+    ],
     propsInterface: `interface TablaDatoFila {
   id: string;
   [key: string]: string | number | undefined;

@@ -23,4 +23,6 @@ export interface ComponentEntry {
   propsInterface?: string;
   colors?: ComponentColor[];
   variants: ComponentVariant[];
+  /** Grupo/subsección para agrupar componentes en el sidebar */
+  group?: string;
 }

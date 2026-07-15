@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiSearch, FiEye } from "react-icons/fi";
 import { Input } from "./componentsUI/Input";
 import { Label } from "./componentsUI/Label";
@@ -38,6 +38,7 @@ import {
   loadingCode,
   paginacionCode,
   selectCode,
+  sidebarCode,
   stepperCode,
   tablaBasicaCode,
   tablaDatosCode,
@@ -46,12 +47,21 @@ import {
   toastCode,
   uploadBoxCode,
 } from "./code";
+import { Sidebar } from "./componentsUI/Sidebar";
+import {
+  FaUserCircle,
+  FaUsers,
+  FaFileMedical,
+  FaHospital,
+} from "react-icons/fa";
 
 export interface ComponentVariant {
   label: string;
   props: Record<string, unknown>;
   render: () => React.ReactNode;
   usageCode: string;
+  /** Si true, el preview se muestra a ancho completo (útil para componentes como Sidebar) */
+  responsive?: boolean;
 }
 
 export interface ComponentColor {
@@ -214,6 +224,65 @@ function ListaPaginadaDemo() {
   );
 }
 
+function SidebarResponsiveWrapper({ children }: { children: (isOpen: boolean) => React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
+        setIsOpen(width >= 500);
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative h-[420px] w-full overflow-hidden">
+      {children(isOpen)}
+    </div>
+  );
+}
+
+function SidebarDemo() {
+  const [activePath, setActivePath] = useState("/item-1");
+
+  const menuItems = [
+    { label: "Item 1", path: "/item-1", icon: FaUserCircle },
+    {
+      label: "Item 2",
+      path: "/item-2",
+      icon: FaUsers,
+      subItems: [
+        { label: "Subitem 1", path: "/item-2/subitem-1", icon: FaUserCircle },
+        { label: "Subitem 2", path: "/item-2/subitem-2", icon: FaFileMedical },
+      ],
+    },
+    { label: "Item 3", path: "/item-3", icon: FaFileMedical },
+    { label: "Item 4", path: "/item-4", icon: FaHospital },
+  ];
+
+  return (
+    <SidebarResponsiveWrapper>
+      {(isOpen) => (
+        <Sidebar
+          isOpen={isOpen}
+          userName="Juan Pérez"
+          title="Gestión del Beneficiario"
+          activePath={activePath}
+          className="absolute top-0 left-0 z-20 w-62 h-full"
+          menuItems={menuItems}
+          onNavigate={(path) => setActivePath(path)}
+        />
+      )}
+    </SidebarResponsiveWrapper>
+  );
+}
+
 export const registry: ComponentEntry[] = [
   {
     name: "Input",
@@ -292,11 +361,7 @@ export const registry: ComponentEntry[] = [
         label: "Con ícono derecho",
         props: { rightIcon: "FiEye" },
         render: () => (
-          <Input
-            type="password"
-            placeholder="••••••••"
-            rightIcon={<FiEye />}
-          />
+          <Input type="password" placeholder="••••••••" rightIcon={<FiEye />} />
         ),
         usageCode: `<Input type="password" placeholder="••••••••" rightIcon={<FiEye />} />`,
       },
@@ -459,7 +524,11 @@ export const registry: ComponentEntry[] = [
       },
       {
         label: "Con clases personalizadas",
-        props: { nombreColumnas: ["ID", "Estado"], classTable: "text-center", classTh: "text-center" },
+        props: {
+          nombreColumnas: ["ID", "Estado"],
+          classTable: "text-center",
+          classTh: "text-center",
+        },
         render: () => (
           <TablaBasica
             nombreColumnas={["ID", "Estado"]}
@@ -535,7 +604,10 @@ export const registry: ComponentEntry[] = [
       },
       {
         label: "Redimensionable",
-        props: { nombreColumnas: ["ID", "Nombre", "Estado"], redimensionable: true },
+        props: {
+          nombreColumnas: ["ID", "Nombre", "Estado"],
+          redimensionable: true,
+        },
         render: () => (
           <Table nombreColumnas={["ID", "Nombre", "Estado"]} redimensionable>
             <tr className="border-b border-gray-100">
@@ -554,9 +626,17 @@ export const registry: ComponentEntry[] = [
       },
       {
         label: "Ocultable + Redimensionable",
-        props: { nombreColumnas: ["Nombre", "RUT", "Email", "Rol"], ocultable: true, redimensionable: true },
+        props: {
+          nombreColumnas: ["Nombre", "RUT", "Email", "Rol"],
+          ocultable: true,
+          redimensionable: true,
+        },
         render: () => (
-          <Table nombreColumnas={["Nombre", "RUT", "Email", "Rol"]} ocultable redimensionable>
+          <Table
+            nombreColumnas={["Nombre", "RUT", "Email", "Rol"]}
+            ocultable
+            redimensionable
+          >
             <tr className="border-b border-gray-100">
               <td className="px-4 py-2 text-sm">Juan Pérez</td>
               <td className="px-4 py-2 text-sm">12.345.678-9</td>
@@ -1250,6 +1330,207 @@ interface StepperProps {
     ],
   },
   {
+    name: "Sidebar",
+    description:
+      "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
+    code: sidebarCode,
+    dependencies: ["react-icons"],
+    propsInterface: `interface SidebarSubItem {
+  label: string;
+  path: string;
+  /** Ícono opcional del subítem */
+  icon?: IconType;
+  /** Si true, el subítem se renderiza deshabilitado */
+  isBlocked?: boolean;
+  /** Tooltip cuando está bloqueado */
+  blockedTooltip?: string;
+}
+
+interface SidebarMenuItem {
+  /** Texto visible del ítem */
+  label: string;
+  /** Ruta de destino */
+  path: string;
+  /** Ícono de react-icons */
+  icon: IconType;
+  /** Si true, el ítem se renderiza deshabilitado */
+  isBlocked?: boolean;
+  /** Tooltip cuando está bloqueado */
+  blockedTooltip?: string;
+  /** Subítems opcionales para menú desplegable */
+  subItems?: SidebarSubItem[];
+}
+
+interface SidebarProps {
+  /** Nombre del usuario conectado */
+  userName?: string;
+  /** Título del panel */
+  title?: string;
+  /** Lista de ítems de navegación */
+  menuItems?: SidebarMenuItem[];
+  /** Ruta activa actual */
+  activePath?: string;
+  /** Visibilidad del sidebar (mobile) */
+  isOpen?: boolean;
+  /** Estado de carga — muestra skeleton */
+  loading?: boolean;
+  /** Callback al navegar */
+  onNavigate?: (path: string) => void;
+  /** Clases CSS de posicionamiento del aside */
+  className?: string;
+}`,
+    variants: [
+      {
+        label: "Skeleton (loading)",
+        props: { loading: true },
+        responsive: true,
+        render: () => (
+          <SidebarResponsiveWrapper>
+            {(isOpen) => (
+              <Sidebar
+                loading
+                isOpen={isOpen}
+                className="absolute top-0 left-0 z-20 w-62 h-full"
+              />
+            )}
+          </SidebarResponsiveWrapper>
+        ),
+        usageCode: `<Sidebar loading isOpen={true} />`,
+      },
+      {
+        label: "Interactivo (con subItems e íconos)",
+        props: {},
+        responsive: true,
+        render: () => <SidebarDemo />,
+        usageCode: `<Sidebar
+  isOpen={isOpen}
+  userName="Juan Pérez"
+  title="Gestión del Beneficiario"
+  activePath={location.pathname}
+  menuItems={[
+    { label: "Item 1", path: "/item-1", icon: FaUserCircle },
+    {
+      label: "Item 2",
+      path: "/item-2",
+      icon: FaUsers,
+      subItems: [
+        { label: "Subitem 1", path: "/item-2/subitem-1", icon: FaUserCircle },
+        { label: "Subitem 2", path: "/item-2/subitem-2", icon: FaFileMedical },
+      ],
+    },
+    { label: "Item 3", path: "/item-3", icon: FaFileMedical },
+    { label: "Item 4", path: "/item-4", icon: FaHospital },
+  ]}
+  onNavigate={(path) => navigate(path)}
+/>`,
+      },
+      {
+        label: "Sin íconos en subItems",
+        props: {},
+        responsive: true,
+        render: () => {
+          const [activePath, setActivePath] = useState("/item-1");
+          return (
+            <SidebarResponsiveWrapper>
+              {(isOpen) => (
+                <Sidebar
+                  isOpen={isOpen}
+                  userName="María López"
+                  title="Panel de Control"
+                  activePath={activePath}
+                  className="absolute top-0 left-0 z-20 w-62 h-full"
+                  menuItems={[
+                    { label: "Item 1", path: "/item-1", icon: FaUserCircle },
+                    {
+                      label: "Item 2",
+                      path: "/item-2",
+                      icon: FaUsers,
+                      subItems: [
+                        { label: "Subitem 1", path: "/item-2/subitem-1" },
+                        { label: "Subitem 2", path: "/item-2/subitem-2" },
+                        { label: "Subitem 3", path: "/item-2/subitem-3" },
+                      ],
+                    },
+                    { label: "Item 3", path: "/item-3", icon: FaFileMedical },
+                  ]}
+                  onNavigate={(path) => setActivePath(path)}
+                />
+              )}
+            </SidebarResponsiveWrapper>
+          );
+        },
+        usageCode: `<Sidebar
+  isOpen={isOpen}
+  userName="María López"
+  title="Panel de Control"
+  activePath={activePath}
+  menuItems={[
+    { label: "Item 1", path: "/item-1", icon: FaUserCircle },
+    {
+      label: "Item 2",
+      path: "/item-2",
+      icon: FaUsers,
+      subItems: [
+        { label: "Subitem 1", path: "/item-2/subitem-1" },
+        { label: "Subitem 2", path: "/item-2/subitem-2" },
+        { label: "Subitem 3", path: "/item-2/subitem-3" },
+      ],
+    },
+    { label: "Item 3", path: "/item-3", icon: FaFileMedical },
+  ]}
+  onNavigate={(path) => setActivePath(path)}
+/>`,
+      },
+      {
+        label: "Items y subItems bloqueados",
+        props: { isBlocked: true },
+        responsive: true,
+        render: () => (
+          <SidebarResponsiveWrapper>
+            {(isOpen) => (
+              <Sidebar
+                isOpen={isOpen}
+                userName="Admin"
+                title="Administración"
+                activePath="/item-1"
+                className="absolute top-0 left-0 z-20 w-62 h-full"
+                menuItems={[
+                  { label: "Item 1", path: "/item-1", icon: FaUserCircle },
+                  {
+                    label: "Item 2",
+                    path: "/item-2",
+                    icon: FaUsers,
+                    subItems: [
+                      { label: "Subitem 1", path: "/item-2/subitem-1" },
+                      { label: "Subitem 2", path: "/item-2/subitem-2", isBlocked: true },
+                    ],
+                  },
+                  { label: "Item 3", path: "/item-3", icon: FaHospital, isBlocked: true },
+                ]}
+                onNavigate={() => {}}
+              />
+            )}
+          </SidebarResponsiveWrapper>
+        ),
+        usageCode: `<Sidebar
+  menuItems={[
+    { label: "Item 1", path: "/item-1", icon: FaUserCircle },
+    {
+      label: "Item 2",
+      path: "/item-2",
+      icon: FaUsers,
+      subItems: [
+        { label: "Subitem 1", path: "/item-2/subitem-1" },
+        { label: "Subitem 2", path: "/item-2/subitem-2", isBlocked: true },
+      ],
+    },
+    { label: "Item 3", path: "/item-3", icon: FaHospital, isBlocked: true },
+  ]}
+/>`,
+      },
+    ],
+  },
+  {
     name: "Paginación",
     description:
       "Paginación genérica con rango visible de hasta 5 páginas, centrada en la página actual. Flechas de navegación anterior/siguiente.",
@@ -1261,9 +1542,21 @@ interface StepperProps {
   onCambiarPagina: (pagina: number) => void;
 }`,
     colors: [
-      { name: "Azul Fonasa", value: "#0572CE", usage: "Texto de los números de página y fondo de la página activa" },
-      { name: "white", value: "#ffffff", usage: "Texto del número de página activa" },
-      { name: "blue-100", value: "#dbeafe", usage: "Fondo hover de los botones de página" },
+      {
+        name: "Azul Fonasa",
+        value: "#0572CE",
+        usage: "Texto de los números de página y fondo de la página activa",
+      },
+      {
+        name: "white",
+        value: "#ffffff",
+        usage: "Texto del número de página activa",
+      },
+      {
+        name: "blue-100",
+        value: "#dbeafe",
+        usage: "Fondo hover de los botones de página",
+      },
     ],
     variants: [
       {

@@ -1,3 +1,7 @@
+import sidebarCode from "./componentsUI/Sidebar.tsx?raw";
+
+export { sidebarCode };
+
 export const inputCode = `import clsx from "clsx";
 import type { InputHTMLAttributes, ReactNode } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";

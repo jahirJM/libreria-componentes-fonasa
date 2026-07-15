@@ -1,4 +1,4 @@
-import sidebarCode from "./componentsUI/Sidebar.tsx?raw";
+import sidebarCode from "../componentsUI/Sidebar.tsx?raw";
 
 export { sidebarCode };
 

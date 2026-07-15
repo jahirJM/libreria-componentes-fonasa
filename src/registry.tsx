@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { FiSearch, FiEye } from "react-icons/fi";
 import { Input } from "./componentsUI/Input";
 import { Label } from "./componentsUI/Label";
-import { CustomModal } from "./componentsUI/CustomModal";
 import { TextArea } from "./componentsUI/TextArea";
 import { Table } from "./componentsUI/Table";
 import { Select } from "./componentsUI/Select";
@@ -15,7 +14,6 @@ import {
 import { FonasaToaster, fonasaToast } from "./componentsUI/Toast";
 import { LoadingSection, LoadingFonasa } from "./componentsUI/Loading";
 import { Badge } from "./componentsUI/Badge";
-import { CheckButton } from "./componentsUI/CheckButton";
 import { UploadBox } from "./componentsUI/UploadBox";
 import { TablaDatos } from "./componentsUI/TablaDatos";
 import { TablaBasica } from "./componentsUI/TablaBasica";
@@ -23,8 +21,6 @@ import {
   SkeletonSolicitudCard,
   SkeletonSolicitudesList,
 } from "./componentsUI/SkeletonSolicitud";
-import { Paginacion } from "./componentsUI/Paginacion";
-import { Stepper } from "./componentsUI/Stepper";
 import { ListaPaginada } from "./componentsUI/ListaPaginada";
 import { SolicitudCard } from "./componentsUI/SolicitudCard";
 import {
@@ -46,7 +42,7 @@ import {
   textAreaCode,
   toastCode,
   uploadBoxCode,
-} from "./code";
+} from "./docs/code";
 import { Sidebar } from "./componentsUI/Sidebar";
 import {
   FaUserCircle,
@@ -54,6 +50,12 @@ import {
   FaFileMedical,
   FaHospital,
 } from "react-icons/fa";
+import { ModalDemo } from "./docs/demos/ModalDemo";
+import { CheckButtonDemo } from "./docs/demos/CheckButtonDemo";
+import { StepperDemo } from "./docs/demos/StepperDemo";
+import { SidebarResponsiveWrapper } from "./docs/SidebarResponsiveWrapper";
+import { SidebarDemo } from "./docs/demos/SidebarDemo";
+import { PaginacionDemo } from "./docs/demos/PaginacionDemo";
 
 export interface ComponentVariant {
   label: string;
@@ -78,209 +80,6 @@ export interface ComponentEntry {
   propsInterface?: string;
   colors?: ComponentColor[];
   variants: ComponentVariant[];
-}
-
-function ModalDemo({
-  size,
-  title,
-}: {
-  size: "sm" | "md" | "lg";
-  title: string;
-}) {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <button
-        onClick={() => setOpen(true)}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
-      >
-        Abrir Modal ({size})
-      </button>
-      <CustomModal
-        size={size}
-        title={title}
-        showModal={open}
-        onClose={() => setOpen(false)}
-      >
-        <p className="text-gray-700">Contenido de ejemplo dentro del modal.</p>
-      </CustomModal>
-    </>
-  );
-}
-
-function CheckButtonDemo({
-  variant,
-  opciones,
-  isDisabled,
-}: {
-  variant?: "primary" | "secondary";
-  opciones?: { id: string; label: string }[];
-  isDisabled?: boolean;
-}) {
-  const [selected, setSelected] = useState<string[]>([]);
-  const handleToggle = (opcion: { id: string; label: string }) => {
-    if (variant === "secondary") {
-      setSelected([opcion.id]);
-    } else {
-      setSelected((prev) =>
-        prev.includes(opcion.id)
-          ? prev.filter((i) => i !== opcion.id)
-          : [...prev, opcion.id],
-      );
-    }
-  };
-  return (
-    <CheckButton
-      variant={variant}
-      listaOpciones={opciones}
-      selectedItems={selected}
-      onToggle={handleToggle}
-      isDisabled={isDisabled}
-    />
-  );
-}
-
-function PaginacionDemo({ totalPaginas }: { totalPaginas: number }) {
-  const [pagina, setPagina] = useState(1);
-  return (
-    <Paginacion
-      paginaActual={pagina}
-      totalPaginas={totalPaginas}
-      onCambiarPagina={setPagina}
-    />
-  );
-}
-
-function StepperDemo({
-  pasos,
-  navegable,
-}: {
-  pasos: { id: string; label: string }[];
-  navegable?: boolean;
-}) {
-  const [paso, setPaso] = useState(1);
-  return (
-    <div>
-      <Stepper
-        pasos={pasos}
-        pasoActual={paso}
-        onCambiarPaso={setPaso}
-        puedeNavegar={navegable}
-      />
-      <div className="flex justify-center gap-2 mt-2">
-        <button
-          onClick={() => setPaso((p) => Math.max(1, p - 1))}
-          className="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-        >
-          Anterior
-        </button>
-        <button
-          onClick={() => setPaso((p) => Math.min(pasos.length, p + 1))}
-          className="px-3 py-1 text-xs bg-[#0572CE] text-white rounded hover:bg-blue-700"
-        >
-          Siguiente
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function ListaPaginadaDemo() {
-  const [pagina, setPagina] = useState(1);
-  const items = [
-    "Solicitud #001 - Inscripción",
-    "Solicitud #002 - Actualización",
-    "Solicitud #003 - Renuncia",
-    "Solicitud #004 - Inscripción",
-    "Solicitud #005 - Actualización",
-  ];
-  const itemsPorPagina = 2;
-  const totalPaginas = Math.ceil(items.length / itemsPorPagina);
-  const itemsPagina = items.slice(
-    (pagina - 1) * itemsPorPagina,
-    pagina * itemsPorPagina,
-  );
-
-  return (
-    <ListaPaginada
-      titulo="Mis solicitudes"
-      isLoading={false}
-      totalItems={items.length}
-      itemLabel="solicitud"
-      paginaActual={pagina}
-      totalPaginas={totalPaginas}
-      itemsPorPagina={itemsPorPagina}
-      onCambiarPagina={setPagina}
-    >
-      {itemsPagina.map((item, i) => (
-        <div
-          key={i}
-          className="p-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-700"
-        >
-          {item}
-        </div>
-      ))}
-    </ListaPaginada>
-  );
-}
-
-function SidebarResponsiveWrapper({ children }: { children: (isOpen: boolean) => React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(true);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const width = entry.contentRect.width;
-        setIsOpen(width >= 500);
-      }
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={containerRef} className="relative h-[420px] w-full overflow-hidden">
-      {children(isOpen)}
-    </div>
-  );
-}
-
-function SidebarDemo() {
-  const [activePath, setActivePath] = useState("/item-1");
-
-  const menuItems = [
-    { label: "Item 1", path: "/item-1", icon: FaUserCircle },
-    {
-      label: "Item 2",
-      path: "/item-2",
-      icon: FaUsers,
-      subItems: [
-        { label: "Subitem 1", path: "/item-2/subitem-1", icon: FaUserCircle },
-        { label: "Subitem 2", path: "/item-2/subitem-2", icon: FaFileMedical },
-      ],
-    },
-    { label: "Item 3", path: "/item-3", icon: FaFileMedical },
-    { label: "Item 4", path: "/item-4", icon: FaHospital },
-  ];
-
-  return (
-    <SidebarResponsiveWrapper>
-      {(isOpen) => (
-        <Sidebar
-          isOpen={isOpen}
-          userName="Juan Pérez"
-          title="Gestión del Beneficiario"
-          activePath={activePath}
-          className="absolute top-0 left-0 z-20 w-62 h-full"
-          menuItems={menuItems}
-          onNavigate={(path) => setActivePath(path)}
-        />
-      )}
-    </SidebarResponsiveWrapper>
-  );
 }
 
 export const registry: ComponentEntry[] = [

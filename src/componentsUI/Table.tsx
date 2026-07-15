@@ -19,7 +19,7 @@ interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   redimensionable?: boolean;
 }
 
-const CELDA_CONTRAIDA = "w-0 max-w-[1px] overflow-hidden p-0 m-0";
+const CELDA_CONTRAIDA = "w-[40px] min-w-[40px] max-w-[40px] overflow-hidden text-center";
 const CELDA_CONTRAIDA_CONTENIDO = "...";
 
 export const Table = ({
@@ -112,8 +112,8 @@ export const Table = ({
               cell as React.ReactElement<Record<string, unknown>>,
               {
                 className: clsx(
-                  (cell.props as { className?: string }).className || "",
                   CELDA_CONTRAIDA,
+                  "px-1 py-2",
                 ),
                 children: <span className="text-xs text-gray-400">{CELDA_CONTRAIDA_CONTENIDO}</span>,
               },
@@ -159,7 +159,7 @@ export const Table = ({
                     className={clsx(
                       "px-4 py-3 text-left font-semibold text-white relative select-none overflow-hidden text-ellipsis whitespace-nowrap",
                       { "cursor-pointer hover:bg-blue-800": ocultable },
-                      { [CELDA_CONTRAIDA]: contraida, "border-x border-blue-700 text-center": contraida },
+                      { [CELDA_CONTRAIDA]: contraida, "!px-1 !py-3 border-x border-blue-700 !text-center": contraida },
                       classTh,
                     )}
                     onClick={() => toggleColumna(i)}

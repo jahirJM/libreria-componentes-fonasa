@@ -23,18 +23,18 @@ export function CodePanel({ code, language = "tsx" }: CodePanelProps) {
   }
 
   return (
-    <div className="relative rounded-b-lg bg-[#1e1e2e] overflow-hidden">
+    <div className="relative rounded-b-lg bg-[#f8f9fa] overflow-hidden border-t border-gray-200">
       <button
         type="button"
         onClick={handleCopy}
-        className="absolute top-3 right-3 z-10 rounded border border-gray-600 bg-gray-800 px-2 py-1 text-xs text-gray-300 transition-colors hover:bg-gray-700"
+        className="absolute top-3 right-3 z-10 rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
         aria-label="Copiar código"
       >
         {copyState === "success" && (
-          <span className="text-green-400">✓ Copiado</span>
+          <span className="text-green-600">✓ Copiado</span>
         )}
         {copyState === "error" && (
-          <span className="text-red-400">No se pudo copiar</span>
+          <span className="text-red-600">No se pudo copiar</span>
         )}
         {copyState === "idle" && (
           <svg
@@ -53,10 +53,10 @@ export function CodePanel({ code, language = "tsx" }: CodePanelProps) {
           </svg>
         )}
       </button>
-      <Highlight theme={themes.vsDark} code={code.trim()} language={language}>
+      <Highlight theme={themes.github} code={code.trim()} language={language}>
         {({ tokens, getLineProps, getTokenProps }) => (
           <div className="flex overflow-x-auto p-4 text-sm leading-relaxed">
-            <div className="flex-none pr-4 text-right select-none text-gray-500" aria-hidden="true">
+            <div className="flex-none pr-4 text-right select-none text-gray-400" aria-hidden="true">
               {tokens.map((_, i) => (
                 <div key={i}>{i + 1}</div>
               ))}

@@ -69,7 +69,6 @@ interface SidebarProps {
       {
         label: "Skeleton (loading)",
         props: { loading: true },
-        responsive: true,
         render: () => (
           <SidebarResponsiveWrapper>
             {(isOpen) => (
@@ -86,7 +85,6 @@ interface SidebarProps {
       {
         label: "Interactivo (con subItems e íconos)",
         props: {},
-        responsive: true,
         render: () => <SidebarDemo />,
         usageCode: `<Sidebar
   isOpen={isOpen}
@@ -113,7 +111,6 @@ interface SidebarProps {
       {
         label: "Sin íconos en subItems",
         props: {},
-        responsive: true,
         render: () => {
           const [activePath, setActivePath] = useState("/item-1");
           return (
@@ -170,7 +167,6 @@ interface SidebarProps {
       {
         label: "Items y subItems bloqueados",
         props: { isBlocked: true },
-        responsive: true,
         render: () => (
           <SidebarResponsiveWrapper>
             {(isOpen) => (

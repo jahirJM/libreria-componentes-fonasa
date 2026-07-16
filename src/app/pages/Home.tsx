@@ -23,32 +23,32 @@ export function Home() {
 
   return (
     <div className="flex flex-col items-center text-center py-20">
-      <h1 className="text-5xl font-bold text-white mb-4">Fonasa UI</h1>
-      <p className="text-lg text-gray-400 max-w-xl mb-8">
+      <h1 className="text-5xl font-bold text-[#0572CE] mb-4">Fonasa UI</h1>
+      <p className="text-lg text-gray-500 max-w-xl mb-8">
         Librería de componentes React para proyectos internos de Fonasa.
         Componentes listos para copiar y pegar en tu proyecto.
       </p>
 
       {/* Requerimientos base */}
-      <div className="w-full max-w-lg mb-10 rounded-lg border border-gray-700 bg-gray-900/60 p-6 text-left">
-        <h2 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+      <div className="w-full max-w-lg mb-10 rounded-lg border border-gray-200 bg-gray-50 p-6 text-left">
+        <h2 className="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#0572CE]">
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
             <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
             <line x1="12" y1="22.08" x2="12" y2="12"/>
           </svg>
           Requerimientos base
         </h2>
-        <pre className="text-xs text-gray-400 mb-4 font-mono leading-relaxed">{BASE_REQUIREMENTS}</pre>
+        <pre className="text-xs text-gray-500 mb-4 font-mono leading-relaxed">{BASE_REQUIREMENTS}</pre>
         <div className="flex items-center gap-2">
-          <code className="flex-1 rounded bg-gray-800 px-3 py-2 text-xs text-gray-300 font-mono overflow-x-auto">
+          <code className="flex-1 rounded bg-gray-100 border border-gray-200 px-3 py-2 text-xs text-gray-700 font-mono overflow-x-auto">
             {INSTALL_COMMAND}
           </code>
           <button
             onClick={handleCopy}
-            className="shrink-0 rounded border border-gray-600 bg-gray-800 px-3 py-2 text-xs text-gray-300 hover:bg-gray-700 transition-colors"
+            className="shrink-0 rounded border border-gray-300 bg-white px-3 py-2 text-xs text-gray-600 hover:bg-gray-100 transition-colors"
           >
-            {copied ? <span className="text-green-400">✓ Copiado</span> : "Copiar"}
+            {copied ? <span className="text-green-600">✓ Copiado</span> : "Copiar"}
           </button>
         </div>
       </div>
@@ -56,13 +56,13 @@ export function Home() {
       <div className="flex gap-4">
         <Link
           to="/components"
-          className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-500"
+          className="inline-flex justify-center items-center rounded-2xl border border-transparent px-6 py-2.5 text-sm font-medium text-white bg-[#0572CE] hover:bg-blue-700 transition-colors"
         >
           Ver componentes
         </Link>
         <Link
           to="/docs"
-          className="rounded-lg border border-gray-700 px-6 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800"
+          className="inline-flex justify-center items-center rounded-2xl border border-gray-300 px-6 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
         >
           Documentación
         </Link>

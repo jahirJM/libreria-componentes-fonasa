@@ -144,28 +144,28 @@ export function Docs() {
       <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
         Documentación
       </p>
-      <h1 className="text-4xl font-bold text-white mb-8">Primeros pasos</h1>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8">Primeros pasos</h1>
 
-      <section className="space-y-4 text-gray-300">
-        <h2 className="text-xl font-semibold text-white">Requisitos</h2>
+      <section className="space-y-4 text-gray-600">
+        <h2 className="text-xl font-semibold text-gray-800">Requisitos</h2>
         <p>
           Los componentes están diseñados para proyectos React con Tailwind CSS 4.
           Asegúrate de tener instalado:
         </p>
-        <div className="rounded-lg bg-gray-900 border border-gray-800 p-4">
-          <code className="text-sm text-blue-400">
+        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
+          <code className="text-sm text-[#0572CE]">
             npm install tailwindcss @tailwindcss/vite
           </code>
         </div>
       </section>
 
-      <section className="mt-10 space-y-4 text-gray-300">
-        <h2 className="text-xl font-semibold text-white">Cómo usar</h2>
+      <section className="mt-10 space-y-4 text-gray-600">
+        <h2 className="text-xl font-semibold text-gray-800">Cómo usar</h2>
         <p>
           Cada componente está diseñado para ser copiado directamente a tu proyecto.
           No necesitas instalar ninguna dependencia adicional a menos que se indique.
         </p>
-        <ol className="list-decimal list-inside space-y-2 text-gray-400">
+        <ol className="list-decimal list-inside space-y-2 text-gray-500">
           <li>Navega a la sección de Componentes</li>
           <li>Selecciona el componente que necesitas</li>
           <li>Revisa si tiene dependencias adicionales (se muestran como pills amarillas)</li>
@@ -177,8 +177,8 @@ export function Docs() {
 
       {/* Sección de dependencias */}
       <section className="mt-16">
-        <h2 className="text-2xl font-bold text-white mb-2">Dependencias externas</h2>
-        <p className="text-gray-400 mb-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Dependencias externas</h2>
+        <p className="text-gray-500 mb-8">
           Algunas librerías se usan en ciertos componentes. Aquí encontrarás la info de instalación y uso básico de cada una.
         </p>
 
@@ -187,36 +187,36 @@ export function Docs() {
             <article
               key={dep.id}
               id={`dep-${dep.id}`}
-              className="scroll-mt-24 rounded-xl border border-gray-800 bg-gray-900/50 p-6"
+              className="scroll-mt-24 rounded-xl border border-gray-200 bg-gray-50 p-6"
             >
               <div className="flex items-center gap-3 mb-3">
-                <h3 className="text-lg font-semibold text-white">{dep.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-800">{dep.name}</h3>
                 <a
                   href={dep.docsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                  className="text-xs text-[#0572CE] hover:text-blue-700 transition-colors"
                 >
                   Documentación oficial ↗
                 </a>
               </div>
 
-              <p className="text-sm text-gray-300 mb-4">{dep.description}</p>
+              <p className="text-sm text-gray-600 mb-4">{dep.description}</p>
 
               {/* Instalación */}
               <div className="mb-4">
                 <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Instalación
                 </span>
-                <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-gray-950 border border-gray-800 px-4 py-2.5">
-                  <code className="text-sm text-green-400 flex-1 font-mono">
+                <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-white border border-gray-200 px-4 py-2.5">
+                  <code className="text-sm text-green-600 flex-1 font-mono">
                     {dep.install}
                   </code>
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(dep.install);
                     }}
-                    className="text-xs text-gray-500 hover:text-white transition-colors px-2 py-1 rounded border border-gray-700 hover:border-gray-500"
+                    className="text-xs text-gray-500 hover:text-gray-800 transition-colors px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
                   >
                     Copiar
                   </button>
@@ -228,8 +228,8 @@ export function Docs() {
                 <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Uso básico
                 </span>
-                <div className="mt-1.5 rounded-lg bg-gray-950 border border-gray-800 p-4 overflow-x-auto">
-                  <pre className="text-xs text-gray-300 font-mono whitespace-pre">
+                <div className="mt-1.5 rounded-lg bg-white border border-gray-200 p-4 overflow-x-auto">
+                  <pre className="text-xs text-gray-700 font-mono whitespace-pre">
                     {dep.usage}
                   </pre>
                 </div>

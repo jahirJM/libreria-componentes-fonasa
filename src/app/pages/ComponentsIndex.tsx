@@ -8,10 +8,10 @@ export function ComponentsIndex() {
       <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
         Componentes
       </p>
-      <h1 className="text-4xl font-bold text-white mb-4">
+      <h1 className="text-4xl font-bold text-gray-800 mb-4">
         Librería de componentes
       </h1>
-      <p className="text-gray-400 mb-8">
+      <p className="text-gray-500 mb-8">
         Componentes listos para copiar y usar en tus proyectos React + Tailwind CSS.
       </p>
 
@@ -20,9 +20,9 @@ export function ComponentsIndex() {
           <Link
             key={entry.name}
             to={`/components/${slugify(entry.name)}`}
-            className="group rounded-lg border border-gray-800 bg-gray-900 p-5 transition-colors hover:border-gray-700 hover:bg-gray-800/50"
+            className="group rounded-lg border border-gray-200 bg-gray-50 p-5 transition-colors hover:border-[#0572CE] hover:bg-blue-50"
           >
-            <h3 className="text-base font-medium text-white group-hover:text-blue-400 transition-colors">
+            <h3 className="text-base font-medium text-gray-800 group-hover:text-[#0572CE] transition-colors">
               {entry.name}
             </h3>
             {entry.description && (

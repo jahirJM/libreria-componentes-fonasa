@@ -41,22 +41,23 @@ export function Sidebar() {
   if (!isComponentsSection) return null;
 
   return (
-    <aside className="fixed top-16 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-800 bg-gray-950 p-6">
-      <div className="mb-4">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+    <aside className="fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
+      <div className="my-4 text-center">
+        <h3 className="text-gray-500 font-bold text-base mb-2">
           Componentes
         </h3>
+        <hr className="text-gray-300" />
       </div>
-      <nav className="flex flex-col gap-0.5">
+      <nav className="flex flex-col gap-1 px-2 text-sm font-medium">
         {ungrouped.map((entry) => (
           <NavLink
             key={entry.name}
             to={`/components/${slugify(entry.name)}`}
             className={({ isActive }) =>
-              `rounded-md px-3 py-1.5 text-sm transition-colors ${
+              `rounded-lg px-3 py-2 transition-colors duration-100 ${
                 isActive
-                  ? "bg-gray-800 text-white font-medium"
-                  : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+                  ? "bg-[#0572CE] text-white font-semibold"
+                  : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
               }`
             }
           >
@@ -71,7 +72,7 @@ export function Sidebar() {
               <button
                 type="button"
                 onClick={() => toggleGroup(groupName)}
-                className="w-full flex items-center justify-between rounded-md px-3 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-gray-800/50 transition-colors"
+                className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-sm text-gray-900 hover:bg-[#0572CE] hover:text-white transition-colors duration-100 group"
               >
                 <span className="font-semibold">{groupName}</span>
                 <LuChevronDown
@@ -85,16 +86,16 @@ export function Sidebar() {
                 style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
               >
                 <div className="overflow-hidden">
-                  <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                  <div className="flex flex-col gap-0.5 pl-4 mt-1">
                     {entries.map((entry) => (
                       <NavLink
                         key={entry.name}
                         to={`/components/${slugify(entry.name)}`}
                         className={({ isActive }) =>
-                          `rounded-md px-3 py-1.5 text-sm transition-colors ${
+                          `rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
                             isActive
-                              ? "bg-gray-800 text-white font-medium"
-                              : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+                              ? "bg-[#0572CE] text-white font-semibold"
+                              : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
                           }`
                         }
                       >

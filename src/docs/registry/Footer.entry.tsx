@@ -14,18 +14,16 @@ export const footerEntry: ComponentEntry = {
     { name: "Azul Fonasa", value: "#0572CE", usage: "Texto en variante color Fonasa" },
   ],
   propsInterface: `interface FooterProps {
-  textColor?: string; // Clase Tailwind para el color del texto (default: "text-white")
+  textColor?: string; // Clase Tailwind para el color del texto (default: "text-gray-800")
 }`,
   variants: [
     {
-      label: "Texto blanco",
-      props: { textColor: "text-white" },
+      label: "Texto negro (default)",
+      props: {},
       render: () => (
-        <div className="bg-gray-900 rounded-xl">
-          <Footer textColor="text-white" />
-        </div>
+        <Footer />
       ),
-      usageCode: `<Footer textColor="text-white" />`,
+      usageCode: `<Footer />`,
     },
     {
       label: "Texto color Fonasa",

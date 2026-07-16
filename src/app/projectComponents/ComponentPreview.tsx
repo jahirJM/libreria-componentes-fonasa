@@ -18,14 +18,14 @@ function ColorPill({ color }: { color: { name: string; value: string; usage: str
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-2 rounded-lg border border-gray-800 bg-gray-900 px-2.5 py-1.5 hover:border-gray-600 transition-colors cursor-pointer"
+      className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 hover:border-[#0572CE] transition-colors cursor-pointer"
     >
       <div
-        className="size-5 rounded-md border border-gray-700 shrink-0"
+        className="size-5 rounded-md border border-gray-200 shrink-0"
         style={{ backgroundColor: color.value }}
       />
       <div className="flex flex-col">
-        <span className="text-[11px] font-medium text-gray-300 leading-tight">
+        <span className="text-[11px] font-medium text-gray-700 leading-tight">
           {color.name}
         </span>
         <span className="text-[10px] font-mono text-gray-500 leading-tight">
@@ -43,8 +43,6 @@ function VariantCodeModal({
   variant: ComponentVariant;
   onClose: () => void;
 }) {
-  const [copyState, setCopyState] = useState<"idle" | "success">("idle");
-
   /** Formatea JSX de una línea a multilínea con props indentadas */
   function formatCode(code: string): string {
     if (code.includes("\n")) return code;
@@ -83,50 +81,26 @@ function VariantCodeModal({
 
   const formattedCode = formatCode(variant.usageCode);
 
-  async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(variant.usageCode);
-      fonasaToast.success("Código copiado");
-      setCopyState("success");
-      setTimeout(() => setCopyState("idle"), 2000);
-    } catch {
-      // silently fail
-    }
-  }
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
         onClick={onClose}
       />
       {/* Modal */}
-      <div className="relative w-full max-w-2xl rounded-xl border border-gray-700 bg-[#1a1a2e] shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-2xl rounded-xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-700 px-5 py-3">
-          <span className="text-sm font-semibold text-gray-200">
+        <div className="flex items-center justify-between border-b border-gray-200 px-5 py-3">
+          <span className="text-sm font-semibold text-gray-700">
             Código — {variant.label}
           </span>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-md border border-gray-600 bg-gray-800 px-2.5 py-1.5 text-xs text-gray-300 hover:bg-gray-700 transition-colors"
-            >
-              <FiCopy className="size-3.5" />
-              {copyState === "success" ? (
-                <span className="text-green-400">Copiado</span>
-              ) : (
-                "Copiar"
-              )}
-            </button>
-            <button
-              onClick={onClose}
-              className="rounded-md p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
-            >
-              <FiX className="size-4" />
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="rounded-md p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          >
+            <FiX className="size-4" />
+          </button>
         </div>
         {/* Code - vertical scroll */}
         <div className="max-h-[60vh] overflow-y-auto">
@@ -154,7 +128,7 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
 
   return (
     <>
-      <div className="rounded-xl border border-gray-800 bg-gray-900/50 overflow-hidden flex flex-col h-full">
+      <div className="rounded-xl border border-gray-200 bg-gray-50 overflow-hidden flex flex-col h-full">
         {/* Preview */}
         <div className="bg-white p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-hidden">
           <div className={variant.responsive ? "w-full relative h-[580px]" : "w-full"}>
@@ -162,25 +136,25 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
           </div>
         </div>
         {/* Footer con label + acciones */}
-        <div className="flex items-center justify-between border-t border-gray-800 px-4 py-2.5 bg-gray-900">
-          <span className="text-xs font-medium text-gray-300 truncate">
+        <div className="flex items-center justify-between border-t border-gray-200 px-4 py-2.5 bg-gray-100">
+          <span className="text-xs font-medium text-gray-600 truncate">
             {variant.label}
           </span>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setShowModal(true)}
-              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-800 transition-colors"
+              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors"
               title="Ver código"
             >
               <FiCode className="size-4" />
             </button>
             <button
               onClick={handleCopy}
-              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-800 transition-colors"
+              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors"
               title="Copiar código"
             >
               {copyState === "success" ? (
-                <span className="text-green-400 text-xs font-medium">✓</span>
+                <span className="text-green-600 text-xs font-medium">✓</span>
               ) : (
                 <FiCopy className="size-4" />
               )}
@@ -211,9 +185,9 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
           Componentes
         </p>
-        <h2 className="text-4xl font-bold text-white mb-2">{entry.name}</h2>
+        <h2 className="text-4xl font-bold text-gray-800 mb-2">{entry.name}</h2>
         {entry.description && (
-          <p className="text-gray-400 mb-3">{entry.description}</p>
+          <p className="text-gray-500 mb-3">{entry.description}</p>
         )}
 
         {/* Dependencias como pills */}
@@ -226,7 +200,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
               <Link
                 key={dep}
                 to={`/docs#dep-${dep}`}
-                className="inline-flex items-center rounded-full bg-yellow-900/30 px-3 py-1 text-xs font-medium text-yellow-300 border border-yellow-700/40 hover:bg-yellow-800/40 hover:border-yellow-600/60 transition-colors"
+                className="inline-flex items-center rounded-full bg-yellow-50 px-3 py-1 text-xs font-medium text-yellow-700 border border-yellow-200 hover:bg-yellow-100 hover:border-yellow-300 transition-colors"
               >
                 {dep}
               </Link>
@@ -257,7 +231,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                   Interface
                 </p>
-                <div className="rounded-lg border border-gray-800 overflow-hidden max-h-[240px] overflow-y-auto">
+                <div className="rounded-lg border border-gray-200 overflow-hidden max-h-[240px] overflow-y-auto">
                   <CodePanel code={entry.propsInterface} language="typescript" />
                 </div>
               </div>
@@ -267,7 +241,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
 
         {/* Ejemplos */}
         <div className="mb-12">
-          <h3 className="text-lg font-semibold text-white mb-4">Ejemplos</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Ejemplos</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {entry.variants.map((variant) => (
               <div
@@ -284,30 +258,30 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
       {/* Columna derecha: código fuente colapsable */}
       <div
         className={`sticky top-0 self-start transition-all duration-300 overflow-hidden shrink-0 ${
-          showCode ? "w-[40%] rounded-lg border border-gray-800" : "w-auto"
+          showCode ? "w-[40%] rounded-lg border border-gray-200" : "w-auto"
         }`}
       >
         {!showCode ? (
           <button
             onClick={() => setShowCode(true)}
-            className="flex items-center gap-2 rounded-lg border border-gray-800 bg-gray-900 hover:bg-gray-800 px-3 py-2 transition-colors cursor-pointer"
+            className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 px-3 py-2 transition-colors cursor-pointer"
             title="Ver código fuente"
           >
-            <FiCode className="size-4 text-gray-400" />
-            <span className="text-xs text-gray-400 font-medium whitespace-nowrap">
+            <FiCode className="size-4 text-gray-500" />
+            <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
               Código fuente
             </span>
           </button>
         ) : (
           <div className="flex flex-col h-[calc(100vh-6rem)]">
             {/* Header del panel */}
-            <div className="flex items-center justify-between border-b border-gray-800 bg-gray-900 px-4 py-2.5 shrink-0">
-              <span className="text-xs font-medium text-gray-300">
+            <div className="flex items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2.5 shrink-0">
+              <span className="text-xs font-medium text-gray-600">
                 Código fuente
               </span>
               <button
                 onClick={() => setShowCode(false)}
-                className="rounded-md p-1 text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+                className="rounded-md p-1 text-gray-400 hover:text-gray-800 hover:bg-gray-200 transition-colors"
                 title="Cerrar"
               >
                 <FiX className="size-4" />

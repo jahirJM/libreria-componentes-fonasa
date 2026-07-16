@@ -4,7 +4,7 @@ interface FooterProps {
   textColor?: string;
 }
 
-export const Footer = ({ textColor = "text-white" }: FooterProps) => {
+export const Footer = ({ textColor = "text-gray-800" }: FooterProps) => {
   const fechaHoy = new Date();
   const year = fechaHoy.getFullYear();
 

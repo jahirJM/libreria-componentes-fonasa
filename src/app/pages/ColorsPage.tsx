@@ -112,7 +112,7 @@ function Swatch({ color }: { color: ColorSwatch }) {
   return (
     <div className="relative group flex flex-col gap-1.5">
       <div
-        className="h-20 w-full rounded-lg border border-gray-700 shadow-sm flex items-end p-2"
+        className="h-20 w-full rounded-lg border border-gray-200 shadow-sm flex items-end p-2"
         style={{ backgroundColor: color.value }}
       >
         <span
@@ -131,7 +131,7 @@ function Swatch({ color }: { color: ColorSwatch }) {
       </div>
 
       <div>
-        <p className="text-sm font-medium text-gray-200">{color.name}</p>
+        <p className="text-sm font-medium text-gray-700">{color.name}</p>
         {color.description && (
           <p className="text-xs text-gray-500">{color.description}</p>
         )}
@@ -143,9 +143,9 @@ function Swatch({ color }: { color: ColorSwatch }) {
 function Section({ section }: { section: ColorSection }) {
   return (
     <div className="mb-10">
-      <h3 className="text-lg font-semibold text-white mb-1">{section.title}</h3>
+      <h3 className="text-lg font-semibold text-gray-800 mb-1">{section.title}</h3>
       {section.description && (
-        <p className="text-sm text-gray-400 mb-4">{section.description}</p>
+        <p className="text-sm text-gray-500 mb-4">{section.description}</p>
       )}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {section.colors.map((color) => (
@@ -384,10 +384,10 @@ export function ColorsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">
           Paleta de Colores
         </h1>
-        <p className="text-gray-400">
+        <p className="text-gray-500">
           Colores institucionales y funcionales usados en los componentes de
           Fonasa. Organizados por propósito para facilitar la consistencia
           visual.

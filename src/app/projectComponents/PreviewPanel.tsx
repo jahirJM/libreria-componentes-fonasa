@@ -36,10 +36,10 @@ export function PreviewPanel({ variant }: PreviewPanelProps) {
   }, []);
 
   return (
-    <div className="rounded-lg border border-gray-800 overflow-hidden">
+    <div className="rounded-lg border border-gray-200 overflow-hidden">
       {/* Label de la variante */}
-      <div className="border-b border-gray-800 bg-gray-900 px-4 py-2">
-        <span className="text-sm font-medium text-gray-300">
+      <div className="border-b border-gray-200 bg-gray-100 px-4 py-2">
+        <span className="text-sm font-medium text-gray-600">
           {variant.label}
         </span>
       </div>

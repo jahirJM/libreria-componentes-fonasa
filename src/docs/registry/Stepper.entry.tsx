@@ -24,13 +24,16 @@ interface StepperProps {
   pasoActual: number;
   onCambiarPaso?: (paso: number) => void;
   puedeNavegar?: boolean;
+  /** Fuerza la vista mobile (badge) sin importar el breakpoint */
+  forceMobile?: boolean;
 }`,
     variants: [
       {
-        label: "3 pasos",
+        label: "3 pasos (responsive)",
         props: { pasoActual: 1 },
         render: () => (
           <StepperDemo
+            conResize
             pasos={[
               { id: "1", label: "Paso 1" },
               { id: "2", label: "Paso 2" },

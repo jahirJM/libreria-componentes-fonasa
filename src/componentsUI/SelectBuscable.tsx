@@ -1,4 +1,15 @@
-import { useState, useRef, useEffect, forwardRef, type KeyboardEvent, type InputHTMLAttributes, type HTMLAttributes } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  forwardRef,
+  type CSSProperties,
+  type KeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
+  type InputHTMLAttributes,
+  type HTMLAttributes,
+} from "react";
 import clsx from "clsx";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { FiChevronDown, FiSearch, FiX } from "react-icons/fi";
@@ -14,28 +25,29 @@ const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
       ref={ref}
       className={clsx(
         "bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden",
-        className
+        className,
       )}
       {...props}
     />
-  )
+  ),
 );
 Card.displayName = "Card";
 
 // Input de búsqueda dentro del dropdown.
-const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
-  ({ className, ...props }, ref) => (
-    <input
-      ref={ref}
-      type="text"
-      className={clsx(
-        "w-full text-sm outline-none placeholder:text-gray-400",
-        className
-      )}
-      {...props}
-    />
-  )
-);
+const Input = forwardRef<
+  HTMLInputElement,
+  InputHTMLAttributes<HTMLInputElement>
+>(({ className, ...props }, ref) => (
+  <input
+    ref={ref}
+    type="text"
+    className={clsx(
+      "w-full text-sm outline-none placeholder:text-gray-400",
+      className,
+    )}
+    {...props}
+  />
+));
 Input.displayName = "Input";
 
 /* ------------------------------------------------------------------ */
@@ -64,10 +76,28 @@ interface SelectBuscableProps {
 }
 
 // `md` = estilos originales, tal cual. sm/lg son variantes nuevas.
-const sizeStyles: Record<SelectBuscableSize, { trigger: string; text: string; icon: string; option: string }> = {
-  sm: { trigger: "px-2 py-1 rounded-lg", text: "text-xs", icon: "size-3.5", option: "px-2 py-1.5" },
-  md: { trigger: "px-3 py-1.5 rounded-xl", text: "text-sm", icon: "size-4", option: "px-3 py-2" },
-  lg: { trigger: "px-4 py-2 rounded-xl", text: "text-base", icon: "size-5", option: "px-4 py-2.5" },
+const sizeStyles: Record<
+  SelectBuscableSize,
+  { trigger: string; text: string; icon: string; option: string }
+> = {
+  sm: {
+    trigger: "px-2 py-1 rounded-lg",
+    text: "text-xs",
+    icon: "size-3.5",
+    option: "px-2 py-1.5",
+  },
+  md: {
+    trigger: "px-3 py-1.5 rounded-xl",
+    text: "text-sm",
+    icon: "size-4",
+    option: "px-3 py-2",
+  },
+  lg: {
+    trigger: "px-4 py-2 rounded-xl",
+    text: "text-base",
+    icon: "size-5",
+    option: "px-4 py-2.5",
+  },
 };
 
 /* ------------------------------------------------------------------ */
@@ -88,21 +118,45 @@ export const SelectBuscable = ({
   const [isOpen, setIsOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
   const [indiceFocused, setIndiceFocused] = useState(-1);
+  const [dropdownStyle, setDropdownStyle] = useState<CSSProperties>({});
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listaRef = useRef<HTMLUListElement>(null);
 
   const s = sizeStyles[size];
 
   const opcionesFiltradas = opciones.filter((op) =>
-    op.label.toLowerCase().includes(busqueda.toLowerCase())
+    op.label.toLowerCase().includes(busqueda.toLowerCase()),
   );
 
   const opcionSeleccionada = opciones.find((op) => op.value === value);
 
+  const calcularPosicion = useCallback(() => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 260; // altura estimada del dropdown (search + lista)
+    const espacioAbajo = viewportHeight - rect.bottom;
+    const abreArriba =
+      espacioAbajo < dropdownHeight && rect.top > dropdownHeight;
+
+    setDropdownStyle({
+      position: "fixed",
+      left: rect.left,
+      width: rect.width,
+      zIndex: 9999,
+      ...(abreArriba
+        ? { bottom: viewportHeight - rect.top + 4 }
+        : { top: rect.bottom + 4 }),
+    });
+  }, []);
+
   const handleAbrir = () => {
     if (disabled || isLoading) return;
+    calcularPosicion();
     setIsOpen(true);
     setBusqueda("");
     setIndiceFocused(-1);
@@ -120,7 +174,7 @@ export const SelectBuscable = ({
     handleCerrar();
   };
 
-  const handleLimpiar = (e: React.MouseEvent) => {
+  const handleLimpiar = (e: ReactMouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
     onChange("");
     handleCerrar();
@@ -130,7 +184,7 @@ export const SelectBuscable = ({
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setIndiceFocused((prev) =>
-        prev < opcionesFiltradas.length - 1 ? prev + 1 : prev
+        prev < opcionesFiltradas.length - 1 ? prev + 1 : prev,
       );
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -151,13 +205,12 @@ export const SelectBuscable = ({
     }
   }, [indiceFocused]);
 
-  // Cerrar al clickear fuera
+  // Cerrar al clickear fuera (tanto del trigger como del dropdown flotante)
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
+      const clickEnTrigger = containerRef.current?.contains(e.target as Node);
+      const clickEnDropdown = dropdownRef.current?.contains(e.target as Node);
+      if (!clickEnTrigger && !clickEnDropdown) {
         handleCerrar();
       }
     };
@@ -165,10 +218,23 @@ export const SelectBuscable = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Recalcular posición al hacer scroll o resize mientras el dropdown está abierto
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleReposition = () => calcularPosicion();
+    window.addEventListener("scroll", handleReposition, true);
+    window.addEventListener("resize", handleReposition);
+    return () => {
+      window.removeEventListener("scroll", handleReposition, true);
+      window.removeEventListener("resize", handleReposition);
+    };
+  }, [isOpen, calcularPosicion]);
+
   return (
     <div ref={containerRef} className={clsx("relative", className)}>
       {/* Trigger */}
       <button
+        ref={triggerRef}
         type="button"
         onClick={handleAbrir}
         disabled={disabled || isLoading}
@@ -182,7 +248,7 @@ export const SelectBuscable = ({
             : "bg-white cursor-pointer",
           error
             ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-            : "border-gray-300"
+            : "border-gray-300",
         )}
       >
         <span
@@ -191,21 +257,21 @@ export const SelectBuscable = ({
               ? opcionSeleccionada.deshabilitado
                 ? "text-red-600 flex items-center gap-1.5"
                 : "text-gray-700"
-              : "text-gray-400"
+              : "text-gray-400",
           )}
         >
-          {isLoading
-            ? "Cargando..."
-            : opcionSeleccionada
-              ? (
-                <>
-                  {opcionSeleccionada.deshabilitado && (
-                    <AiOutlineExclamationCircle className="inline text-red-600" />
-                  )}
-                  {opcionSeleccionada.label}
-                </>
-              )
-              : placeholder}
+          {isLoading ? (
+            "Cargando..."
+          ) : opcionSeleccionada ? (
+            <>
+              {opcionSeleccionada.deshabilitado && (
+                <AiOutlineExclamationCircle className="inline text-red-600" />
+              )}
+              {opcionSeleccionada.label}
+            </>
+          ) : (
+            placeholder
+          )}
         </span>
 
         <div className="flex items-center gap-1">
@@ -218,14 +284,18 @@ export const SelectBuscable = ({
             </span>
           )}
           <FiChevronDown
-            className={clsx(s.icon, "text-gray-400 transition-transform", isOpen && "rotate-180")}
+            className={clsx(
+              s.icon,
+              "text-gray-400 transition-transform",
+              isOpen && "rotate-180",
+            )}
           />
         </div>
       </button>
 
-      {/* Dropdown */}
+      {/* Dropdown – se renderiza con position:fixed para flotar sobre todos los elementos */}
       {isOpen && (
-        <Card className="absolute z-50 mt-1 w-full">
+        <Card ref={dropdownRef} style={dropdownStyle} className="">
           {/* Input de búsqueda */}
           <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100">
             <FiSearch className="size-4 text-gray-400 flex-shrink-0" />
@@ -261,7 +331,7 @@ export const SelectBuscable = ({
                       : opcion.deshabilitado
                         ? "text-red-600"
                         : "text-gray-700",
-                    index === indiceFocused && "bg-gray-100"
+                    index === indiceFocused && "bg-gray-100",
                   )}
                 >
                   {opcion.deshabilitado && (

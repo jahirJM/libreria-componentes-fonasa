@@ -39,43 +39,47 @@ interface BadgeProps {
   variant: BadgeVariant;
   text: string;
   customClass?: string;
+  /** Habilita redimensionamiento por arrastre con colapso a punto */
+  resizable?: boolean;
+  /** Umbral en px debajo del cual colapsa a punto (default: 40) */
+  collapseThreshold?: number;
 }`,
     variants: [
       {
         label: "Pendiente",
-        props: { variant: "estado-pendiente", text: "Pendiente" },
-        render: () => <Badge variant="estado-pendiente" text="Pendiente" />,
-        usageCode: `<Badge variant="estado-pendiente" text="Pendiente" />`,
+        props: { variant: "estado-pendiente", text: "Pendiente", resizable: true },
+        render: () => <Badge variant="estado-pendiente" text="Pendiente" resizable />,
+        usageCode: `<Badge variant="estado-pendiente" text="Pendiente" resizable />`,
       },
       {
         label: "En revisión",
-        props: { variant: "estado-revision", text: "En revisión" },
-        render: () => <Badge variant="estado-revision" text="En revisión" />,
-        usageCode: `<Badge variant="estado-revision" text="En revisión" />`,
+        props: { variant: "estado-revision", text: "En revisión", resizable: true },
+        render: () => <Badge variant="estado-revision" text="En revisión" resizable />,
+        usageCode: `<Badge variant="estado-revision" text="En revisión" resizable />`,
       },
       {
         label: "Aprobada",
-        props: { variant: "estado-aprobada", text: "Aprobada" },
-        render: () => <Badge variant="estado-aprobada" text="Aprobada" />,
-        usageCode: `<Badge variant="estado-aprobada" text="Aprobada" />`,
+        props: { variant: "estado-aprobada", text: "Aprobada", resizable: true },
+        render: () => <Badge variant="estado-aprobada" text="Aprobada" resizable />,
+        usageCode: `<Badge variant="estado-aprobada" text="Aprobada" resizable />`,
       },
       {
         label: "Rechazada",
-        props: { variant: "estado-rechazada", text: "Rechazada" },
-        render: () => <Badge variant="estado-rechazada" text="Rechazada" />,
-        usageCode: `<Badge variant="estado-rechazada" text="Rechazada" />`,
+        props: { variant: "estado-rechazada", text: "Rechazada", resizable: true },
+        render: () => <Badge variant="estado-rechazada" text="Rechazada" resizable />,
+        usageCode: `<Badge variant="estado-rechazada" text="Rechazada" resizable />`,
       },
       {
         label: "Counter",
-        props: { variant: "counter", text: "12" },
-        render: () => <Badge variant="counter" text="12" />,
-        usageCode: `<Badge variant="counter" text="12" />`,
+        props: { variant: "counter", text: "12", resizable: true },
+        render: () => <Badge variant="counter" text="12" resizable />,
+        usageCode: `<Badge variant="counter" text="12" resizable />`,
       },
       {
         label: "Default",
-        props: { variant: "estado-default", text: "Sin estado" },
-        render: () => <Badge variant="estado-default" text="Sin estado" />,
-        usageCode: `<Badge variant="estado-default" text="Sin estado" />`,
+        props: { variant: "estado-default", text: "Sin estado", resizable: true },
+        render: () => <Badge variant="estado-default" text="Sin estado" resizable />,
+        usageCode: `<Badge variant="estado-default" text="Sin estado" resizable />`,
       },
     ],
   }

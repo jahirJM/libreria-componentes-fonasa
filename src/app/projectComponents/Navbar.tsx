@@ -45,6 +45,18 @@ export function Navbar() {
               Componentes
             </NavLink>
             <NavLink
+              to="/methods"
+              className={({ isActive }) =>
+                `inline-flex justify-center items-center rounded-2xl border border-transparent px-4 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${
+                  isActive
+                    ? "bg-[#0572CE] text-white"
+                    : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
+                }`
+              }
+            >
+              Métodos
+            </NavLink>
+            <NavLink
               to="/colors"
               className={({ isActive }) =>
                 `inline-flex justify-center items-center rounded-2xl border border-transparent px-4 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${

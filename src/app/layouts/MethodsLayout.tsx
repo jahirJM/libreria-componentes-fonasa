@@ -1,0 +1,21 @@
+import { Outlet } from "react-router-dom";
+import { Navbar } from "../projectComponents/Navbar";
+import { Footer } from "../../componentsUI/Footer";
+import { MethodsSidebar } from "../projectComponents/MethodsSidebar";
+
+export function MethodsLayout() {
+  return (
+    <div className="min-h-screen flex flex-col bg-white text-gray-800">
+      <Navbar />
+      <div className="flex pt-14 flex-1">
+        <MethodsSidebar />
+        <main className="flex-1 ml-64 p-8 min-w-0 overflow-hidden flex flex-col">
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          <Footer />
+        </main>
+      </div>
+    </div>
+  );
+}

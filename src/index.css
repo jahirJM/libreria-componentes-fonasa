@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+@keyframes highlight {
+  from {
+    background-color: rgba(5, 114, 206, 0.3);
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}

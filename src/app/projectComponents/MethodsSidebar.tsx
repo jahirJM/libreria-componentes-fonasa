@@ -49,6 +49,23 @@ export function MethodsSidebar() {
         <hr className="text-gray-300" />
       </div>
       <nav className="flex flex-col gap-1 px-2 text-sm font-medium">
+
+        {/* Herramienta especial — entrada fija, no viene del registry */}
+        <NavLink
+          to="/methods/constructor-filtros"
+          className={({ isActive }) =>
+            `flex items-center gap-2 rounded-lg px-3 py-2 transition-colors duration-100 ${
+              isActive
+                ? "bg-[#0572CE] text-white font-semibold"
+                : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
+            }`
+          }
+        >
+          <span className="text-base">⚙️</span>
+          Constructor de Filtros
+        </NavLink>
+
+        <div className="my-2 h-px bg-gray-200" />
         {ungrouped.map((entry) => (
           <NavLink
             key={entry.name}

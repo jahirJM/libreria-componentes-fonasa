@@ -7,6 +7,7 @@ import { ComponentPage } from "./app/pages/ComponentPage";
 import { MethodsLayout } from "./app/layouts/MethodsLayout";
 import { MethodsIndex } from "./app/pages/MethodsIndex";
 import { MethodPage } from "./app/pages/MethodPage";
+import { FiltroInputPage } from "./app/pages/FiltroInputPage";
 
 import { Home } from "./app/pages/Home";
 import { Docs } from "./app/pages/Docs";
@@ -33,6 +34,7 @@ function App() {
         <Route element={<MethodsLayout />}>
           <Route path="/methods" element={<MethodsIndex />} />
           <Route path="/methods/:name" element={<MethodPage />} />
+          <Route path="/methods/constructor-filtros" element={<FiltroInputPage />} />
         </Route>
 
         {/* Fallback */}

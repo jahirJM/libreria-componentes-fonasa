@@ -41,7 +41,7 @@ export function MethodsSidebar() {
   if (!isMethodsSection) return null;
 
   return (
-    <aside className="fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
+    <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
       <div className="my-4 text-center">
         <h3 className="text-gray-500 font-bold text-base mb-2">
           Métodos

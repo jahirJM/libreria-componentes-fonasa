@@ -9,7 +9,7 @@ export function MethodsLayout() {
       <Navbar />
       <div className="flex pt-14 flex-1">
         <MethodsSidebar />
-        <main className="flex-1 ml-64 p-8 min-w-0 overflow-hidden flex flex-col">
+        <main className="flex-1 lg:ml-64 p-8 min-w-0 overflow-hidden flex flex-col">
           <div className="flex-1">
             <Outlet />
           </div>

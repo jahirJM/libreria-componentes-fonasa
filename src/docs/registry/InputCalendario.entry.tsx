@@ -1,5 +1,6 @@
 import inputCalendarioCode from "../../componentsUI/InputCalendario.tsx?raw";
 import { InputCalendario } from "../../componentsUI/InputCalendario";
+import { SkeletonInputCalendario } from "../../skeletons/SkeletonInputCalendario";
 import type { ComponentEntry } from "./types";
 
 export const inputCalendarioEntry: ComponentEntry = {
@@ -92,6 +93,14 @@ export const inputCalendarioEntry: ComponentEntry = {
   onRangeSelect={(start, end) => console.log(start, end)}
 />`,
       responsive: true,
+    },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => <SkeletonInputCalendario tipo="rango" />,
+      usageCode: `import { SkeletonInputCalendario } from "@/skeletons";
+
+<SkeletonInputCalendario tipo="rango" />`,
     },
   ],
 };

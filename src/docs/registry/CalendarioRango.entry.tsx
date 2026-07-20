@@ -1,5 +1,6 @@
 import calendarioRangoCode from "../../componentsUI/CalendarioRango.tsx?raw";
 import { CalendarioRango } from "../../componentsUI/CalendarioRango";
+import { SkeletonCalendarioRango } from "../../skeletons/SkeletonCalendarioRango";
 import type { ComponentEntry } from "./types";
 
 export const calendarioRangoEntry: ComponentEntry = {
@@ -134,6 +135,14 @@ export const calendarioRangoEntry: ComponentEntry = {
   maxDate={new Date(2026, 8, 25)}
   onRangeSelect={(start, end) => console.log(start, end)}
 />`,
+    },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => <SkeletonCalendarioRango mode="single" />,
+      usageCode: `import { SkeletonCalendarioRango } from "@/skeletons";
+
+<SkeletonCalendarioRango mode="single" />`,
     },
   ],
 };

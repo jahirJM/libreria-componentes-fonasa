@@ -1,5 +1,6 @@
 import paginacionCode from "../../componentsUI/Paginacion.tsx?raw"
 import { PaginacionDemo } from "../demos/PaginacionDemo";
+import { Paginacion } from "../../componentsUI/Paginacion";
 import type { ComponentEntry } from "./types";
 
 export const paginacionEntry: ComponentEntry =  {
@@ -48,6 +49,12 @@ export const paginacionEntry: ComponentEntry =  {
         props: { totalPaginas: 20 },
         render: () => <PaginacionDemo totalPaginas={20} />,
         usageCode: `<Paginacion paginaActual={pagina} totalPaginas={20} onCambiarPagina={setPagina} />`,
+      },
+      {
+        label: "Skeleton",
+        props: { isLoading: true },
+        render: () => <Paginacion paginaActual={1} totalPaginas={5} onCambiarPagina={() => {}} isLoading />,
+        usageCode: `<Paginacion paginaActual={1} totalPaginas={5} onCambiarPagina={() => {}} isLoading />`,
       },
     ],
   }

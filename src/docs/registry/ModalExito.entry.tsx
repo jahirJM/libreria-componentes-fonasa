@@ -2,6 +2,7 @@ import { useState } from "react";
 import modalCode from "../../componentsUI/Modal.tsx?raw";
 import Modal from "../../componentsUI/Modal";
 import { BotonPrimario } from "../../componentsUI/Botones";
+import { SkeletonModal } from "../../skeletons/SkeletonModal";
 import type { ComponentEntry } from "./types";
 
 function ModalExitoDemo() {
@@ -73,6 +74,14 @@ export const modalExitoEntry: ComponentEntry = {
       props: { variant: "exito" },
       render: () => <ModalExitoSinNumeroDemo />,
       usageCode: `<Modal\n  modalOpen={open}\n  setModalOpen={setOpen}\n  variant="exito"\n  subTituloModal="Datos guardados correctamente"\n/>`,
+    },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => <SkeletonModal size="sm" contentLines={3} />,
+      usageCode: `import { SkeletonModal } from "@/skeletons";
+
+<SkeletonModal size="sm" contentLines={3} />`,
     },
   ],
 };

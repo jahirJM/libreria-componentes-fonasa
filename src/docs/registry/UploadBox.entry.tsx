@@ -70,5 +70,11 @@ export const uploadBoxEntry: ComponentEntry =   {
         ),
         usageCode: `<UploadBox textStrong="archivo.exe" text="formato no válido" error />`,
       },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => <UploadBox isLoading textStrong="" text="" />,
+        usageCode: `<UploadBox isLoading textStrong="" text="" />`,
+      },
     ],
   }

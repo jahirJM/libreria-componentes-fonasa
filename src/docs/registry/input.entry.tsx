@@ -113,5 +113,11 @@ export const inputEntry: ComponentEntry =   {
         ),
         usageCode: `<Input type="text" placeholder="No disponible" disabled />`,
       },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => <Input isLoading />,
+        usageCode: `<Input isLoading />`,
+      },
     ],
   }

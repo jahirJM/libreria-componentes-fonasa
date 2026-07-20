@@ -17,6 +17,8 @@ interface CheckButtonProps {
   customClassLabel?: string;
   isDisabled?: boolean;
   variant?: Variant;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 export const CheckButton = ({
@@ -28,6 +30,7 @@ export const CheckButton = ({
   customClassLabel = "",
   isDisabled = false,
   variant = "primary",
+  isLoading = false,
 }: CheckButtonProps) => {
   const opciones: Opcion[] =
     variant === "secondary"
@@ -36,6 +39,19 @@ export const CheckButton = ({
           { id: "no", label: "No" },
         ]
       : listaOpciones ?? [];
+
+  if (isLoading) {
+    return (
+      <div className={clsx("flex flex-col gap-y-5 animate-pulse", customClass)}>
+        {Array.from({ length: opciones.length || 3 }).map((_, i) => (
+          <div key={i} className="flex flex-row items-center gap-x-2">
+            <div className={clsx("w-5 h-5 bg-gray-200", variant === "secondary" ? "rounded-full" : "rounded")} />
+            <div className="h-4 bg-gray-200 rounded" style={{ width: `${60 + (i % 3) * 20}px` }} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className={clsx("flex flex-col gap-y-5", customClass)}>

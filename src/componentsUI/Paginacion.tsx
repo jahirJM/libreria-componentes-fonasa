@@ -4,6 +4,8 @@ interface PaginacionProps {
   paginaActual: number;
   totalPaginas: number;
   onCambiarPagina: (pagina: number) => void;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 /**
@@ -43,7 +45,20 @@ export const Paginacion = ({
   paginaActual,
   totalPaginas,
   onCambiarPagina,
+  isLoading = false,
 }: PaginacionProps) => {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center gap-1 mt-4 animate-pulse">
+        <div className="h-8 w-8 bg-gray-200 rounded-md" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-8 w-8 bg-gray-200 rounded-md" />
+        ))}
+        <div className="h-8 w-8 bg-gray-200 rounded-md" />
+      </div>
+    );
+  }
+
   if (totalPaginas <= 1) return null;
 
   const rangoVisible = calcularRangoVisible(paginaActual, totalPaginas);

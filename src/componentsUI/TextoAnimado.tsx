@@ -13,6 +13,8 @@ interface TextoAnimadoProps {
   duracion?: number;
   /** Clase CSS adicional para el contenedor */
   className?: string;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 const estilosVariante: Record<Variante, { contenedor: string; texto: string }> = {
@@ -52,6 +54,7 @@ export function TextoAnimado({
   etiqueta,
   duracion = 200,
   className = "",
+  isLoading = false,
 }: TextoAnimadoProps) {
   const [mostrar, setMostrar] = useState(valor);
   const [animando, setAnimando] = useState(false);
@@ -77,6 +80,15 @@ export function TextoAnimado({
   }, [valor, duracion]);
 
   const estilos = estilosVariante[variante];
+
+  if (isLoading) {
+    return (
+      <div className={`${estilos.contenedor} ${className} animate-pulse`}>
+        {etiqueta && <div className="h-2 bg-gray-200 rounded w-24 mb-2" />}
+        <div className={`h-6 bg-gray-200 rounded w-32 ${variante !== "normal" ? "mx-auto" : ""}`} />
+      </div>
+    );
+  }
 
   return (
     <div className={`${estilos.contenedor} ${className}`}>

@@ -1,5 +1,6 @@
 import customModalCode from "../../componentsUI/CustomModal.tsx?raw"
 import { ModalDemo } from "../demos/ModalDemo";
+import { SkeletonModal } from "../../skeletons/SkeletonModal";
 import type { ComponentEntry } from "./types";
 
 export const customModalEntry: ComponentEntry =  {
@@ -41,6 +42,15 @@ export const customModalEntry: ComponentEntry =  {
         props: { size: "lg", title: "Modal Grande" },
         render: () => <ModalDemo size="lg" title="Modal Grande" />,
         usageCode: `<CustomModal size="lg" title="Modal Grande" showModal={open} onClose={() => setOpen(false)}>\n  <p>Contenido</p>\n</CustomModal>`,
+      },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => <SkeletonModal size="md" contentLines={4} />,
+        usageCode: `import { SkeletonModal } from "@/skeletons";
+
+// Usar dentro de un CustomModal para simular carga de contenido:
+<SkeletonModal size="md" contentLines={4} />`,
       },
     ],
   }

@@ -6,6 +6,7 @@ import {
   ContenidoAcordeon,
 } from "../../componentsUI/Acordeon";
 import { FiHeart, FiShield } from "react-icons/fi";
+import { SkeletonAcordeon } from "../../skeletons/SkeletonAcordeon";
 import type { ComponentEntry } from "./types";
 
 export const acordeonEntry: ComponentEntry = {
@@ -264,6 +265,18 @@ interface ContenidoAcordeonProps extends HTMLAttributes<HTMLDivElement> {}`,
     </ContenidoAcordeon>
   </ItemAcordeon>
 </Acordeon>`,
+    },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => (
+        <div className="max-w-lg">
+          <SkeletonAcordeon items={3} bordered />
+        </div>
+      ),
+      usageCode: `import { SkeletonAcordeon } from "@/skeletons";
+
+<SkeletonAcordeon items={3} bordered />`,
     },
   ],
 };

@@ -12,6 +12,8 @@ interface InputProps
   loading?: boolean;
   copyable?: boolean;
   type?: "text" | "email" | "number" | "password" | "tel" | "url" | "file";
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 export function Input({
@@ -24,8 +26,17 @@ export function Input({
   rightIcon,
   loading = false,
   copyable = false,
+  isLoading = false,
   ...props
 }: InputProps) {
+  if (isLoading) {
+    return (
+      <div className="animate-pulse">
+        <div className="w-full h-10 bg-gray-200 rounded-md" />
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex items-center">
       {leftIcon && (

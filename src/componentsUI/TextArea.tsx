@@ -3,14 +3,25 @@ import { type TextareaHTMLAttributes } from "react";
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: boolean;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 export const TextArea = ({
   error = false,
   className,
   disabled,
+  isLoading = false,
   ...props
 }: TextAreaProps) => {
+  if (isLoading) {
+    return (
+      <div className="animate-pulse">
+        <div className="w-full h-24 bg-gray-200 rounded-xl" />
+      </div>
+    );
+  }
+
   return (
     <textarea
       disabled={disabled}

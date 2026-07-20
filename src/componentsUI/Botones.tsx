@@ -8,6 +8,8 @@ interface BotonesProps {
   isDisabled?: boolean;
   type?: "button" | "submit" | "reset";
   customClass?: string;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 export const BotonConfirmar = ({
@@ -16,7 +18,12 @@ export const BotonConfirmar = ({
   onClick,
   isDisabled,
   type,
+  isLoading = false,
 }: BotonesProps) => {
+  if (isLoading) {
+    return <div className="h-9 w-28 bg-gray-200 rounded-2xl animate-pulse" />;
+  }
+
   return (
     <button
       type={type}
@@ -39,7 +46,12 @@ export const BotonCancelar = ({
   icon: Icon,
   onClick,
   isDisabled,
+  isLoading = false,
 }: BotonesProps) => {
+  if (isLoading) {
+    return <div className="h-9 w-28 bg-gray-200 rounded-2xl animate-pulse" />;
+  }
+
   return (
     <button
       type="button"
@@ -64,7 +76,12 @@ export const BotonPrimario = ({
   isDisabled,
   type = "button",
   customClass = "",
+  isLoading = false,
 }: BotonesProps) => {
+  if (isLoading) {
+    return <div className="h-9 w-28 bg-gray-200 rounded-2xl animate-pulse" />;
+  }
+
   return (
     <button
       type={type}
@@ -87,7 +104,12 @@ export const BotonSecundario = ({
   icon: Icon,
   onClick,
   isDisabled,
+  isLoading = false,
 }: BotonesProps) => {
+  if (isLoading) {
+    return <div className="h-9 w-28 bg-gray-200 rounded-2xl animate-pulse" />;
+  }
+
   return (
     <button
       type="button"
@@ -112,7 +134,12 @@ export const BotonOutline = ({
   isDisabled,
   type = "button",
   customClass = "",
+  isLoading = false,
 }: BotonesProps) => {
+  if (isLoading) {
+    return <div className="h-9 w-28 bg-gray-200 rounded-2xl animate-pulse" />;
+  }
+
   return (
     <button
       type={type}
@@ -136,7 +163,12 @@ export const BotonLink = ({
   onClick,
   isDisabled,
   customClass = "",
+  isLoading = false,
 }: BotonesProps) => {
+  if (isLoading) {
+    return <div className="h-5 w-20 bg-gray-200 rounded animate-pulse" />;
+  }
+
   return (
     <button
       type="button"

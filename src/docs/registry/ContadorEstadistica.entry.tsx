@@ -342,5 +342,15 @@ interface TendenciaProps {
   </ContadorEstadistica.Contenido>
 </ContadorEstadistica>`,
     },
+    {
+      label: "Skeleton",
+      props: { isLoading: true },
+      render: () => (
+        <ContadorEstadistica variante="primario" isLoading>{null}</ContadorEstadistica>
+      ),
+      usageCode: `<ContadorEstadistica variante="primario" isLoading>
+  {null}
+</ContadorEstadistica>`,
+    },
   ],
 };

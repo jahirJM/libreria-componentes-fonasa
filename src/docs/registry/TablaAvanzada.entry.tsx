@@ -1,5 +1,6 @@
 import tableCode from "../../componentsUI/Table.tsx?raw"
 import { Table } from "../../componentsUI/Table";
+import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
 export const tablaAvanzadaEntry: ComponentEntry =   {
@@ -109,6 +110,15 @@ export const tablaAvanzadaEntry: ComponentEntry =   {
           </Table>
         ),
         usageCode: `<Table nombreColumnas={["Nombre", "RUT", "Email", "Rol"]} ocultable redimensionable>\n  <tr>\n    <td className="px-4 py-2 text-sm">Juan Pérez</td>\n    <td className="px-4 py-2 text-sm">12.345.678-9</td>\n    <td className="px-4 py-2 text-sm">juan@email.com</td>\n    <td className="px-4 py-2 text-sm">Admin</td>\n  </tr>\n</Table>`,
+      },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => <SkeletonTabla columns={4} rows={5} />,
+        usageCode: `import { SkeletonTabla } from "@/skeletons";
+
+// Usar como placeholder mientras se cargan los datos de la tabla:
+<SkeletonTabla columns={4} rows={5} />`,
       },
     ],
   }

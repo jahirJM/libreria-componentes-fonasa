@@ -1,6 +1,7 @@
 import alertaCode from "../../componentsUI/Alerta.tsx?raw";
 import { Alerta } from "../../componentsUI/Alerta";
 import { FiShield } from "react-icons/fi";
+import { SkeletonAlerta } from "../../skeletons/SkeletonAlerta";
 import type { ComponentEntry } from "./types";
 
 export const alertaEntry: ComponentEntry = {
@@ -235,6 +236,18 @@ interface AlertaProps {
   mensaje="Su bono de atención N° 12345678 fue generado correctamente."
   accion={{ label: "Descargar PDF", onClick: () => { /* descargar */ } }}
 />`,
+    },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => (
+        <div className="max-w-lg relative">
+          <SkeletonAlerta />
+        </div>
+      ),
+      usageCode: `import { SkeletonAlerta } from "@/skeletons";
+
+<SkeletonAlerta />`,
     },
   ],
 };

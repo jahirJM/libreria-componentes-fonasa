@@ -1,5 +1,6 @@
 import stepperCode from "../../componentsUI/Stepper.tsx?raw"
 import { StepperDemo } from "../demos/StepperDemo";
+import { Stepper } from "../../componentsUI/Stepper";
 import type { ComponentEntry } from "./types";
 
 export const stepperEntry: ComponentEntry =   {
@@ -74,6 +75,23 @@ interface StepperProps {
           />
         ),
         usageCode: `<Stepper\n  pasos={pasos}\n  pasoActual={pasoActual}\n  onCambiarPaso={setPaso}\n  puedeNavegar\n/>`,
+      },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => (
+          <Stepper
+            pasos={[
+              { id: "1", label: "Paso 1" },
+              { id: "2", label: "Paso 2" },
+              { id: "3", label: "Paso 3" },
+              { id: "4", label: "Paso 4" },
+            ]}
+            pasoActual={1}
+            isLoading
+          />
+        ),
+        usageCode: `<Stepper pasos={pasos} pasoActual={1} isLoading />`,
       },
     ],
   }

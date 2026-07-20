@@ -263,5 +263,16 @@ interface SelectBuscableProps {
   placeholder="Seleccione un hospital"
 />`,
     },
+    {
+      label: "Skeleton",
+      props: { isLoading: true },
+      render: () => <LoadingDemo />,
+      usageCode: `<SelectBuscable
+  opciones={[]}
+  value=""
+  onChange={() => {}}
+  isLoading
+/>`,
+    },
   ],
 };

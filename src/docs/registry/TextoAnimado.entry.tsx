@@ -154,5 +154,15 @@ interface TextoAnimadoProps {
       render: () => <DemoError />,
       usageCode: `<TextoAnimado valor="Error al procesar la solicitud" variante="error" etiqueta="Estado" />`,
     },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => (
+        <div className="max-w-xs">
+          <TextoAnimado valor="" variante="grande" etiqueta="Resultado" isLoading />
+        </div>
+      ),
+      usageCode: `<TextoAnimado valor="" variante="grande" etiqueta="Resultado" isLoading />`,
+    },
   ],
 };

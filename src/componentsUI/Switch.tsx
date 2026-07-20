@@ -84,6 +84,8 @@ export interface SwitchProps {
   className?: string;
   name?: string;
   id?: string;
+  /** Si true, muestra skeleton de carga. */
+  isLoading?: boolean;
 }
 
 export const Switch = ({
@@ -97,9 +99,15 @@ export const Switch = ({
   className,
   name,
   id,
+  isLoading = false,
 }: SwitchProps) => {
   const idGenerado = useId();
   const switchId = id ?? idGenerado;
+
+  if (isLoading) {
+    const { pista } = TAMANOS[tamano];
+    return <div className={clsx("rounded-full bg-gray-200 animate-pulse", pista, className)} />;
+  }
 
   const esControlado = checked !== undefined;
   const [estadoInterno, setEstadoInterno] = useState(defaultChecked);

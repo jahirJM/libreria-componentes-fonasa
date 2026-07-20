@@ -1,5 +1,6 @@
 import checkButtonCode from "../../componentsUI/CheckButton.tsx?raw"
 import { CheckButtonDemo } from "../demos/CheckButtonDemo";
+import { CheckButton } from "../../componentsUI/CheckButton";
 import type { ComponentEntry } from "./types";
 
 export const checkButtonEntry: ComponentEntry =   {
@@ -63,6 +64,24 @@ interface CheckButtonProps {
           />
         ),
         usageCode: `<CheckButton\n  variant="primary"\n  listaOpciones={[{ id: "opcion1", label: "Opción 1" }]}\n  selectedItems={[]}\n  onToggle={handleToggle}\n  isDisabled\n/>`,
+      },
+      {
+        label: "Skeleton",
+        props: { isLoading: true },
+        render: () => (
+          <CheckButton
+            variant="primary"
+            listaOpciones={[
+              { id: "opcion1", label: "Opción 1" },
+              { id: "opcion2", label: "Opción 2" },
+              { id: "opcion3", label: "Opción 3" },
+            ]}
+            selectedItems={[]}
+            onToggle={() => {}}
+            isLoading
+          />
+        ),
+        usageCode: `<CheckButton\n  variant="primary"\n  listaOpciones={opciones}\n  selectedItems={[]}\n  onToggle={handleToggle}\n  isLoading\n/>`,
       },
     ],
   }

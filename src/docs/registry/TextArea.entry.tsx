@@ -38,5 +38,11 @@ export const textAreaEntry: ComponentEntry =   {
         render: () => <TextArea placeholder="No disponible" disabled />,
         usageCode: `<TextArea placeholder="No disponible" disabled />`,
       },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => <TextArea isLoading />,
+        usageCode: `<TextArea isLoading />`,
+      },
     ],
   }

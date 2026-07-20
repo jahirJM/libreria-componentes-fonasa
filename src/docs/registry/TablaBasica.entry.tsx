@@ -1,5 +1,6 @@
 import tablaBasicaCode from "../../componentsUI/TablaBasica.tsx?raw"
 import { TablaBasica } from "../../componentsUI/TablaBasica";
+import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
 export const tablaBasicaEntry: ComponentEntry =   {
@@ -65,6 +66,15 @@ export const tablaBasicaEntry: ComponentEntry =   {
           </TablaBasica>
         ),
         usageCode: `<TablaBasica nombreColumnas={["ID", "Estado"]} classTable="text-center" classTh="text-center">\n  <tr className="border-b border-gray-100">\n    <td className="px-4 py-2 text-sm">001</td>\n    <td className="px-4 py-2 text-sm">Activo</td>\n  </tr>\n</TablaBasica>`,
+      },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => <SkeletonTabla columns={4} rows={5} />,
+        usageCode: `import { SkeletonTabla } from "@/skeletons";
+
+// Usar como placeholder mientras se cargan los datos de la tabla:
+<SkeletonTabla columns={4} rows={5} />`,
       },
     ],
   }

@@ -79,5 +79,17 @@ export const botonesEntry: ComponentEntry =   {
 <BotonOutline label="Outline" isDisabled />
 <BotonLink label="Link" isDisabled />`,
       },
+      {
+        label: "Skeleton",
+        props: { isLoading: true },
+        render: () => (
+          <div className="flex flex-wrap justify-center gap-2 w-full">
+            <BotonPrimario label="Primario" isLoading />
+            <BotonOutline label="Outline" isLoading />
+            <BotonLink label="Link" isLoading />
+          </div>
+        ),
+        usageCode: `<BotonPrimario label="Guardar" isLoading />`,
+      },
     ],
   }

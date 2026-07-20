@@ -10,6 +10,8 @@ interface StepperProps {
   puedeNavegar?: boolean;
   /** Fuerza la vista mobile (badge) sin importar el breakpoint */
   forceMobile?: boolean;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 export const Stepper = ({
@@ -18,7 +20,32 @@ export const Stepper = ({
   onCambiarPaso,
   puedeNavegar = false,
   forceMobile = false,
+  isLoading = false,
 }: StepperProps) => {
+  if (isLoading) {
+    return (
+      <div className="p-5 animate-pulse">
+        <div className="flex items-center gap-3 md:hidden">
+          <div className="w-12 h-12 rounded-full border-2 border-gray-200 bg-gray-100" />
+          <div className="h-4 bg-gray-200 rounded w-32" />
+        </div>
+        <div className="hidden md:flex items-start justify-between">
+          {Array.from({ length: pasos.length || 4 }).map((_, i, arr) => (
+            <div key={i} className="flex flex-col items-center flex-1 relative">
+              {i < arr.length - 1 && (
+                <div className="absolute top-5 left-1/2 w-full h-1 z-0">
+                  <div className="w-full h-full bg-gray-200 rounded" />
+                </div>
+              )}
+              <div className="z-10 w-10 h-10 rounded-full bg-gray-200" />
+              <div className="mt-2 h-3 bg-gray-200 rounded w-16" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-5 z-60">
       {/* Mobile: solo badge con paso actual */}

@@ -4,6 +4,8 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   error?: boolean;
   className?: string;
   children: ReactNode;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 export const Select = ({
@@ -11,8 +13,17 @@ export const Select = ({
   className,
   children,
   disabled,
+  isLoading = false,
   ...props
 }: SelectProps) => {
+  if (isLoading) {
+    return (
+      <div className="animate-pulse">
+        <div className="h-9 bg-gray-200 rounded-xl w-full" />
+      </div>
+    );
+  }
+
   return (
     <select
       disabled={disabled}

@@ -1,5 +1,6 @@
 import tablaDatosCode from "../../componentsUI/TablaDatos.tsx?raw"
 import { TablaDatos } from "../../componentsUI/TablaDatos";
+import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
 export const tablaDatosEntry: ComponentEntry =   {
@@ -91,6 +92,15 @@ interface TablaDatosProps {
           />
         ),
         usageCode: `<TablaDatos\n  variant="secondary"\n  listaHeaders={["Código", "Descripción"]}\n  columnas={["codigo", "descripcion"]}\n  listaDatos={datos}\n/>`,
+      },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => <SkeletonTabla columns={3} rows={4} showActions />,
+        usageCode: `import { SkeletonTabla } from "@/skeletons";
+
+// Usar como placeholder mientras se cargan los datos:
+<SkeletonTabla columns={3} rows={4} showActions />`,
       },
     ],
   }

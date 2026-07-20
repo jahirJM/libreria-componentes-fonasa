@@ -354,5 +354,13 @@ interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {
   </CardFooter>
 </Card>`,
     },
+    {
+      label: "Skeleton",
+      props: { isLoading: true },
+      render: () => (
+        <Card className="max-w-sm" isLoading />
+      ),
+      usageCode: `<Card isLoading />`,
+    },
   ],
 };

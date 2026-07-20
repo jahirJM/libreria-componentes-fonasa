@@ -190,5 +190,17 @@ interface SwitchProps {
   </div>
 </label>`,
     },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => (
+        <div className="space-y-3">
+          <Switch tamano="sm" isLoading />
+          <Switch tamano="md" isLoading />
+          <Switch tamano="lg" isLoading />
+        </div>
+      ),
+      usageCode: `<Switch isLoading />`,
+    },
   ],
 };

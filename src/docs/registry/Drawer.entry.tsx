@@ -1,5 +1,5 @@
 import drawerCode from "../../componentsUI/Drawer.tsx?raw";
-import { BottomDemo, DefaultDemo, LargeDemo, LeftDemo, NoCerrarAlClickFueraDemo, SinBotonCerrarDemo, TopDemo, WithFooterDemo } from "../demos/DrawerDemo";
+import { BottomDemo, DefaultDemo, LargeDemo, LeftDemo, NoCerrarAlClickFueraDemo, SinBotonCerrarDemo, SkeletonDrawerDemo, TopDemo, WithFooterDemo } from "../demos/DrawerDemo";
 import type { ComponentEntry } from "./types";
 
 /**
@@ -162,6 +162,18 @@ interface DrawerProps {
   mostrarBotonCerrar={false}
 >
   <p>Contenido del drawer</p>
+</Drawer>`,
+    },
+    {
+      label: "Skeleton",
+      props: {},
+      render: () => <SkeletonDrawerDemo />,
+      usageCode: `<Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} titulo="Cargando datos...">
+  <div className="animate-pulse space-y-4">
+    <div className="h-4 bg-gray-200 rounded w-full" />
+    <div className="h-4 bg-gray-200 rounded w-4/5" />
+    <div className="h-4 bg-gray-200 rounded w-3/5" />
+  </div>
 </Drawer>`,
     },
   ],

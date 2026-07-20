@@ -317,3 +317,41 @@ export function SinBotonCerrarDemo() {
     </div>
   );
 }
+
+export function SkeletonDrawerDemo() {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="flex flex-col items-center gap-2 w-full">
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="px-5 py-2.5 bg-[#0572CE] text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+      >
+        Abrir Drawer (skeleton)
+      </button>
+      <span className="text-xs text-gray-400">Simula carga de contenido</span>
+      <Drawer
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        titulo="Cargando datos..."
+        descripcion="Obteniendo información del servidor"
+      >
+        <div className="flex flex-col h-full animate-pulse">
+          <div className="space-y-4">
+            <div className="h-4 bg-gray-200 rounded w-full" />
+            <div className="h-4 bg-gray-200 rounded w-4/5" />
+            <div className="h-4 bg-gray-200 rounded w-3/5" />
+          </div>
+          <div className="space-y-3 mt-6">
+            <div className="h-3 bg-gray-200 rounded w-1/4" />
+            <div className="h-9 bg-gray-200 rounded-md w-full" />
+            <div className="h-3 bg-gray-200 rounded w-1/4" />
+            <div className="h-9 bg-gray-200 rounded-md w-full" />
+            <div className="h-3 bg-gray-200 rounded w-1/4" />
+            <div className="h-9 bg-gray-200 rounded-md w-full" />
+          </div>
+        </div>
+      </Drawer>
+    </div>
+  );
+}

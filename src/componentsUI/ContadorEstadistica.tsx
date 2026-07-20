@@ -13,6 +13,8 @@ interface ContadorEstadisticaProps {
   /** Clase CSS adicional */
   className?: string;
   children: ReactNode;
+  /** Si true, muestra skeleton de carga */
+  isLoading?: boolean;
 }
 
 interface MetricaProps {
@@ -260,6 +262,7 @@ function ContadorEstadisticaRaiz({
   duracion = 1500,
   className = "",
   children,
+  isLoading = false,
 }: ContadorEstadisticaProps) {
   const [visible, setVisible] = useState(false);
   const [entrado, setEntrado] = useState(false);
@@ -288,6 +291,19 @@ function ContadorEstadisticaRaiz({
     const t = setTimeout(() => setEntrado(true), 50);
     return () => clearTimeout(t);
   }, [visible]);
+
+  if (isLoading) {
+    return (
+      <div className={`rounded-2xl border p-5 shadow-sm ${e.contenedor} ${className} animate-pulse`}>
+        <div className="h-10 w-10 bg-gray-200 rounded-xl mb-3" />
+        <div className="h-8 bg-gray-200 rounded w-24 mb-3" />
+        <div className="space-y-1.5">
+          <div className="h-4 bg-gray-200 rounded w-3/4" />
+          <div className="h-3 bg-gray-200 rounded w-1/2" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <ContextoContador.Provider value={{ variante, duracion, visible, estilos: e }}>

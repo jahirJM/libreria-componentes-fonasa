@@ -1,7 +1,6 @@
 
 import listaPaginadaCode from "../../componentsUI/ListaPaginada.tsx?raw"
 import { ListaPaginada } from "../../componentsUI/ListaPaginada";
-import { SkeletonSolicitudCard, SkeletonSolicitudesList } from "../../componentsUI/SkeletonSolicitud";
 import { SolicitudCard } from "../../componentsUI/SolicitudCard";
 import type { ComponentEntry } from "./types";
 
@@ -71,18 +70,6 @@ export const listaPaginadaEntry: ComponentEntry =   {
           </ListaPaginada>
         ),
         usageCode: `<ListaPaginada isLoading={false} error="Error del servidor" ...>\n  {null}\n</ListaPaginada>`,
-      },
-      {
-        label: "Skeleton - Card individual",
-        props: {},
-        render: () => <SkeletonSolicitudCard />,
-        usageCode: `<SkeletonSolicitudCard />`,
-      },
-      {
-        label: "Skeleton - Lista (3 cards)",
-        props: { count: 3 },
-        render: () => <SkeletonSolicitudesList count={3} />,
-        usageCode: `<SkeletonSolicitudesList count={3} />`,
       },
       {
         label: "SolicitudCard - Ejemplo completo",

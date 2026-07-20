@@ -54,5 +54,17 @@ export const selectEntry: ComponentEntry =   {
         ),
         usageCode: `<Select disabled>\n  <option value="">No disponible</option>\n</Select>`,
       },
+      {
+        label: "Skeleton",
+        props: {},
+        render: () => (
+          <Select isLoading>
+            <option value="">Seleccione</option>
+          </Select>
+        ),
+        usageCode: `<Select isLoading>
+  <option value="">Seleccione</option>
+</Select>`,
+      },
     ],
   }

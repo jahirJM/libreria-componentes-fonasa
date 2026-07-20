@@ -178,10 +178,10 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
   const [showCode, setShowCode] = useState(false);
 
   return (
-    <section className="flex gap-0 overflow-hidden">
+    <section className="flex flex-col lg:flex-row gap-0 overflow-hidden">
       <FonasaToaster />
       {/* Columna izquierda: todo el contenido */}
-      <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "pr-4" : "pr-0"}`}>
+      <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "lg:pr-4" : "pr-0"}`}>
         {/* Breadcrumb: Inicio */}
         <Link
           to="/components"
@@ -192,7 +192,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
           <span className="font-medium">Inicio</span>
         </Link>
 
-        <h2 className="text-4xl font-bold text-gray-800 mb-2">{entry.name}</h2>
+        <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">{entry.name}</h2>
         {entry.description && (
           <p className="text-gray-500 mb-3">{entry.description}</p>
         )}
@@ -218,7 +218,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         {/* Metadata: colores + interface en fila */}
         {(entry.colors?.length || entry.propsInterface) && (
           <div className="flex flex-col lg:flex-row gap-4 mb-8">
-            {/* Colores — grid 3 cols, con sombra */}
+            {/* Colores — grid responsive, con sombra */}
             {entry.colors && entry.colors.length > 0 && (
               <div className="lg:w-1/2">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
@@ -249,11 +249,11 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         {/* Ejemplos */}
         <div className="mb-12">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Ejemplos</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {entry.variants.map((variant) => (
               <div
                 key={variant.label}
-                className={variant.responsive ? "col-span-1 sm:col-span-2" : ""}
+                className={variant.responsive ? "col-span-1 md:col-span-2" : ""}
               >
                 <VariantCard variant={variant} />
               </div>
@@ -262,9 +262,9 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         </div>
       </div>
 
-      {/* Columna derecha: código fuente colapsable */}
+      {/* Columna derecha: código fuente colapsable — solo visible en lg+ como sidebar */}
       <div
-        className={`sticky top-0 self-start transition-all duration-300 overflow-hidden shrink-0 ${
+        className={`hidden lg:block sticky top-0 self-start transition-all duration-300 overflow-hidden shrink-0 ${
           showCode ? "w-[40%] rounded-lg border border-gray-200" : "w-auto"
         }`}
       >
@@ -301,6 +301,49 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
           </div>
         )}
       </div>
+
+      {/* Botón "Código fuente" en móvil — visible solo en < lg */}
+      <div className="lg:hidden fixed bottom-4 right-4 z-40">
+        {!showCode && (
+          <button
+            onClick={() => setShowCode(true)}
+            className="flex items-center gap-2 rounded-full border border-gray-200 bg-white shadow-lg px-4 py-2.5 transition-colors cursor-pointer hover:bg-gray-50"
+            title="Ver código fuente"
+          >
+            <FiCode className="size-4 text-[#0572CE]" />
+            <span className="text-xs text-[#0572CE] font-medium">
+              Código fuente
+            </span>
+          </button>
+        )}
+      </div>
+
+      {/* Modal de código fuente para móvil */}
+      {showCode && (
+        <div className="lg:hidden fixed inset-0 z-50 flex flex-col">
+          <div
+            className="absolute inset-0 bg-black/30"
+            onClick={() => setShowCode(false)}
+          />
+          <div className="relative mt-auto w-full max-h-[80vh] rounded-t-xl bg-white border-t border-gray-200 shadow-2xl flex flex-col overflow-hidden animate-slide-in-right">
+            <div className="flex items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2.5 shrink-0">
+              <span className="text-sm font-medium text-gray-600">
+                Código fuente
+              </span>
+              <button
+                onClick={() => setShowCode(false)}
+                className="rounded-md p-1.5 text-gray-400 hover:text-gray-800 hover:bg-gray-200 transition-colors"
+                title="Cerrar"
+              >
+                <FiX className="size-4" />
+              </button>
+            </div>
+            <div className="overflow-y-auto flex-1">
+              <CodePanel code={entry.code} />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

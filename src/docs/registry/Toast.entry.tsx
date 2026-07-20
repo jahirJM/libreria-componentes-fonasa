@@ -5,6 +5,7 @@ import type { ComponentEntry } from "./types";
 
 export const toastEntry: ComponentEntry =   {
     name: "Toast (Sonner)",
+    group: "Alertas",
     description:
       "Utiliza: Botones. Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
     code: toastCode,

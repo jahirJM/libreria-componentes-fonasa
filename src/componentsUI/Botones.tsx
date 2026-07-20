@@ -104,3 +104,52 @@ export const BotonSecundario = ({
     </button>
   );
 };
+
+export const BotonOutline = ({
+  label,
+  icon: Icon,
+  onClick,
+  isDisabled,
+  type = "button",
+  customClass = "",
+}: BotonesProps) => {
+  return (
+    <button
+      type={type}
+      disabled={isDisabled}
+      className={`inline-flex justify-center items-center rounded-2xl border px-4 py-1.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${
+        isDisabled
+          ? "border-gray-200 text-gray-300 cursor-not-allowed"
+          : "border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50 cursor-pointer"
+      } ${customClass}`}
+      onClick={onClick}
+    >
+      {Icon && <Icon className="text-xl mr-2" />}
+      {label}
+    </button>
+  );
+};
+
+export const BotonLink = ({
+  label,
+  icon: Icon,
+  onClick,
+  isDisabled,
+  customClass = "",
+}: BotonesProps) => {
+  return (
+    <button
+      type="button"
+      disabled={isDisabled}
+      className={`inline-flex justify-center items-center px-1 py-0.5 text-sm font-medium focus:outline-none ${
+        isDisabled
+          ? "text-gray-300 cursor-not-allowed"
+          : "text-[#0572CE] hover:text-blue-700 cursor-pointer"
+      } ${customClass}`}
+      onClick={onClick}
+    >
+      {Icon && <Icon className="text-lg mr-1.5" />}
+      {label}
+    </button>
+  );
+};

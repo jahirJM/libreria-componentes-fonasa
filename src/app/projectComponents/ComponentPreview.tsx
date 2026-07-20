@@ -19,7 +19,7 @@ function ColorPill({ color }: { color: { name: string; value: string; usage: str
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 hover:border-[#0572CE] transition-colors cursor-pointer"
+      className="w-full flex items-center justify-start gap-2 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 hover:border-[#0572CE] transition-colors cursor-pointer text-left"
     >
       <div
         className="size-5 rounded-md border border-gray-200 shrink-0"
@@ -224,7 +224,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                   Colores
                 </p>
-                <div className="grid grid-cols-3 gap-2 max-h-[300px] overflow-y-auto p-3 rounded-lg shadow-md border border-gray-100">
+                <div className="grid grid-cols-3 gap-2 h-[300px] overflow-y-auto p-3 rounded-lg shadow-md border border-gray-100 content-start">
                   {entry.colors.map((color) => (
                     <ColorPill key={color.name + color.value} color={color} />
                   ))}
@@ -238,7 +238,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                   Interface
                 </p>
-                <div className="rounded-lg border border-gray-100 shadow-md overflow-hidden max-h-[260px] overflow-y-auto">
+                <div className="rounded-lg border border-gray-100 shadow-md overflow-hidden h-[300px] overflow-y-auto bg-gray-50">
                   <CodePanel code={entry.propsInterface} language="typescript" />
                 </div>
               </div>

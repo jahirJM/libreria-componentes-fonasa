@@ -13,5 +13,5 @@ export function ComponentPage() {
     return <Navigate to="/components" replace />;
   }
 
-  return <ComponentPreview entry={entry} />;
+  return <ComponentPreview key={entry.name} entry={entry} />;
 }

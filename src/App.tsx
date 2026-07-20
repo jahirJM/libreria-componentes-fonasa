@@ -8,6 +8,7 @@ import { MethodsLayout } from "./app/layouts/MethodsLayout";
 import { MethodsIndex } from "./app/pages/MethodsIndex";
 import { MethodPage } from "./app/pages/MethodPage";
 import { FiltroInputPage } from "./app/pages/FiltroInputPage";
+import { ColorsLayout } from "./app/layouts/ColorsLayout";
 
 import { Home } from "./app/pages/Home";
 import { Docs } from "./app/pages/Docs";
@@ -21,6 +22,10 @@ function App() {
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/docs" element={<Docs />} />
+        </Route>
+
+        {/* Ruta con sidebar — Colores */}
+        <Route element={<ColorsLayout />}>
           <Route path="/colors" element={<ColorsPage />} />
         </Route>
 

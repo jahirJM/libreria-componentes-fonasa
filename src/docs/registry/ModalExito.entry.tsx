@@ -46,10 +46,10 @@ export const modalExitoEntry: ComponentEntry = {
   group: "Modales",
   dependencies: ["react-icons"],
   colors: [
-    { name: "black/50", value: "rgba(0,0,0,0.5)", usage: "Overlay/backdrop del modal" },
-    { name: "white", value: "#ffffff", usage: "Fondo del contenedor del modal" },
-    { name: "green-500", value: "#22c55e", usage: "Ícono de check (FaRegCheckCircle)" },
-    { name: "gray-700", value: "#374151", usage: "Texto del número de solicitud" },
+    { name: "Negro/50", value: "rgba(0,0,0,0.5)", usage: "Overlay/backdrop del modal" },
+    { name: "Blanco", value: "#ffffff", usage: "Fondo del contenedor del modal" },
+    { name: "Ícono confirmación", value: "#22c55e", usage: "Ícono de check (FaRegCheckCircle)" },
+    { name: "Texto (fondos claros)", value: "#374151", usage: "Texto del número de solicitud" },
   ],
   propsInterface: `interface ModalProps {
   setModalOpen: (open: boolean) => void;

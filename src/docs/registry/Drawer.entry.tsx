@@ -42,13 +42,13 @@ interface DrawerProps {
   className?: string;
 }`,
   colors: [
-    { name: "white", value: "#ffffff", usage: "Fondo del panel" },
-    { name: "black/40", value: "rgba(0,0,0,0.4)", usage: "Overlay de fondo" },
-    { name: "gray-100", value: "#f3f4f6", usage: "Borde del header y footer, hover botón cerrar" },
-    { name: "gray-400", value: "#9ca3af", usage: "Color del ícono X de cerrar" },
-    { name: "gray-600", value: "#4b5563", usage: "Color hover del ícono X" },
-    { name: "gray-900", value: "#111827", usage: "Texto del título" },
-    { name: "gray-500", value: "#6b7280", usage: "Texto de la descripción" },
+    { name: "Blanco", value: "#ffffff", usage: "Fondo del panel" },
+    { name: "Negro/40", value: "rgba(0,0,0,0.4)", usage: "Overlay de fondo" },
+    { name: "Fondo (cards)", value: "#f3f4f6", usage: "Bordes header/footer y hover botón cerrar" },
+    { name: "Texto (placeholder)", value: "#9ca3af", usage: "Ícono X de cerrar" },
+    { name: "Texto (medio)", value: "#4b5563", usage: "Hover ícono X" },
+    { name: "Fondos (overlay)", value: "#111827", usage: "Texto del título" },
+    { name: "Texto (secundario)", value: "#6b7280", usage: "Texto de la descripción" },
   ],
   variants: [
     {

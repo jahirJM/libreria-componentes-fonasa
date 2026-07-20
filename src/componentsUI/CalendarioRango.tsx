@@ -170,7 +170,7 @@ function CalendarPanel({
         if (holiday) {
           return base + clickable + "bg-[#0572CE]/30 text-[#0572CE] font-semibold";
         }
-        return base + clickable + "bg-[#B2E0F0] text-[#004A6E] font-medium";
+        return base + clickable + "bg-[#D4E8F7] text-[#1e3a5f] font-medium";
       }
     }
 
@@ -179,14 +179,14 @@ function CalendarPanel({
     }
 
     if (isSameDay(date, today)) {
-      return base + clickable + "border-2 border-[#008CB5] text-[#008CB5] font-semibold hover:bg-[#E0F4FA]";
+      return base + clickable + "border-2 border-[#008CB5] text-[#008CB5] font-semibold hover:bg-[#D4E8F7]";
     }
 
     if (isWeekend(date)) {
-      return base + clickable + "text-gray-400 hover:bg-[#E0F4FA]";
+      return base + clickable + "text-gray-400 hover:bg-[#D4E8F7]";
     }
 
-    return base + clickable + "text-gray-700 hover:bg-[#E0F4FA]";
+    return base + clickable + "text-gray-700 hover:bg-[#D4E8F7]";
   };
 
   return (
@@ -444,7 +444,7 @@ export function CalendarioRango({
           Feriado
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-[#B2E0F0]" />
+          <span className="w-3 h-3 rounded-full bg-[#D4E8F7]" />
           Rango seleccionado
         </div>
         <div className="flex items-center gap-1.5">

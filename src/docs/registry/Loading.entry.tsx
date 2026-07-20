@@ -8,9 +8,9 @@ export const loadingEntry: ComponentEntry = {
     "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner).",
   code: loadingCode,
   colors: [
-    { name: "Azul Fonasa", value: "#0572CE", usage: "Borde del spinner (border-t y border-b)" },
-    { name: "white", value: "#ffffff", usage: "Fondo del círculo contenedor del spinner y texto del mensaje" },
-    { name: "gray-900/70", value: "rgba(17,24,39,0.7)", usage: "Fondo oscuro del contenedor" },
+    { name: "Color primario (fonasa)", value: "#0572CE", usage: "Borde del spinner (border-t y border-b)" },
+    { name: "Blanco", value: "#ffffff", usage: "Fondo del círculo contenedor del spinner y texto del mensaje" },
+    { name: "Fondos (overlay)", value: "rgba(17,24,39,0.7)", usage: "Fondo oscuro del contenedor" },
   ],
   propsInterface: `interface LoadingProps {
   mensaje?: string;

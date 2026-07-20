@@ -25,7 +25,7 @@ export const UploadBox = ({
         "rounded-md border-dotted border-2",
         "transition-colors duration-200",
         error
-          ? "bg-red-50 border-red-300 hover:bg-red-100"
+          ? "bg-red-50 border-red-500 hover:bg-red-100"
           : "bg-gray-200 border-gray-300 hover:bg-gray-100",
         customClass
       )}

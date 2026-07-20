@@ -15,17 +15,17 @@ export const paginacionEntry: ComponentEntry =  {
 }`,
     colors: [
       {
-        name: "Azul Fonasa",
+        name: "Color primario (fonasa)",
         value: "#0572CE",
         usage: "Texto de los números de página y fondo de la página activa",
       },
       {
-        name: "white",
+        name: "Blanco",
         value: "#ffffff",
         usage: "Texto del número de página activa",
       },
       {
-        name: "blue-100",
+        name: "Fondo selecciones",
         value: "#dbeafe",
         usage: "Fondo hover de los botones de página",
       },

@@ -9,8 +9,8 @@ export const checkButtonEntry: ComponentEntry =   {
     code: checkButtonCode,
     dependencies: ["clsx"],
     colors: [
-      { name: "gray-700", value: "#374151", usage: "Texto de los labels" },
-      { name: "Accent (primary-color)", value: "#0572CE", usage: "Color del checkbox/radio cuando está seleccionado (accent-color CSS)" },
+      { name: "Texto (fondos claros)", value: "#374151", usage: "Texto de los labels" },
+      { name: "Color primario (fonasa)", value: "#0572CE", usage: "Color del checkbox/radio cuando está seleccionado (accent-color CSS)" },
     ],
     propsInterface: `interface Opcion {
   id: string;

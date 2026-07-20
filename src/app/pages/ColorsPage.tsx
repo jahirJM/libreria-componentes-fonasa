@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+
 interface ColorSwatch {
   name: string;
   value: string;
@@ -99,6 +102,8 @@ function ColorPreview({ color }: { color: ColorSwatch }) {
 }
 
 function Swatch({ color }: { color: ColorSwatch }) {
+  const [copied, setCopied] = useState(false);
+
   const isLight =
     color.value.toLowerCase().includes("ff") ||
     color.value.toLowerCase().includes("fa") ||
@@ -109,10 +114,20 @@ function Swatch({ color }: { color: ColorSwatch }) {
       (c) => c.toLowerCase() === color.value.toLowerCase()
     );
 
+  function handleCopy() {
+    navigator.clipboard.writeText(color.value);
+    fonasaToast.success(`Color ${color.value} copiado`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
-    <div className="relative group flex flex-col gap-1.5">
+    <div
+      className="relative group flex flex-col gap-1.5 cursor-pointer"
+      onClick={handleCopy}
+    >
       <div
-        className="h-20 w-full rounded-lg border border-gray-200 shadow-sm flex items-end p-2"
+        className="h-20 w-full rounded-lg border border-gray-200 shadow-sm flex items-end p-2 hover:ring-2 hover:ring-[#0572CE] transition-all relative"
         style={{ backgroundColor: color.value }}
       >
         <span
@@ -120,6 +135,15 @@ function Swatch({ color }: { color: ColorSwatch }) {
         >
           {color.value}
         </span>
+
+        {/* Check overlay */}
+        {copied && (
+          <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/30">
+            <svg className="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        )}
       </div>
 
       {/* Hover preview */}
@@ -140,9 +164,18 @@ function Swatch({ color }: { color: ColorSwatch }) {
   );
 }
 
+export function slugifySection(title: string): string {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 function Section({ section }: { section: ColorSection }) {
   return (
-    <div className="mb-10">
+    <div id={slugifySection(section.title)} className="mb-10 scroll-mt-20">
       <h3 className="text-lg font-semibold text-gray-800 mb-1">{section.title}</h3>
       {section.description && (
         <p className="text-sm text-gray-500 mb-4">{section.description}</p>
@@ -156,34 +189,34 @@ function Section({ section }: { section: ColorSection }) {
   );
 }
 
-const colorSections: ColorSection[] = [
+export const colorSections: ColorSection[] = [
   {
     title: "Colores Institucionales",
     description:
       "Paleta principal de Fonasa. Estos son los colores oficiales usados en títulos, acciones principales y elementos de marca.",
     colors: [
       {
-        name: "Primary (Celeste/Teal)",
+        name: "Color primario (prestadores naturales)",
         value: "#008CB5",
         description: "Títulos, stepper, textos activos",
       },
       {
-        name: "Azul Fonasa",
+        name: "Color primario (fonasa)",
         value: "#0572CE",
         description: "Sidebar, botones primarios, spinner",
       },
       {
-        name: "Azul Oscuro",
+        name: "Color secundario (fondos)",
         value: "rgba(1,91,147,0.68)",
         description: "Badge documentos, hover acciones",
       },
       {
-        name: "Celeste Claro",
+        name: "Color secundario (fondos)",
         value: "#D4E8F7",
         description: "Elementos informativos/opcionales",
       },
       {
-        name: "Blanco Azulado",
+        name: "Color secundario (fondos)",
         value: "#fafdff",
         description: "Fondo footer",
       },
@@ -194,33 +227,17 @@ const colorSections: ColorSection[] = [
     description:
       "Escala de grises usada para estados deshabilitados, bordes, fondos neutros y textos secundarios.",
     colors: [
-      { name: "gray-50", value: "#f9fafb", description: "Fondo sutil" },
-      { name: "gray-100", value: "#f3f4f6", description: "Fondo cards" },
-      { name: "gray-200", value: "#e5e7eb", description: "Bordes suaves" },
-      { name: "gray-300", value: "#d1d5db", description: "Bordes, dividers" },
-      { name: "gray-400", value: "#9ca3af", description: "Texto placeholder" },
-      { name: "gray-500", value: "#6b7280", description: "Texto secundario" },
-      { name: "gray-600", value: "#4b5563", description: "Texto medio" },
-      {
-        name: "gray-700",
-        value: "#374151",
-        description: "Texto en fondos claros",
-      },
-      {
-        name: "gray-800",
-        value: "#1f2937",
-        description: "Fondos dark, bordes dark",
-      },
-      {
-        name: "gray-900",
-        value: "#111827",
-        description: "Overlay, fondos oscuros",
-      },
-      {
-        name: "Secondary (texto)",
-        value: "#414951",
-        description: "Párrafos, spans, listas",
-      },
+      { name: "Fondo (sutil)", value: "#f9fafb", description: "gray-50" },
+      { name: "Fondo (cards)", value: "#f3f4f6", description: "gray-100" },
+      { name: "Bordes (suaves)", value: "#e5e7eb", description: "gray-200" },
+      { name: "Bordes (dividers)", value: "#d1d5db", description: "gray-300" },
+      { name: "Texto (placeholder)", value: "#9ca3af", description: "gray-400" },
+      { name: "Texto (secundario)", value: "#6b7280", description: "gray-500" },
+      { name: "Texto (medio)", value: "#4b5563", description: "gray-600" },
+      { name: "Texto (fondos claros)", value: "#374151", description: "gray-700" },
+      { name: "Fondos (dark)", value: "#1f2937", description: "gray-800" },
+      { name: "Fondos (overlay)", value: "#111827", description: "gray-900" },
+      { name: "Texto (párrafos)", value: "#414951", description: "Secondary" },
     ],
   },
   {
@@ -254,128 +271,56 @@ const colorSections: ColorSection[] = [
     ],
   },
   {
-    title: "Verdes — Éxito y Aprobación",
+    title: "Estados — Badges",
     description:
-      "Indicadores de estado exitoso, documentos válidos y solicitudes aprobadas.",
+      "Colores de fondo y texto para los badges de estado (aprobado, rechazado, pendiente).",
     colors: [
-      {
-        name: "green-50",
-        value: "#f0fdf4",
-        description: "Fondo badge aprobada",
-      },
-      {
-        name: "green-100",
-        value: "#dcfce7",
-        description: "Fondo confirmación",
-      },
-      {
-        name: "green-500",
-        value: "#22c55e",
-        description: "Ícono confirmación",
-      },
-      {
-        name: "green-600",
-        value: "#16a34a",
-        description: "Borde confirmación",
-      },
-      {
-        name: "green-700",
-        value: "#15803d",
-        description: "Texto badge aprobada",
-      },
-      {
-        name: "green-800",
-        value: "#166534",
-        description: "Texto éxito fuerte",
-      },
+      { name: "Fondo (aprobado)", value: "#f0fdf4", description: "green-50" },
+      { name: "Texto (aprobado)", value: "#15803d", description: "green-700" },
+      { name: "Fondo (rechazado)", value: "#fef2f2", description: "red-50" },
+      { name: "Texto (rechazado)", value: "#b91c1c", description: "red-700" },
+      { name: "Fondo (pendiente)", value: "#fefce8", description: "yellow-50" },
+      { name: "Texto (pendiente)", value: "#a16207", description: "yellow-700" },
     ],
   },
   {
-    title: "Rojos — Errores y Rechazos",
+    title: "Notificaciones / Respuestas",
     description:
-      "Indicadores de error, validaciones fallidas, solicitudes rechazadas y alertas críticas.",
+      "Colores de fondo y texto para toasts, alertas y mensajes de respuesta del sistema.",
     colors: [
-      { name: "red-50", value: "#fef2f2", description: "Fondo badge rechazada" },
-      { name: "red-100", value: "#fee2e2", description: "Fondo error suave" },
-      { name: "red-500", value: "#ef4444", description: "Bordes error, íconos" },
-      { name: "red-600", value: "#dc2626", description: "Botón eliminar" },
-      { name: "red-700", value: "#b91c1c", description: "Texto badge rechazada" },
-      { name: "red-800", value: "#991b1b", description: "Texto error fuerte" },
-      {
-        name: "red-900",
-        value: "#7f1d1d",
-        description: "Barra entorno QA",
-      },
+      { name: "Fondo (éxito)", value: "#dcfce7", description: "green-100" },
+      { name: "Texto (éxito)", value: "#166534", description: "green-800" },
+      { name: "Fondo (error)", value: "#fee2e2", description: "red-100" },
+      { name: "Texto (error)", value: "#991b1b", description: "red-800" },
+      { name: "Fondo (precaución)", value: "#fef9c3", description: "yellow-100" },
+      { name: "Texto (precaución)", value: "#78350f", description: "amber-900" },
     ],
   },
   {
-    title: "Amarillos — Advertencias y Pendientes",
+    title: "Barras de Entorno",
     description:
-      "Estados pendientes, badges de espera y barras de advertencia de entorno.",
+      "Colores de fondo y texto para las barras indicadoras de entorno (desarrollo y QA).",
     colors: [
-      {
-        name: "yellow-50",
-        value: "#fefce8",
-        description: "Fondo badge pendiente",
-      },
-      {
-        name: "yellow-100",
-        value: "#fef9c3",
-        description: "Fondo warning suave",
-      },
-      {
-        name: "yellow-600",
-        value: "#ca8a04",
-        description: "Borde pendiente",
-      },
-      {
-        name: "yellow-700",
-        value: "#a16207",
-        description: "Texto badge pendiente",
-      },
-      {
-        name: "yellow-900",
-        value: "#713f12",
-        description: "Barra entorno dev",
-      },
+      { name: "Fondo (desarrollo)", value: "#ca8a04", description: "yellow-600" },
+      { name: "Texto (desarrollo)", value: "#713f12", description: "yellow-900" },
+      { name: "Fondo (QA)", value: "#dc2626", description: "red-600" },
+      { name: "Texto (QA)", value: "#7f1d1d", description: "red-900" },
     ],
   },
   {
-    title: "Ámbar — Alertas",
+    title: "Variantes",
     description:
-      "Tonos ámbar para mensajes de advertencia y alertas no críticas.",
+      "Colores auxiliares para íconos, bordes, botones y acciones.",
     colors: [
-      {
-        name: "amber-500",
-        value: "#f59e0b",
-        description: "Ícono advertencia",
-      },
-      {
-        name: "amber-600",
-        value: "#d97706",
-        description: "Botón advertencia hover",
-      },
-      {
-        name: "amber-900",
-        value: "#78350f",
-        description: "Texto advertencia fuerte",
-      },
-    ],
-  },
-  {
-    title: "Cyan — Acciones y Feedback",
-    description: "Tonos cyan/teal para acciones de confirmación y feedback positivo.",
-    colors: [
-      {
-        name: "cyan-500",
-        value: "#06b6d4",
-        description: "Hover botón toast éxito",
-      },
-      {
-        name: "cyan-600",
-        value: "#0891b2",
-        description: "Botón toast éxito",
-      },
+      { name: "Ícono confirmación", value: "#22c55e", description: "green-500" },
+      { name: "Borde confirmación", value: "#16a34a", description: "green-600" },
+      { name: "Bordes error, íconos", value: "#ef4444", description: "red-500" },
+      { name: "Botón eliminar", value: "#dc2626", description: "red-600" },
+      { name: "Borde pendiente", value: "#ca8a04", description: "yellow-600" },
+      { name: "Ícono advertencia", value: "#f59e0b", description: "amber-500" },
+      { name: "Botón advertencia hover", value: "#d97706", description: "amber-600" },
+      { name: "Hover botón toast éxito", value: "#06b6d4", description: "cyan-500" },
+      { name: "Botón toast éxito", value: "#0891b2", description: "cyan-600" },
     ],
   },
 ];
@@ -383,6 +328,7 @@ const colorSections: ColorSection[] = [
 export function ColorsPage() {
   return (
     <div>
+      <FonasaToaster />
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
           Paleta de Colores

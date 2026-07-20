@@ -10,10 +10,10 @@ export const customModalEntry: ComponentEntry =  {
     group: "Modales",
     dependencies: ["@headlessui/react", "react-icons"],
     colors: [
-      { name: "white", value: "#ffffff", usage: "Fondo del modal" },
-      { name: "gray-800/50", value: "rgba(31,41,55,0.5)", usage: "Overlay de fondo" },
-      { name: "blue-900", value: "#1e3a8a", usage: "Título del modal" },
-      { name: "gray-700", value: "#374151", usage: "Ícono de cierre" },
+      { name: "Blanco", value: "#ffffff", usage: "Fondo del modal" },
+      { name: "Fondos (dark)", value: "rgba(31,41,55,0.5)", usage: "Overlay de fondo" },
+      { name: "Focus ring inputs", value: "#1e3a5f", usage: "Título del modal" },
+      { name: "Texto (fondos claros)", value: "#374151", usage: "Ícono de cierre" },
     ],
     propsInterface: `interface CustomModalProps {
   size: "sm" | "md" | "lg";

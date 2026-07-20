@@ -26,9 +26,9 @@ export const fonasaToast = {
   success: (mensaje: string) => {
     toast.success(mensaje, {
       style: {
-        background: "#ecfdf5",
+        background: "#dcfce7",
         border: "1px solid #0572CE",
-        color: "#064e3b",
+        color: "#166534",
       },
     });
   },
@@ -56,9 +56,9 @@ export const fonasaToast = {
   warning: (mensaje: string) => {
     toast.warning(mensaje, {
       style: {
-        background: "#fffbeb",
+        background: "#fefce8",
         border: "1px solid #d97706",
-        color: "#92400e",
+        color: "#78350f",
       },
     });
   },

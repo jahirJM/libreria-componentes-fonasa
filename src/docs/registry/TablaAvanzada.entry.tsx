@@ -10,13 +10,13 @@ export const tablaAvanzadaEntry: ComponentEntry =   {
     group: "Tablas",
     dependencies: ["clsx"],
     colors: [
-      { name: "blue-900", value: "#1e3a8a", usage: "Fondo del header" },
-      { name: "blue-800", value: "#1e40af", usage: "Fondo hover del header (ocultable)" },
-      { name: "blue-700", value: "#1d4ed8", usage: "Borde entre columnas contraídas" },
-      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
-      { name: "gray-200", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
-      { name: "gray-400", value: "#9ca3af", usage: "Texto de celda contraída (...)" },
-      { name: "gray-700", value: "#374151", usage: "Texto del cuerpo" },
+      { name: "Focus ring inputs", value: "#1e3a5f", usage: "Fondo del header" },
+      { name: "Texto links", value: "#1e40af", usage: "Fondo hover del header (ocultable)" },
+      { name: "Texto badge revisión", value: "#1d4ed8", usage: "Borde entre columnas contraídas" },
+      { name: "Blanco", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
+      { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
+      { name: "Texto (placeholder)", value: "#9ca3af", usage: "Texto de celda contraída (...)" },
+      { name: "Texto (fondos claros)", value: "#374151", usage: "Texto del cuerpo" },
     ],
     propsInterface: `interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
       classTable?: string;

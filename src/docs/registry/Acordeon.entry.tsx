@@ -15,20 +15,15 @@ export const acordeonEntry: ComponentEntry = {
   code: acordeonCode,
   dependencies: ["clsx", "react-icons"],
   colors: [
-    { name: "white", value: "#ffffff", usage: "Fondo del contenedor" },
-    {
-      name: "gray-200",
-      value: "#e5e7eb",
-      usage: "Separador entre ítems (divide-y) y borde",
-    },
-    { name: "gray-400", value: "#9ca3af", usage: "Chevron en estado cerrado" },
-    { name: "gray-600", value: "#4b5563", usage: "Texto del contenido" },
-    { name: "gray-900", value: "#111827", usage: "Texto del disparador" },
-    {
-      name: "blue-900",
-      value: "#1e3a8a",
-      usage: "Hover del disparador, chevron activo y focus ring",
-    },
+    { name: "Blanco", value: "#ffffff", usage: "Fondo del contenedor" },
+    { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Separador entre ítems (divide-y) y borde" },
+    { name: "Bordes (dividers)", value: "#d1d5db", usage: "Borde variante con bordes" },
+    { name: "Texto (placeholder)", value: "#9ca3af", usage: "Texto y chevron deshabilitados" },
+    { name: "Texto (secundario)", value: "#6b7280", usage: "Ícono y chevron cerrado" },
+    { name: "Texto (medio)", value: "#4b5563", usage: "Texto del contenido" },
+    { name: "Texto (fondos claros)", value: "#374151", usage: "Texto del disparador cerrado" },
+    { name: "Fondos (overlay)", value: "#111827", usage: "Texto del disparador activo" },
+    { name: "Color primario (fonasa)", value: "#0572CE", usage: "Focus ring del disparador" },
   ],
   propsInterface: `interface AcordeonProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "defaultValue"> {

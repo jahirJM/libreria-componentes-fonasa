@@ -25,19 +25,19 @@ const estilosVariante: Record<Variante, { contenedor: string; texto: string }> =
     texto: "text-3xl font-bold text-gray-800 tabular-nums",
   },
   moneda: {
-    contenedor: "rounded-xl border border-emerald-200 bg-linear-to-br from-emerald-50 to-emerald-100/50 p-5 text-center",
-    texto: "text-3xl font-bold text-emerald-700 tabular-nums",
+    contenedor: "rounded-xl border border-green-100 bg-linear-to-br from-green-50 to-green-100/50 p-5 text-center",
+    texto: "text-3xl font-bold text-green-700 tabular-nums",
   },
   codigo: {
     contenedor: "rounded-xl border border-gray-200 bg-gray-900 p-4",
-    texto: "text-base font-mono text-emerald-400",
+    texto: "text-base font-mono text-green-500",
   },
   exito: {
-    contenedor: "rounded-xl border border-green-200 bg-green-50 p-4",
+    contenedor: "rounded-xl border border-green-100 bg-green-50 p-4",
     texto: "text-lg font-semibold text-green-700",
   },
   error: {
-    contenedor: "rounded-xl border border-red-200 bg-red-50 p-4",
+    contenedor: "rounded-xl border border-red-100 bg-red-50 p-4",
     texto: "text-lg font-semibold text-red-700",
   },
 };

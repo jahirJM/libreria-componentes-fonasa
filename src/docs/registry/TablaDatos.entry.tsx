@@ -10,13 +10,13 @@ export const tablaDatosEntry: ComponentEntry =   {
     group: "Tablas",
     dependencies: ["clsx", "react-icons"],
     colors: [
-      { name: "Primary (Celeste/Teal)", value: "#008CB5", usage: "Fondo del header en variante primary" },
-      { name: "Secondary (Gris oscuro)", value: "#414951", usage: "Fondo del header en variante secondary" },
-      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de las filas" },
-      { name: "gray-400", value: "#9ca3af", usage: "Bordes de las filas" },
-      { name: "gray-600", value: "#4b5563", usage: "Íconos de editar/eliminar" },
-      { name: "gray-700", value: "#374151", usage: "Texto de las celdas" },
-      { name: "red-600", value: "#dc2626", usage: "Ícono de eliminar en hover" },
+      { name: "Color primario (prestadores naturales)", value: "#008CB5", usage: "Fondo del header en variante primary" },
+      { name: "Texto (párrafos)", value: "#414951", usage: "Fondo del header en variante secondary" },
+      { name: "Blanco", value: "#ffffff", usage: "Texto del header y fondo de las filas" },
+      { name: "Texto (placeholder)", value: "#9ca3af", usage: "Bordes de las filas" },
+      { name: "Texto (medio)", value: "#4b5563", usage: "Íconos de editar/eliminar" },
+      { name: "Texto (fondos claros)", value: "#374151", usage: "Texto de las celdas" },
+      { name: "Botón eliminar", value: "#dc2626", usage: "Ícono de eliminar en hover" },
     ],
     propsInterface: `interface TablaDatoFila {
   id: string;

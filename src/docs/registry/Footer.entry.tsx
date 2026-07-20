@@ -9,9 +9,10 @@ export const footerEntry: ComponentEntry = {
   code: footerCode,
   dependencies: ["react-icons"],
   colors: [
-    { name: "red-500", value: "#ef4444", usage: "Ícono de corazón" },
-    { name: "Fondo claro", value: "#fafdff", usage: "Fondo del footer" },
-    { name: "Azul Fonasa", value: "#0572CE", usage: "Texto en variante color Fonasa" },
+    { name: "Fondos (dark)", value: "#1f2937", usage: "Texto del footer por defecto" },
+    { name: "Bordes error, íconos", value: "#ef4444", usage: "Ícono de corazón" },
+    { name: "Color secundario (fondos)", value: "#fafdff", usage: "Fondo del footer" },
+    { name: "Color primario (fonasa)", value: "#0572CE", usage: "Texto en variante color Fonasa" },
   ],
   propsInterface: `interface FooterProps {
   textColor?: string; // Clase Tailwind para el color del texto (default: "text-gray-800")

@@ -10,13 +10,13 @@ export const inputEntry: ComponentEntry =   {
     code: inputCode,
     dependencies: ["clsx", "react-icons"],
     colors: [
-      { name: "white", value: "#ffffff", usage: "Fondo del input" },
-      { name: "gray-100", value: "#f3f4f6", usage: "Fondo del input deshabilitado" },
-      { name: "gray-300", value: "#d1d5db", usage: "Borde del input normal" },
-      { name: "gray-500", value: "#6b7280", usage: "Placeholder, íconos y texto auxiliar" },
-      { name: "blue-900", value: "#1e3a8a", usage: "Borde y ring en focus" },
-      { name: "red-500", value: "#ef4444", usage: "Borde, focus ring y borde en estado error" },
-      { name: "black", value: "#000000", usage: "Texto del input" },
+      { name: "Blanco", value: "#ffffff", usage: "Fondo del input" },
+      { name: "Fondo (cards)", value: "#f3f4f6", usage: "Fondo del input deshabilitado" },
+      { name: "Bordes (dividers)", value: "#d1d5db", usage: "Borde del input normal" },
+      { name: "Texto (secundario)", value: "#6b7280", usage: "Placeholder, íconos y texto auxiliar" },
+      { name: "Focus ring inputs", value: "#1e3a5f", usage: "Borde y ring en focus" },
+      { name: "Bordes error, íconos", value: "#ef4444", usage: "Borde, focus ring y borde en estado error" },
+      { name: "Negro", value: "#000000", usage: "Texto del input" },
     ],
     propsInterface: `interface InputProps
       extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value"> {

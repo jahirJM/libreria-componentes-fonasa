@@ -10,13 +10,13 @@ export const inputCalendarioEntry: ComponentEntry = {
   code: inputCalendarioCode,
   dependencies: ["date-holidays"],
   colors: [
-    { name: "Primary (Azul Fonasa)", value: "#0572CE", usage: "Focus ring y label activo" },
-    { name: "gray-300", value: "#d1d5db", usage: "Borde del input" },
-    { name: "gray-400", value: "#9ca3af", usage: "Íconos y placeholder" },
-    { name: "gray-500", value: "#6b7280", usage: "Labels internos" },
-    { name: "gray-800", value: "#1f2937", usage: "Texto de la fecha seleccionada" },
-    { name: "red-500", value: "#ef4444", usage: "Borde en estado error" },
-    { name: "white", value: "#ffffff", usage: "Fondo del input" },
+    { name: "Color primario (fonasa)", value: "#0572CE", usage: "Focus ring y label activo" },
+    { name: "Bordes (dividers)", value: "#d1d5db", usage: "Borde del input" },
+    { name: "Texto (placeholder)", value: "#9ca3af", usage: "Íconos y placeholder" },
+    { name: "Texto (secundario)", value: "#6b7280", usage: "Labels internos" },
+    { name: "Fondos (dark)", value: "#1f2937", usage: "Texto de la fecha seleccionada" },
+    { name: "Bordes error, íconos", value: "#ef4444", usage: "Borde en estado error" },
+    { name: "Blanco", value: "#ffffff", usage: "Fondo del input" },
   ],
   propsInterface: `interface InputCalendarioProps {
   /** Tipo de selección: "fecha" para una sola fecha, "rango" para inicio y fin */

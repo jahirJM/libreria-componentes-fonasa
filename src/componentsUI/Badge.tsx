@@ -26,8 +26,8 @@ const dotColors: Record<BadgeVariant, string> = {
   counter: "bg-gray-400",
   documentos: "bg-[var(--different-color)]",
   especialidad: "bg-gray-400",
-  "estado-pendiente": "bg-yellow-500",
-  "estado-revision": "bg-blue-500",
+  "estado-pendiente": "bg-yellow-600",
+  "estado-revision": "bg-blue-600",
   "estado-aprobada": "bg-green-500",
   "estado-rechazada": "bg-red-500",
   "estado-default": "bg-gray-400",
@@ -52,11 +52,11 @@ export const Badge = ({
     documentos: "bg-(--different-color) text-white!",
     especialidad: "bg-gray-100 text-gray-500 border border-gray-200",
     "estado-pendiente":
-      "bg-yellow-100 text-yellow-800! border border-yellow-300",
-    "estado-revision": "bg-blue-100 text-blue-800! border border-blue-300",
+      "bg-yellow-50 text-yellow-700! border border-yellow-100",
+    "estado-revision": "bg-blue-50 text-blue-800! border border-blue-100",
     "estado-aprobada":
-      "bg-green-100! text-green-800! border border-green-300",
-    "estado-rechazada": "bg-red-200 text-red-900! border border-red-400",
+      "bg-green-50! text-green-800! border border-green-100",
+    "estado-rechazada": "bg-red-100 text-red-900! border border-red-500",
     "estado-default": "bg-gray-100 text-gray-700! border border-gray-300",
   };
 

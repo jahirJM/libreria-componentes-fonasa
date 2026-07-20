@@ -78,7 +78,7 @@ const mapaEstilos: Record<
     numero: "text-green-700",
   },
   advertencia: {
-    contenedor: "border-amber-100 bg-white",
+    contenedor: "border-amber-50 bg-white",
     acento: "bg-amber-50",
     icono: "text-amber-500",
     numero: "text-amber-600",

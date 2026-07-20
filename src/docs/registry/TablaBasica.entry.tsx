@@ -10,10 +10,10 @@ export const tablaBasicaEntry: ComponentEntry =   {
     group: "Tablas",
     dependencies: ["clsx"],
     colors: [
-      { name: "blue-900", value: "#1e3a8a", usage: "Fondo del header" },
-      { name: "white", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
-      { name: "gray-200", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
-      { name: "gray-700", value: "#374151", usage: "Texto del cuerpo" },
+      { name: "Focus ring inputs", value: "#1e3a5f", usage: "Fondo del header" },
+      { name: "Blanco", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },
+      { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Borde exterior de la tabla" },
+      { name: "Texto (fondos claros)", value: "#374151", usage: "Texto del cuerpo" },
     ],
     propsInterface: `interface TablaBasicaProps extends TableHTMLAttributes<HTMLTableElement> {
   classTable?: string;

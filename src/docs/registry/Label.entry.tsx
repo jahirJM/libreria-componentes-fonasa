@@ -9,9 +9,9 @@ export const labelEntry: ComponentEntry =   {
     code: labelCode,
     dependencies: ["clsx", "react-icons"],
     colors: [
-      { name: "gray-600", value: "#4b5563", usage: "Texto del label" },
-      { name: "red-500", value: "#ef4444", usage: "Asterisco de campo requerido (*)" },
-      { name: "red-400", value: "#f87171", usage: "Texto e ícono del mensaje de error 'requerido'" },
+      { name: "Texto (medio)", value: "#4b5563", usage: "Texto del label" },
+      { name: "Bordes error, íconos", value: "#ef4444", usage: "Asterisco de campo requerido (*)" },
+      { name: "Bordes error, íconos", value: "#ef4444", usage: "Texto e ícono del mensaje de error 'requerido'" },
     ],
     propsInterface: `interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
       text: string;

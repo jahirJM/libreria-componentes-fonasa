@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types";
 import { CodePanel } from "./CodePanel";
 import { FiCode, FiCopy, FiX } from "react-icons/fi";
+import { IoMdHome } from "react-icons/io";
 import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
 
 interface ComponentPreviewProps {
@@ -181,10 +182,16 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
       <FonasaToaster />
       {/* Columna izquierda: todo el contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "pr-4" : "pr-0"}`}>
-        {/* Nombre y descripción */}
-        <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-          Componentes
-        </p>
+        {/* Breadcrumb: Inicio */}
+        <Link
+          to="/components"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
+          title="Volver al inicio"
+        >
+          <IoMdHome className="size-4" />
+          <span className="font-medium">Inicio</span>
+        </Link>
+
         <h2 className="text-4xl font-bold text-gray-800 mb-2">{entry.name}</h2>
         {entry.description && (
           <p className="text-gray-500 mb-3">{entry.description}</p>
@@ -211,13 +218,13 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         {/* Metadata: colores + interface en fila */}
         {(entry.colors?.length || entry.propsInterface) && (
           <div className="flex flex-col lg:flex-row gap-4 mb-8">
-            {/* Colores — grid 3 cols, max 3 filas, scroll-y */}
+            {/* Colores — grid 3 cols, con sombra */}
             {entry.colors && entry.colors.length > 0 && (
               <div className="lg:w-1/2">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                   Colores
                 </p>
-                <div className="grid grid-cols-3 gap-2 max-h-[132px] overflow-y-auto pb-2 pr-1">
+                <div className="grid grid-cols-3 gap-2 max-h-[300px] overflow-y-auto p-3 rounded-lg shadow-md border border-gray-100">
                   {entry.colors.map((color) => (
                     <ColorPill key={color.name + color.value} color={color} />
                   ))}
@@ -225,13 +232,13 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
               </div>
             )}
 
-            {/* Interface — max ~10 líneas, scroll-y */}
+            {/* Interface — misma altura max */}
             {entry.propsInterface && (
               <div className="lg:w-1/2 min-w-0">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                   Interface
                 </p>
-                <div className="rounded-lg border border-gray-200 overflow-hidden max-h-[240px] overflow-y-auto">
+                <div className="rounded-lg border border-gray-100 shadow-md overflow-hidden max-h-[260px] overflow-y-auto">
                   <CodePanel code={entry.propsInterface} language="typescript" />
                 </div>
               </div>

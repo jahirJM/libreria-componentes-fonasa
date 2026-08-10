@@ -20,9 +20,9 @@ export const inputCalendarioEntry: ComponentEntry = {
     { name: "Blanco", value: "#ffffff", usage: "Fondo del input" },
   ],
   propsInterface: `interface InputCalendarioProps {
-  /** Tipo de selección: "fecha" para una sola fecha, "rango" para inicio y fin */
-  tipo?: "fecha" | "rango";
-  /** Callback cuando se selecciona una fecha (modo fecha) */
+  /** Tipo de selección: "fecha" para una sola fecha, "rango" para inicio y fin, "nacimiento" para fecha de nacimiento */
+  tipo?: "fecha" | "rango" | "nacimiento";
+  /** Callback cuando se selecciona una fecha (modo fecha o nacimiento) */
   onDateSelect?: (date: Date) => void;
   /** Callback cuando se selecciona un rango completo (modo rango) */
   onRangeSelect?: (start: Date, end: Date) => void;
@@ -54,6 +54,12 @@ export const inputCalendarioEntry: ComponentEntry = {
   error?: boolean;
   /** Deshabilitar el campo */
   disabled?: boolean;
+  /** Validar edad mínima (solo modo nacimiento) */
+  validarEdad?: boolean;
+  /** Edad mínima requerida en años (solo cuando validarEdad es true) */
+  edadMinima?: number;
+  /** Callback cuando la validación de edad falla */
+  onEdadInvalida?: (edadCalculada: number) => void;
 }`,
   variants: [
     {
@@ -91,6 +97,46 @@ export const inputCalendarioEntry: ComponentEntry = {
   tipo="rango"
   mode="double"
   onRangeSelect={(start, end) => console.log(start, end)}
+/>`,
+      responsive: true,
+    },
+    {
+      label: "Fecha de nacimiento (sin validación de edad)",
+      props: { tipo: "nacimiento" },
+      render: () => (
+        <div className="w-full max-w-sm">
+          <InputCalendario
+            tipo="nacimiento"
+            onDateSelect={(date) => console.log("Nacimiento:", date)}
+          />
+        </div>
+      ),
+      usageCode: `<InputCalendario
+  tipo="nacimiento"
+  onDateSelect={(date) => console.log("Nacimiento:", date)}
+/>`,
+      responsive: true,
+    },
+    {
+      label: "Fecha de nacimiento (edad mínima 18 años)",
+      props: { tipo: "nacimiento", validarEdad: true, edadMinima: 18 },
+      render: () => (
+        <div className="w-full max-w-sm">
+          <InputCalendario
+            tipo="nacimiento"
+            validarEdad={true}
+            edadMinima={18}
+            onDateSelect={(date) => console.log("Nacimiento válido:", date)}
+            onEdadInvalida={(edad) => console.log("Edad insuficiente:", edad)}
+          />
+        </div>
+      ),
+      usageCode: `<InputCalendario
+  tipo="nacimiento"
+  validarEdad={true}
+  edadMinima={18}
+  onDateSelect={(date) => console.log("Nacimiento válido:", date)}
+  onEdadInvalida={(edad) => console.log("Edad insuficiente:", edad)}
 />`,
       responsive: true,
     },

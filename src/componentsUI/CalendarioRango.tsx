@@ -30,6 +30,8 @@ interface CalendarioRangoProps {
   maxDate?: Date;
   /** Callback para botón de confirmar. Si se pasa, muestra un botón "Seleccionar" */
   onConfirm?: () => void;
+  /** Modo de selección especial: "nacimiento" habilita selectores rápidos de año y mes */
+  selectionMode?: "nacimiento";
 }
 
 const DAYS_OF_WEEK = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"];
@@ -102,6 +104,7 @@ function CalendarPanel({
   label,
   minDate,
   maxDate,
+  hideTitle,
 }: {
   month: number;
   year: number;
@@ -116,6 +119,7 @@ function CalendarPanel({
   label?: string;
   minDate?: Date;
   maxDate?: Date;
+  hideTitle?: boolean;
 }) {
   const calendarDays = useMemo(() => generateCalendarDays(month, year), [month, year]);
 
@@ -197,9 +201,11 @@ function CalendarPanel({
         </div>
       )}
 
-      <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
-        {MONTH_NAMES[month]} {year}
-      </h3>
+      {!hideTitle && (
+        <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
+          {MONTH_NAMES[month]} {year}
+        </h3>
+      )}
 
       <div className="grid grid-cols-7 mb-1">
         {DAYS_OF_WEEK.map((day) => (
@@ -255,6 +261,7 @@ export function CalendarioRango({
   minDate,
   maxDate,
   onConfirm,
+  selectionMode,
 }: CalendarioRangoProps) {
   const today = new Date();
   const [leftMonth, setLeftMonth] = useState(initialMonth ?? today.getMonth());
@@ -262,6 +269,8 @@ export function CalendarioRango({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
+  const [showYearSelector, setShowYearSelector] = useState(selectionMode === "nacimiento");
+  const [showMonthSelector, setShowMonthSelector] = useState(false);
 
   const rightPanel = useMemo(() => getNextMonth(leftMonth, leftYear), [leftMonth, leftYear]);
 
@@ -357,165 +366,267 @@ export function CalendarioRango({
       ? `w-[680px] bg-white rounded-xl shadow-lg border border-gray-200 p-5 ${className}`
       : `w-[340px] bg-white rounded-xl shadow-lg border border-gray-200 p-4 ${className}`;
 
+  // Generar rango de años para el selector de nacimiento (100 años hacia atrás)
+  const yearOptions = useMemo(() => {
+    const currentYear = today.getFullYear();
+    const years: number[] = [];
+    for (let y = currentYear; y >= currentYear - 100; y--) {
+      years.push(y);
+    }
+    return years;
+  }, []);
+
+  const handleYearSelect = (year: number) => {
+    setLeftYear(year);
+    setShowYearSelector(false);
+    setShowMonthSelector(true);
+  };
+
+  const handleMonthSelect = (month: number) => {
+    setLeftMonth(month);
+    setShowMonthSelector(false);
+  };
+
   return (
     <div className={containerClass}>
-      {/* Header con navegación */}
-      <div className="flex items-center justify-between mb-4">
-        <button
-          type="button"
-          onClick={prevMonth}
-          className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
-          aria-label="Mes anterior"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
+      {/* Selector de año (modo nacimiento) */}
+      {selectionMode === "nacimiento" && showYearSelector && (
+        <div className="mb-2">
+          <h3 className="text-sm font-semibold text-gray-800 text-center mb-3">Selecciona el año de nacimiento</h3>
+          <div className="grid grid-cols-4 gap-2 max-h-[240px] overflow-y-auto pr-1">
+            {yearOptions.map((year) => (
+              <button
+                key={year}
+                type="button"
+                onClick={() => handleYearSelect(year)}
+                className={`px-2 py-1.5 text-sm rounded-lg transition-colors cursor-pointer ${
+                  year === leftYear
+                    ? "bg-[#0572CE] text-white font-semibold"
+                    : "text-gray-700 hover:bg-[#D4E8F7]"
+                }`}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
-        {mode === "single" && (
-          <h2 className="text-base font-semibold text-gray-800">
-            {MONTH_NAMES[leftMonth]} {leftYear}
-          </h2>
-        )}
+      {/* Selector de mes (modo nacimiento) */}
+      {selectionMode === "nacimiento" && showMonthSelector && !showYearSelector && (
+        <div className="mb-2">
+          <h3 className="text-sm font-semibold text-gray-800 text-center mb-3">
+            Selecciona el mes — {leftYear}
+          </h3>
+          <div className="grid grid-cols-3 gap-2">
+            {MONTH_NAMES.map((name, idx) => (
+              <button
+                key={name}
+                type="button"
+                onClick={() => handleMonthSelect(idx)}
+                className={`px-2 py-2 text-sm rounded-lg transition-colors cursor-pointer ${
+                  idx === leftMonth
+                    ? "bg-[#0572CE] text-white font-semibold"
+                    : "text-gray-700 hover:bg-[#D4E8F7]"
+                }`}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
-        {mode === "double" && (
-          <h2 className="text-base font-semibold text-gray-800">
-            {MONTH_NAMES[leftMonth]} — {MONTH_NAMES[rightPanel.month]} {rightPanel.year}
-          </h2>
-        )}
+      {/* Contenido principal del calendario (oculto mientras se selecciona año/mes en nacimiento) */}
+      {!(selectionMode === "nacimiento" && (showYearSelector || showMonthSelector)) && (
+        <>
+          {/* Header con navegación */}
+          <div className="flex items-center justify-between mb-4">
+            <button
+              type="button"
+              onClick={prevMonth}
+              className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
+              aria-label="Mes anterior"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
 
-        <button
-          type="button"
-          onClick={nextMonth}
-          className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
-          aria-label="Mes siguiente"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
+            {mode === "single" && (
+              <div className="flex items-center gap-1">
+                {selectionMode === "nacimiento" ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setShowMonthSelector(true)}
+                      className="text-base font-semibold text-gray-800 hover:text-[#0572CE] transition-colors cursor-pointer"
+                    >
+                      {MONTH_NAMES[leftMonth]}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowYearSelector(true)}
+                      className="text-base font-semibold text-gray-800 hover:text-[#0572CE] transition-colors cursor-pointer"
+                    >
+                      {leftYear}
+                    </button>
+                  </>
+                ) : (
+                  <h2 className="text-base font-semibold text-gray-800">
+                    {MONTH_NAMES[leftMonth]} {leftYear}
+                  </h2>
+                )}
+              </div>
+            )}
 
-      {/* Paneles de calendario */}
-      <div className={mode === "double" ? "flex gap-6" : ""}>
-        <CalendarPanel
-          month={leftMonth}
-          year={leftYear}
-          holidays={holidays}
-          startDate={startDate}
-          endDate={endDate}
-          hoveredDate={hoveredDate}
-          onDayClick={handleDayClick}
-          onDayHover={setHoveredDate}
-          onDayLeave={() => setHoveredDate(null)}
-          today={today}
-          label={mode === "double" ? "Fecha inicio" : undefined}
-          minDate={minDate}
-          maxDate={maxDate}
-        />
+            {mode === "double" && (
+              <h2 className="text-base font-semibold text-gray-800">
+                {MONTH_NAMES[leftMonth]} — {MONTH_NAMES[rightPanel.month]} {rightPanel.year}
+              </h2>
+            )}
 
-        {mode === "double" && (
-          <>
-            <div className="w-px bg-gray-200 self-stretch" />
+            <button
+              type="button"
+              onClick={nextMonth}
+              className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
+              aria-label="Mes siguiente"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
 
+          {/* Paneles de calendario */}
+          <div className={mode === "double" ? "flex gap-6" : ""}>
             <CalendarPanel
-              month={rightPanel.month}
-              year={rightPanel.year}
+              month={leftMonth}
+              year={leftYear}
               holidays={holidays}
               startDate={startDate}
               endDate={endDate}
-              hoveredDate={hoveredDate}
+              hoveredDate={selectionMode === "nacimiento" ? null : hoveredDate}
               onDayClick={handleDayClick}
-              onDayHover={setHoveredDate}
+              onDayHover={selectionMode === "nacimiento" ? () => {} : setHoveredDate}
               onDayLeave={() => setHoveredDate(null)}
-              today={today}
-              label="Fecha término"
+              today={selectionMode === "nacimiento" ? new Date(0) : today}
+              label={mode === "double" ? "Fecha inicio" : undefined}
               minDate={minDate}
               maxDate={maxDate}
+              hideTitle={selectionMode === "nacimiento"}
             />
-          </>
-        )}
-      </div>
 
-      {/* Leyenda */}
-      <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap gap-3 text-xs text-gray-600">
-        <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-[#0572CE]" />
-          Feriado
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-[#D4E8F7]" />
-          Rango seleccionado
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full border-2 border-[#008CB5]" />
-          Hoy
-        </div>
-        {/* Indicador de filtro activo */}
-        {!(feriados && habiles && finSemana) && (
-          <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-red-500" />
-            {habiles && !feriados && !finSemana && "Solo días hábiles"}
-            {habiles && feriados && !finSemana && "Días hábiles y feriados"}
-            {habiles && !feriados && finSemana && "Días hábiles y fin de semana"}
-            {!habiles && feriados && finSemana && "Solo feriados y fin de semana"}
-            {!habiles && feriados && !finSemana && "Solo feriados"}
-            {!habiles && !feriados && finSemana && "Solo fin de semana"}
-            {!habiles && !feriados && !finSemana && "Sin conteo"}
-          </div>
-        )}
-      </div>
-
-      {/* Info de selección + conteo inline + botón confirmar */}
-      {startDate && (
-        <div className="mt-3 text-xs text-gray-600 bg-gray-50 rounded-lg p-2.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {onDateSelect ? (
-              <div>
-                <span className="font-medium text-[#0572CE]">Fecha:</span>{" "}
-                {startDate.toLocaleDateString("es-CL")}
-              </div>
-            ) : (
+            {mode === "double" && (
               <>
-                <div>
-                  <span className="font-medium text-[#0572CE]">Inicio:</span>{" "}
-                  {startDate.toLocaleDateString("es-CL")}
-                </div>
-                {endDate && (
-                  <>
-                    <span className="text-gray-300">→</span>
-                    <div>
-                      <span className="font-medium text-[#0572CE]">Fin:</span>{" "}
-                      {endDate.toLocaleDateString("es-CL")}
-                    </div>
-                  </>
-                )}
-                {!endDate && (
-                  <span className="text-gray-400">(selecciona fecha fin)</span>
-                )}
+                <div className="w-px bg-gray-200 self-stretch" />
+
+                <CalendarPanel
+                  month={rightPanel.month}
+                  year={rightPanel.year}
+                  holidays={holidays}
+                  startDate={startDate}
+                  endDate={endDate}
+                  hoveredDate={hoveredDate}
+                  onDayClick={handleDayClick}
+                  onDayHover={setHoveredDate}
+                  onDayLeave={() => setHoveredDate(null)}
+                  today={today}
+                  label="Fecha término"
+                  minDate={minDate}
+                  maxDate={maxDate}
+                />
               </>
             )}
           </div>
 
-          <div className="flex items-center gap-2 ml-3">
-            {/* Conteo de días */}
-            {showStats && countedDays !== null && (
-              <span className="bg-[#0572CE] text-white px-2.5 py-1 rounded-full text-[11px] font-semibold">
-                {countedDays} días
-              </span>
-            )}
-            {/* Botón confirmar */}
-            {onConfirm && (
-              <button
-                type="button"
-                onClick={onConfirm}
-                className="bg-[#0572CE] text-white px-3 py-1 rounded-2xl text-[11px] font-medium hover:bg-blue-700 transition-colors cursor-pointer"
-              >
-                Seleccionar
-              </button>
-            )}
-          </div>
-        </div>
+          {/* Leyenda */}
+          {selectionMode !== "nacimiento" && (
+            <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap gap-3 text-xs text-gray-600">
+              <div className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-[#0572CE]" />
+                Feriado
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-[#D4E8F7]" />
+                Rango seleccionado
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full border-2 border-[#008CB5]" />
+                Hoy
+              </div>
+              {/* Indicador de filtro activo */}
+              {!(feriados && habiles && finSemana) && (
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-full bg-red-500" />
+                  {habiles && !feriados && !finSemana && "Solo días hábiles"}
+                  {habiles && feriados && !finSemana && "Días hábiles y feriados"}
+                  {habiles && !feriados && finSemana && "Días hábiles y fin de semana"}
+                  {!habiles && feriados && finSemana && "Solo feriados y fin de semana"}
+                  {!habiles && feriados && !finSemana && "Solo feriados"}
+                  {!habiles && !feriados && finSemana && "Solo fin de semana"}
+                  {!habiles && !feriados && !finSemana && "Sin conteo"}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Sin leyenda ni info para nacimiento */}
+
+          {/* Info de selección + conteo inline + botón confirmar */}
+          {startDate && selectionMode !== "nacimiento" && (
+            <div className="mt-3 text-xs text-gray-600 bg-gray-50 rounded-lg p-2.5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {onDateSelect ? (
+                  <div>
+                    <span className="font-medium text-[#0572CE]">
+                      {selectionMode === "nacimiento" ? "Fecha nacimiento:" : "Fecha:"}
+                    </span>{" "}
+                    {startDate.toLocaleDateString("es-CL")}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <span className="font-medium text-[#0572CE]">Inicio:</span>{" "}
+                      {startDate.toLocaleDateString("es-CL")}
+                    </div>
+                    {endDate && (
+                      <>
+                        <span className="text-gray-300">→</span>
+                        <div>
+                          <span className="font-medium text-[#0572CE]">Fin:</span>{" "}
+                          {endDate.toLocaleDateString("es-CL")}
+                        </div>
+                      </>
+                    )}
+                    {!endDate && (
+                      <span className="text-gray-400">(selecciona fecha fin)</span>
+                    )}
+                  </>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 ml-3">
+                {/* Conteo de días */}
+                {showStats && countedDays !== null && (
+                  <span className="bg-[#0572CE] text-white px-2.5 py-1 rounded-full text-[11px] font-semibold">
+                    {countedDays} días
+                  </span>
+                )}
+                {/* Botón confirmar */}
+                {onConfirm && (
+                  <button
+                    type="button"
+                    onClick={onConfirm}
+                    className="bg-[#0572CE] text-white px-3 py-1 rounded-2xl text-[11px] font-medium hover:bg-blue-700 transition-colors cursor-pointer"
+                  >
+                    Seleccionar
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

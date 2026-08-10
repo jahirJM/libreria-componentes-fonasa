@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { CalendarioRango } from "./CalendarioRango";
 
 interface InputCalendarioProps {
-  /** Tipo de selección: "fecha" para una sola fecha, "rango" para inicio y fin */
-  tipo?: "fecha" | "rango";
-  /** Callback cuando se selecciona una fecha (modo fecha) */
+  /** Tipo de selección: "fecha" para una sola fecha, "rango" para inicio y fin, "nacimiento" para fecha de nacimiento */
+  tipo?: "fecha" | "rango" | "nacimiento";
+  /** Callback cuando se selecciona una fecha (modo fecha o nacimiento) */
   onDateSelect?: (date: Date) => void;
   /** Callback cuando se selecciona un rango completo (modo rango) */
   onRangeSelect?: (start: Date, end: Date) => void;
@@ -36,13 +36,21 @@ interface InputCalendarioProps {
   error?: boolean;
   /** Deshabilitar el campo */
   disabled?: boolean;
+  /** Validar edad mínima (solo modo nacimiento). Si se pasa, valida que la fecha seleccionada cumpla la edad mínima */
+  validarEdad?: boolean;
+  /** Edad mínima requerida en años (solo cuando validarEdad es true) */
+  edadMinima?: number;
+  /** Callback cuando la validación de edad falla */
+  onEdadInvalida?: (edadCalculada: number) => void;
+  /** Bloquear fechas desde hoy en adelante (solo modo nacimiento). Default: true */
+  bloquearFuturo?: boolean;
 }
 
 export function InputCalendario({
   tipo = "rango",
   onDateSelect,
   onRangeSelect,
-  labelInicio = tipo === "fecha" ? "Fecha" : "Fecha inicio",
+  labelInicio = tipo === "nacimiento" ? "Fecha de nacimiento" : tipo === "fecha" ? "Fecha" : "Fecha inicio",
   labelFin = "Fecha fin",
   placeholderInicio = "dd/mm/aaaa",
   placeholderFin = "dd/mm/aaaa",
@@ -56,11 +64,28 @@ export function InputCalendario({
   className = "",
   error = false,
   disabled = false,
+  validarEdad = false,
+  edadMinima = 18,
+  onEdadInvalida,
+  bloquearFuturo = true,
 }: InputCalendarioProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [edadError, setEdadError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Calcular edad a partir de fecha de nacimiento
+  const calcularEdad = (fechaNacimiento: Date): number => {
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+    const mesActual = hoy.getMonth();
+    const mesNac = fechaNacimiento.getMonth();
+    if (mesActual < mesNac || (mesActual === mesNac && hoy.getDate() < fechaNacimiento.getDate())) {
+      edad--;
+    }
+    return edad;
+  };
 
   // Cerrar al clickear fuera
   useEffect(() => {
@@ -96,17 +121,45 @@ export function InputCalendario({
     onDateSelect?.(date);
   };
 
+  // Modo nacimiento — valida edad si corresponde
+  const handleNacimientoSelect = (date: Date) => {
+    setStartDate(date);
+    setEndDate(null);
+    setEdadError(null);
+
+    if (validarEdad) {
+      const edad = calcularEdad(date);
+      if (edad < edadMinima) {
+        setEdadError(`La persona debe tener al menos ${edadMinima} años (edad calculada: ${edad})`);
+        onEdadInvalida?.(edad);
+        return;
+      }
+    }
+
+    onDateSelect?.(date);
+  };
+
   const formatDate = (date: Date | null): string => {
     if (!date) return "";
     return date.toLocaleDateString("es-CL");
   };
 
-  const borderClass = error
+  const borderClass = error || edadError
     ? "border-red-500 focus-within:border-red-500 focus-within:ring-red-500"
     : "border-gray-300 focus-within:border-[#0572CE] focus-within:ring-[#0572CE]";
 
+  // maxDate para nacimiento: bloquea hoy y futuro si bloquearFuturo es true
+  const effectiveMaxDate = (() => {
+    if (tipo === "nacimiento" && !maxDate && bloquearFuturo) {
+      const ayer = new Date();
+      ayer.setDate(ayer.getDate() - 1);
+      return ayer;
+    }
+    return maxDate;
+  })();
+
   return (
-    <div ref={containerRef} className={`relative ${className}`} style={{ width: mode === "double" ? 680 : 340 }}>
+    <div ref={containerRef} className={`relative ${className}`} style={{ width: mode === "double" && tipo !== "nacimiento" ? 680 : 340 }}>
       {/* Input(s) de fecha */}
       <div
         className={`flex items-center gap-2 rounded-md border px-3 py-3 transition-colors focus-within:ring-2 ${borderClass} ${
@@ -165,20 +218,26 @@ export function InputCalendario({
         </svg>
       </div>
 
+      {/* Mensaje error de edad */}
+      {edadError && (
+        <p className="mt-1 text-xs text-red-600 font-medium">{edadError}</p>
+      )}
+
       {/* Popover con calendario — no se cierra solo, el usuario lo cierra */}
       {isOpen && (
         <div className="absolute z-50 mt-2 left-0 shadow-xl rounded-xl">
           <CalendarioRango
-            mode={mode}
+            mode={tipo === "nacimiento" ? "single" : mode}
             showStats={tipo === "rango" ? showStats : false}
             feriados={feriados}
             habiles={habiles}
             finSemana={finSemana}
             minDate={minDate}
-            maxDate={maxDate}
+            maxDate={effectiveMaxDate}
+            selectionMode={tipo === "nacimiento" ? "nacimiento" : undefined}
             onRangeSelect={tipo === "rango" ? handleRangeSelect : undefined}
             onStartSelect={tipo === "rango" ? handleStartSelect : undefined}
-            onDateSelect={tipo === "fecha" ? handleSingleDateSelect : undefined}
+            onDateSelect={tipo === "nacimiento" ? handleNacimientoSelect : tipo === "fecha" ? handleSingleDateSelect : undefined}
           />
         </div>
       )}

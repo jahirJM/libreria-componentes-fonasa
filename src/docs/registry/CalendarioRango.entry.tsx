@@ -26,6 +26,8 @@ export const calendarioRangoEntry: ComponentEntry = {
   propsInterface: `interface CalendarioRangoProps {
   /** Callback cuando se selecciona un rango completo (inicio y fin) */
   onRangeSelect?: (start: Date, end: Date) => void;
+  /** Callback cuando se selecciona una sola fecha (primer click) */
+  onDateSelect?: (date: Date) => void;
   /** Mes inicial a mostrar (0-11). Por defecto el mes actual */
   initialMonth?: number;
   /** Año inicial a mostrar. Por defecto el año actual */
@@ -46,6 +48,8 @@ export const calendarioRangoEntry: ComponentEntry = {
   minDate?: Date;
   /** Fecha máxima seleccionable. Las fechas posteriores se deshabilitan */
   maxDate?: Date;
+  /** Modo de selección especial: "nacimiento" habilita selectores rápidos de año y mes */
+  selectionMode?: "nacimiento";
 }`,
   variants: [
     {
@@ -134,6 +138,24 @@ export const calendarioRangoEntry: ComponentEntry = {
   minDate={new Date(2026, 8, 10)}
   maxDate={new Date(2026, 8, 25)}
   onRangeSelect={(start, end) => console.log(start, end)}
+/>`,
+    },
+    {
+      label: "Modo nacimiento (selección de fecha única)",
+      props: { mode: "single", selectionMode: "nacimiento", initialMonth: 0, initialYear: 1990 },
+      render: () => (
+        <CalendarioRango
+          mode="single"
+          selectionMode="nacimiento"
+          onDateSelect={(date) => console.log("Nacimiento:", date)}
+          maxDate={new Date()}
+        />
+      ),
+      usageCode: `<CalendarioRango
+  mode="single"
+  selectionMode="nacimiento"
+  maxDate={new Date()}
+  onDateSelect={(date) => console.log("Nacimiento:", date)}
 />`,
     },
     {

@@ -1,5 +1,6 @@
 import inputCode from "../../componentsUI/Input.tsx?raw";
 import { Input } from "../../componentsUI/Input";
+import { InputResizeDemo } from "../demos/InputDemo";
 import { FiEye, FiSearch } from "react-icons/fi";
 import type { ComponentEntry } from "./types";
 
@@ -118,6 +119,12 @@ export const inputEntry: ComponentEntry =   {
         props: {},
         render: () => <Input isLoading />,
         usageCode: `<Input isLoading />`,
+      },
+      {
+        label: "Responsive (resize)",
+        props: {},
+        render: () => <InputResizeDemo />,
+        usageCode: `{/* El input se adapta al ancho disponible, truncando texto con ellipsis */}\n<Input type="text" placeholder="Texto que se trunca al reducir..." />`,
       },
     ],
   }

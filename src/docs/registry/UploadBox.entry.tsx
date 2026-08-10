@@ -1,5 +1,6 @@
 import uploadBoxCode from "../../componentsUI/UploadBox.tsx?raw"
 import { UploadBox } from "../../componentsUI/UploadBox";
+import { UploadBoxResizeDemo } from "../demos/UploadBoxDemo";
 import type { ComponentEntry } from "./types";
 
 export const uploadBoxEntry: ComponentEntry =   {
@@ -26,6 +27,12 @@ export const uploadBoxEntry: ComponentEntry =   {
   customClass?: string;
   confirmacion?: boolean;
   error?: boolean;
+  /** Formatos permitidos, ej: ".pdf,.doc,.docx,.jpg" */
+  allowedFormats?: string;
+  /** Tamaño máximo, ej: "10MB" */
+  maxSize?: string;
+  /** Si true, fuerza la vista compacta (solo ícono + max size) */
+  forceCompact?: boolean;
 }`,
     variants: [
       {
@@ -75,6 +82,12 @@ export const uploadBoxEntry: ComponentEntry =   {
         props: {},
         render: () => <UploadBox isLoading textStrong="" text="" />,
         usageCode: `<UploadBox isLoading textStrong="" text="" />`,
+      },
+      {
+        label: "Responsive (resize)",
+        props: {},
+        render: () => <UploadBoxResizeDemo />,
+        usageCode: `{/* Bajo sm muestra solo ícono + "Max 10MB" */}\n<UploadBox\n  textStrong="Arrastra tu archivo aquí"\n  text="o haz click para buscar"\n  forceCompact={false}\n/>`,
       },
     ],
   }

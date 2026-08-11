@@ -72,6 +72,9 @@ export function Navbar() {
               <NavLink to="/recursos" className={navLinkClass}>
                 Recursos
               </NavLink>
+              <NavLink to="/animaciones" className={navLinkClass}>
+                Animaciones
+              </NavLink>
               <NavLink to="/colors" className={navLinkClass}>
                 Colores
               </NavLink>
@@ -119,6 +122,9 @@ export function Navbar() {
                 </NavLink>
                 <NavLink to="/recursos" className={mobileLinkClass}>
                   Recursos
+                </NavLink>
+                <NavLink to="/animaciones" className={mobileLinkClass}>
+                  Animaciones
                 </NavLink>
                 <NavLink to="/colors" className={mobileLinkClass}>
                   Colores

@@ -9,6 +9,8 @@ import { MethodsIndex } from "./app/pages/MethodsIndex";
 import { MethodPage } from "./app/pages/MethodPage";
 import { FiltroInputPage } from "./app/pages/FiltroInputPage";
 import { ColorsLayout } from "./app/layouts/ColorsLayout";
+import { LogosLayout } from "./app/layouts/LogosLayout";
+import { RecursosPage } from "./app/pages/RecursosPage";
 
 import { Home } from "./app/pages/Home";
 import { Docs } from "./app/pages/Docs";
@@ -40,6 +42,11 @@ function App() {
           <Route path="/methods" element={<MethodsIndex />} />
           <Route path="/methods/:name" element={<MethodPage />} />
           <Route path="/methods/constructor-filtros" element={<FiltroInputPage />} />
+        </Route>
+
+        {/* Recursos (Logos + Templates) */}
+        <Route element={<LogosLayout />}>
+          <Route path="/recursos" element={<RecursosPage />} />
         </Route>
 
         {/* Fallback */}

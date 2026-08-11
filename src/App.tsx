@@ -11,6 +11,8 @@ import { FiltroInputPage } from "./app/pages/FiltroInputPage";
 import { ColorsLayout } from "./app/layouts/ColorsLayout";
 import { LogosLayout } from "./app/layouts/LogosLayout";
 import { RecursosPage } from "./app/pages/RecursosPage";
+import { AnimationsLayout } from "./app/layouts/AnimationsLayout";
+import { AnimationsPage } from "./app/pages/AnimationsPage";
 
 import { Home } from "./app/pages/Home";
 import { Docs } from "./app/pages/Docs";
@@ -47,6 +49,11 @@ function App() {
         {/* Recursos (Logos + Templates) */}
         <Route element={<LogosLayout />}>
           <Route path="/recursos" element={<RecursosPage />} />
+        </Route>
+
+        {/* Animaciones */}
+        <Route element={<AnimationsLayout />}>
+          <Route path="/animaciones" element={<AnimationsPage />} />
         </Route>
 
         {/* Fallback */}

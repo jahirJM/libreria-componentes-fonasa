@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode } from "react-icons/lu";
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
+import { FormBuilderPage } from "./FormBuilderPage";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TIPOS Y HELPERS
@@ -13,7 +14,10 @@ interface FlatVariant {
   id: string;
 }
 
-type SidebarItem = { type: "logo"; entry: LogoEntry } | { type: "template"; label: string };
+type SidebarItem =
+  | { type: "logo"; entry: LogoEntry }
+  | { type: "template"; label: string }
+  | { type: "formbuilder"; label: string };
 
 interface SidebarGroup {
   name: string;
@@ -48,8 +52,11 @@ function buildSidebarGroups(): SidebarGroup[] {
 
   // Agregar grupo Templates
   groups.push({
-    name: "Templates",
-    items: [{ type: "template", label: "Template Email" }],
+    name: "Builders",
+    items: [
+      { type: "template", label: "Template Email" },
+      { type: "formbuilder", label: "Form Builder" },
+    ],
   });
 
   return groups;
@@ -567,9 +574,11 @@ export function RecursosPage() {
                   item.type === activeItem.type &&
                   (item.type === "logo" && activeItem.type === "logo"
                     ? item.entry.name === activeItem.entry.name
-                    : item.type === "template" && activeItem.type === "template"
+                    : (item.type === "template" && activeItem.type === "template")
                       ? item.label === activeItem.label
-                      : false);
+                      : (item.type === "formbuilder" && activeItem.type === "formbuilder")
+                        ? item.label === activeItem.label
+                        : false);
                 return (
                   <li key={label}>
                     <button
@@ -593,6 +602,8 @@ export function RecursosPage() {
       {/* ─── Contenido principal ─── */}
       {activeItem.type === "logo" ? (
         <LogoViewer entry={activeItem.entry} />
+      ) : activeItem.type === "formbuilder" ? (
+        <FormBuilderPage />
       ) : (
         <TemplateBuilder />
       )}

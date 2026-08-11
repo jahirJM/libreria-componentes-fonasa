@@ -7,11 +7,13 @@ export const calendarioRangoEntry: ComponentEntry = {
   name: "Calendario",
   group: "Calendario",
   description:
-    "Calendario mensual con selección de rango de fechas (inicio y fin). Marca los feriados de Chile en azul fuerte usando la librería date-holidays. Soporta modo single y double. Los filtros (feriados, habiles, finSemana) solo afectan el conteo de días, no la visualización del calendario.",
+    "Calendario mensual con selección de rango de fechas (inicio y fin). Marca los feriados de Chile en rojo usando la librería date-holidays. Soporta modo single y double. Los filtros (feriados, habiles, finSemana) solo afectan el conteo de días, no la visualización del calendario.",
   code: calendarioRangoCode,
   dependencies: ["date-holidays"],
   colors: [
-    { name: "Color primario (fonasa)", value: "#0572CE", usage: "Feriados, extremos del rango, labels y stats" },
+    { name: "Color primario (fonasa)", value: "#0572CE", usage: "Extremos del rango, labels y stats" },
+    { name: "Feriado (calendario)", value: "#ef4444", usage: "Fondo de días feriados" },
+    { name: "Fondo (rechazado)", value: "#fef2f2", usage: "Fondo de feriado dentro del rango seleccionado" },
     { name: "Color secundario (fondos)", value: "#D4E8F7", usage: "Fondo de días dentro del rango seleccionado" },
     { name: "Color primario (prestadores naturales)", value: "#008CB5", usage: "Borde del indicador del día actual" },
     { name: "Color secundario (fondos)", value: "#D4E8F7", usage: "Hover sobre días normales" },

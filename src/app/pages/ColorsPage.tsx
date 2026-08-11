@@ -321,6 +321,7 @@ export const colorSections: ColorSection[] = [
       { name: "Botón advertencia hover", value: "#d97706", description: "amber-600" },
       { name: "Hover botón toast éxito", value: "#06b6d4", description: "cyan-500" },
       { name: "Botón toast éxito", value: "#0891b2", description: "cyan-600" },
+      { name: "Feriado (calendario)", value: "#ef4444", description: "red-500 — día feriado en calendario" },
     ],
   },
 ];

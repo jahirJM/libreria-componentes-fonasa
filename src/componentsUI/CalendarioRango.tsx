@@ -168,14 +168,14 @@ function CalendarPanel({
         rangeStart.getTime() <= rangeEnd.getTime() ? rangeEnd : rangeStart;
       if (isInRange(date, effectiveStart, effectiveEnd)) {
         if (holiday) {
-          return base + clickable + "bg-[#0572CE]/30 text-[#0572CE] font-semibold";
+          return base + clickable + "bg-red-100 text-red-600 font-semibold";
         }
         return base + clickable + "bg-[#D4E8F7] text-[#1e3a5f] font-medium";
       }
     }
 
     if (holiday) {
-      return base + clickable + "bg-[#0572CE] text-white font-semibold hover:ring-2 hover:ring-[#0572CE]";
+      return base + clickable + "bg-red-500 text-white font-semibold hover:ring-2 hover:ring-red-500";
     }
 
     if (isSameDay(date, today)) {
@@ -440,7 +440,7 @@ export function CalendarioRango({
       {/* Leyenda */}
       <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap gap-3 text-xs text-gray-600">
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-[#0572CE]" />
+          <span className="w-3 h-3 rounded-full bg-red-500" />
           Feriado
         </div>
         <div className="flex items-center gap-1.5">

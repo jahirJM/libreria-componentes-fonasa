@@ -1,6 +1,7 @@
 import { useState } from "react";
 import selectBuscableCode from "../../componentsUI/SelectBuscable.tsx?raw";
 import { SelectBuscable } from "../../componentsUI/SelectBuscable";
+import { SelectBuscableResizeDemo } from "../demos/SelectBuscableDemo";
 import type { ComponentEntry } from "./types";
 
 const opcionesEjemplo = [
@@ -273,6 +274,12 @@ interface SelectBuscableProps {
   onChange={() => {}}
   isLoading
 />`,
+    },
+    {
+      label: "Responsive (resize)",
+      props: {},
+      render: () => <SelectBuscableResizeDemo />,
+      usageCode: `{/* El texto seleccionado se trunca con ellipsis al reducir el ancho */}\n<SelectBuscable\n  opciones={opciones}\n  value={value}\n  onChange={setValue}\n  placeholder="Seleccione"\n/>`,
     },
   ],
 };

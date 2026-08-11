@@ -253,6 +253,7 @@ export const SelectBuscable = ({
       >
         <span
           className={clsx(
+            "truncate",
             opcionSeleccionada
               ? opcionSeleccionada.deshabilitado
                 ? "text-red-600 flex items-center gap-1.5"
@@ -274,7 +275,7 @@ export const SelectBuscable = ({
           )}
         </span>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 shrink-0">
           {value && !disabled && (
             <span
               onClick={handleLimpiar}

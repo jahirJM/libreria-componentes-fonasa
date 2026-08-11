@@ -225,21 +225,25 @@ function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
   return (
     <div>
       {/* Badges */}
-      <div className="flex items-center gap-2 mb-4 flex-wrap">
+      <div className="flex items-center gap-2 mb-4 flex-wrap overflow-visible relative z-10">
         {/* Badges fijos */}
         {fixed.map((v, i) => (
-          <button
-            key={v.label}
-            onClick={() => setSelectedIdx(i)}
-            className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
-              selectedIdx === i
-                ? "bg-[#0572CE] text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-            title={v.label}
-          >
-            {v.label}
-          </button>
+          <div key={v.label} className="relative group">
+            <button
+              onClick={() => setSelectedIdx(i)}
+              className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
+                selectedIdx === i
+                  ? "bg-[#0572CE] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {v.label}
+            </button>
+            {/* Tooltip hover */}
+            <span className="z-[99] absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+              {v.label}
+            </span>
+          </div>
         ))}
 
         {/* Separador si hay rest */}
@@ -261,18 +265,22 @@ function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
             {visibleRest.map((v) => {
               const globalIdx = allOrdered.indexOf(v);
               return (
-                <button
-                  key={v.label}
-                  onClick={() => setSelectedIdx(globalIdx)}
-                  className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
-                    selectedIdx === globalIdx
-                      ? "bg-[#0572CE] text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                  title={v.label}
-                >
-                  {v.label}
-                </button>
+                <div key={v.label} className="relative group">
+                  <button
+                    onClick={() => setSelectedIdx(globalIdx)}
+                    className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
+                      selectedIdx === globalIdx
+                        ? "bg-[#0572CE] text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
+                  >
+                    {v.label}
+                  </button>
+                  {/* Tooltip hover */}
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+                    {v.label}
+                  </span>
+                </div>
               );
             })}
             {canScrollRight && (
@@ -301,7 +309,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
   const [showCode, setShowCode] = useState(false);
 
   return (
-    <section className="flex flex-col lg:flex-row gap-0 overflow-hidden">
+    <section className="flex flex-col lg:flex-row gap-0 overflow-show">
       <FonasaToaster />
       {/* Columna izquierda: todo el contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "lg:pr-4" : "pr-0"}`}>

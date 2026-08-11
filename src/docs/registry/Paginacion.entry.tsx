@@ -1,5 +1,5 @@
 import paginacionCode from "../../componentsUI/Paginacion.tsx?raw"
-import { PaginacionDemo } from "../demos/PaginacionDemo";
+import { PaginacionDemo, PaginacionResizeDemo } from "../demos/PaginacionDemo";
 import { Paginacion } from "../../componentsUI/Paginacion";
 import type { ComponentEntry } from "./types";
 
@@ -55,6 +55,12 @@ export const paginacionEntry: ComponentEntry =  {
         props: { isLoading: true },
         render: () => <Paginacion paginaActual={1} totalPaginas={5} onCambiarPagina={() => {}} isLoading />,
         usageCode: `<Paginacion paginaActual={1} totalPaginas={5} onCambiarPagina={() => {}} isLoading />`,
+      },
+      {
+        label: "Responsive (resize)",
+        props: {},
+        render: () => <PaginacionResizeDemo />,
+        usageCode: `{/* Bajo sm muestra: 1 2 3 ... 18 19 20 */}\n<Paginacion\n  paginaActual={pagina}\n  totalPaginas={20}\n  onCambiarPagina={setPagina}\n/>`,
       },
     ],
   }

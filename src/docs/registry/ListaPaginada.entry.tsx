@@ -1,8 +1,83 @@
 
+import { useCallback, useRef, useState } from "react";
 import listaPaginadaCode from "../../componentsUI/ListaPaginada.tsx?raw"
 import { ListaPaginada } from "../../componentsUI/ListaPaginada";
 import { SolicitudCard } from "../../componentsUI/SolicitudCard";
 import type { ComponentEntry } from "./types";
+
+function SolicitudCardResizeWrapper({ children }: { children: (forceCompact: boolean) => React.ReactNode }) {
+  const [forceCompact, setForceCompact] = useState(false);
+  const [width, setWidth] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    dragging.current = true;
+
+    const startX = e.clientX;
+    const startWidth = containerRef.current?.offsetWidth ?? 400;
+
+    const onMouseMove = (ev: MouseEvent) => {
+      if (!dragging.current) return;
+      const delta = ev.clientX - startX;
+      const newWidth = Math.max(200, startWidth + delta);
+      setWidth(newWidth);
+      setForceCompact(newWidth < 350);
+    };
+
+    const onMouseUp = () => {
+      dragging.current = false;
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  }, []);
+
+  return (
+    <div className="relative flex">
+      <div
+        ref={containerRef}
+        className="relative overflow-hidden"
+        style={{ width: width ? `${width}px` : "100%" }}
+      >
+        {children(forceCompact)}
+      </div>
+      <div
+        onMouseDown={handleMouseDown}
+        className="w-2 cursor-col-resize flex items-center justify-center shrink-0 group"
+        title="Arrastrar para redimensionar"
+      >
+        <div className="w-1 h-10 rounded-full bg-gray-300 group-hover:bg-blue-500 transition-colors" />
+      </div>
+    </div>
+  );
+}
+
+function SolicitudCardResizeDemo() {
+  return (
+    <SolicitudCardResizeWrapper>
+      {(compact) => (
+        <SolicitudCard
+          id={1234}
+          tipo="Solicitud de Inscripción Prestador"
+          estado={{ label: "Aceptado", variant: "estado-aprobada" }}
+          fechaEnvio="15/06/2026"
+          fechaResolucion="20/06/2026"
+          motivoResolucion="Documentación completa y verificada correctamente."
+          documentoRespuesta={{ nombre: "Resolución aprobatoria" }}
+          documentos={[
+            { id: "1", nombre: "Certificado de título" },
+            { id: "2", nombre: "Cédula de identidad" },
+          ]}
+          forceCompact={compact}
+        />
+      )}
+    </SolicitudCardResizeWrapper>
+  );
+}
 
 export const listaPaginadaEntry: ComponentEntry =   {
     name: "Lista de Solicitudes",
@@ -121,6 +196,12 @@ export const listaPaginadaEntry: ComponentEntry =   {
           />
         ),
         usageCode: `<SolicitudCard\n  id={9012}\n  tipo="Solicitud de Renuncia"\n  estado={{ label: "Rechazado", variant: "estado-rechazada" }}\n  motivoResolucion="Falta documento."\n  documentos={[...]}\n/>`,
+      },
+      {
+        label: "SolicitudCard - Responsive (resize)",
+        props: {},
+        render: () => <SolicitudCardResizeDemo />,
+        usageCode: `{/* En mobile: textos más pequeños, motivo en modal */}\n<SolicitudCard\n  id={1234}\n  tipo="Solicitud de Inscripción"\n  estado={{ label: "Aceptado", variant: "estado-aprobada" }}\n  fechaEnvio="15/06/2026"\n  motivoResolucion="Documentación completa."\n  documentos={[...]}\n/>`,
       },
     ],
   }

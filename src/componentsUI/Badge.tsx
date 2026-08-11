@@ -19,6 +19,10 @@ interface BadgeProps {
   resizable?: boolean;
   /** Umbral en px debajo del cual colapsa a punto (default: 40) */
   collapseThreshold?: number;
+  /** Si true, en mobile (< sm) muestra solo un punto de color */
+  compactOnMobile?: boolean;
+  /** Si true, fuerza el estado colapsado (solo punto) siempre */
+  forceCollapsed?: boolean;
 }
 
 /** Colores del punto colapsado según variante */
@@ -43,6 +47,8 @@ export const Badge = ({
   customClass = "",
   resizable = false,
   collapseThreshold = 40,
+  compactOnMobile = false,
+  forceCollapsed = false,
 }: BadgeProps) => {
   const baseStyles =
     "text-[10px] px-2 py-0.5 rounded-full font-bold text-sm!";
@@ -89,8 +95,42 @@ export const Badge = ({
     document.addEventListener("mouseup", handleMouseUp);
   }, []);
 
+  // Si forceCollapsed, siempre mostrar punto
+  if (forceCollapsed) {
+    return (
+      <span
+        className={clsx(
+          "block size-3 rounded-full shrink-0",
+          dotColors[variant],
+          customClass,
+        )}
+        title={text}
+      />
+    );
+  }
+
   // Si no es resizable, renderizar badge simple
   if (!resizable) {
+    if (compactOnMobile) {
+      return (
+        <>
+          {/* Mobile: punto de color */}
+          <span
+            className={clsx(
+              "sm:hidden block size-3 rounded-full shrink-0",
+              dotColors[variant],
+              customClass,
+            )}
+            title={text}
+          />
+          {/* Desktop: badge completo */}
+          <span className={clsx("hidden sm:inline", baseStyles, variantStyles[variant], customClass)}>
+            {text}
+          </span>
+        </>
+      );
+    }
+
     return (
       <span className={clsx(baseStyles, variantStyles[variant], customClass)}>
         {text}

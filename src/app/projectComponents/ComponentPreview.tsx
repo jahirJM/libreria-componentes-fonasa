@@ -132,7 +132,7 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
       <div className="rounded-xl border border-gray-200 bg-gray-50 overflow-hidden flex flex-col h-full">
         {/* Preview */}
         <div className="bg-white p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-hidden">
-          <div className={variant.responsive ? "w-full relative h-[580px]" : "w-full"}>
+          <div className={variant.responsive ? "w-full relative" : "w-full"}>
             {variant.render()}
           </div>
         </div>
@@ -174,11 +174,142 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
   );
 }
 
+/** Orden de prioridad para badges fijos */
+const FIXED_PATTERNS = [
+  { pattern: /^(default|normal|texto|sin acciones|pocas)/i, label: "default" },
+  { pattern: /secondary|secundari/i, label: "secondary" },
+  { pattern: /skeleton/i, label: "skeleton" },
+  { pattern: /error|rechazad/i, label: "error" },
+];
+
+function classifyVariants(variants: ComponentVariant[]) {
+  const fixed: ComponentVariant[] = [];
+  const rest: ComponentVariant[] = [];
+  const usedIndices = new Set<number>();
+
+  // Para cada patrón fijo, buscar la primera variante que matchee
+  for (const { pattern } of FIXED_PATTERNS) {
+    const idx = variants.findIndex(
+      (v, i) => !usedIndices.has(i) && pattern.test(v.label)
+    );
+    if (idx !== -1) {
+      fixed.push(variants[idx]);
+      usedIndices.add(idx);
+    }
+  }
+
+  // El resto va al carrusel
+  for (let i = 0; i < variants.length; i++) {
+    if (!usedIndices.has(i)) {
+      rest.push(variants[i]);
+    }
+  }
+
+  return { fixed, rest };
+}
+
+function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
+  const { fixed, rest } = classifyVariants(variants);
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [carouselOffset, setCarouselOffset] = useState(0);
+  const allOrdered = [...fixed, ...rest];
+  const maxVisible = 5;
+
+  const selected = allOrdered[selectedIdx];
+
+  // Carrusel: items del rest que se muestran
+  const visibleRest = rest.slice(carouselOffset, carouselOffset + maxVisible);
+  const canScrollLeft = carouselOffset > 0;
+  const canScrollRight = carouselOffset + maxVisible < rest.length;
+
+  return (
+    <div>
+      {/* Badges */}
+      <div className="flex items-center gap-2 mb-4 flex-wrap overflow-visible relative z-10">
+        {/* Badges fijos */}
+        {fixed.map((v, i) => (
+          <div key={v.label} className="relative group">
+            <button
+              onClick={() => setSelectedIdx(i)}
+              className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
+                selectedIdx === i
+                  ? "bg-[#0572CE] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {v.label}
+            </button>
+            {/* Tooltip hover */}
+            <span className="z-[99] absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+              {v.label}
+            </span>
+          </div>
+        ))}
+
+        {/* Separador si hay rest */}
+        {rest.length > 0 && (
+          <div className="h-5 w-px bg-gray-300 mx-1" />
+        )}
+
+        {/* Carrusel de resto */}
+        {rest.length > 0 && (
+          <div className="flex items-center gap-1">
+            {canScrollLeft && (
+              <button
+                onClick={() => setCarouselOffset((o) => Math.max(0, o - maxVisible))}
+                className="p-1 rounded-md text-gray-400 hover:text-[#0572CE] hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                ‹
+              </button>
+            )}
+            {visibleRest.map((v) => {
+              const globalIdx = allOrdered.indexOf(v);
+              return (
+                <div key={v.label} className="relative group">
+                  <button
+                    onClick={() => setSelectedIdx(globalIdx)}
+                    className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
+                      selectedIdx === globalIdx
+                        ? "bg-[#0572CE] text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
+                  >
+                    {v.label}
+                  </button>
+                  {/* Tooltip hover */}
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+                    {v.label}
+                  </span>
+                </div>
+              );
+            })}
+            {canScrollRight && (
+              <button
+                onClick={() => setCarouselOffset((o) => Math.min(rest.length - maxVisible, o + maxVisible))}
+                className="p-1 rounded-md text-gray-400 hover:text-[#0572CE] hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                ›
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Variante seleccionada */}
+      {selected && (
+        <div className={selected.responsive ? "max-w-4xl" : "max-w-2xl"}>
+          <VariantCard variant={selected} />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function ComponentPreview({ entry }: ComponentPreviewProps) {
   const [showCode, setShowCode] = useState(false);
 
   return (
-    <section className="flex flex-col lg:flex-row gap-0 overflow-hidden">
+    <section className="flex flex-col lg:flex-row gap-0 overflow-show">
       <FonasaToaster />
       {/* Columna izquierda: todo el contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "lg:pr-4" : "pr-0"}`}>
@@ -249,16 +380,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         {/* Ejemplos */}
         <div className="mb-12">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Ejemplos</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {entry.variants.map((variant) => (
-              <div
-                key={variant.label}
-                className={variant.responsive ? "col-span-1 md:col-span-2" : ""}
-              >
-                <VariantCard variant={variant} />
-              </div>
-            ))}
-          </div>
+          <VariantSelector variants={entry.variants} />
         </div>
       </div>
 

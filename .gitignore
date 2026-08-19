@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Incluir cli/dist (necesario para que los consumidores instalen desde Git)
+!cli/dist
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

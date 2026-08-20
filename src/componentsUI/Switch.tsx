@@ -88,6 +88,21 @@ export interface SwitchProps {
   isLoading?: boolean;
 }
 
+/**
+ * Toggle switch accesible con variantes de color, tamaños y íconos opcionales.
+ * Soporta modo controlado y no controlado.
+ *
+ * @example
+ * ```tsx
+ * <Switch
+ *   checked={activo}
+ *   onChange={(v) => setActivo(v)}
+ *   variante="success"
+ *   tamano="md"
+ *   conIconos
+ * />
+ * ```
+ */
 export const Switch = ({
   checked,
   defaultChecked = false,

@@ -3,15 +3,25 @@ import { Paginacion } from "./Paginacion";
 import { SkeletonSolicitudesList } from "./SkeletonSolicitud";
 
 interface ListaPaginadaProps {
+  /** Título de la sección. @default "Lista de solicitudes" */
   titulo?: string;
+  /** Si true, muestra skeleton de carga. */
   isLoading: boolean;
+  /** Mensaje de error a mostrar. Si es null/undefined, no hay error. */
   error?: string | null;
+  /** Total de resultados encontrados (se muestra como contador). @default 0 */
   totalItems?: number;
+  /** Nombre del ítem para el texto "X {itemLabel}(es) encontrada(s)". @default "solicitud" */
   itemLabel?: string;
+  /** Página activa actual (1-indexed). */
   paginaActual: number;
+  /** Total de páginas disponibles. */
   totalPaginas: number;
+  /** Cantidad de skeletons a mostrar durante la carga. @default 3 */
   itemsPorPagina?: number;
+  /** Callback al cambiar de página. */
   onCambiarPagina: (pagina: number) => void;
+  /** Contenido (lista de items/cards). */
   children: ReactNode;
 }
 

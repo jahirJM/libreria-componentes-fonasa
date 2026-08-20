@@ -50,16 +50,27 @@ export type DrawerPosicion = "right" | "left" | "bottom" | "top";
 export type DrawerSize = "sm" | "md" | "lg" | "xl" | "full";
 
 interface DrawerDinamicoProps {
+  /** Controla la visibilidad del drawer. */
   isOpen: boolean;
+  /** Callback al cerrar (click fuera, Escape, botón X). */
   onClose: () => void;
+  /** Título del drawer (header). */
   titulo?: ReactNode;
+  /** Descripción breve debajo del título. */
   descripcion?: ReactNode;
+  /** Contenido del cuerpo del drawer (scrollable). */
   children: ReactNode;
+  /** Contenido del footer fijo inferior. */
   footer?: ReactNode;
+  /** Lado desde el cual se despliega. @default "right" */
   posicion?: DrawerPosicion;
+  /** Tamaño del panel. @default "md" */
   size?: DrawerSize;
+  /** Si true, se cierra al hacer click en el overlay. @default true */
   cerrarAlClickFuera?: boolean;
+  /** Si true, muestra el botón X en el header. @default true */
   mostrarBotonCerrar?: boolean;
+  /** Clases CSS adicionales para el panel. */
   className?: string;
 }
 
@@ -115,6 +126,17 @@ const translateOculto: Record<DrawerPosicion, string> = {
 /* Drawer                                                             */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Panel lateral (o superior/inferior) que se desliza sobre el contenido.
+ * Con overlay, animación de entrada/salida, cierre por Escape y bloqueo de scroll.
+ *
+ * @example
+ * ```tsx
+ * <Drawer isOpen={open} onClose={() => setOpen(false)} titulo="Filtros" posicion="right" size="md">
+ *   <p>Contenido del drawer</p>
+ * </Drawer>
+ * ```
+ */
 export const Drawer = ({
   isOpen,
   onClose,

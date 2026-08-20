@@ -1,12 +1,15 @@
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 interface PaginacionProps {
+  /** Página activa actual (1-indexed). */
   paginaActual: number;
+  /** Cantidad total de páginas. */
   totalPaginas: number;
+  /** Callback al cambiar de página. Recibe el número de la nueva página. */
   onCambiarPagina: (pagina: number) => void;
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga. @default false */
   isLoading?: boolean;
-  /** Si true, fuerza la vista compacta (3 primeros + ... + 3 últimos) */
+  /** Si true, fuerza la vista compacta (1 ... N) sin importar el breakpoint. @default false */
   forceCompact?: boolean;
 }
 
@@ -54,6 +57,19 @@ function calcularRangoCompacto(
   return [1, "ellipsis" as const, totalPaginas];
 }
 
+/**
+ * Navegador de paginación responsive con vista compacta en mobile.
+ * Muestra hasta 5 páginas centradas en la actual y flechas de navegación.
+ *
+ * @example
+ * ```tsx
+ * <Paginacion
+ *   paginaActual={pagina}
+ *   totalPaginas={10}
+ *   onCambiarPagina={(p) => setPagina(p)}
+ * />
+ * ```
+ */
 export const Paginacion = ({
   paginaActual,
   totalPaginas,

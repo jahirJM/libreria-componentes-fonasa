@@ -54,24 +54,36 @@ Input.displayName = "Input";
 /* Tipos y variantes                                                   */
 /* ------------------------------------------------------------------ */
 
+/** Opción individual del SelectBuscable. */
 export interface OpcionBuscable {
+  /** Valor interno que se envía al seleccionar. */
   value: string;
+  /** Texto visible en la lista desplegable. */
   label: string;
+  /** Si true, la opción se muestra en rojo con ícono de advertencia (no impide selección). */
   deshabilitado?: boolean;
 }
 
 export type SelectBuscableSize = "sm" | "md" | "lg";
 
 interface SelectBuscableProps {
+  /** Lista de opciones disponibles. */
   opciones: OpcionBuscable[];
+  /** Valor actualmente seleccionado. Debe coincidir con `value` de alguna opción. */
   value: string;
+  /** Callback al seleccionar una opción. Recibe el `value` de la opción elegida. */
   onChange: (value: string) => void;
+  /** Texto placeholder cuando no hay selección. @default "Seleccione" */
   placeholder?: string;
+  /** Deshabilita el componente. @default false */
   disabled?: boolean;
+  /** Muestra borde rojo para indicar error de validación. @default false */
   error?: boolean;
+  /** Muestra texto "Cargando..." y deshabilita interacción. @default false */
   isLoading?: boolean;
+  /** Clases CSS adicionales. */
   className?: string;
-  /** Tamaño del componente. `md` reproduce exactamente el diseño original. */
+  /** Tamaño del componente. `md` reproduce el diseño original. @default "md" */
   size?: SelectBuscableSize;
 }
 
@@ -104,6 +116,20 @@ const sizeStyles: Record<
 /* SelectBuscable                                                       */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Select con búsqueda integrada, botón de limpiar y navegación por teclado.
+ * Se posiciona automáticamente arriba o abajo según el espacio disponible.
+ *
+ * @example
+ * ```tsx
+ * <SelectBuscable
+ *   opciones={[{ value: "1", label: "Santiago" }, { value: "2", label: "Valparaíso" }]}
+ *   value={ciudad}
+ *   onChange={(v) => setCiudad(v)}
+ *   placeholder="Buscar ciudad..."
+ * />
+ * ```
+ */
 export const SelectBuscable = ({
   opciones,
   value,

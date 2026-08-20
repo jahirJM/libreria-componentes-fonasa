@@ -1,9 +1,19 @@
 import { HiHeart } from "react-icons/hi";
 
 interface FooterProps {
+  /** Color de texto del footer (clase Tailwind). @default "text-gray-800" */
   textColor?: string;
 }
 
+/**
+ * Footer institucional de FONASA con año dinámico y corazón animado.
+ * Posicionar al fondo del layout principal.
+ *
+ * @example
+ * ```tsx
+ * <Footer textColor="text-white" />
+ * ```
+ */
 export const Footer = ({ textColor = "text-gray-800" }: FooterProps) => {
   const fechaHoy = new Date();
   const year = fechaHoy.getFullYear();

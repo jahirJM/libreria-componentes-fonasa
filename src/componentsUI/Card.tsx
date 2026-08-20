@@ -19,12 +19,29 @@ const ESTILOS_VARIANTE: Record<VarianteCard, string> = {
 };
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  /** Variante visual del contenedor. @default "default" */
   variante?: VarianteCard;
   children?: ReactNode;
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga. @default false */
   isLoading?: boolean;
 }
 
+/**
+ * Contenedor tipo tarjeta con variantes visuales y skeleton de carga integrado.
+ * Usa los sub-componentes CardHeader, CardTitle, CardDescription, CardContent, CardFooter y CardAction.
+ *
+ * @example
+ * ```tsx
+ * <Card variante="interactiva" onClick={handleClick}>
+ *   <CardHeader>
+ *     <CardTitle>Título</CardTitle>
+ *     <CardAction><BotonPrimario label="Acción" /></CardAction>
+ *   </CardHeader>
+ *   <CardContent>Contenido libre</CardContent>
+ *   <CardFooter>Pie de tarjeta</CardFooter>
+ * </Card>
+ * ```
+ */
 export const Card = ({
   variante = "default",
   className,

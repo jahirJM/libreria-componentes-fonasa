@@ -3,31 +3,59 @@ import { createPortal } from "react-dom";
 import { FiAlertCircle, FiChevronDown, FiExternalLink, FiFileText, FiInfo } from "react-icons/fi";
 import { Badge, type BadgeVariant } from "./Badge";
 
+/** Documento adjunto a una solicitud. */
 interface Documento {
+  /** ID único del documento. */
   id: string;
+  /** Nombre visible del archivo. */
   nombre: string;
+  /** Callback al hacer click en "Ver". */
   onVer?: () => void;
 }
 
 interface SolicitudCardProps {
+  /** Número/ID de la solicitud. Se muestra con prefijo #. */
   id: number | string;
+  /** Tipo o nombre de la solicitud. */
   tipo: string;
+  /** Estado con label y variante de badge asociada. */
   estado: {
     label: string;
     variant: BadgeVariant;
   };
+  /** Fecha de envío formateada. */
   fechaEnvio?: string;
+  /** Fecha de resolución formateada. */
   fechaResolucion?: string;
+  /** Texto del motivo de resolución. Se muestra inline en desktop y en modal en mobile. */
   motivoResolucion?: string;
+  /** Documento de respuesta oficial (se muestra destacado). */
   documentoRespuesta?: { nombre: string; onVer?: () => void };
+  /** Lista de documentos adjuntos con acordeón desplegable. */
   documentos?: Documento[];
-  /** Si true, muestra animación de solicitud resuelta */
+  /** Si true, muestra animación/estilo de solicitud resuelta recientemente. @default false */
   resuelta?: boolean;
+  /** Callback al hacer click cuando la solicitud está resuelta. */
   onClickResuelta?: () => void;
-  /** Si true, fuerza vista compacta (badge como punto, textos chicos, motivo en modal) */
+  /** Si true, fuerza vista compacta (badge como punto). @default false */
   forceCompact?: boolean;
 }
 
+/**
+ * Tarjeta de solicitud con estado, fechas, documentos adjuntos y acordeón desplegable.
+ * Soporta vista compacta responsive y motivo de resolución en modal mobile.
+ *
+ * @example
+ * ```tsx
+ * <SolicitudCard
+ *   id={1234}
+ *   tipo="Bonificación Ley de Urgencia"
+ *   estado={{ label: "Pendiente", variant: "estado-pendiente" }}
+ *   fechaEnvio="15/03/2025"
+ *   documentos={[{ id: "1", nombre: "Certificado.pdf" }]}
+ * />
+ * ```
+ */
 export const SolicitudCard = ({
   id,
   tipo,

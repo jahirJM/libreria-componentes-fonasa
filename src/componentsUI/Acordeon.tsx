@@ -65,15 +65,37 @@ interface AcordeonProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   "defaultValue"
 > {
+  /** Ítems abiertos por defecto (no controlado). @default [] */
   defaultValue?: string[];
+  /** Ítems abiertos (controlado). Pasa este prop para manejar el estado externamente. */
   value?: string[];
+  /** Callback que recibe el nuevo array de valores abiertos al expandir/colapsar. */
   onValueChange?: (valores: string[]) => void;
+  /** Permite abrir múltiples ítems a la vez. @default false */
   multiple?: boolean;
-  /** Si true, muestra bordes alrededor del acordeón y entre ítems */
+  /** Si true, muestra bordes alrededor del acordeón y entre ítems. @default false */
   bordered?: boolean;
   children: ReactNode;
 }
 
+/**
+ * Contenedor de acordeón accesible con animación suave de altura.
+ * Soporta modo controlado/no-controlado y apertura múltiple o simple.
+ *
+ * @example
+ * ```tsx
+ * <Acordeon defaultValue={["item-1"]} multiple>
+ *   <ItemAcordeon value="item-1">
+ *     <DisparadorAcordeon>Pregunta 1</DisparadorAcordeon>
+ *     <ContenidoAcordeon>Respuesta 1</ContenidoAcordeon>
+ *   </ItemAcordeon>
+ *   <ItemAcordeon value="item-2">
+ *     <DisparadorAcordeon>Pregunta 2</DisparadorAcordeon>
+ *     <ContenidoAcordeon>Respuesta 2</ContenidoAcordeon>
+ *   </ItemAcordeon>
+ * </Acordeon>
+ * ```
+ */
 export function Acordeon({
   defaultValue = [],
   value,
@@ -133,7 +155,9 @@ export function Acordeon({
  * ----------------------------------------------------------------------------------------------- */
 
 interface ItemAcordeonProps extends HTMLAttributes<HTMLDivElement> {
+  /** Identificador único del ítem. Debe coincidir con los valores de `defaultValue`/`value` del padre. */
   value: string;
+  /** Deshabilita la interacción con este ítem. @default false */
   disabled?: boolean;
   children: ReactNode;
 }
@@ -177,6 +201,7 @@ interface DisparadorAcordeonProps extends Omit<
   "onClick"
 > {
   children: ReactNode;
+  /** Ícono custom a mostrar antes del texto. */
   icon?: ReactNode;
 }
 

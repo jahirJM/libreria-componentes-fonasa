@@ -1,7 +1,16 @@
 interface LoadingProps {
+  /** Mensaje opcional debajo del spinner. */
   mensaje?: string;
 }
 
+/**
+ * Spinner de carga circular con fondo oscuro semi-transparente.
+ *
+ * @example
+ * ```tsx
+ * <Loading mensaje="Procesando..." />
+ * ```
+ */
 export const Loading = ({ mensaje }: LoadingProps) => {
   return (
     <div className="flex flex-col items-center justify-center bg-gray-900/70 rounded-xl p-8">

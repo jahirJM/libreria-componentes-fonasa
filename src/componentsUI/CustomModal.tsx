@@ -3,13 +3,21 @@ import { Fragment, useEffect } from "react";
 import { BiX } from "react-icons/bi";
 
 interface CustomModalProps {
+  /** Ancho del modal: "sm" (568px), "md" (990px), "lg" (full responsive). */
   size: "sm" | "md" | "lg";
+  /** Título del modal mostrado en el header. */
   title?: string;
+  /** Altura personalizada (no utilizado actualmente, reservado). */
   height?: string;
+  /** Contenido del cuerpo del modal. */
   children: React.ReactNode;
+  /** Controla la visibilidad del modal. */
   showModal: boolean;
+  /** Fuerza altura completa (reservado). */
   fullHeight?: boolean;
+  /** Callback al abrir el modal. */
   onShow?: () => void;
+  /** Callback al cerrar el modal. */
   onClose?: () => void;
 }
 
@@ -19,6 +27,17 @@ const sizeClasses = {
   lg: "w-full md:w-[48rem] lg:w-[80rem]",
 };
 
+/**
+ * Modal con transiciones animadas basado en Headless UI.
+ * Soporta 3 tamaños y scroll interno automático para contenido largo.
+ *
+ * @example
+ * ```tsx
+ * <CustomModal size="md" title="Detalle" showModal={open} onClose={() => setOpen(false)}>
+ *   <p>Contenido del modal</p>
+ * </CustomModal>
+ * ```
+ */
 export const CustomModal = ({
   size,
   title,

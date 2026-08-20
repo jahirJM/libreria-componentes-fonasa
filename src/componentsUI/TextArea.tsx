@@ -2,11 +2,26 @@ import clsx from "clsx";
 import { type TextareaHTMLAttributes } from "react";
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  /** Muestra borde rojo indicando error de validación. @default false */
   error?: boolean;
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga en lugar del textarea. @default false */
   isLoading?: boolean;
 }
 
+/**
+ * Textarea con estilos Fonasa, estado de error y skeleton de carga.
+ *
+ * @example
+ * ```tsx
+ * <TextArea
+ *   value={observaciones}
+ *   onChange={(e) => setObservaciones(e.target.value)}
+ *   placeholder="Ingrese observaciones..."
+ *   error={!observaciones}
+ *   rows={4}
+ * />
+ * ```
+ */
 export const TextArea = ({
   error = false,
   className,

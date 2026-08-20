@@ -36,6 +36,8 @@ interface InputCalendarioProps {
   error?: boolean;
   /** Deshabilitar el campo */
   disabled?: boolean;
+  /** Deshabilitar el label dentro del input */
+  noLabel?: boolean;
 }
 
 /**
@@ -69,6 +71,7 @@ export function InputCalendario({
   className = "",
   error = false,
   disabled = false,
+  noLabel = false,
 }: InputCalendarioProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -122,9 +125,8 @@ export function InputCalendario({
     <div ref={containerRef} className={`relative ${className}`} style={{ width: mode === "double" ? 680 : 340 }}>
       {/* Input(s) de fecha */}
       <div
-        className={`flex items-center gap-2 rounded-md border px-3 py-3 transition-colors focus-within:ring-2 ${borderClass} ${
-          disabled ? "bg-gray-100 opacity-50 cursor-not-allowed" : "bg-white cursor-pointer"
-        }`}
+        className={`flex items-center gap-2 rounded-md border px-3 py-2 transition-colors focus-within:ring-2 ${borderClass} ${disabled ? "bg-gray-100 opacity-50 cursor-not-allowed" : "bg-white cursor-pointer"
+          }`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
         {/* Ícono calendario */}
@@ -134,9 +136,11 @@ export function InputCalendario({
 
         {/* Input inicio / única fecha */}
         <div className="flex-1 min-w-0">
-          <label className="block text-[10px] font-medium text-gray-500 uppercase leading-none mb-0.5">
-            {labelInicio}
-          </label>
+          {!noLabel && (
+            <label className="block text-[10px] font-medium text-gray-500 uppercase leading-none mb-0.5">
+              {labelInicio}
+            </label>
+          )}
           <input
             type="text"
             readOnly
@@ -152,9 +156,11 @@ export function InputCalendario({
           <>
             <span className="text-gray-300 text-sm">→</span>
             <div className="flex-1 min-w-0">
-              <label className="block text-[10px] font-medium text-gray-500 uppercase leading-none mb-0.5">
-                {labelFin}
-              </label>
+              {!noLabel && (
+                <label className="block text-[10px] font-medium text-gray-500 uppercase leading-none mb-0.5">
+                  {labelFin}
+                </label>
+              )}
               <input
                 type="text"
                 readOnly

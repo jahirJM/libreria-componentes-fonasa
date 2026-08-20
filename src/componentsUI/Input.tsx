@@ -72,7 +72,7 @@ export function Input({
         className={clsx(
           "w-full rounded-md border px-3 py-2 text-sm text-black placeholder-gray-500 outline-none transition-colors",
           "text-ellipsis overflow-hidden whitespace-nowrap",
-          "focus:border-blue-900 focus:ring-2 focus:ring-blue-900",
+          "focus:border-[#0572CE] focus:ring-2 focus:ring-[#0572CE]",
           "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
           {
             "border-gray-300 bg-white": !error,

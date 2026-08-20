@@ -7,6 +7,8 @@ export interface ComponentVariant {
   usageCode: string;
   /** Si true, el preview se muestra a ancho completo (útil para componentes como Sidebar) */
   responsive?: boolean;
+  /** Si true, oculta el footer con label y acciones en el preview */
+  noLabel?: boolean;
 }
 
 export interface ComponentColor {

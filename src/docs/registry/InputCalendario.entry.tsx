@@ -54,13 +54,15 @@ export const inputCalendarioEntry: ComponentEntry = {
   error?: boolean;
   /** Deshabilitar el campo */
   disabled?: boolean;
+  /** Deshabilitar el label dentro del input */
+  noLabel?: boolean;
 }`,
   variants: [
     {
       label: "Fecha simple",
       props: { tipo: "fecha" },
       render: () => (
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm min-h-[420px]">
           <InputCalendario
             tipo="fecha"
             labelInicio="Seleccionar fecha"
@@ -79,7 +81,7 @@ export const inputCalendarioEntry: ComponentEntry = {
       label: "Rango de fechas (inicio y término)",
       props: { tipo: "rango", mode: "double" },
       render: () => (
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md min-h-[420px]">
           <InputCalendario
             tipo="rango"
             mode="double"
@@ -90,6 +92,25 @@ export const inputCalendarioEntry: ComponentEntry = {
       usageCode: `<InputCalendario
   tipo="rango"
   mode="double"
+  onRangeSelect={(start, end) => console.log(start, end)}
+/>`,
+      responsive: true,
+    },
+    {
+      label: "Sin label (altura compacta)",
+      props: { tipo: "rango", noLabel: true },
+      render: () => (
+        <div className="w-full max-w-md min-h-[420px]">
+          <InputCalendario
+            tipo="rango"
+            noLabel
+            onRangeSelect={(start, end) => console.log(start, end)}
+          />
+        </div>
+      ),
+      usageCode: `<InputCalendario
+  tipo="rango"
+  noLabel
   onRangeSelect={(start, end) => console.log(start, end)}
 />`,
       responsive: true,

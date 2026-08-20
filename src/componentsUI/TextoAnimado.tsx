@@ -59,7 +59,7 @@ export function TextoAnimado({
   const [mostrar, setMostrar] = useState(valor);
   const [animando, setAnimando] = useState(false);
   const prevRef = useRef(valor);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     if (prevRef.current !== valor) {

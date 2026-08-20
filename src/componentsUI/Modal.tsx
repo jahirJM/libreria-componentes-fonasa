@@ -51,7 +51,7 @@ export default function Modal({
           className="bg-white rounded-lg shadow-lg w-[50%] max-w-full p-5 h-fit max-h-[80vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
-          <Label text={tituloModal} customClass="text-xl mb-4 font-bold text-[#0572CE]" />
+          <Label text={tituloModal} className="text-xl mb-4 font-bold text-[#0572CE]" />
           <section>
             <div className="flex flex-col gap-4 p-4">
               <div className="text-left whitespace-pre-line">
@@ -97,7 +97,7 @@ export default function Modal({
           className="bg-white rounded-lg shadow-lg w-[50%] max-w-full p-5 h-fit max-h-[80vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
-          <Label text={tituloModal} customClass="text-xl mb-4 font-bold text-[#0572CE]" />
+          <Label text={tituloModal} className="text-xl mb-4 font-bold text-[#0572CE]" />
           <section>
             <div className="flex flex-col gap-4 p-4">
               <div className="text-left whitespace-pre-line">
@@ -136,7 +136,7 @@ export default function Modal({
           onClick={(e) => e.stopPropagation()}
         >
           <FaRegCheckCircle size={32} className="fill-green-500 mb-2" />
-          <Label text={subTituloModal} customClass="text-center" />
+          <Label text={subTituloModal} className="text-center" />
           {numeroSolicitud && (
             <p className="text-gray-700 font-semibold mt-2">
               Solicitud #{numeroSolicitud}

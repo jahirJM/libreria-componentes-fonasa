@@ -325,7 +325,17 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
 
         <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">{entry.name}</h2>
         {entry.description && (
-          <p className="text-gray-500 mb-3">{entry.description}</p>
+          <p className="text-gray-500 mb-3 whitespace-pre-line">
+            {entry.description.split(/(\*[^*]+\*)/g).map((part, i) =>
+              part.startsWith("*") && part.endsWith("*") ? (
+                <em key={i} className="text-xs text-gray-400 not-italic italic">
+                  {part.slice(1, -1)}
+                </em>
+              ) : (
+                <span key={i}>{part}</span>
+              )
+            )}
+          </p>
         )}
 
         {/* Dependencias como pills */}

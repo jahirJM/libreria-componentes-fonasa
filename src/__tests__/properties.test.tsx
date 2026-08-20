@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import * as fc from "fast-check";
 import { CodePanel } from "../app/projectComponents/CodePanel";
-import { PreviewPanel } from "../app/projectComponents/PreviewPanel";
 import { ComponentPreview } from "../app/projectComponents/ComponentPreview";
 import type { ComponentVariant, ComponentEntry } from "../docs/registry/types";
 

@@ -3,7 +3,7 @@ import botonClaveUnicaCode from "../../componentsUI/BotonClaveUnica.tsx?raw";
 import type { ComponentEntry } from "./types";
 
 export const botonClaveUnicaEntry: ComponentEntry = {
-  name: "Botón ClaveÚnica",
+  name: "boton-clave-unica",
   description:
     "Botón oficial de inicio de sesión con ClaveÚnica según la guía de Gobierno Digital.\n*Para más información revisar documentación oficial en:\nhttps://wikiguias.digital.gob.cl/Manuales/BotónCU*",
   code: botonClaveUnicaCode,

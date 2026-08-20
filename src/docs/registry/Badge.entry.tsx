@@ -3,7 +3,7 @@ import { Badge } from "../../componentsUI/Badge";
 import type { ComponentEntry } from "./types";
 
 export const badgeEntry: ComponentEntry =   {
-    name: "Badge",
+    name: "badge",
     description:
       "Badge/pill para indicar estados, contadores y categorías. Variantes de color según contexto.",
     code: badgeCode,

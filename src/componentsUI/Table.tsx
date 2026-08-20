@@ -11,17 +11,34 @@ import {
 } from "react";
 
 interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
+  /** Clases CSS adicionales para el <table>. */
   classTable?: string;
+  /** Clases CSS adicionales para los <th>. */
   classTh?: string;
+  /** Nombres de las columnas del header. */
   nombreColumnas: string[];
+  /** Filas de la tabla (renderizar <tr> con <td>). */
   children: ReactNode;
+  /** Si true, permite ocultar/colapsar columnas haciendo click en el header. @default false */
   ocultable?: boolean;
+  /** Si true, permite redimensionar columnas arrastrando el borde del header. @default false */
   redimensionable?: boolean;
 }
 
 const CELDA_CONTRAIDA = "w-[40px] min-w-[40px] max-w-[40px] overflow-hidden text-center";
 const CELDA_CONTRAIDA_CONTENIDO = "...";
 
+/**
+ * Tabla avanzada con columnas ocultables (click en header) y redimensionables (drag en borde).
+ * Para tablas simples sin estas features, usar TablaBasica.
+ *
+ * @example
+ * ```tsx
+ * <Table nombreColumnas={["Nombre", "RUT", "Estado"]} ocultable redimensionable>
+ *   <tr><td className="px-4 py-2">Juan</td><td className="px-4 py-2">12.345.678-9</td><td className="px-4 py-2">Activo</td></tr>
+ * </Table>
+ * ```
+ */
 export const Table = ({
   classTable,
   classTh,

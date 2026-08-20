@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import clsx from "clsx";
 
+/** Variante visual del badge según el contexto de uso. */
 export type BadgeVariant =
   | "counter"
   | "documentos"
@@ -12,16 +13,19 @@ export type BadgeVariant =
   | "estado-default";
 
 interface BadgeProps {
+  /** Variante visual que determina colores y semántica. */
   variant: BadgeVariant;
+  /** Texto a mostrar dentro del badge. */
   text: string;
+  /** Clases CSS adicionales. */
   customClass?: string;
-  /** Habilita redimensionamiento por arrastre con colapso a punto */
+  /** Habilita redimensionamiento por arrastre con colapso a punto. @default false */
   resizable?: boolean;
-  /** Umbral en px debajo del cual colapsa a punto (default: 40) */
+  /** Umbral en px debajo del cual colapsa a punto. @default 40 */
   collapseThreshold?: number;
-  /** Si true, en mobile (< sm) muestra solo un punto de color */
+  /** Si true, en mobile (< sm) muestra solo un punto de color. @default false */
   compactOnMobile?: boolean;
-  /** Si true, fuerza el estado colapsado (solo punto) siempre */
+  /** Si true, fuerza el estado colapsado (solo punto) siempre. @default false */
   forceCollapsed?: boolean;
 }
 
@@ -41,6 +45,16 @@ const dotColors: Record<BadgeVariant, string> = {
 const counterCollapsedStyles =
   "size-5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold flex items-center justify-center";
 
+/**
+ * Badge de estado con variantes semánticas y modo responsive.
+ * Puede colapsar a un punto de color en mobile o por arrastre.
+ *
+ * @example
+ * ```tsx
+ * <Badge variant="estado-aprobada" text="Aprobada" />
+ * <Badge variant="counter" text="12" compactOnMobile />
+ * ```
+ */
 export const Badge = ({
   variant,
   text,

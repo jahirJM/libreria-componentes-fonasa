@@ -13,12 +13,12 @@ Cuando un componente de la librería reutiliza otro componente que también est�
 
 ## Ejemplo
 
-Si `ListaSolicitudes` usa internamente `Paginación` y `Badge`:
+Si `lista-paginada` usa internamente `paginacion` y `badge`:
 
 ```tsx
 {
-  name: "Lista de Solicitudes",
-  description: "Utiliza: Paginación, Badge. Contenedor de solicitudes con skeleton de carga, error y paginación.",
+  name: "lista-paginada",
+  description: "Utiliza: paginacion, badge. Contenedor de solicitudes con skeleton de carga, error y paginación.",
   ...
 }
 ```
@@ -29,4 +29,4 @@ Esto permite al desarrollador:
 
 ## Regla inversa
 
-Si un componente se extrae como genérico (ej. Paginación), debe existir como entrada propia en el registry, incluso si también aparece como variante dentro de otro componente compuesto.
+Si un componente se extrae como genérico (ej. paginacion), debe existir como entrada propia en el registry, incluso si también aparece como variante dentro de otro componente compuesto.

@@ -4,16 +4,40 @@ import { useEffect } from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
 
 interface ModalProps {
+  /** Setter del estado de apertura del modal. */
   setModalOpen: (open: boolean) => void;
+  /** Controla si el modal está visible. */
   modalOpen: boolean;
+  /** Título del modal. @default "Titulo de modal" */
   tituloModal?: string;
+  /** Texto del cuerpo del modal. @default "Subtitulo de modal" */
   subTituloModal?: string;
+  /** Variante: "confirmacion" (Sí/No), "exito" (auto-cierre 5s), "aceptar" (solo Aceptar). @default "confirmacion" */
   variant?: "confirmacion" | "exito" | "aceptar";
+  /** Callback con el resultado de la acción (true = confirmó, false = canceló/cerró). */
   validacion?: (resultado: boolean) => void;
+  /** Muestra botón de cierre (reservado). */
   closeButton?: boolean;
+  /** Número de solicitud a mostrar (solo en variant "exito"). */
   numeroSolicitud?: number | string | null;
 }
 
+/**
+ * Modal simple de confirmación, éxito o aceptación.
+ * Se cierra al hacer click en el backdrop. La variante "exito" se auto-cierra a los 5 segundos.
+ *
+ * @example
+ * ```tsx
+ * <Modal
+ *   modalOpen={open}
+ *   setModalOpen={setOpen}
+ *   tituloModal="¿Confirmar envío?"
+ *   subTituloModal="Esta acción no se puede deshacer."
+ *   variant="confirmacion"
+ *   validacion={(ok) => ok && enviar()}
+ * />
+ * ```
+ */
 export default function Modal({
   modalOpen,
   setModalOpen,

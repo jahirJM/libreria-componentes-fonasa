@@ -3,7 +3,7 @@ import footerCode from "../../componentsUI/Footer.tsx?raw";
 import type { ComponentEntry } from "./types";
 
 export const footerEntry: ComponentEntry = {
-  name: "Footer",
+  name: "footer",
   description:
     "Footer institucional de FONASA con copyright dinámico (año actual) y mensaje decorativo. Color de texto configurable.",
   code: footerCode,

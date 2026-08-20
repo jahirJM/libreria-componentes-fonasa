@@ -7,7 +7,7 @@ import { useState } from "react";
 import { SidebarDemo } from "../demos/SidebarDemo";
 
 export const sidebarEntry: ComponentEntry =   {
-    name: "Sidebar",
+    name: "sidebar",
     description:
       "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
     code: sidebarCode,

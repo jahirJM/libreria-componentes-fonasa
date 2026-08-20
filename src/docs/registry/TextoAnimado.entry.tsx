@@ -82,7 +82,7 @@ function DemoError() {
 }
 
 export const textoAnimadoEntry: ComponentEntry = {
-  name: "Texto Animado",
+  name: "texto-animado",
   description:
     "Componente que muestra un valor con animación suave tipo slot-machine al cambiar. Ideal para resultados de formateo, montos, o cualquier dato dinámico.",
   code: textoAnimadoCode,

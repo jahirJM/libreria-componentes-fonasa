@@ -10,7 +10,7 @@ import { SkeletonAcordeon } from "../../skeletons/SkeletonAcordeon";
 import type { ComponentEntry } from "./types";
 
 export const acordeonEntry: ComponentEntry = {
-  name: "Acordeon",
+  name: "acordeon",
   description:
     "Acordeon con soporte para múltiples ítems abiertos, ítems deshabilitados, bordes y modo controlado.",
   code: acordeonCode,

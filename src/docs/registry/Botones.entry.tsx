@@ -3,7 +3,7 @@ import botonesCode from "../../componentsUI/Botones.tsx?raw"
 import type { ComponentEntry } from "./types";
 
 export const botonesEntry: ComponentEntry =   {
-    name: "Botones",
+    name: "botones",
     description:
       "Conjunto de botones (Confirmar, Cancelar, Primario, Secundario, Outline, Link) con soporte para íconos y estado deshabilitado.",
     code: botonesCode,

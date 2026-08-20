@@ -1,6 +1,6 @@
 [
   {
-    "name": "Acordeon",
+    "name": "acordeon",
     "file": "Acordeon.tsx",
     "description": "Acordeon con soporte para múltiples ítems abiertos, ítems deshabilitados, bordes y modo controlado.",
     "dependencies": [
@@ -9,7 +9,7 @@
     ]
   },
   {
-    "name": "Alerta",
+    "name": "alerta",
     "file": "Alerta.tsx",
     "description": "Componente de alerta con 5 variantes semánticas (success, error, warning, info, neutral), título opcional, contenido libre (children), ícono personalizable, acción secundaria y botón de cierre.",
     "dependencies": [
@@ -19,7 +19,7 @@
     "group": "Alertas"
   },
   {
-    "name": "Badge",
+    "name": "badge",
     "file": "Badge.tsx",
     "description": "Badge/pill para indicar estados, contadores y categorías. Variantes de color según contexto.",
     "dependencies": [
@@ -27,7 +27,13 @@
     ]
   },
   {
-    "name": "Botones",
+    "name": "boton-clave-unica",
+    "file": "BotonClaveUnica.tsx",
+    "description": "Botón oficial de inicio de sesión con ClaveÚnica según la guía de Gobierno Digital.\\n*Para más información revisar documentación oficial en:\\nhttps://wikiguias.digital.gob.cl/Manuales/BotónCU*",
+    "group": "Botones"
+  },
+  {
+    "name": "botones",
     "file": "Botones.tsx",
     "description": "Conjunto de botones (Confirmar, Cancelar, Primario, Secundario, Outline, Link) con soporte para íconos y estado deshabilitado.",
     "dependencies": [
@@ -35,7 +41,7 @@
     ]
   },
   {
-    "name": "Calendario",
+    "name": "calendario",
     "file": "CalendarioRango.tsx",
     "description": "Calendario mensual con selección de rango de fechas (inicio y fin). Marca los feriados de Chile en rojo usando la librería date-holidays. Soporta modo single y double. Los filtros (feriados, habiles, finSemana) solo afectan el conteo de días, no la visualización del calendario.",
     "dependencies": [
@@ -44,18 +50,18 @@
     "group": "Calendario"
   },
   {
-    "name": "Card",
+    "name": "card",
     "file": "Card.tsx",
     "description": "Contenedor card composable con Header (título, descripción, acción), Content y Footer. 4 variantes: default, elevada, outline e interactiva.",
     "dependencies": [
       "clsx"
     ],
     "internalDeps": [
-      "Botones"
+      "botones"
     ]
   },
   {
-    "name": "CheckButton",
+    "name": "check-button",
     "file": "CheckButton.tsx",
     "description": "Checkbox/radio button group con variantes primary (checkbox múltiple) y secondary (radio single).",
     "dependencies": [
@@ -63,12 +69,12 @@
     ]
   },
   {
-    "name": "Contador Estadística",
+    "name": "contador-estadistica",
     "file": "ContadorEstadistica.tsx",
     "description": "Tarjeta de métrica animada con patrón de composición. Cuenta desde 0 hasta el valor final al entrar en pantalla. Usa sub-componentes: Cabecera, Metrica, Contenido, Etiqueta, Descripcion y Tendencia."
   },
   {
-    "name": "Drawer",
+    "name": "drawer",
     "file": "Drawer.tsx",
     "description": "Panel deslizante que se abre desde cualquier borde de la pantalla con animación suave, overlay oscuro, cierre con Escape y soporte para header, footer y múltiples tamaños.",
     "dependencies": [
@@ -78,7 +84,7 @@
     ]
   },
   {
-    "name": "Footer",
+    "name": "footer",
     "file": "Footer.tsx",
     "description": "Footer institucional de FONASA con copyright dinámico (año actual) y mensaje decorativo. Color de texto configurable.",
     "dependencies": [
@@ -86,12 +92,12 @@
     ]
   },
   {
-    "name": "IndicadorRequerido",
+    "name": "indicador-requerido",
     "file": "IndicadorRequerido.tsx",
     "description": "Asterisco rojo (*) que indica campo obligatorio. Componente auxiliar usado internamente por Label."
   },
   {
-    "name": "Input",
+    "name": "input",
     "file": "Input.tsx",
     "description": "Input con soporte para múltiples tipos, íconos, loading y copyable.",
     "dependencies": [
@@ -100,19 +106,19 @@
     ]
   },
   {
-    "name": "Input Calendario",
+    "name": "input-calendario",
     "file": "InputCalendario.tsx",
     "description": "Input con popover de calendario integrado. Soporta modo fecha (una sola fecha) y modo rango (fecha inicio y fin). Al seleccionar en el calendario, los campos se rellenan automáticamente.",
     "dependencies": [
       "date-holidays"
     ],
     "internalDeps": [
-      "Calendario"
+      "calendario"
     ],
     "group": "Calendario"
   },
   {
-    "name": "Label",
+    "name": "label",
     "file": "Label.tsx",
     "description": "Etiqueta de texto con asterisco de campo obligatorio y mensaje de error",
     "dependencies": [
@@ -120,29 +126,29 @@
       "react-icons"
     ],
     "internalDeps": [
-      "IndicadorRequerido"
+      "indicador-requerido"
     ]
   },
   {
-    "name": "Lista de Solicitudes",
+    "name": "lista-paginada",
     "file": "ListaPaginada.tsx",
     "description": "Contenedor de lista de solicitudes con skeleton de carga, manejo de error, contador de resultados y paginación integrada.",
     "dependencies": [
       "react-icons"
     ],
     "internalDeps": [
-      "Paginación",
-      "Badge",
-      "SkeletonSolicitud"
+      "paginacion",
+      "badge",
+      "skeleton-solicitud"
     ]
   },
   {
-    "name": "Loading",
+    "name": "loading",
     "file": "Loading.tsx",
     "description": "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner)."
   },
   {
-    "name": "Modal - Info",
+    "name": "modal-info",
     "file": "CustomModal.tsx",
     "description": "Modal con animaciones de transición, tamaños configurables (sm, md, lg), header con título y botón de cierre.",
     "dependencies": [
@@ -150,24 +156,24 @@
       "react-icons"
     ],
     "internalDeps": [
-      "Botones"
+      "botones"
     ],
     "group": "Modales"
   },
   {
-    "name": "Modal - Notificación",
+    "name": "modal-notificacion",
     "file": "Modal.tsx",
     "description": "Modal de éxito con ícono de check verde, mensaje y número de solicitud opcional. Se cierra automáticamente después de 5 segundos.",
     "dependencies": [
       "react-icons"
     ],
     "internalDeps": [
-      "Label"
+      "label"
     ],
     "group": "Modales"
   },
   {
-    "name": "Paginación",
+    "name": "paginacion",
     "file": "Paginacion.tsx",
     "description": "Paginación genérica con rango visible de hasta 5 páginas, centrada en la página actual. Flechas de navegación anterior/siguiente.",
     "dependencies": [
@@ -175,7 +181,7 @@
     ]
   },
   {
-    "name": "Select",
+    "name": "select",
     "file": "Select.tsx",
     "description": "Select desplegable custom con soporte para estados de error y deshabilitado. Dropdown controlado por CSS/JS (no nativo).",
     "dependencies": [
@@ -184,7 +190,7 @@
     ]
   },
   {
-    "name": "Select Buscable",
+    "name": "select-buscable",
     "file": "SelectBuscable.tsx",
     "description": "Select desplegable con campo de búsqueda integrado, navegación por teclado, opciones deshabilitadas y soporte para múltiples tamaños.",
     "dependencies": [
@@ -193,7 +199,7 @@
     ]
   },
   {
-    "name": "Sidebar",
+    "name": "sidebar",
     "file": "Sidebar.tsx",
     "description": "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
     "dependencies": [
@@ -201,15 +207,15 @@
     ]
   },
   {
-    "name": "Stepper",
+    "name": "stepper",
     "file": "Stepper.tsx",
     "description": "Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
     "internalDeps": [
-      "Botones"
+      "botones"
     ]
   },
   {
-    "name": "Switch",
+    "name": "switch",
     "file": "Switch.tsx",
     "description": "Toggle switch con 5 variantes de color (primary, success, error, warning, neutral), 3 tamaños (sm, md, lg), íconos internos opcionales, y soporte controlado/no-controlado.",
     "dependencies": [
@@ -218,19 +224,19 @@
     ]
   },
   {
-    "name": "Tabla - Avanzada",
+    "name": "tabla-avanzada",
     "file": "Table.tsx",
     "description": "Tabla con columnas ocultables (se contraen a",
     "dependencies": [
       "clsx"
     ],
     "internalDeps": [
-      "Tabla - Básica"
+      "tabla-basica"
     ],
     "group": "Tablas"
   },
   {
-    "name": "Tabla - Básica",
+    "name": "tabla-basica",
     "file": "TablaBasica.tsx",
     "description": "Tabla HTML simple sin lógica, con header estilizado y columnas configurables.",
     "dependencies": [
@@ -239,7 +245,7 @@
     "group": "Tablas"
   },
   {
-    "name": "Tabla - Básica Tipo 2",
+    "name": "tabla-datos",
     "file": "TablaDatos.tsx",
     "description": "Tabla con grid dinámico, variantes de color en header, y botones de editar/eliminar por fila. Incluye su propio Skeleton loader.",
     "dependencies": [
@@ -249,7 +255,7 @@
     "group": "Tablas"
   },
   {
-    "name": "TextArea",
+    "name": "textarea",
     "file": "TextArea.tsx",
     "description": "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     "dependencies": [
@@ -257,24 +263,24 @@
     ]
   },
   {
-    "name": "Texto Animado",
+    "name": "texto-animado",
     "file": "TextoAnimado.tsx",
     "description": "Componente que muestra un valor con animación suave tipo slot-machine al cambiar. Ideal para resultados de formateo, montos, o cualquier dato dinámico."
   },
   {
-    "name": "Toast (Sonner)",
+    "name": "toast",
     "file": "Toast.tsx",
     "description": "Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
     "dependencies": [
       "sonner"
     ],
     "internalDeps": [
-      "Botones"
+      "botones"
     ],
     "group": "Alertas"
   },
   {
-    "name": "UploadBox",
+    "name": "upload-box",
     "file": "UploadBox.tsx",
     "description": "Zona de carga de archivos con estados: default, confirmación y error. Estilo drag & drop.",
     "dependencies": [

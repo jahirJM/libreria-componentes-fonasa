@@ -4,9 +4,9 @@ import { Stepper } from "../../componentsUI/Stepper";
 import type { ComponentEntry } from "./types";
 
 export const stepperEntry: ComponentEntry =   {
-    name: "Stepper",
+    name: "stepper",
     description:
-      "Utiliza: Botones. Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
+      "Utiliza: botones. Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
     code: stepperCode,
     colors: [
       { name: "Color primario (fonasa)", value: "#0572CE", usage: "Círculos activos, línea de progreso, texto del paso actual y borde del badge mobile" },

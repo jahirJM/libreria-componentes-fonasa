@@ -2,16 +2,30 @@ import type { IconType } from "react-icons";
 import React from "react";
 
 interface BotonesProps {
+  /** Texto o contenido del botón. */
   label: React.ReactNode;
+  /** Ícono de react-icons a mostrar a la izquierda del label. */
   icon?: IconType;
+  /** Callback al hacer click. */
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  /** Deshabilita el botón. @default false */
   isDisabled?: boolean;
+  /** Tipo HTML del botón. @default "button" */
   type?: "button" | "submit" | "reset";
+  /** Clases CSS adicionales. */
   customClass?: string;
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga. @default false */
   isLoading?: boolean;
 }
 
+/**
+ * Botón de confirmación (fondo cyan). Uso típico: acciones afirmativas en formularios.
+ *
+ * @example
+ * ```tsx
+ * <BotonConfirmar label="Guardar" onClick={handleSave} />
+ * ```
+ */
 export const BotonConfirmar = ({
   label,
   icon: Icon,
@@ -41,6 +55,14 @@ export const BotonConfirmar = ({
   );
 };
 
+/**
+ * Botón de cancelación (fondo rojo). Uso típico: rechazar, descartar, cancelar.
+ *
+ * @example
+ * ```tsx
+ * <BotonCancelar label="Cancelar" onClick={handleCancel} />
+ * ```
+ */
 export const BotonCancelar = ({
   label,
   icon: Icon,
@@ -69,6 +91,14 @@ export const BotonCancelar = ({
   );
 };
 
+/**
+ * Botón primario institucional (fondo azul Fonasa). Acción principal de la vista.
+ *
+ * @example
+ * ```tsx
+ * <BotonPrimario label="Enviar solicitud" type="submit" />
+ * ```
+ */
 export const BotonPrimario = ({
   label,
   icon: Icon,
@@ -99,6 +129,14 @@ export const BotonPrimario = ({
   );
 };
 
+/**
+ * Botón secundario (fondo gris). Acciones de menor jerarquía visual.
+ *
+ * @example
+ * ```tsx
+ * <BotonSecundario label="Volver" onClick={handleBack} />
+ * ```
+ */
 export const BotonSecundario = ({
   label,
   icon: Icon,
@@ -127,6 +165,14 @@ export const BotonSecundario = ({
   );
 };
 
+/**
+ * Botón con borde (outline). Sin fondo, estilo limpio para acciones terciarias.
+ *
+ * @example
+ * ```tsx
+ * <BotonOutline label="Ver más" onClick={handleViewMore} />
+ * ```
+ */
 export const BotonOutline = ({
   label,
   icon: Icon,
@@ -157,6 +203,14 @@ export const BotonOutline = ({
   );
 };
 
+/**
+ * Botón estilo link (sin fondo ni borde). Para acciones inline o navegación textual.
+ *
+ * @example
+ * ```tsx
+ * <BotonLink label="Ver detalle" onClick={handleDetail} />
+ * ```
+ */
 export const BotonLink = ({
   label,
   icon: Icon,

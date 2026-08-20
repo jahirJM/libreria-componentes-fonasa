@@ -4,10 +4,10 @@ import toastCode from "../../componentsUI/Toast.tsx?raw"
 import type { ComponentEntry } from "./types";
 
 export const toastEntry: ComponentEntry =   {
-    name: "Toast (Sonner)",
+    name: "toast",
     group: "Alertas",
     description:
-      "Utiliza: Botones. Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
+      "Utiliza: botones. Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
     code: toastCode,
     dependencies: ["sonner"],
     colors: [

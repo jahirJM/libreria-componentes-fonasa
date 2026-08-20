@@ -2,24 +2,48 @@ import clsx from "clsx";
 
 type Variant = "primary" | "secondary";
 
+/** Opción individual para el CheckButton. */
 interface Opcion {
+  /** Identificador único de la opción. */
   id: string;
+  /** Texto visible de la opción. */
   label: string;
 }
 
 interface CheckButtonProps {
+  /** Lista de opciones a renderizar. En variant "secondary" tiene opciones por defecto (Sí/No). */
   listaOpciones?: Opcion[];
+  /** IDs de las opciones actualmente seleccionadas. */
   selectedItems?: string[];
+  /** Callback al seleccionar/deseleccionar una opción. Recibe la opción completa. */
   onToggle: (opcion: Opcion) => void;
+  /** Clases CSS adicionales para el contenedor. */
   customClass?: string;
+  /** Clases CSS adicionales para cada ítem. */
   customClassItem?: string;
+  /** Clases CSS adicionales para los labels. */
   customClassLabel?: string;
+  /** Deshabilita todas las opciones. @default false */
   isDisabled?: boolean;
+  /** "primary" = checkboxes múltiples, "secondary" = radio buttons (selección única). @default "primary" */
   variant?: Variant;
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga. @default false */
   isLoading?: boolean;
 }
 
+/**
+ * Grupo de checkboxes o radio buttons con soporte de skeleton.
+ * Usa variant "primary" para selección múltiple o "secondary" para selección única (radio).
+ *
+ * @example
+ * ```tsx
+ * <CheckButton
+ *   listaOpciones={[{ id: "1", label: "Opción A" }, { id: "2", label: "Opción B" }]}
+ *   selectedItems={["1"]}
+ *   onToggle={(op) => toggle(op.id)}
+ * />
+ * ```
+ */
 export const CheckButton = ({
   listaOpciones,
   selectedItems,

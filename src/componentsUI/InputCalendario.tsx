@@ -38,6 +38,19 @@ interface InputCalendarioProps {
   disabled?: boolean;
 }
 
+/**
+ * Input de fecha con calendario desplegable integrado.
+ * Soporta selección de fecha única o rango con indicadores visuales.
+ *
+ * @example
+ * ```tsx
+ * <InputCalendario
+ *   tipo="rango"
+ *   onRangeSelect={(inicio, fin) => setRango({ inicio, fin })}
+ *   mode="double"
+ * />
+ * ```
+ */
 export function InputCalendario({
   tipo = "rango",
   onDateSelect,

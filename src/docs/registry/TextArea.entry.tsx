@@ -3,7 +3,7 @@ import { TextArea } from "../../componentsUI/TextArea";
 import type { ComponentEntry } from "./types";
 
 export const textAreaEntry: ComponentEntry =   {
-    name: "TextArea",
+    name: "textarea",
     description:
       "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     code: textAreaCode,

@@ -4,11 +4,22 @@ import { IndicadorRequerido } from "./IndicadorRequerido";
 import { type LabelHTMLAttributes } from "react";
 
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
+  /** Texto del label. */
   text: string;
+  /** Si true, muestra el asterisco rojo de campo requerido. @default false */
   indicador?: boolean;
+  /** Si true, muestra un mensaje "requerido" con ícono de advertencia. @default false */
   error?: boolean;
 }
 
+/**
+ * Label de formulario con indicador de campo requerido y estado de error.
+ *
+ * @example
+ * ```tsx
+ * <Label text="RUT" htmlFor="rut" indicador error={!rut} />
+ * ```
+ */
 export const Label = ({
   className,
   text,

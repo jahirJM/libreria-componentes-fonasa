@@ -5,7 +5,7 @@ import { FiEye, FiSearch } from "react-icons/fi";
 import type { ComponentEntry } from "./types";
 
 export const inputEntry: ComponentEntry =   {
-    name: "Input",
+    name: "input",
     description:
       "Input con soporte para múltiples tipos, íconos, loading y copyable.",
     code: inputCode,

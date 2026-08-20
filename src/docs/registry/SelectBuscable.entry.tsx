@@ -122,7 +122,7 @@ function DisabledOptionsDemo() {
 }
 
 export const selectBuscableEntry: ComponentEntry = {
-  name: "Select Buscable",
+  name: "select-buscable",
   description:
     "Select desplegable con campo de búsqueda integrado, navegación por teclado, opciones deshabilitadas y soporte para múltiples tamaños.",
   code: selectBuscableCode,

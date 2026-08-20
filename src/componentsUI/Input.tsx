@@ -5,17 +5,38 @@ import { FiCopy } from "react-icons/fi";
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value"> {
+  /** Muestra borde rojo indicando error de validación. @default false */
   error?: boolean;
+  /** Valor controlado del input. */
   value?: string;
+  /** Ícono a la izquierda del input. */
   leftIcon?: ReactNode;
+  /** Ícono a la derecha del input. */
   rightIcon?: ReactNode;
+  /** Muestra un spinner de carga dentro del input (deshabilita interacción). @default false */
   loading?: boolean;
+  /** Muestra un botón de copiar a la derecha. @default false */
   copyable?: boolean;
+  /** Tipo HTML del input. @default "text" */
   type?: "text" | "email" | "number" | "password" | "tel" | "url" | "file";
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga en lugar del input. @default false */
   isLoading?: boolean;
 }
 
+/**
+ * Input de texto con soporte para íconos, estado de error, carga y botón de copiar.
+ *
+ * @example
+ * ```tsx
+ * <Input
+ *   value={nombre}
+ *   onChange={(e) => setNombre(e.target.value)}
+ *   placeholder="Ingrese nombre"
+ *   error={!nombre}
+ *   leftIcon={<FiUser />}
+ * />
+ * ```
+ */
 export function Input({
   error = false,
   disabled,

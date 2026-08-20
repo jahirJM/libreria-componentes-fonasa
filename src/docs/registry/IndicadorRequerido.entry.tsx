@@ -3,7 +3,7 @@ import { IndicadorRequerido } from "../../componentsUI/IndicadorRequerido";
 import type { ComponentEntry } from "./types";
 
 export const indicadorRequeridoEntry: ComponentEntry = {
-  name: "IndicadorRequerido",
+  name: "indicador-requerido",
   description:
     "Asterisco rojo (*) que indica campo obligatorio. Componente auxiliar usado internamente por Label.",
   code: indicadorCode,

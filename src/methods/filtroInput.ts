@@ -10,7 +10,8 @@ export type TipoFiltro =
   | "minusculas"
   | "especiales"
   | "sinAcentos"
-  | "alfanumerico";
+  | "alfanumerico"
+  | "telefono";
 
 /** Validaciones especiales mutuamente excluyentes con los filtros de caracteres */
 export type ValidacionEspecial = "email" | "celular" | "telefonoFijo";
@@ -35,6 +36,7 @@ const CARACTERES_PERMITIDOS: Partial<Record<TipoFiltro, string>> = {
   sinAcentos:    "a-zA-ZñÑ",
   especiales:    "!@#$%^&*()_+\\-=\\[\\]{}|;':\",./<>?",
   alfanumerico:  "a-zA-Z0-9áéíóúÁÉÍÓÚüÜñÑ",
+  telefono:      "0-9+\\-() ",
 };
 
 const TRANSFORMACIONES: Partial<Record<TipoFiltro, (v: string) => string>> = {
@@ -180,6 +182,7 @@ const ETIQUETAS: Record<TipoFiltro, string> = {
   especiales:   "especiales",
   sinAcentos:   "sin acentos",
   alfanumerico: "alfanumérico",
+  telefono:     "teléfono",
 };
 
 export function generarCodigoUso(config: ConfigFiltro): string {

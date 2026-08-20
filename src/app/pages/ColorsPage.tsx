@@ -308,6 +308,19 @@ export const colorSections: ColorSection[] = [
     ],
   },
   {
+    title: "ClaveÚnica",
+    description:
+      "Colores oficiales del botón de autenticación ClaveÚnica según la guía de Gobierno Digital.",
+    colors: [
+      { name: "ClaveÚnica (contenedor)", value: "#0F69C4", description: "Fondo botón estándar" },
+      { name: "ClaveÚnica (hover)", value: "#0B4E91", description: "Fondo hover botón estándar" },
+      { name: "ClaveÚnica (active)", value: "#07305A", description: "Fondo active/pressed" },
+      { name: "ClaveÚnica (focus outline)", value: "#FFBE5C", description: "Outline en focus" },
+      { name: "ClaveÚnica alto contraste", value: "#625AF6", description: "Fondo botón alto contraste / dark mode" },
+      { name: "ClaveÚnica alto contraste (hover)", value: "#4943B6", description: "Hover alto contraste" },
+    ],
+  },
+  {
     title: "Variantes",
     description:
       "Colores auxiliares para íconos, bordes, botones y acciones.",

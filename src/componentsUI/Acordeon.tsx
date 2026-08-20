@@ -145,7 +145,7 @@ export function ItemAcordeon({
   children,
   ...props
 }: ItemAcordeonProps) {
-  const { valoresAbiertos, bordered } = useContextoAcordeon();
+  const { valoresAbiertos } = useContextoAcordeon();
   const abierto = valoresAbiertos.includes(value);
 
   return (

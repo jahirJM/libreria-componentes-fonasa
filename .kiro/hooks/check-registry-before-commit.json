@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Verificar registry antes de commit",
+      "trigger": "PreToolUse",
+      "description": "Antes de ejecutar un commit, verifica si hay archivos de componentes o entries modificados que requieran regenerar el registry y rebuild de la CLI",
+      "matcher": "execute_pwsh",
+      "action": {
+        "type": "agent",
+        "prompt": "Antes de ejecutar este comando, verifica si es un comando git commit. Si lo es, revisa si hay archivos modificados (staged o unstaged) en src/componentsUI/ o src/docs/registry/. Si los hay, informa al usuario que debe regenerar el registry ejecutando npm run generate:registry && npm run cli:build antes de commitear, o pregúntale si quieres que lo hagas automáticamente. Si no hay cambios en esas rutas, procede normalmente sin interrumpir."
+      }
+    }
+  ]
+}

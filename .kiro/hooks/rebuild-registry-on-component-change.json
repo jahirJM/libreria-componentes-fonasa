@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Rebuild registry en cambios de componentes",
+      "trigger": "PostFileSave",
+      "description": "Detecta cambios en componentes o entries y regenera el registry.json + rebuild de la CLI automáticamente",
+      "matcher": "(src[\\\\/]componentsUI[\\\\/]|src[\\\\/]docs[\\\\/]registry[\\\\/]).*\\.tsx$",
+      "action": {
+        "type": "command",
+        "command": "npm run generate:registry && npm run cli:build",
+        "timeout": 60
+      }
+    }
+  ]
+}

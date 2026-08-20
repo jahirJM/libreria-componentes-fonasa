@@ -89,6 +89,19 @@ interface AlertaProps {
   onClose?: () => void;
 }
 
+/**
+ * Alerta contextual con variantes semánticas (success, error, warning, info, neutral).
+ * Soporta título, contenido libre, acción secundaria y cierre animado.
+ *
+ * @example
+ * ```tsx
+ * <Alerta
+ *   variante="success"
+ *   titulo="Solicitud enviada"
+ *   mensaje="Tu solicitud fue procesada correctamente."
+ * />
+ * ```
+ */
 export const Alerta = ({
   mensaje,
   titulo,

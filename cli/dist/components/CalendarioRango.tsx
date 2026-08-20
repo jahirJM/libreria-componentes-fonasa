@@ -240,6 +240,19 @@ function CalendarPanel({
   );
 }
 
+/**
+ * Calendario de selección de rango de fechas con soporte para feriados chilenos,
+ * modo simple/doble, conteo configurable de días y restricciones min/max.
+ *
+ * @example
+ * ```tsx
+ * <CalendarioRango
+ *   mode="double"
+ *   onRangeSelect={(inicio, fin) => console.log(inicio, fin)}
+ *   minDate={new Date()}
+ * />
+ * ```
+ */
 export function CalendarioRango({
   onRangeSelect,
   onDateSelect,

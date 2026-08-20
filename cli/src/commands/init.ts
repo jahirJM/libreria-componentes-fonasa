@@ -3,18 +3,24 @@ import { writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
 import chalk from "chalk";
 import prompts from "prompts";
+import { printBanner, printSection, printBox, printTip, brand } from "../utils/ui.js";
 
 const CONFIG_FILE = "fonasa-ui.json";
 
 export const initCommand = new Command("init")
   .description("Inicializa la configuración de fonasa-ui en tu proyecto")
   .action(async () => {
+    printBanner();
+    printSection("⚙️", "Configuración inicial");
+    console.log("");
+
     const configPath = resolve(process.cwd(), CONFIG_FILE);
 
     if (existsSync(configPath)) {
       console.log(
-        chalk.yellow("⚠️  Ya existe un archivo fonasa-ui.json en este proyecto.")
+        brand.warning("  ⚠️  Ya existe un archivo fonasa-ui.json en este proyecto.")
       );
+      console.log("");
       const { overwrite } = await prompts({
         type: "confirm",
         name: "overwrite",
@@ -23,7 +29,7 @@ export const initCommand = new Command("init")
       });
 
       if (!overwrite) {
-        console.log(chalk.gray("Operación cancelada."));
+        console.log(brand.dim("\n  Operación cancelada.\n"));
         return;
       }
     }
@@ -44,12 +50,12 @@ export const initCommand = new Command("init")
     ]);
 
     if (!componentsDir) {
-      console.log(chalk.gray("Operación cancelada."));
+      console.log(brand.dim("\n  Operación cancelada.\n"));
       return;
     }
 
     const config = {
-      $schema: "https://github.com/tu-org/libreria-componentes-fonasa/blob/main/cli/schema.json",
+      $schema: "https://github.com/jahirJM/libreria-componentes-fonasa/blob/main/cli/schema.json",
       componentsDir,
       typescript,
     };
@@ -57,12 +63,11 @@ export const initCommand = new Command("init")
     writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
 
     console.log("");
-    console.log(chalk.green("✅ Configuración creada en fonasa-ui.json"));
-    console.log("");
-    console.log("Ahora puedes agregar componentes con:");
-    console.log(chalk.cyan("  npx fonasa-ui add Input"));
-    console.log(chalk.cyan("  npx fonasa-ui add Modal Select Badge"));
-    console.log("");
-    console.log("Para ver componentes disponibles:");
-    console.log(chalk.cyan("  npx fonasa-ui list"));
+    printBox("Configuración creada", [
+      `${brand.muted("Archivo:")}     fonasa-ui.json`,
+      `${brand.muted("Componentes:")} ${componentsDir}`,
+      `${brand.muted("TypeScript:")}  ${typescript ? "sí" : "no"}`,
+    ]);
+
+    printTip("Siguiente paso → " + brand.primary("npx fonasa-ui add input"));
   });

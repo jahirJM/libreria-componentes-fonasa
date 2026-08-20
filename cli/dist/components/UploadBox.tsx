@@ -4,21 +4,40 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 
 interface UploadBoxProps {
+  /** Texto descriptivo (parte normal). */
   text: string;
+  /** Texto destacado en negrita. */
   textStrong: string;
+  /** Clases CSS adicionales. */
   customClass?: string;
+  /** Si true, muestra estado de archivo subido exitosamente (check verde). @default false */
   confirmacion?: boolean;
+  /** Si true, muestra estado de error (archivo inválido). @default false */
   error?: boolean;
-  /** Formatos permitidos, ej: ".pdf,.doc,.docx,.jpg" */
+  /** Formatos permitidos visibles al usuario. @default ".pdf,.doc,.docx,.jpg,.jpeg,.png" */
   allowedFormats?: string;
-  /** Tamaño máximo, ej: "10MB" */
+  /** Tamaño máximo visible al usuario. @default "10MB" */
   maxSize?: string;
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga. @default false */
   isLoading?: boolean;
-  /** Si true, fuerza la vista compacta (solo ícono + max size) */
+  /** Si true, fuerza la vista compacta (solo ícono + max size). @default false */
   forceCompact?: boolean;
 }
 
+/**
+ * Zona de subida de archivos con estados visual de idle, éxito y error.
+ * Responsive: en mobile muestra solo ícono y tamaño máximo.
+ *
+ * @example
+ * ```tsx
+ * <UploadBox
+ *   textStrong="Arrastra tu archivo"
+ *   text="o haz click para seleccionar"
+ *   allowedFormats=".pdf,.jpg"
+ *   maxSize="5MB"
+ * />
+ * ```
+ */
 export const UploadBox = ({
   text,
   textStrong,

@@ -34,20 +34,34 @@ Card.displayName = "Card";
 /* Tipos                                                               */
 /* ------------------------------------------------------------------ */
 
+/** Opción individual del Select. */
 export interface SelectOption {
+  /** Valor interno que se envía al seleccionar (no visible al usuario). */
   value: string;
+  /** Texto visible que se muestra en la lista desplegable. */
   label: string;
+  /** Si es `true`, la opción aparece deshabilitada y no se puede seleccionar. */
   disabled?: boolean;
 }
 
 interface SelectProps {
+  /** Lista de opciones a mostrar en el dropdown.
+   * @example [{ value: "1", label: "Santiago" }, { value: "2", label: "Valparaíso" }]
+   */
   opciones: SelectOption[];
+  /** Valor actualmente seleccionado. Debe coincidir con `value` de alguna opción. */
   value: string;
+  /** Callback que se ejecuta al seleccionar una opción. Recibe el `value` de la opción elegida. */
   onChange: (value: string) => void;
+  /** Texto que se muestra cuando no hay selección. @default "Seleccione una opción" */
   placeholder?: string;
+  /** Deshabilita el select e impide la interacción. @default false */
   disabled?: boolean;
+  /** Muestra el borde en rojo para indicar error de validación. @default false */
   error?: boolean;
+  /** Muestra un skeleton de carga en lugar del select. @default false */
   isLoading?: boolean;
+  /** Clases CSS adicionales para el contenedor. */
   className?: string;
   children?: ReactNode;
 }
@@ -56,6 +70,20 @@ interface SelectProps {
 /* Select                                                              */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Dropdown personalizado accesible con navegación por teclado y posicionamiento
+ * automático (abre arriba o abajo según el espacio disponible).
+ *
+ * @example
+ * ```tsx
+ * <Select
+ *   opciones={[{ value: "1", label: "Santiago" }, { value: "2", label: "Valparaíso" }]}
+ *   value={ciudad}
+ *   onChange={(v) => setCiudad(v)}
+ *   placeholder="Seleccione ciudad"
+ * />
+ * ```
+ */
 export const Select = ({
   opciones,
   value,

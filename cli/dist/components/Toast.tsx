@@ -21,6 +21,15 @@ export const FonasaToaster = () => {
 
 /**
  * Funciones utilitarias para mostrar toasts con estilos Fonasa.
+ * Requiere que `<FonasaToaster />` esté montado en el layout.
+ *
+ * @example
+ * ```tsx
+ * fonasaToast.success("Solicitud enviada correctamente");
+ * fonasaToast.error("No se pudo procesar la solicitud");
+ * fonasaToast.info("Tu cotización está siendo revisada");
+ * fonasaToast.warning("El plazo vence mañana");
+ * ```
  */
 export const fonasaToast = {
   success: (mensaje: string) => {

@@ -271,6 +271,21 @@ function SidebarSkeleton() {
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 
+/**
+ * Sidebar lateral de navegación con ítems, sub-menús desplegables, bloqueo de opciones y skeleton de carga.
+ * Se usa como navegación principal fija en el layout.
+ *
+ * @example
+ * ```tsx
+ * <Sidebar
+ *   userName="Juan Pérez"
+ *   title="Gestión del Beneficiario"
+ *   menuItems={menuItems}
+ *   activePath="/solicitudes"
+ *   onNavigate={(path) => navigate(path)}
+ * />
+ * ```
+ */
 export function Sidebar({
   userName = "Usuario",
   title = "Gestión del Beneficiario",

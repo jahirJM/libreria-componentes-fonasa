@@ -9551,6 +9551,9 @@ var {
 import { existsSync as existsSync4, mkdirSync, writeFileSync } from "fs";
 import { resolve as resolve4, join } from "path";
 
+// node_modules/ora/index.js
+import process9 from "node:process";
+
 // node_modules/chalk/source/vendor/ansi-styles/index.js
 var ANSI_BACKGROUND_OFFSET = 10;
 var wrapAnsi16 = (offset = 0) => (code) => `\x1B[${code + offset}m`;
@@ -10045,9 +10048,6 @@ Object.defineProperties(createChalk.prototype, styles2);
 var chalk = createChalk();
 var chalkStderr = createChalk({ level: stderrColor ? stderrColor.level : 0 });
 var source_default = chalk;
-
-// node_modules/ora/index.js
-import process9 from "node:process";
 
 // node_modules/cli-cursor/index.js
 import process5 from "node:process";
@@ -11056,24 +11056,95 @@ async function fetchComponentSource(fileName) {
   return null;
 }
 
+// src/utils/ui.ts
+var brand = {
+  primary: source_default.hex("#0572CE"),
+  secondary: source_default.hex("#008CB5"),
+  success: source_default.hex("#16a34a"),
+  warning: source_default.hex("#ca8a04"),
+  error: source_default.hex("#dc2626"),
+  muted: source_default.hex("#6b7280"),
+  dim: source_default.hex("#9ca3af"),
+  accent: source_default.hex("#1e3a5f")
+};
+var BANNER = `
+${brand.primary("  \u2588\u2588\u2588\u2588\u2588  \u2588\u2588\u2588  \u2588   \u2588  \u2588\u2588\u2588   \u2588\u2588\u2588\u2588  \u2588\u2588\u2588     \u2588   \u2588 \u2588\u2588\u2588")}
+${brand.primary("  \u2588     \u2588   \u2588 \u2588\u2588  \u2588 \u2588   \u2588 \u2588     \u2588   \u2588    \u2588   \u2588  \u2588")}
+${brand.secondary("  \u2588\u2588\u2588\u2588  \u2588   \u2588 \u2588 \u2588 \u2588 \u2588\u2588\u2588\u2588\u2588  \u2588\u2588\u2588  \u2588\u2588\u2588\u2588\u2588    \u2588   \u2588  \u2588")}
+${brand.secondary("  \u2588     \u2588   \u2588 \u2588  \u2588\u2588 \u2588   \u2588     \u2588 \u2588   \u2588    \u2588   \u2588  \u2588")}
+${brand.accent("  \u2588      \u2588\u2588\u2588  \u2588   \u2588 \u2588   \u2588 \u2588\u2588\u2588\u2588  \u2588   \u2588     \u2588\u2588\u2588  \u2588\u2588\u2588")}
+
+  ${brand.muted("Librer\xEDa de Componentes UI")} ${brand.dim("v1.0.0")}
+`;
+function printBanner() {
+  console.log(BANNER);
+}
+function printSeparator() {
+  console.log(brand.dim("  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"));
+}
+function printBox(title, lines) {
+  const maxLen = Math.max(title.length, ...lines.map((l) => stripAnsi2(l).length));
+  const width = Math.max(maxLen + 4, 50);
+  const border = "\u2500".repeat(width - 2);
+  console.log(brand.primary(`  \u250C${border}\u2510`));
+  console.log(brand.primary(`  \u2502`) + ` ${brand.accent(title)}${" ".repeat(width - 3 - title.length)}` + brand.primary("\u2502"));
+  console.log(brand.primary(`  \u251C${border}\u2524`));
+  for (const line of lines) {
+    const cleanLen = stripAnsi2(line).length;
+    console.log(brand.primary(`  \u2502`) + ` ${line}${" ".repeat(width - 3 - cleanLen)}` + brand.primary("\u2502"));
+  }
+  console.log(brand.primary(`  \u2514${border}\u2518`));
+}
+function printSection(icon, title) {
+  console.log("");
+  console.log(`  ${icon} ${source_default.bold(title)}`);
+  console.log(brand.dim(`  ${"\u2500".repeat(title.length + 3)}`));
+}
+function printSuccessItem(text) {
+  console.log(`    ${brand.success("\u25CF")} ${text}`);
+}
+function printSkippedItem(text) {
+  console.log(`    ${brand.warning("\u25CB")} ${brand.dim(text)}`);
+}
+function printErrorItem(text) {
+  console.log(`    ${brand.error("\u2716")} ${text}`);
+}
+function printTip(text) {
+  console.log("");
+  console.log(`  ${brand.secondary("\u{1F4A1}")} ${brand.dim(text)}`);
+  console.log("");
+}
+function stripAnsi2(str) {
+  return str.replace(
+    // eslint-disable-next-line no-control-regex
+    /\x1B\[[0-9;]*[a-zA-Z]/g,
+    ""
+  );
+}
+
 // src/commands/add.ts
 var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes a tu proyecto").argument("<componentes...>", "Nombres de los componentes a instalar").option("-y, --yes", "Instalar sin confirmaci\xF3n", false).option("-o, --overwrite", "Sobrescribir archivos existentes", false).action(async (componentes, opts) => {
+  printBanner();
   const config = loadConfig();
   if (!config) {
-    console.log(
-      source_default.red(
-        "\u274C No se encontr\xF3 fonasa-ui.json. Ejecuta primero: fonasa-ui init"
-      )
-    );
+    printBox("Error", [
+      "No se encontr\xF3 fonasa-ui.json",
+      "",
+      `Ejecuta primero: ${brand.primary("npx fonasa-ui init")}`
+    ]);
+    console.log("");
     return;
   }
-  const spinner = ora("Cargando registro de componentes...").start();
+  const spinner = ora({
+    text: brand.muted("Cargando registro de componentes..."),
+    spinner: "dots12"
+  }).start();
   const registry = await loadRegistry();
   if (!registry) {
     spinner.fail("No se pudo cargar el registry.");
     return;
   }
-  spinner.succeed("Registry cargado.");
+  spinner.succeed(brand.muted("Registry sincronizado"));
   const notFound = [];
   const toInstall = [];
   for (const name of componentes) {
@@ -11087,20 +11158,25 @@ var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes
     }
   }
   if (notFound.length > 0) {
-    console.log(
-      source_default.red(`
-\u274C Componentes no encontrados: ${notFound.join(", ")}`)
-    );
-    console.log(source_default.gray("  Usa 'fonasa-ui list' para ver los disponibles.\n"));
+    console.log("");
+    for (const name of notFound) {
+      printErrorItem(`"${name}" no encontrado`);
+    }
+    printTip(`Ver disponibles \u2192 ${brand.primary("npx fonasa-ui list")}`);
     if (toInstall.length === 0) return;
   }
   const allComponents = resolveInternalDeps(toInstall, registry);
+  printSection("\u{1F4CB}", "Plan de instalaci\xF3n");
   console.log("");
-  console.log(source_default.bold("\u{1F4CB} Componentes a instalar:"));
+  console.log(`    ${brand.muted("Destino:")} ${brand.primary(config.componentsDir)}`);
+  console.log("");
   for (const comp of allComponents) {
     const isExplicit = toInstall.some((t) => t.name === comp.name);
-    const tag = isExplicit ? "" : source_default.gray(" (dependencia interna)");
-    console.log(`   ${source_default.cyan(comp.file)}${tag}`);
+    if (isExplicit) {
+      console.log(`    ${brand.primary("\u25C6")} ${comp.file}`);
+    } else {
+      console.log(`    ${brand.dim("\u25C7")} ${comp.file} ${brand.dim("(dependencia)")}`);
+    }
   }
   const allExternalDeps = /* @__PURE__ */ new Set();
   for (const comp of allComponents) {
@@ -11114,53 +11190,64 @@ var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes
   if (!existsSync4(destDir)) {
     mkdirSync(destDir, { recursive: true });
   }
+  printSection("\u2B07\uFE0F", "Instalando");
   console.log("");
+  let installed = 0;
+  let skipped = 0;
   for (const comp of allComponents) {
     const destFile = join(destDir, comp.file);
     if (existsSync4(destFile) && !opts.overwrite) {
-      console.log(
-        source_default.yellow(`  \u23ED\uFE0F  ${comp.file} ya existe (usa --overwrite para reemplazar)`)
-      );
+      printSkippedItem(`${comp.file} ya existe`);
+      skipped++;
       continue;
     }
-    const installSpinner = ora(`Instalando ${comp.file}...`).start();
     try {
       const source = await fetchComponentSource(comp.file);
       if (!source) {
-        installSpinner.fail(`No se pudo obtener ${comp.file}`);
+        printErrorItem(`No se pudo obtener ${comp.file}`);
         continue;
       }
       writeFileSync(destFile, source, "utf-8");
-      installSpinner.succeed(`${comp.file} instalado`);
+      printSuccessItem(comp.file);
+      installed++;
     } catch (error) {
-      installSpinner.fail(`Error instalando ${comp.file}`);
-      console.log(source_default.red(`     ${error.message}`));
+      printErrorItem(`${comp.file} \u2014 ${error.message}`);
     }
   }
+  printSeparator();
+  console.log("");
+  console.log(
+    `    ${brand.success("\u25CF")} ${installed} instalado${installed !== 1 ? "s" : ""}` + (skipped > 0 ? `  ${brand.warning("\u25CB")} ${skipped} omitido${skipped !== 1 ? "s" : ""}` : "")
+  );
   if (allExternalDeps.size > 0) {
-    console.log("");
-    console.log(source_default.yellow("\u26A0\uFE0F  Dependencias npm requeridas:"));
     const depsArray = Array.from(allExternalDeps);
-    console.log(source_default.cyan(`   npm install ${depsArray.join(" ")}`));
     console.log("");
+    printBox("Dependencias requeridas", [
+      "",
+      `  ${brand.primary(`npm install ${depsArray.join(" ")}`)}`,
+      ""
+    ]);
   }
-  console.log(source_default.green("\n\u2705 \xA1Listo! Componentes instalados.\n"));
+  if (skipped > 0) {
+    printTip(`Usa ${brand.primary("--overwrite")} para reemplazar archivos existentes`);
+  } else {
+    printTip("\xA1Componentes listos para usar! Imp\xF3rtalos en tu c\xF3digo.");
+  }
 });
 
 // src/commands/list.ts
 var listCommand = new Command("list").description("Lista todos los componentes disponibles").option("--json", "Salida en formato JSON").action(async (opts) => {
   const registry = await loadRegistry();
   if (!registry || registry.length === 0) {
-    console.log(source_default.red("\u274C No se pudo cargar el registry de componentes."));
+    console.log(brand.error("\n  \u2716 No se pudo cargar el registry de componentes.\n"));
     return;
   }
   if (opts.json) {
     console.log(JSON.stringify(registry, null, 2));
     return;
   }
-  console.log("");
-  console.log(source_default.bold("\u{1F4E6} Componentes disponibles:"));
-  console.log("");
+  printBanner();
+  printSection("\u{1F4E6}", `Componentes disponibles (${registry.length})`);
   const grouped = {};
   for (const comp of registry) {
     const group = comp.group || "General";
@@ -11168,33 +11255,35 @@ var listCommand = new Command("list").description("Lista todos los componentes d
     grouped[group].push(comp);
   }
   for (const [group, components] of Object.entries(grouped)) {
-    console.log(source_default.bold.underline(`  ${group}`));
-    for (const comp of components) {
-      const deps = comp.dependencies?.length ? source_default.gray(` (deps: ${comp.dependencies.join(", ")})`) : "";
-      const desc = comp.description ? source_default.gray(` \u2014 ${comp.description.slice(0, 60)}${comp.description.length > 60 ? "..." : ""}`) : "";
-      console.log(`    ${source_default.cyan(comp.name)}${desc}${deps}`);
-    }
     console.log("");
+    console.log(`    ${source_default.bold.white("\u250C")} ${brand.accent(group)} ${brand.dim(`(${components.length})`)}`);
+    components.forEach((comp, idx) => {
+      const isLast = idx === components.length - 1;
+      const connector = isLast ? "\u2514" : "\u251C";
+      const deps = comp.dependencies?.length ? brand.dim(` [${comp.dependencies.join(", ")}]`) : "";
+      const desc = comp.description ? brand.muted(` \u2014 ${comp.description.slice(0, 50)}${comp.description.length > 50 ? "\u2026" : ""}`) : "";
+      console.log(`    ${source_default.white(connector)}\u2500 ${brand.primary(comp.name)}${desc}${deps}`);
+    });
   }
-  console.log(
-    source_default.gray(`  Total: ${registry.length} componentes disponibles`)
-  );
-  console.log("");
-  console.log(`  Usa ${source_default.cyan("fonasa-ui add <nombre>")} para instalar.`);
-  console.log("");
+  printSeparator();
+  printTip(`Instalar \u2192 ${brand.primary("npx fonasa-ui add <nombre>")}`);
 });
 
 // src/commands/init.ts
+var import_prompts = __toESM(require_prompts3(), 1);
 import { writeFileSync as writeFileSync2, existsSync as existsSync5 } from "fs";
 import { resolve as resolve5 } from "path";
-var import_prompts = __toESM(require_prompts3(), 1);
 var CONFIG_FILE2 = "fonasa-ui.json";
 var initCommand = new Command("init").description("Inicializa la configuraci\xF3n de fonasa-ui en tu proyecto").action(async () => {
+  printBanner();
+  printSection("\u2699\uFE0F", "Configuraci\xF3n inicial");
+  console.log("");
   const configPath = resolve5(process.cwd(), CONFIG_FILE2);
   if (existsSync5(configPath)) {
     console.log(
-      source_default.yellow("\u26A0\uFE0F  Ya existe un archivo fonasa-ui.json en este proyecto.")
+      brand.warning("  \u26A0\uFE0F  Ya existe un archivo fonasa-ui.json en este proyecto.")
     );
+    console.log("");
     const { overwrite } = await (0, import_prompts.default)({
       type: "confirm",
       name: "overwrite",
@@ -11202,7 +11291,7 @@ var initCommand = new Command("init").description("Inicializa la configuraci\xF3
       initial: false
     });
     if (!overwrite) {
-      console.log(source_default.gray("Operaci\xF3n cancelada."));
+      console.log(brand.dim("\n  Operaci\xF3n cancelada.\n"));
       return;
     }
   }
@@ -11221,29 +11310,41 @@ var initCommand = new Command("init").description("Inicializa la configuraci\xF3
     }
   ]);
   if (!componentsDir) {
-    console.log(source_default.gray("Operaci\xF3n cancelada."));
+    console.log(brand.dim("\n  Operaci\xF3n cancelada.\n"));
     return;
   }
   const config = {
-    $schema: "https://github.com/tu-org/libreria-componentes-fonasa/blob/main/cli/schema.json",
+    $schema: "https://github.com/jahirJM/libreria-componentes-fonasa/blob/main/cli/schema.json",
     componentsDir,
     typescript
   };
   writeFileSync2(configPath, JSON.stringify(config, null, 2) + "\n");
   console.log("");
-  console.log(source_default.green("\u2705 Configuraci\xF3n creada en fonasa-ui.json"));
-  console.log("");
-  console.log("Ahora puedes agregar componentes con:");
-  console.log(source_default.cyan("  npx fonasa-ui add Input"));
-  console.log(source_default.cyan("  npx fonasa-ui add Modal Select Badge"));
-  console.log("");
-  console.log("Para ver componentes disponibles:");
-  console.log(source_default.cyan("  npx fonasa-ui list"));
+  printBox("Configuraci\xF3n creada", [
+    `${brand.muted("Archivo:")}     fonasa-ui.json`,
+    `${brand.muted("Componentes:")} ${componentsDir}`,
+    `${brand.muted("TypeScript:")}  ${typescript ? "s\xED" : "no"}`
+  ]);
+  printTip("Siguiente paso \u2192 " + brand.primary("npx fonasa-ui add input"));
 });
 
 // src/index.ts
 var program2 = new Command();
-program2.name("fonasa-ui").description("CLI para instalar componentes UI de Fonasa en tu proyecto").version("1.0.0");
+program2.name("fonasa-ui").description("CLI para instalar componentes UI de Fonasa en tu proyecto").version("1.0.0").hook("preAction", (thisCommand) => {
+  const commandName = thisCommand.args?.[0];
+  if (!commandName) return;
+}).action(() => {
+  printBanner();
+  console.log(brand.muted("  Comandos disponibles:"));
+  console.log("");
+  console.log(`    ${brand.primary("init")}    Configura fonasa-ui en tu proyecto`);
+  console.log(`    ${brand.primary("list")}    Muestra todos los componentes disponibles`);
+  console.log(`    ${brand.primary("add")}     Agrega componentes a tu proyecto`);
+  console.log("");
+  console.log(brand.muted("  Ejemplo:"));
+  console.log(`    ${brand.primary("npx fonasa-ui add input select badge")}`);
+  console.log("");
+});
 program2.addCommand(addCommand);
 program2.addCommand(listCommand);
 program2.addCommand(initCommand);

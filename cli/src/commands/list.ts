@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import chalk from "chalk";
 import { loadRegistry } from "../utils/registry.js";
+import { printBanner, printSection, printSeparator, printTip, brand } from "../utils/ui.js";
 
 export const listCommand = new Command("list")
   .description("Lista todos los componentes disponibles")
@@ -9,7 +10,7 @@ export const listCommand = new Command("list")
     const registry = await loadRegistry();
 
     if (!registry || registry.length === 0) {
-      console.log(chalk.red("❌ No se pudo cargar el registry de componentes."));
+      console.log(brand.error("\n  ✖ No se pudo cargar el registry de componentes.\n"));
       return;
     }
 
@@ -18,11 +19,10 @@ export const listCommand = new Command("list")
       return;
     }
 
-    console.log("");
-    console.log(chalk.bold("📦 Componentes disponibles:"));
-    console.log("");
+    printBanner();
+    printSection("📦", `Componentes disponibles (${registry.length})`);
 
-    // Agrupar por grupo si existe
+    // Agrupar por grupo
     const grouped: Record<string, typeof registry> = {};
     for (const comp of registry) {
       const group = comp.group || "General";
@@ -31,23 +31,23 @@ export const listCommand = new Command("list")
     }
 
     for (const [group, components] of Object.entries(grouped)) {
-      console.log(chalk.bold.underline(`  ${group}`));
-      for (const comp of components) {
+      console.log("");
+      console.log(`    ${chalk.bold.white("┌")} ${brand.accent(group)} ${brand.dim(`(${components.length})`)}`);
+
+      components.forEach((comp, idx) => {
+        const isLast = idx === components.length - 1;
+        const connector = isLast ? "└" : "├";
         const deps = comp.dependencies?.length
-          ? chalk.gray(` (deps: ${comp.dependencies.join(", ")})`)
+          ? brand.dim(` [${comp.dependencies.join(", ")}]`)
           : "";
         const desc = comp.description
-          ? chalk.gray(` — ${comp.description.slice(0, 60)}${comp.description.length > 60 ? "..." : ""}`)
+          ? brand.muted(` — ${comp.description.slice(0, 50)}${comp.description.length > 50 ? "…" : ""}`)
           : "";
-        console.log(`    ${chalk.cyan(comp.name)}${desc}${deps}`);
-      }
-      console.log("");
+
+        console.log(`    ${chalk.white(connector)}─ ${brand.primary(comp.name)}${desc}${deps}`);
+      });
     }
 
-    console.log(
-      chalk.gray(`  Total: ${registry.length} componentes disponibles`)
-    );
-    console.log("");
-    console.log(`  Usa ${chalk.cyan("fonasa-ui add <nombre>")} para instalar.`);
-    console.log("");
+    printSeparator();
+    printTip(`Instalar → ${brand.primary("npx fonasa-ui add <nombre>")}`);
   });

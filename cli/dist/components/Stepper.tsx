@@ -1,19 +1,38 @@
+/** Paso individual del stepper. */
 interface Paso {
+  /** Identificador único del paso. */
   id: string;
+  /** Texto visible debajo del círculo. */
   label: string;
 }
 
 interface StepperProps {
+  /** Lista ordenada de pasos. */
   pasos: Paso[];
+  /** Paso activo actual (1-indexed). Los pasos anteriores se marcan como completados. */
   pasoActual: number;
+  /** Callback al hacer click en un paso (solo si puedeNavegar=true). Recibe el número del paso. */
   onCambiarPaso?: (paso: number) => void;
+  /** Si true, permite navegar clickeando los círculos de pasos. @default false */
   puedeNavegar?: boolean;
-  /** Fuerza la vista mobile (badge) sin importar el breakpoint */
+  /** Fuerza la vista mobile (badge circular) sin importar el breakpoint. @default false */
   forceMobile?: boolean;
-  /** Si true, muestra skeleton de carga */
+  /** Si true, muestra skeleton de carga. @default false */
   isLoading?: boolean;
 }
 
+/**
+ * Indicador de progreso por pasos con línea animada.
+ * En mobile muestra un badge circular con el paso actual, en desktop muestra todos los pasos.
+ *
+ * @example
+ * ```tsx
+ * <Stepper
+ *   pasos={[{ id: "1", label: "Datos" }, { id: "2", label: "Documentos" }, { id: "3", label: "Envío" }]}
+ *   pasoActual={2}
+ * />
+ * ```
+ */
 export const Stepper = ({
   pasos,
   pasoActual,

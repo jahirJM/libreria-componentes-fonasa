@@ -157,8 +157,8 @@ function Metrica({
   const { duracion, visible, estilos } = usarContexto();
   const [actual, setActual] = useState(0);
 
-  const rafRef = useRef<number>();
-  const inicioRef = useRef<number>();
+  const rafRef = useRef<number>(undefined);
+  const inicioRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (!visible) return;

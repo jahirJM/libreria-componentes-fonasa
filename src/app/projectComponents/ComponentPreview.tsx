@@ -129,14 +129,15 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
 
   return (
     <>
-      <div className="rounded-xl border border-gray-200 bg-gray-50 overflow-hidden flex flex-col h-full">
+      <div className="rounded-xl border border-gray-200 bg-gray-50 overflow-visible flex flex-col h-full">
         {/* Preview */}
-        <div className="bg-white p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-hidden">
+        <div className="bg-white p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-visible rounded-t-xl">
           <div className={variant.responsive ? "w-full relative" : "w-full"}>
             {variant.render()}
           </div>
         </div>
         {/* Footer con label + acciones */}
+        {!variant.noLabel && (
         <div className="flex items-center justify-between border-t border-gray-200 px-4 py-2.5 bg-gray-100">
           <span className="text-xs font-medium text-gray-600 truncate">
             {variant.label}
@@ -162,6 +163,7 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
             </button>
           </div>
         </div>
+        )}
       </div>
 
       {showModal && (

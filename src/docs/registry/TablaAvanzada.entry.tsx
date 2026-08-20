@@ -4,9 +4,9 @@ import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
 export const tablaAvanzadaEntry: ComponentEntry =   {
-    name: "Tabla - Avanzada",
+    name: "tabla-avanzada",
     description:
-      "Utiliza: Tabla - Básica. Tabla con columnas ocultables (se contraen a '...') y redimensionables tipo Excel.",
+      "Utiliza: tabla-basica. Tabla con columnas ocultables (se contraen a '...') y redimensionables tipo Excel.",
     code: tableCode,
     group: "Tablas",
     dependencies: ["clsx"],

@@ -4,7 +4,7 @@ import { SkeletonCalendarioRango } from "../../skeletons/SkeletonCalendarioRango
 import type { ComponentEntry } from "./types";
 
 export const calendarioRangoEntry: ComponentEntry = {
-  name: "Calendario",
+  name: "calendario",
   group: "Calendario",
   description:
     "Calendario mensual con selección de rango de fechas (inicio y fin). Marca los feriados de Chile en rojo usando la librería date-holidays. Soporta modo single y double. Los filtros (feriados, habiles, finSemana) solo afectan el conteo de días, no la visualización del calendario.",

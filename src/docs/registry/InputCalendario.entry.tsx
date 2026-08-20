@@ -4,10 +4,10 @@ import { SkeletonInputCalendario } from "../../skeletons/SkeletonInputCalendario
 import type { ComponentEntry } from "./types";
 
 export const inputCalendarioEntry: ComponentEntry = {
-  name: "Input Calendario",
+  name: "input-calendario",
   group: "Calendario",
   description:
-    "Utiliza: Calendario. Input con popover de calendario integrado. Soporta modo fecha (una sola fecha) y modo rango (fecha inicio y fin). Al seleccionar en el calendario, los campos se rellenan automáticamente.",
+    "Utiliza: calendario. Input con popover de calendario integrado. Soporta modo fecha (una sola fecha) y modo rango (fecha inicio y fin). Al seleccionar en el calendario, los campos se rellenan automáticamente.",
   code: inputCalendarioCode,
   dependencies: ["date-holidays"],
   colors: [

@@ -3,7 +3,7 @@ import loadingCode from "../../componentsUI/Loading.tsx?raw"
 import type { ComponentEntry } from "./types";
 
 export const loadingEntry: ComponentEntry = {
-  name: "Loading",
+  name: "loading",
   description:
     "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner).",
   code: loadingCode,

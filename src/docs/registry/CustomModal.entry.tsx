@@ -4,9 +4,9 @@ import { SkeletonModal } from "../../skeletons/SkeletonModal";
 import type { ComponentEntry } from "./types";
 
 export const customModalEntry: ComponentEntry =  {
-    name: "Modal - Info",
+    name: "modal-info",
     description:
-      "Utiliza: Botones. Modal con animaciones de transición, tamaños configurables (sm, md, lg), header con título y botón de cierre.",
+      "Utiliza: botones. Modal con animaciones de transición, tamaños configurables (sm, md, lg), header con título y botón de cierre.",
     code: customModalCode,
     group: "Modales",
     dependencies: ["@headlessui/react", "react-icons"],

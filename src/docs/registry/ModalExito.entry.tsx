@@ -40,9 +40,9 @@ function ModalExitoSinNumeroDemo() {
 }
 
 export const modalExitoEntry: ComponentEntry = {
-  name: "Modal - Notificación",
+  name: "modal-notificacion",
   description:
-    "Utiliza: Label. Modal de éxito con ícono de check verde, mensaje y número de solicitud opcional. Se cierra automáticamente después de 5 segundos.",
+    "Utiliza: label. Modal de éxito con ícono de check verde, mensaje y número de solicitud opcional. Se cierra automáticamente después de 5 segundos.",
   code: modalCode,
   group: "Modales",
   dependencies: ["react-icons"],

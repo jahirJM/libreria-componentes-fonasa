@@ -4,7 +4,7 @@ import { CheckButton } from "../../componentsUI/CheckButton";
 import type { ComponentEntry } from "./types";
 
 export const checkButtonEntry: ComponentEntry =   {
-    name: "CheckButton",
+    name: "check-button",
     description:
       "Checkbox/radio button group con variantes primary (checkbox múltiple) y secondary (radio single).",
     code: checkButtonCode,

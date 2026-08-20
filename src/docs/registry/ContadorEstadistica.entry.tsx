@@ -31,7 +31,7 @@ const IconoSucursales = (
 // ─── Entry ────────────────────────────────────────────────────────────────────
 
 export const contadorEstadisticaEntry: ComponentEntry = {
-  name: "Contador Estadística",
+  name: "contador-estadistica",
   description:
     "Tarjeta de métrica animada con patrón de composición. Cuenta desde 0 hasta el valor final al entrar en pantalla. Usa sub-componentes: Cabecera, Metrica, Contenido, Etiqueta, Descripcion y Tendencia.",
   code: contadorCode,

@@ -4,7 +4,7 @@ import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
 export const tablaBasicaEntry: ComponentEntry =   {
-    name: "Tabla - Básica",
+    name: "tabla-basica",
     description:
       "Tabla HTML simple sin lógica, con header estilizado y columnas configurables.",
     code: tablaBasicaCode,

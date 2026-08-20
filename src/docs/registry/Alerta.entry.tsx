@@ -5,7 +5,7 @@ import { SkeletonAlerta } from "../../skeletons/SkeletonAlerta";
 import type { ComponentEntry } from "./types";
 
 export const alertaEntry: ComponentEntry = {
-  name: "Alerta",
+  name: "alerta",
   group: "Alertas",
   description:
     "Componente de alerta con 5 variantes semánticas (success, error, warning, info, neutral), título opcional, contenido libre (children), ícono personalizable, acción secundaria y botón de cierre.",

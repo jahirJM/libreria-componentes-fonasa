@@ -222,7 +222,7 @@ export const Select = ({
         disabled={disabled}
         className={clsx(
           "w-full flex items-center justify-between border text-left",
-          "px-3 py-1.5 rounded-xl text-sm",
+          "px-3 py-1.5 rounded-md text-sm",
           "focus:ring-[#0572CE] focus:border-[#0572CE] focus:outline-none",
           disabled
             ? "bg-gray-200 cursor-not-allowed opacity-60"

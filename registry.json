@@ -247,9 +247,8 @@
   {
     "name": "tabla-datos",
     "file": "TablaDatos.tsx",
-    "description": "Tabla con grid dinámico, variantes de color en header, y botones de editar/eliminar por fila. Incluye su propio Skeleton loader.",
+    "description": "Tabla con grid dinamico, variantes de color en header, y botones de editar/eliminar por fila. Incluye su propio Skeleton loader.",
     "dependencies": [
-      "clsx",
       "react-icons"
     ],
     "group": "Tablas"

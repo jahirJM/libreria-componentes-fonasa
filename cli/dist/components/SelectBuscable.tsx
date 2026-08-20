@@ -93,19 +93,19 @@ const sizeStyles: Record<
   { trigger: string; text: string; icon: string; option: string }
 > = {
   sm: {
-    trigger: "px-2 py-1 rounded-lg",
+    trigger: "px-2 py-1 rounded-md",
     text: "text-xs",
     icon: "size-3.5",
     option: "px-2 py-1.5",
   },
   md: {
-    trigger: "px-3 py-1.5 rounded-xl",
+    trigger: "px-3 py-1.5 rounded-md",
     text: "text-sm",
     icon: "size-4",
     option: "px-3 py-2",
   },
   lg: {
-    trigger: "px-4 py-2 rounded-xl",
+    trigger: "px-4 py-2 rounded-md",
     text: "text-base",
     icon: "size-5",
     option: "px-4 py-2.5",

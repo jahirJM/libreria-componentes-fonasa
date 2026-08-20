@@ -317,4 +317,8 @@ No se ejecutan comandos de build/compile para verificar cambios. La verificacion
 - Validar tipos y formatos de archivos en UploadBox antes de procesarlos.
 - Revisar que ningun componente use `dangerouslySetInnerHTML` sin sanitizacion previa.
 
+### CI/CD
+
+- Configurar **Dependabot** para mantener las dependencias actualizadas automaticamente (npm). Definir el archivo `.github/dependabot.yml` con schedule semanal y labels apropiados para las PRs generadas.
+
 ---

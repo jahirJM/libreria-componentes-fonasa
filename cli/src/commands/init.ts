@@ -1,7 +1,6 @@
 import { Command } from "commander";
 import { writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
-import chalk from "chalk";
 import prompts from "prompts";
 import { printBanner, printSection, printBox, printTip, brand } from "../utils/ui.js";
 

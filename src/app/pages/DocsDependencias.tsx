@@ -1,0 +1,206 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+interface DependencyDoc {
+  id: string;
+  name: string;
+  description: string;
+  install: string;
+  docsUrl: string;
+  usage: string;
+}
+
+const dependencies: DependencyDoc[] = [
+  {
+    id: "clsx",
+    name: "clsx",
+    description:
+      "Utilidad para construir cadenas de clases CSS de forma condicional. Liviana (~228B) y sin dependencias.",
+    install: "npm install clsx",
+    docsUrl: "https://github.com/lukeed/clsx",
+    usage: `import clsx from "clsx";
+
+// Uso básico: combina clases condicionalmente
+const className = clsx(
+  "base-class",
+  isActive && "active",
+  { "bg-red-500": hasError, "bg-green-500": isValid }
+);
+
+// Resultado: "base-class active bg-green-500" (según estado)`,
+  },
+  {
+    id: "react-icons",
+    name: "react-icons",
+    description:
+      "Colección de íconos populares (Font Awesome, Material, Heroicons, Lucide, etc.) como componentes React. Importación por familia para tree-shaking eficiente.",
+    install: "npm install react-icons",
+    docsUrl: "https://react-icons.github.io/react-icons",
+    usage: `// Importar desde la familia correspondiente
+import { FaRegCheckCircle } from "react-icons/fa";  // Font Awesome
+import { LuChevronDown } from "react-icons/lu";     // Lucide
+import { MdEdit, MdDelete } from "react-icons/md";  // Material Design
+import { FiCode, FiCopy } from "react-icons/fi";    // Feather
+
+// Uso en JSX
+<FaRegCheckCircle className="text-green-500" size={24} />
+<LuChevronDown className="text-gray-400" />`,
+  },
+  {
+    id: "@headlessui/react",
+    name: "@headlessui/react",
+    description:
+      "Componentes UI completamente accesibles y sin estilos (unstyled), diseñados para integrarse con Tailwind CSS. Incluye Dialog, Transition, Menu, Listbox, entre otros.",
+    install: "npm install @headlessui/react",
+    docsUrl: "https://headlessui.com",
+    usage: `import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
+
+// Modal con transición
+<Transition show={isOpen}>
+  <Dialog onClose={() => setIsOpen(false)}>
+    <TransitionChild
+      enter="ease-out duration-300"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="ease-in duration-200"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
+      <div className="fixed inset-0 bg-black/30" />
+    </TransitionChild>
+    <DialogPanel className="bg-white rounded-xl p-6">
+      {/* Contenido del modal */}
+    </DialogPanel>
+  </Dialog>
+</Transition>`,
+  },
+  {
+    id: "sonner",
+    name: "sonner",
+    description:
+      "Librería de notificaciones toast opinionada y liviana. Soporta múltiples variantes (success, error, info, warning) con animaciones fluidas y stacking automático.",
+    install: "npm install sonner",
+    docsUrl: "https://sonner.emilkowal.ski",
+    usage: `import { Toaster, toast } from "sonner";
+
+// 1. Agregar el Toaster al layout principal
+function App() {
+  return (
+    <>
+      <Toaster position="top-right" />
+      {/* ... */}
+    </>
+  );
+}
+
+// 2. Disparar notificaciones desde cualquier componente
+toast.success("Operación exitosa");
+toast.error("Ocurrió un error");
+toast.info("Información importante");
+toast("Mensaje neutral");`,
+  },
+  {
+    id: "date-holidays",
+    name: "date-holidays",
+    description:
+      "Librería para obtener feriados oficiales de múltiples países. Soporta Chile (CL) con todos los feriados públicos, incluyendo feriados móviles como Viernes Santo y feriados regionales.",
+    install: "npm install date-holidays",
+    docsUrl: "https://github.com/commenthol/date-holidays",
+    usage: `import Holidays from "date-holidays";
+
+// Inicializar con país Chile
+const hd = new Holidays("CL");
+
+// Obtener todos los feriados de un año
+const feriados2026 = hd.getHolidays(2026);
+
+// Filtrar solo feriados públicos (excluir observancias)
+const feriadosPublicos = feriados2026.filter(h => h.type === "public");
+
+// Verificar si una fecha específica es feriado
+const esFeriado = hd.isHoliday(new Date(2026, 8, 18));
+// Retorna array con info del feriado o false`,
+  },
+];
+
+export function DocsDependencias() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+      }
+    }
+  }, [location.hash]);
+
+  return (
+    <div>
+      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
+        Documentación
+      </p>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8">Dependencias externas</h1>
+
+      <p className="text-gray-500 mb-8">
+        Algunas librerías se usan en ciertos componentes. Aquí encontrarás la info de instalación y uso básico de cada una.
+      </p>
+
+      <div className="space-y-10">
+        {dependencies.map((dep) => (
+          <article
+            key={dep.id}
+            id={`dep-${dep.id}`}
+            className="scroll-mt-24 rounded-xl border border-gray-200 bg-gray-50 p-6"
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <h3 className="text-lg font-semibold text-gray-800">{dep.name}</h3>
+              <a
+                href={dep.docsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-[#0572CE] hover:text-blue-700 transition-colors"
+              >
+                Documentación oficial ↗
+              </a>
+            </div>
+
+            <p className="text-sm text-gray-600 mb-4">{dep.description}</p>
+
+            {/* Instalación */}
+            <div className="mb-4">
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Instalación
+              </span>
+              <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-white border border-gray-200 px-4 py-2.5">
+                <code className="text-sm text-green-600 flex-1 font-mono">
+                  {dep.install}
+                </code>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(dep.install);
+                  }}
+                  className="text-xs text-gray-500 hover:text-gray-800 transition-colors px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                >
+                  Copiar
+                </button>
+              </div>
+            </div>
+
+            {/* Uso básico */}
+            <div>
+              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Uso básico
+              </span>
+              <div className="mt-1.5 rounded-lg bg-white border border-gray-200 p-4 overflow-x-auto">
+                <pre className="text-xs text-gray-700 font-mono whitespace-pre">
+                  {dep.usage}
+                </pre>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}

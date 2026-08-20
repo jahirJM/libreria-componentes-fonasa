@@ -13,9 +13,14 @@ import { LogosLayout } from "./app/layouts/LogosLayout";
 import { RecursosPage } from "./app/pages/RecursosPage";
 import { AnimationsLayout } from "./app/layouts/AnimationsLayout";
 import { AnimationsPage } from "./app/pages/AnimationsPage";
+import { DocsLayout } from "./app/layouts/DocsLayout";
 
 import { Home } from "./app/pages/Home";
-import { Docs } from "./app/pages/Docs";
+import { DocsHome } from "./app/pages/DocsHome";
+import { DocsInstalacion } from "./app/pages/DocsInstalacion";
+import { DocsUso } from "./app/pages/DocsUso";
+import { DocsColaboradores } from "./app/pages/DocsColaboradores";
+import { DocsDependencias } from "./app/pages/DocsDependencias";
 import { ColorsPage } from "./app/pages/ColorsPage";
 
 function App() {
@@ -25,7 +30,15 @@ function App() {
         {/* Rutas sin sidebar */}
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/docs" element={<Docs />} />
+        </Route>
+
+        {/* Rutas con sidebar — Documentación */}
+        <Route element={<DocsLayout />}>
+          <Route path="/docs" element={<DocsHome />} />
+          <Route path="/docs/instalacion" element={<DocsInstalacion />} />
+          <Route path="/docs/uso" element={<DocsUso />} />
+          <Route path="/docs/colaboradores" element={<DocsColaboradores />} />
+          <Route path="/docs/dependencias" element={<DocsDependencias />} />
         </Route>
 
         {/* Ruta con sidebar — Colores */}

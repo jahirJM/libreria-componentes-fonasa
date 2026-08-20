@@ -86,6 +86,11 @@
     ]
   },
   {
+    "name": "IndicadorRequerido",
+    "file": "IndicadorRequerido.tsx",
+    "description": "Asterisco rojo (*) que indica campo obligatorio. Componente auxiliar usado internamente por Label."
+  },
+  {
     "name": "Input",
     "file": "Input.tsx",
     "description": "Input con soporte para múltiples tipos, íconos, loading y copyable.",
@@ -113,6 +118,9 @@
     "dependencies": [
       "clsx",
       "react-icons"
+    ],
+    "internalDeps": [
+      "IndicadorRequerido"
     ]
   },
   {

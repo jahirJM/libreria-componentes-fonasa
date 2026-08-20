@@ -5,7 +5,7 @@ import type { ComponentEntry } from "./types";
 export const labelEntry: ComponentEntry =   {
     name: "Label",
     description:
-      "Etiqueta de texto con asterisco de campo obligatorio y mensaje de error 'requerido' con ícono.",
+      "Utiliza: IndicadorRequerido. Etiqueta de texto con asterisco de campo obligatorio y mensaje de error 'requerido' con ícono.",
     code: labelCode,
     dependencies: ["clsx", "react-icons"],
     colors: [

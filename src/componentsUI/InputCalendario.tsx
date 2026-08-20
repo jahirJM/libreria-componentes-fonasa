@@ -122,10 +122,10 @@ export function InputCalendario({
     : "border-gray-300 focus-within:border-[#0572CE] focus-within:ring-[#0572CE]";
 
   return (
-    <div ref={containerRef} className={`relative ${className}`} style={{ width: mode === "double" ? 680 : 340 }}>
+    <div ref={containerRef} className={`relative w-full ${className}`}>
       {/* Input(s) de fecha */}
       <div
-        className={`flex items-center gap-2 rounded-md border px-3 py-2 transition-colors focus-within:ring-2 ${borderClass} ${disabled ? "bg-gray-100 opacity-50 cursor-not-allowed" : "bg-white cursor-pointer"
+        className={`flex items-center gap-2 rounded-md border px-3 py-1.5 transition-colors focus-within:ring-2 ${borderClass} ${disabled ? "bg-gray-100 opacity-50 cursor-not-allowed" : "bg-white cursor-pointer"
           }`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
@@ -186,7 +186,7 @@ export function InputCalendario({
 
       {/* Popover con calendario — no se cierra solo, el usuario lo cierra */}
       {isOpen && (
-        <div className="absolute z-50 mt-2 left-0 shadow-xl rounded-xl">
+        <div className="absolute z-50 mt-2 left-0 shadow-xl rounded-xl" style={{ width: mode === "double" ? 680 : 340 }}>
           <CalendarioRango
             mode={mode}
             showStats={tipo === "rango" ? showStats : false}

@@ -20,9 +20,8 @@ export function Navbar() {
       items={NAV_ITEMS}
       activePath={location.pathname}
       variant="underline"
-      logoSrc="/fonasa-favicon.ico"
-      logoAlt="Fonasa"
-      title="Fonasa UI"
+      logoSrc="/logos/fonasa/png/fonasa-horizontal-color.png"
+      logoAlt="Fonasa UI"
       onNavigate={(path) => navigate(path)}
       onLogoClick={() => navigate("/")}
       className="z-99"

@@ -134,7 +134,7 @@ export function Navbar({
               className="flex items-center gap-2 focus:outline-none"
             >
               {logoSrc && (
-                <img src={logoSrc} alt={logoAlt} className="h-8 w-8" />
+                <img src={logoSrc} alt={logoAlt} className="h-8 w-auto" />
               )}
               {title && (
                 <span className="text-lg font-bold text-[#0572CE]">

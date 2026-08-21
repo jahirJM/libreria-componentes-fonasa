@@ -11,7 +11,7 @@ import { Label } from "../../componentsUI/Label";
 import { Alerta } from "../../componentsUI/Alerta";
 import { BotonOutline } from "../../componentsUI/Botones";
 import { CodePanel } from "../projectComponents/CodePanel";
-import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { fonasaToast } from "../../componentsUI/Toast";
 import { FiCopy, FiCheck } from "react-icons/fi";
 
 // ─── Opciones de caracteres ───────────────────────────────────────────────────
@@ -226,7 +226,6 @@ export function FiltroInputPage() {
 
   return (
     <div className="max-w-3xl">
-      <FonasaToaster />
 
       {/* Header */}
       <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">Métodos</p>

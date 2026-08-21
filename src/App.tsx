@@ -23,10 +23,12 @@ import { DocsColaboradores } from "./app/pages/DocsColaboradores";
 import { DocsDependencias } from "./app/pages/DocsDependencias";
 import { ColorsPage } from "./app/pages/ColorsPage";
 import { Navbar } from "./app/projectComponents/Navbar";
+import { FonasaToaster } from "./componentsUI/Toast";
 
 function App() {
   return (
     <BrowserRouter>
+      <FonasaToaster />
       <Navbar />
       <Routes>
         {/* Rutas sin sidebar */}

@@ -4,7 +4,7 @@ import { FiCode, FiCopy, FiX } from "react-icons/fi";
 import { methodsRegistry } from "../../docs/methods-registry";
 import { slugify } from "../../docs/registry/slugify";
 import { CodePanel } from "../projectComponents/CodePanel";
-import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { fonasaToast } from "../../componentsUI/Toast";
 import { Badge } from "../../componentsUI/Badge";
 import { BotonOutline } from "../../componentsUI/Botones";
 import { Card, CardContent } from "../../componentsUI/Card";
@@ -27,7 +27,6 @@ function MethodPreview({ entry }: { entry: MethodEntry }) {
 
   return (
     <section className="flex gap-0 overflow-hidden">
-      <FonasaToaster />
 
       {/* Columna izquierda: contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "pr-4" : "pr-0"}`}>

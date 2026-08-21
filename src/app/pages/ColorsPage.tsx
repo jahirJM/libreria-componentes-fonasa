@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { fonasaToast } from "../../componentsUI/Toast";
 
 interface ColorSwatch {
   name: string;
@@ -342,7 +342,6 @@ export const colorSections: ColorSection[] = [
 export function ColorsPage() {
   return (
     <div>
-      <FonasaToaster />
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
           Paleta de Colores

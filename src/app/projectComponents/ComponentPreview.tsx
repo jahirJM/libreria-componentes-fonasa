@@ -4,7 +4,7 @@ import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types
 import { CodePanel } from "./CodePanel";
 import { FiCode, FiCopy, FiX } from "react-icons/fi";
 import { IoMdHome } from "react-icons/io";
-import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { fonasaToast } from "../../componentsUI/Toast";
 import { CustomModal } from "../../componentsUI/CustomModal";
 import { Badge } from "../../componentsUI/Badge";
 
@@ -13,16 +13,25 @@ interface ComponentPreviewProps {
 }
 
 function ColorPill({ color }: { color: { name: string; value: string; usage: string } }) {
+  const [copied, setCopied] = useState(false);
+
   function handleCopy() {
     navigator.clipboard.writeText(color.value);
     fonasaToast.success(`Color ${color.value} copiado`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
   }
 
   return (
     <button
       onClick={handleCopy}
-      className="w-full flex items-center justify-start gap-2 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 hover:border-[#0572CE] transition-colors cursor-pointer text-left"
+      className="relative w-full flex items-center justify-start gap-2 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 hover:border-[#0572CE] transition-colors cursor-pointer text-left"
     >
+      {copied && (
+        <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-white/90 z-10">
+          <span className="text-xs font-medium text-green-600 flex items-center gap-1">✓ Copiado</span>
+        </div>
+      )}
       <div
         className="size-5 rounded-md border border-gray-200 shrink-0"
         style={{ backgroundColor: color.value }}
@@ -138,11 +147,11 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
             </button>
             <button
               onClick={handleCopy}
-              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors"
+              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors size-7 flex items-center justify-center"
               title="Copiar código"
             >
               {copyState === "success" ? (
-                <span className="text-green-600 text-xs font-medium">✓</span>
+                <span className="text-green-600 text-sm font-medium">✓</span>
               ) : (
                 <FiCopy className="size-4" />
               )}
@@ -298,7 +307,6 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
 
   return (
     <section className="flex flex-col lg:flex-row gap-0 overflow-show">
-      <FonasaToaster />
       {/* Columna izquierda: todo el contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "lg:pr-4" : "pr-0"}`}>
         {/* Breadcrumb: Inicio */}

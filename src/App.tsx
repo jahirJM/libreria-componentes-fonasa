@@ -22,10 +22,12 @@ import { DocsUso } from "./app/pages/DocsUso";
 import { DocsColaboradores } from "./app/pages/DocsColaboradores";
 import { DocsDependencias } from "./app/pages/DocsDependencias";
 import { ColorsPage } from "./app/pages/ColorsPage";
+import { Navbar } from "./app/projectComponents/Navbar";
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         {/* Rutas sin sidebar */}
         <Route element={<DefaultLayout />}>

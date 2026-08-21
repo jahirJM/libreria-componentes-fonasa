@@ -3,6 +3,8 @@ import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
 import { FormBuilderPage } from "./FormBuilderPage";
+import { Switch } from "../../componentsUI/Switch";
+import { BotonPrimario, BotonOutline } from "../../componentsUI/Botones";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TIPOS Y HELPERS
@@ -388,9 +390,12 @@ function TemplateBuilder() {
         </div>
 
         {/* Copiar */}
-        <button onClick={handleCopy} className="mt-auto flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-[#0572CE] hover:bg-[#0460ad] text-white text-sm font-medium transition-all shrink-0">
-          {copied ? <><LuCheck className="size-4" /> Copiado</> : <><LuCopy className="size-4" /> Copiar HTML</>}
-        </button>
+        <BotonPrimario
+          label={copied ? "Copiado" : "Copiar HTML"}
+          icon={copied ? LuCheck : LuCopy}
+          onClick={handleCopy}
+          customClass="mt-auto w-full"
+        />
       </div>
 
       {/* Preview panel */}
@@ -421,15 +426,7 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
   return (
     <label className="flex items-center justify-between cursor-pointer group">
       <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">{label}</span>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${checked ? "bg-[#0572CE]" : "bg-gray-300"}`}
-      >
-        <span className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform ${checked ? "translate-x-4.5" : "translate-x-0.75"}`} />
-      </button>
+      <Switch checked={checked} onChange={onChange} tamano="sm" variante="primary" />
     </label>
   );
 }
@@ -498,23 +495,17 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <button
+          <BotonPrimario
+            label="Descargar"
+            icon={LuDownload}
             onClick={handleDownload}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0572CE] hover:bg-[#0460ad] text-white text-sm font-medium transition-all hover:scale-[1.03] active:scale-95"
-          >
-            <LuDownload className="size-4" /> Descargar
-          </button>
+          />
           {selected?.variant.url && (
-            <button
+            <BotonOutline
+              label={urlCopied ? "Copiado" : "URL"}
+              icon={urlCopied ? LuCheck : LuLink}
               onClick={handleCopyUrl}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-gray-200 text-gray-600 hover:border-[#0572CE] hover:text-[#0572CE] text-sm font-medium transition-all hover:scale-[1.03] active:scale-95"
-            >
-              {urlCopied ? (
-                <><LuCheck className="size-4 text-green-500" /><span className="text-green-600">Copiado</span></>
-              ) : (
-                <><LuLink className="size-4" /> URL</>
-              )}
-            </button>
+            />
           )}
         </div>
       </div>

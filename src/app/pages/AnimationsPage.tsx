@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { LuCopy, LuCheck, LuPlay, LuRotateCcw } from "react-icons/lu";
+import { Card, CardContent } from "../../componentsUI/Card";
+import { Badge } from "../../componentsUI/Badge";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // DATOS DE ANIMACIONES
@@ -730,7 +732,7 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
   const isLoop = entry.category === "Loop";
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition-colors">
+    <Card className="overflow-hidden hover:border-gray-300 transition-colors !p-0 !gap-0">
       {/* Preview area */}
       <div className="relative h-32 flex items-center justify-center bg-gray-50 border-b border-gray-100">
         <div
@@ -757,16 +759,14 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-3">
+      <CardContent className="p-4 space-y-3">
         <div className="flex items-start justify-between gap-2">
           <div>
             <h3 className="text-sm font-semibold text-gray-800">{entry.name}</h3>
             <p className="text-[11px] text-gray-500 mt-0.5 leading-relaxed">{entry.description}</p>
           </div>
           {entry.requiresCss && (
-            <span className="shrink-0 text-[9px] font-medium uppercase tracking-wider text-amber-600 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
-              CSS
-            </span>
+            <Badge variant="estado-pendiente" text="CSS" />
           )}
         </div>
 
@@ -803,8 +803,8 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
             ⚡ {entry.easing}
           </span>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -834,15 +834,17 @@ export function AnimationsPage() {
           </p>
 
           {/* Guía rápida */}
-          <div className="mt-5 p-4 rounded-lg bg-white border border-gray-200 max-w-xl">
-            <p className="text-[11px] font-semibold text-gray-700 uppercase tracking-wider mb-2">Cómo usar en Tailwind 4</p>
-            <ol className="text-xs text-gray-600 space-y-1.5 list-decimal list-inside leading-relaxed">
-              <li>Si la animación es nativa de Tailwind (spin, ping, pulse, bounce), úsala directamente.</li>
-              <li>Si requiere CSS, copia el <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">@keyframes</code> en tu <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">index.css</code>.</li>
-              <li>Aplica la clase con la sintaxis arbitraria: <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">animate-[nombre_duración_easing]</code></li>
-              <li>Para <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">forwards</code> (mantener estado final), agrégualo al final de la clase.</li>
-            </ol>
-          </div>
+          <Card className="mt-5 max-w-xl">
+            <CardContent>
+              <p className="text-[11px] font-semibold text-gray-700 uppercase tracking-wider mb-2">Cómo usar en Tailwind 4</p>
+              <ol className="text-xs text-gray-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+                <li>Si la animación es nativa de Tailwind (spin, ping, pulse, bounce), úsala directamente.</li>
+                <li>Si requiere CSS, copia el <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">@keyframes</code> en tu <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">index.css</code>.</li>
+                <li>Aplica la clase con la sintaxis arbitraria: <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">animate-[nombre_duración_easing]</code></li>
+                <li>Para <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">forwards</code> (mantener estado final), agrégualo al final de la clase.</li>
+              </ol>
+            </CardContent>
+          </Card>
         </div>
       </div>
 

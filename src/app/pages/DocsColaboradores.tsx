@@ -1,3 +1,6 @@
+import { Card, CardContent } from "../../componentsUI/Card";
+import { Alerta } from "../../componentsUI/Alerta";
+
 export function DocsColaboradores() {
   return (
     <div>
@@ -16,8 +19,9 @@ export function DocsColaboradores() {
       {/* Estructura */}
       <section className="mt-10 space-y-4 text-gray-600">
         <h2 className="text-xl font-semibold text-gray-800">Estructura del proyecto</h2>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 overflow-x-auto">
-          <pre className="text-xs text-gray-700 font-mono whitespace-pre">{`libreria-componentes-fonasa/
+        <Card>
+          <CardContent>
+            <pre className="text-xs text-gray-700 font-mono whitespace-pre overflow-x-auto">{`libreria-componentes-fonasa/
 ├── src/
 │   ├── componentsUI/          ← Código fuente de los componentes
 │   │   ├── Input.tsx
@@ -33,7 +37,8 @@ export function DocsColaboradores() {
 │   └── generate-registry.js   ← Genera registry.json
 ├── registry.json              ← Generado automáticamente (NO editar)
 └── package.json`}</pre>
-        </div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* Paso 1 */}
@@ -43,8 +48,9 @@ export function DocsColaboradores() {
           Crea un archivo <code className="text-[#0572CE]">.tsx</code> en{" "}
           <code className="text-[#0572CE]">src/componentsUI/</code>:
         </p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 overflow-x-auto">
-          <pre className="text-xs text-gray-700 font-mono whitespace-pre">{`// src/componentsUI/MiComponente.tsx
+        <Card>
+          <CardContent>
+            <pre className="text-xs text-gray-700 font-mono whitespace-pre overflow-x-auto">{`// src/componentsUI/MiComponente.tsx
 import clsx from "clsx";
 
 interface MiComponenteProps {
@@ -69,7 +75,8 @@ export function MiComponente({
     </div>
   );
 }`}</pre>
-        </div>
+          </CardContent>
+        </Card>
 
         <h3 className="text-lg font-medium text-gray-800 mt-6">Reglas del componente:</h3>
         <ul className="list-disc list-inside space-y-2 text-gray-500">
@@ -88,8 +95,9 @@ export function MiComponente({
           Crea un archivo <code className="text-[#0572CE]">MiComponente.entry.tsx</code> en{" "}
           <code className="text-[#0572CE]">src/docs/registry/</code>:
         </p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 overflow-x-auto">
-          <pre className="text-xs text-gray-700 font-mono whitespace-pre">{`// src/docs/registry/MiComponente.entry.tsx
+        <Card>
+          <CardContent>
+            <pre className="text-xs text-gray-700 font-mono whitespace-pre overflow-x-auto">{`// src/docs/registry/MiComponente.entry.tsx
 import miComponenteCode from "../../componentsUI/MiComponente.tsx?raw";
 import { MiComponente } from "../../componentsUI/MiComponente";
 import type { ComponentEntry } from "./types";
@@ -123,7 +131,8 @@ export const miComponenteEntry: ComponentEntry = {
     },
   ],
 };`}</pre>
-        </div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* Campos del entry */}
@@ -198,11 +207,13 @@ export const miComponenteEntry: ComponentEntry = {
           Si tu componente usa otro componente de la librería (ej: importa <code className="text-[#0572CE]">Badge</code>),
           debes declararlo en la <code className="text-[#0572CE]">description</code>:
         </p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-          <code className="text-sm text-gray-700">
-            description: "Utiliza: Badge, Paginación. Mi componente con estados y paginación."
-          </code>
-        </div>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-gray-700">
+              description: "Utiliza: Badge, Paginación. Mi componente con estados y paginación."
+            </code>
+          </CardContent>
+        </Card>
         <p className="text-sm text-gray-500">
           El patrón <code className="text-[#0572CE]">"Utiliza: X, Y."</code> al inicio de la description
           permite a la CLI resolver automáticamente qué componentes adicionales descargar.
@@ -214,67 +225,71 @@ export const miComponenteEntry: ComponentEntry = {
         <h2 className="text-xl font-semibold text-gray-800">Paso 3: Publicar los cambios</h2>
         <p>Después de crear o modificar un componente, ejecuta estos comandos:</p>
         <div className="space-y-3">
-          <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-2">1. Regenerar el registry.json:</p>
-            <code className="text-sm text-[#0572CE]">npm run generate:registry</code>
-          </div>
-          <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-2">2. Recompilar la CLI:</p>
-            <code className="text-sm text-[#0572CE]">npm run cli:build</code>
-          </div>
-          <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-2">3. Verificar que aparece:</p>
-            <code className="text-sm text-[#0572CE]">node cli/dist/index.js list</code>
-          </div>
-          <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-2">4. Commit y push:</p>
-            <code className="text-sm text-[#0572CE]">git add . && git commit -m "feat: agregar MiComponente" && git push</code>
-          </div>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">1. Regenerar el registry.json:</p>
+              <code className="text-sm text-[#0572CE]">npm run generate:registry</code>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">2. Recompilar la CLI:</p>
+              <code className="text-sm text-[#0572CE]">npm run cli:build</code>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">3. Verificar que aparece:</p>
+              <code className="text-sm text-[#0572CE]">node cli/dist/index.js list</code>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">4. Commit y push:</p>
+              <code className="text-sm text-[#0572CE]">git add . && git commit -m "feat: agregar MiComponente" && git push</code>
+            </CardContent>
+          </Card>
         </div>
-        <div className="rounded-lg bg-red-50 border border-red-200 p-4 mt-4">
-          <p className="text-sm text-red-800">
-            <strong>❗ Importante:</strong> Siempre ejecutar <code>generate:registry</code> y{" "}
-            <code>cli:build</code> antes de hacer push. Sin esto, el componente no estará disponible
-            para los consumidores.
-          </p>
-        </div>
+        <Alerta variante="error" cerrar={false} titulo="Importante" mensaje="Siempre ejecutar generate:registry y cli:build antes de hacer push. Sin esto, el componente no estará disponible para los consumidores." />
       </section>
 
       {/* Checklist */}
       <section className="mt-10 space-y-4 text-gray-600">
         <h2 className="text-xl font-semibold text-gray-800">Checklist antes de hacer push</h2>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-          <ul className="space-y-2 text-sm text-gray-600">
-            <li className="flex items-start gap-2">
-              <span className="text-gray-400 mt-0.5">☐</span>
-              El componente usa solo colores de la paleta oficial
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-gray-400 mt-0.5">☐</span>
-              El entry tiene todos los campos obligatorios
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-gray-400 mt-0.5">☐</span>
-              Si usa dependencias npm externas, están en el campo <code>dependencies</code>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-gray-400 mt-0.5">☐</span>
-              Si usa otros componentes internos, declara <code>"Utiliza: X."</code> en la description
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-gray-400 mt-0.5">☐</span>
-              Ejecuté <code>npm run generate:registry</code>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-gray-400 mt-0.5">☐</span>
-              Ejecuté <code>npm run cli:build</code>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-gray-400 mt-0.5">☐</span>
-              El componente aparece en <code>node cli/dist/index.js list</code>
-            </li>
-          </ul>
-        </div>
+        <Card>
+          <CardContent>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li className="flex items-start gap-2">
+                <span className="text-gray-400 mt-0.5">☐</span>
+                El componente usa solo colores de la paleta oficial
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-400 mt-0.5">☐</span>
+                El entry tiene todos los campos obligatorios
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-400 mt-0.5">☐</span>
+                Si usa dependencias npm externas, están en el campo <code>dependencies</code>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-400 mt-0.5">☐</span>
+                Si usa otros componentes internos, declara <code>"Utiliza: X."</code> en la description
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-400 mt-0.5">☐</span>
+                Ejecuté <code>npm run generate:registry</code>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-400 mt-0.5">☐</span>
+                Ejecuté <code>npm run cli:build</code>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gray-400 mt-0.5">☐</span>
+                El componente aparece en <code>node cli/dist/index.js list</code>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
       </section>
     </div>
   );

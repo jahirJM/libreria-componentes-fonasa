@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types";
 import { CodePanel } from "./CodePanel";
-import { FiCode, FiCopy, FiX } from "react-icons/fi";
+import { FiCode, FiCopy } from "react-icons/fi";
 import { IoMdHome } from "react-icons/io";
 import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { CustomModal } from "../../componentsUI/CustomModal";
+import { Badge } from "../../componentsUI/Badge";
 
 interface ComponentPreviewProps {
   entry: ComponentEntry;
@@ -83,32 +85,16 @@ function VariantCodeModal({
   const formattedCode = formatCode(variant.usageCode);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      {/* Modal */}
-      <div className="relative w-full max-w-2xl rounded-xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-5 py-3">
-          <span className="text-sm font-semibold text-gray-700">
-            Código — {variant.label}
-          </span>
-          <button
-            onClick={onClose}
-            className="rounded-md p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-          >
-            <FiX className="size-4" />
-          </button>
-        </div>
-        {/* Code - vertical scroll */}
-        <div className="max-h-[60vh] overflow-y-auto">
-          <CodePanel code={formattedCode} />
-        </div>
+    <CustomModal
+      size="md"
+      title={`Código — ${variant.label}`}
+      showModal={true}
+      onClose={onClose}
+    >
+      <div className="max-h-[60vh] overflow-y-auto">
+        <CodePanel code={formattedCode} />
       </div>
-    </div>
+    </CustomModal>
   );
 }
 
@@ -349,10 +335,10 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
             {entry.dependencies.map((dep) => (
               <Link
                 key={dep}
-                to={`/docs#dep-${dep}`}
-                className="inline-flex items-center rounded-full bg-yellow-50 px-3 py-1 text-xs font-medium text-yellow-700 border border-yellow-200 hover:bg-yellow-100 hover:border-yellow-300 transition-colors"
+                to={`/docs/dependencias#dep-${dep}`}
+                className="inline-flex"
               >
-                {dep}
+                <Badge variant="estado-pendiente" text={dep} />
               </Link>
             ))}
           </div>

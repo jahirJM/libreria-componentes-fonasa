@@ -5,6 +5,9 @@ import { methodsRegistry } from "../../docs/methods-registry";
 import { slugify } from "../../docs/registry/slugify";
 import { CodePanel } from "../projectComponents/CodePanel";
 import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { Badge } from "../../componentsUI/Badge";
+import { BotonOutline } from "../../componentsUI/Botones";
+import { Card, CardContent } from "../../componentsUI/Card";
 import type { MethodEntry } from "../../docs/methods-registry/types";
 
 function MethodPreview({ entry }: { entry: MethodEntry }) {
@@ -38,9 +41,7 @@ function MethodPreview({ entry }: { entry: MethodEntry }) {
         {/* Grupo badge */}
         {entry.group && (
           <div className="mb-6">
-            <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 border border-gray-200">
-              {entry.group}
-            </span>
+            <Badge variant="estado-default" text={entry.group} />
           </div>
         )}
 
@@ -59,9 +60,11 @@ function MethodPreview({ entry }: { entry: MethodEntry }) {
           <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
             Demo interactiva
           </p>
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            {entry.demo()}
-          </div>
+          <Card variante="elevada">
+            <CardContent>
+              {entry.demo()}
+            </CardContent>
+          </Card>
         </div>
 
         {/* Ejemplo de uso */}
@@ -70,19 +73,11 @@ function MethodPreview({ entry }: { entry: MethodEntry }) {
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">
               Ejemplo de uso
             </p>
-            <button
+            <BotonOutline
+              label={copyState === "success" ? "✓ Copiado" : "Copiar"}
+              icon={copyState === "success" ? undefined : FiCopy}
               onClick={handleCopyUsage}
-              className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs text-gray-500 hover:text-[#0572CE] hover:bg-gray-100 transition-colors"
-            >
-              {copyState === "success" ? (
-                <span className="text-green-600 font-medium">✓ Copiado</span>
-              ) : (
-                <>
-                  <FiCopy className="size-3.5" />
-                  Copiar
-                </>
-              )}
-            </button>
+            />
           </div>
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <CodePanel code={entry.usageCode} language="typescript" />

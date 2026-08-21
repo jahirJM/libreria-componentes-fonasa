@@ -28,6 +28,7 @@ import { Select, type SelectOption } from "../../componentsUI/Select";
 import { Switch } from "../../componentsUI/Switch";
 import { CheckButton } from "../../componentsUI/CheckButton";
 import { UploadBox } from "../../componentsUI/UploadBox";
+import { BotonPrimario, BotonCancelar } from "../../componentsUI/Botones";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TIPOS
@@ -243,36 +244,33 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
       {/* Section name */}
       {field.type === "section" && (
         <fieldset className="space-y-1">
-          <label className="text-[11px] font-medium text-gray-600">Nombre de sección</label>
-          <input type="text" value={field.sectionName || ""} onChange={(e) => onUpdate({ sectionName: e.target.value })}
-            className="w-full rounded-md border border-gray-200 px-2.5 py-1.5 text-xs text-gray-800 outline-none focus:border-[#0572CE]" />
+          <Label text="Nombre de sección" className="text-[11px]" />
+          <Input value={field.sectionName || ""} onChange={(e) => onUpdate({ sectionName: e.target.value })} />
         </fieldset>
       )}
 
       {/* Label */}
       {field.type !== "divider" && field.type !== "section" && (
         <fieldset className="space-y-1">
-          <label className="text-[11px] font-medium text-gray-600">Label</label>
-          <input type="text" value={field.label} onChange={(e) => onUpdate({ label: e.target.value })}
-            className="w-full rounded-md border border-gray-200 px-2.5 py-1.5 text-xs text-gray-800 outline-none focus:border-[#0572CE]" />
+          <Label text="Label" className="text-[11px]" />
+          <Input value={field.label} onChange={(e) => onUpdate({ label: e.target.value })} />
         </fieldset>
       )}
 
       {/* Placeholder */}
       {(["input","number","email","password","textarea","select","selectBuscable","date"].includes(field.type)) && (
         <fieldset className="space-y-1">
-          <label className="text-[11px] font-medium text-gray-600">Placeholder</label>
-          <input type="text" value={field.placeholder || ""} onChange={(e) => onUpdate({ placeholder: e.target.value })}
-            className="w-full rounded-md border border-gray-200 px-2.5 py-1.5 text-xs text-gray-800 outline-none focus:border-[#0572CE]" />
+          <Label text="Placeholder" className="text-[11px]" />
+          <Input value={field.placeholder || ""} onChange={(e) => onUpdate({ placeholder: e.target.value })} />
         </fieldset>
       )}
 
       {/* Options */}
       {(["select","selectBuscable","checkbox","radio"].includes(field.type)) && (
         <fieldset className="space-y-1">
-          <label className="text-[11px] font-medium text-gray-600">Opciones (una por línea)</label>
-          <textarea value={(field.options || []).join("\n")} onChange={(e) => onUpdate({ options: e.target.value.split("\n").filter(Boolean) })}
-            rows={3} className="w-full rounded-md border border-gray-200 px-2.5 py-1.5 text-xs text-gray-800 outline-none focus:border-[#0572CE] resize-none font-mono" />
+          <Label text="Opciones (una por línea)" className="text-[11px]" />
+          <TextArea value={(field.options || []).join("\n")} onChange={(e) => onUpdate({ options: e.target.value.split("\n").filter(Boolean) })}
+            rows={3} className="font-mono" />
         </fieldset>
       )}
 
@@ -280,13 +278,11 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
       {(["input","number","email","password"].includes(field.type)) && (
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" checked={field.inputError || false} onChange={(e) => onUpdate({ inputError: e.target.checked })}
-              className="rounded border-gray-300 text-[#0572CE] focus:ring-[#0572CE]/20" />
+            <Switch checked={field.inputError || false} onChange={(v) => onUpdate({ inputError: v })} tamano="sm" variante="error" />
             <span className="text-[11px] text-gray-600">Error</span>
           </label>
           <label className="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" checked={field.inputDisabled || false} onChange={(e) => onUpdate({ inputDisabled: e.target.checked })}
-              className="rounded border-gray-300 text-[#0572CE] focus:ring-[#0572CE]/20" />
+            <Switch checked={field.inputDisabled || false} onChange={(v) => onUpdate({ inputDisabled: v })} tamano="sm" variante="neutral" />
             <span className="text-[11px] text-gray-600">Disabled</span>
           </label>
         </div>
@@ -318,8 +314,7 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
             </div>
           </fieldset>
           <label className="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" checked={field.switchIcons || false} onChange={(e) => onUpdate({ switchIcons: e.target.checked })}
-              className="rounded border-gray-300 text-[#0572CE] focus:ring-[#0572CE]/20" />
+            <Switch checked={field.switchIcons || false} onChange={(v) => onUpdate({ switchIcons: v })} tamano="sm" variante="primary" />
             <span className="text-[11px] text-gray-600">Con íconos</span>
           </label>
         </>
@@ -329,14 +324,12 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
       <div className="flex items-center gap-3 pt-2 border-t border-gray-100 flex-wrap">
         {!["heading","paragraph","divider","section"].includes(field.type) && (
           <label className="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" checked={field.required || false} onChange={(e) => onUpdate({ required: e.target.checked })}
-              className="rounded border-gray-300 text-[#0572CE] focus:ring-[#0572CE]/20" />
+            <Switch checked={field.required || false} onChange={(v) => onUpdate({ required: v })} tamano="sm" variante="primary" />
             <span className="text-[11px] text-gray-600">Requerido</span>
           </label>
         )}
         <label className="flex items-center gap-1.5 cursor-pointer">
-          <input type="checkbox" checked={field.colSpan === 2} onChange={(e) => onUpdate({ colSpan: e.target.checked ? 2 : 1 })}
-            className="rounded border-gray-300 text-[#0572CE] focus:ring-[#0572CE]/20" />
+          <Switch checked={field.colSpan === 2} onChange={(v) => onUpdate({ colSpan: v ? 2 : 1 })} tamano="sm" variante="primary" />
           <span className="text-[11px] text-gray-600">Ancho completo</span>
         </label>
       </div>
@@ -393,9 +386,8 @@ export function FormBuilderPage() {
       <div className="w-72 border-r border-gray-200 bg-white flex flex-col overflow-hidden">
         {/* Título formulario */}
         <div className="p-3 border-b border-gray-200">
-          <label className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Título</label>
-          <input type="text" value={formTitle} onChange={(e) => setFormTitle(e.target.value)}
-            className="w-full mt-1 rounded-md border border-gray-200 px-2.5 py-1.5 text-sm font-medium text-gray-800 outline-none focus:border-[#0572CE]" />
+          <Label text="Título" className="text-[10px] uppercase tracking-wider" />
+          <Input value={formTitle} onChange={(e) => setFormTitle(e.target.value)} className="mt-1" />
         </div>
 
         {/* Catálogo */}
@@ -454,8 +446,8 @@ export function FormBuilderPage() {
                   {fields.map((f) => (<div key={f.id} className={f.colSpan===2&&columns>1?"col-span-2":""}><PreviewField field={f} /></div>))}
                 </div>
                 <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                  <button type="button" className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700">Cancelar</button>
-                  <button type="button" className="px-4 py-2 rounded-lg bg-[#0572CE] text-white text-sm font-medium">Enviar</button>
+                  <BotonCancelar label="Cancelar" />
+                  <BotonPrimario label="Enviar" type="submit" />
                 </div></>
               )}
             </div>

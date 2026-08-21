@@ -300,12 +300,12 @@ function TemplateBuilder() {
       <div className="w-80 border-r border-gray-200 bg-white overflow-y-auto p-5 flex flex-col gap-4">
         <div>
           <h2 className="text-base font-semibold text-gray-800">Template Builder</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Configura las partes del email</p>
+          <p className="text-xs text-gray-400 mt-0.5">Configura las partes del email</p>
         </div>
 
         {/* Estructura */}
         <div className="space-y-2.5">
-          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Estructura</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Estructura</p>
           <ToggleRow label="Header (Logo)" checked={parts.header} onChange={(v) => updatePart("header", v)} />
           <ToggleRow label="Disclaimer" checked={parts.disclaimer} onChange={(v) => updatePart("disclaimer", v)} />
           <ToggleRow label="Redes Sociales" checked={parts.socialLinks} onChange={(v) => updatePart("socialLinks", v)} />
@@ -314,7 +314,7 @@ function TemplateBuilder() {
 
         {/* Contenido */}
         <div className="space-y-2.5">
-          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Contenido</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Contenido</p>
           <fieldset className="space-y-1">
             <label className="text-xs font-medium text-gray-600">Título</label>
             <input type="text" value={parts.title} onChange={(e) => updatePart("title", e.target.value)} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 outline-none focus:border-[#0572CE] focus:ring-1 focus:ring-[#0572CE]/20 transition-colors" />
@@ -326,13 +326,13 @@ function TemplateBuilder() {
           <fieldset className="space-y-1">
             <label className="text-xs font-medium text-gray-600">Cuerpo</label>
             <textarea value={parts.body} onChange={(e) => updatePart("body", e.target.value)} rows={3} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 outline-none focus:border-[#0572CE] focus:ring-1 focus:ring-[#0572CE]/20 transition-colors resize-none" />
-            <p className="text-[10px] text-gray-400">Soporta HTML: &lt;strong&gt;, &lt;a&gt;, etc.</p>
+            <p className="text-xs text-gray-400">Soporta HTML: &lt;strong&gt;, &lt;a&gt;, etc.</p>
           </fieldset>
         </div>
 
         {/* Bloques opcionales */}
         <div className="space-y-2.5">
-          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Bloques</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Bloques</p>
 
           {/* Info Box */}
           <ToggleRow label="Info Box (destacado)" checked={parts.infoBox} onChange={(v) => updatePart("infoBox", v)} />
@@ -346,7 +346,7 @@ function TemplateBuilder() {
             <div className="space-y-2 pl-1">
               <div className="flex gap-1">
                 {(["success", "error", "warning"] as AlertType[]).map((t) => (
-                  <button key={t} onClick={() => updatePart("alertType", t)} className={`flex-1 text-[10px] font-medium py-1.5 rounded-md border transition-colors ${parts.alertType === t ? (t === "success" ? "bg-green-50 border-green-300 text-green-700" : t === "error" ? "bg-red-50 border-red-300 text-red-700" : "bg-yellow-50 border-yellow-300 text-yellow-700") : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
+                  <button key={t} onClick={() => updatePart("alertType", t)} className={`flex-1 text-xs font-medium py-1.5 rounded-md border transition-colors ${parts.alertType === t ? (t === "success" ? "bg-green-50 border-green-300 text-green-700" : t === "error" ? "bg-red-50 border-red-300 text-red-700" : "bg-yellow-50 border-yellow-300 text-yellow-700") : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
                     {t === "success" ? "Éxito" : t === "error" ? "Error" : "Aviso"}
                   </button>
                 ))}
@@ -527,7 +527,7 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
                 <div className={`flex items-center justify-center w-full h-14 rounded-lg mb-2 ${item.variant.background === "dark" ? "bg-gray-700" : "bg-gray-50"}`}>
                   <img src={item.variant.src} alt={item.variant.label} className="max-h-9 max-w-[85%] object-contain" />
                 </div>
-                <p className={`text-[10px] font-medium text-center leading-tight line-clamp-2 ${isActive ? "text-[#0572CE]" : "text-gray-500"}`}>
+                <p className={`text-xs font-medium text-center leading-tight line-clamp-2 ${isActive ? "text-[#0572CE]" : "text-gray-500"}`}>
                   {item.variant.label}
                 </p>
                 {isActive && <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#0572CE]" />}
@@ -555,7 +555,7 @@ export function RecursosPage() {
       <aside className="hidden lg:flex flex-col w-56 border-r border-gray-200 bg-white overflow-y-auto py-5 px-3">
         {sidebarGroups.map((group) => (
           <div key={group.name} className="mb-4">
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-3 mb-1.5">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-1.5">
               {group.name}
             </p>
             <ul className="space-y-0.5">

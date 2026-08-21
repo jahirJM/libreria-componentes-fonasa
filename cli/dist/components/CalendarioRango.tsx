@@ -513,7 +513,7 @@ export function CalendarioRango({
           <div className="flex items-center gap-2 ml-3">
             {/* Conteo de días */}
             {showStats && countedDays !== null && (
-              <span className="bg-[#0572CE] text-white px-2.5 py-1 rounded-full text-[11px] font-semibold">
+              <span className="bg-[#0572CE] text-white px-2.5 py-1 rounded-full text-xs font-semibold">
                 {countedDays} días
               </span>
             )}
@@ -522,7 +522,7 @@ export function CalendarioRango({
               <button
                 type="button"
                 onClick={onConfirm}
-                className="bg-[#0572CE] text-white px-3 py-1 rounded-2xl text-[11px] font-medium hover:bg-blue-700 transition-colors cursor-pointer"
+                className="bg-[#0572CE] text-white px-3 py-1 rounded-2xl text-xs font-medium hover:bg-blue-700 transition-colors cursor-pointer"
               >
                 Seleccionar
               </button>

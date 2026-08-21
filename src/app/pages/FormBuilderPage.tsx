@@ -136,9 +136,9 @@ function SortableFieldItem({ field, isSelected, onSelect, onRemove, onUpdateName
             {displayName}
           </p>
         )}
-        <p className="text-[10px] text-gray-400">{typeLabel}{field.required ? " •" : ""}</p>
+        <p className="text-xs text-gray-400">{typeLabel}{field.required ? " •" : ""}</p>
       </div>
-      <span className="text-[9px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">{field.colSpan === 2 ? "full" : "½"}</span>
+      <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">{field.colSpan === 2 ? "full" : "½"}</span>
       <button onClick={(e) => { e.stopPropagation(); onRemove(); }} className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-all">
         <LuTrash2 className="size-3.5" />
       </button>
@@ -238,13 +238,13 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
     <div className="w-64 border-l border-gray-200 bg-white overflow-y-auto p-4 space-y-3">
       <div className="flex items-center gap-1.5 pb-2 border-b border-gray-100">
         <LuSettings className="size-3.5 text-gray-400" />
-        <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Propiedades</p>
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Propiedades</p>
       </div>
 
       {/* Section name */}
       {field.type === "section" && (
         <fieldset className="space-y-1">
-          <Label text="Nombre de sección" className="text-[11px]" />
+          <Label text="Nombre de sección" className="text-xs" />
           <Input value={field.sectionName || ""} onChange={(e) => onUpdate({ sectionName: e.target.value })} />
         </fieldset>
       )}
@@ -252,7 +252,7 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
       {/* Label */}
       {field.type !== "divider" && field.type !== "section" && (
         <fieldset className="space-y-1">
-          <Label text="Label" className="text-[11px]" />
+          <Label text="Label" className="text-xs" />
           <Input value={field.label} onChange={(e) => onUpdate({ label: e.target.value })} />
         </fieldset>
       )}
@@ -260,7 +260,7 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
       {/* Placeholder */}
       {(["input","number","email","password","textarea","select","selectBuscable","date"].includes(field.type)) && (
         <fieldset className="space-y-1">
-          <Label text="Placeholder" className="text-[11px]" />
+          <Label text="Placeholder" className="text-xs" />
           <Input value={field.placeholder || ""} onChange={(e) => onUpdate({ placeholder: e.target.value })} />
         </fieldset>
       )}
@@ -268,7 +268,7 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
       {/* Options */}
       {(["select","selectBuscable","checkbox","radio"].includes(field.type)) && (
         <fieldset className="space-y-1">
-          <Label text="Opciones (una por línea)" className="text-[11px]" />
+          <Label text="Opciones (una por línea)" className="text-xs" />
           <TextArea value={(field.options || []).join("\n")} onChange={(e) => onUpdate({ options: e.target.value.split("\n").filter(Boolean) })}
             rows={3} className="font-mono" />
         </fieldset>
@@ -279,11 +279,11 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-1.5 cursor-pointer">
             <Switch checked={field.inputError || false} onChange={(v) => onUpdate({ inputError: v })} tamano="sm" variante="error" />
-            <span className="text-[11px] text-gray-600">Error</span>
+            <span className="text-xs text-gray-600">Error</span>
           </label>
           <label className="flex items-center gap-1.5 cursor-pointer">
             <Switch checked={field.inputDisabled || false} onChange={(v) => onUpdate({ inputDisabled: v })} tamano="sm" variante="neutral" />
-            <span className="text-[11px] text-gray-600">Disabled</span>
+            <span className="text-xs text-gray-600">Disabled</span>
           </label>
         </div>
       )}
@@ -292,22 +292,22 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
       {field.type === "switch" && (
         <>
           <fieldset className="space-y-1">
-            <label className="text-[11px] font-medium text-gray-600">Color</label>
+            <label className="text-xs font-medium text-gray-600">Color</label>
             <div className="flex gap-1">
               {(["primary","success","error","warning","neutral"] as const).map((v) => (
                 <button key={v} onClick={() => onUpdate({ switchVariant: v })}
-                  className={`flex-1 text-[8px] font-medium py-1 rounded-md border transition-colors ${(field.switchVariant||"primary")===v?"border-[#0572CE] bg-blue-50 text-[#0572CE]":"border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
+                  className={`flex-1 text-xs font-medium py-1 rounded-md border transition-colors ${(field.switchVariant||"primary")===v?"border-[#0572CE] bg-blue-50 text-[#0572CE]":"border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
                   {v}
                 </button>
               ))}
             </div>
           </fieldset>
           <fieldset className="space-y-1">
-            <label className="text-[11px] font-medium text-gray-600">Tamaño</label>
+            <label className="text-xs font-medium text-gray-600">Tamaño</label>
             <div className="flex gap-1">
               {(["sm","md","lg"] as const).map((s) => (
                 <button key={s} onClick={() => onUpdate({ switchSize: s })}
-                  className={`flex-1 text-[10px] font-medium py-1 rounded-md border transition-colors ${(field.switchSize||"md")===s?"border-[#0572CE] bg-blue-50 text-[#0572CE]":"border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
+                  className={`flex-1 text-xs font-medium py-1 rounded-md border transition-colors ${(field.switchSize||"md")===s?"border-[#0572CE] bg-blue-50 text-[#0572CE]":"border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
                   {s}
                 </button>
               ))}
@@ -315,7 +315,7 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
           </fieldset>
           <label className="flex items-center gap-1.5 cursor-pointer">
             <Switch checked={field.switchIcons || false} onChange={(v) => onUpdate({ switchIcons: v })} tamano="sm" variante="primary" />
-            <span className="text-[11px] text-gray-600">Con íconos</span>
+            <span className="text-xs text-gray-600">Con íconos</span>
           </label>
         </>
       )}
@@ -325,12 +325,12 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         {!["heading","paragraph","divider","section"].includes(field.type) && (
           <label className="flex items-center gap-1.5 cursor-pointer">
             <Switch checked={field.required || false} onChange={(v) => onUpdate({ required: v })} tamano="sm" variante="primary" />
-            <span className="text-[11px] text-gray-600">Requerido</span>
+            <span className="text-xs text-gray-600">Requerido</span>
           </label>
         )}
         <label className="flex items-center gap-1.5 cursor-pointer">
           <Switch checked={field.colSpan === 2} onChange={(v) => onUpdate({ colSpan: v ? 2 : 1 })} tamano="sm" variante="primary" />
-          <span className="text-[11px] text-gray-600">Ancho completo</span>
+          <span className="text-xs text-gray-600">Ancho completo</span>
         </label>
       </div>
     </div>
@@ -386,19 +386,19 @@ export function FormBuilderPage() {
       <div className="w-72 border-r border-gray-200 bg-white flex flex-col overflow-hidden">
         {/* Título formulario */}
         <div className="p-3 border-b border-gray-200">
-          <Label text="Título" className="text-[10px] uppercase tracking-wider" />
+          <Label text="Título" className="text-xs uppercase tracking-wider" />
           <Input value={formTitle} onChange={(e) => setFormTitle(e.target.value)} className="mt-1" />
         </div>
 
         {/* Catálogo */}
         <div className="p-3 border-b border-gray-200">
-          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider mb-2">Campos</p>
+          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Campos</p>
           <div className="grid grid-cols-4 gap-1">
             {fieldCatalog.map((fc) => (
               <button key={fc.type} onClick={() => addField(fc.type)} title={fc.label}
                 className="flex flex-col items-center gap-0.5 p-1.5 rounded-lg border border-gray-200 hover:border-[#0572CE] hover:bg-blue-50/50 transition-colors text-gray-500 hover:text-[#0572CE]">
                 {fc.icon}
-                <span className="text-[7px] font-medium leading-tight truncate w-full text-center">{fc.label}</span>
+                <span className="text-xs font-medium leading-tight truncate w-full text-center">{fc.label}</span>
               </button>
             ))}
           </div>
@@ -407,7 +407,7 @@ export function FormBuilderPage() {
         {/* Lista DnD */}
         <div className="flex-1 overflow-y-auto p-2">
           {fields.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full"><LuPlus className="size-5 text-gray-300 mb-1" /><p className="text-[11px] text-gray-400">Agrega campos</p></div>
+            <div className="flex flex-col items-center justify-center h-full"><LuPlus className="size-5 text-gray-300 mb-1" /><p className="text-xs text-gray-400">Agrega campos</p></div>
           ) : (
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
               <SortableContext items={fields.map((f) => f.id)} strategy={verticalListSortingStrategy}>
@@ -429,8 +429,8 @@ export function FormBuilderPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-0.5 border border-gray-200 rounded-lg p-0.5">
-              <button onClick={() => setColumns(1)} className={`px-2 py-1 rounded-md text-[10px] font-medium ${columns===1?"bg-gray-800 text-white":"text-gray-500 hover:bg-gray-100"}`}>1 col</button>
-              <button onClick={() => setColumns(2)} className={`px-2 py-1 rounded-md text-[10px] font-medium ${columns===2?"bg-gray-800 text-white":"text-gray-500 hover:bg-gray-100"}`}>2 col</button>
+              <button onClick={() => setColumns(1)} className={`px-2 py-1 rounded-md text-xs font-medium ${columns===1?"bg-gray-800 text-white":"text-gray-500 hover:bg-gray-100"}`}>1 col</button>
+              <button onClick={() => setColumns(2)} className={`px-2 py-1 rounded-md text-xs font-medium ${columns===2?"bg-gray-800 text-white":"text-gray-500 hover:bg-gray-100"}`}>2 col</button>
             </div>
             <button onClick={handleCopy} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0572CE] hover:bg-[#0460ad] text-white text-xs font-medium transition-colors">
               {copied ? <><LuCheck className="size-3.5" /> Copiado</> : <><LuCopy className="size-3.5" /> Copiar</>}
@@ -452,7 +452,7 @@ export function FormBuilderPage() {
               )}
             </div>
           ) : (
-            <pre className="mx-auto max-w-3xl rounded-lg border border-gray-200 bg-white p-4 text-[11px] text-gray-700 overflow-auto whitespace-pre-wrap font-mono leading-relaxed">{fields.length===0?"// Agrega campos":generateCode(fields, columns)}</pre>
+            <pre className="mx-auto max-w-3xl rounded-lg border border-gray-200 bg-white p-4 text-xs text-gray-700 overflow-auto whitespace-pre-wrap font-mono leading-relaxed">{fields.length===0?"// Agrega campos":generateCode(fields, columns)}</pre>
           )}
         </div>
       </div>

@@ -28,10 +28,10 @@ function ColorPill({ color }: { color: { name: string; value: string; usage: str
         style={{ backgroundColor: color.value }}
       />
       <div className="flex flex-col">
-        <span className="text-[11px] font-medium text-gray-700 leading-tight">
+        <span className="text-xs font-medium text-gray-700 leading-tight">
           {color.name}
         </span>
-        <span className="text-[10px] font-mono text-gray-500 leading-tight">
+        <span className="text-xs font-mono text-gray-500 leading-tight">
           {color.value}
         </span>
       </div>
@@ -228,7 +228,7 @@ function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
               {v.label}
             </button>
             {/* Tooltip hover */}
-            <span className="z-[99] absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+            <span className="z-[99] absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
               {v.label}
             </span>
           </div>
@@ -265,7 +265,7 @@ function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
                     {v.label}
                   </button>
                   {/* Tooltip hover */}
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
                     {v.label}
                   </span>
                 </div>
@@ -329,7 +329,7 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         {/* Dependencias como pills */}
         {entry.dependencies && entry.dependencies.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-[11px] text-gray-500 uppercase tracking-wider font-medium">
+            <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
               Requiere:
             </span>
             {entry.dependencies.map((dep) => (

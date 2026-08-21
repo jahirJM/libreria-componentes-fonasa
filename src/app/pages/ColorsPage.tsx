@@ -45,7 +45,7 @@ function ColorPreview({ color }: { color: ColorSwatch }) {
         >
           Botón ejemplo
         </button>
-        <span className="text-[10px] text-gray-500">Botón</span>
+        <span className="text-xs text-gray-500">Botón</span>
       </div>
     );
   }
@@ -56,7 +56,7 @@ function ColorPreview({ color }: { color: ColorSwatch }) {
         <p className="text-sm font-medium" style={{ color: color.value }}>
           Texto de ejemplo
         </p>
-        <span className="text-[10px] text-gray-500">Texto</span>
+        <span className="text-xs text-gray-500">Texto</span>
       </div>
     );
   }
@@ -68,7 +68,7 @@ function ColorPreview({ color }: { color: ColorSwatch }) {
           className="w-full h-10 rounded-md bg-white"
           style={{ border: `2px solid ${color.value}` }}
         />
-        <span className="text-[10px] text-gray-500">Borde</span>
+        <span className="text-xs text-gray-500">Borde</span>
       </div>
     );
   }
@@ -80,9 +80,9 @@ function ColorPreview({ color }: { color: ColorSwatch }) {
           className="w-full h-10 rounded-md flex items-center justify-center"
           style={{ backgroundColor: color.value }}
         >
-          <span className="text-[10px] text-gray-700">Contenido</span>
+          <span className="text-xs text-gray-700">Contenido</span>
         </div>
-        <span className="text-[10px] text-gray-500">Fondo</span>
+        <span className="text-xs text-gray-500">Fondo</span>
       </div>
     );
   }
@@ -96,7 +96,7 @@ function ColorPreview({ color }: { color: ColorSwatch }) {
       >
         {color.name}
       </span>
-      <span className="text-[10px] text-gray-500">Badge</span>
+      <span className="text-xs text-gray-500">Badge</span>
     </div>
   );
 }
@@ -131,7 +131,7 @@ function Swatch({ color }: { color: ColorSwatch }) {
         style={{ backgroundColor: color.value }}
       >
         <span
-          className={`text-[10px] font-mono font-medium ${isLight ? "text-gray-800" : "text-white"}`}
+          className={`text-xs font-mono font-medium ${isLight ? "text-gray-800" : "text-white"}`}
         >
           {color.value}
         </span>

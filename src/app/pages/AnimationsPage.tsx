@@ -708,7 +708,7 @@ function CopyButton({ text }: { text: string }) {
     } catch { /* */ }
   }
   return (
-    <button onClick={handleCopy} className="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-[#0572CE] transition-colors" title="Copiar">
+    <button onClick={handleCopy} className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-[#0572CE] transition-colors" title="Copiar">
       {copied ? <LuCheck className="size-3 text-green-500" /> : <LuCopy className="size-3" />}
       {copied ? "Copiado" : "Copiar"}
     </button>
@@ -763,7 +763,7 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
         <div className="flex items-start justify-between gap-2">
           <div>
             <h3 className="text-sm font-semibold text-gray-800">{entry.name}</h3>
-            <p className="text-[11px] text-gray-500 mt-0.5 leading-relaxed">{entry.description}</p>
+            <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{entry.description}</p>
           </div>
           {entry.requiresCss && (
             <Badge variant="estado-pendiente" text="CSS" />
@@ -773,10 +773,10 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
         {/* Clase Tailwind */}
         <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Clase</p>
+            <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">Clase</p>
             <CopyButton text={entry.tailwindClass} />
           </div>
-          <code className="block text-[11px] text-[#0572CE] bg-blue-50/50 border border-blue-100 rounded-md px-2.5 py-1.5 font-mono break-all">
+          <code className="block text-xs text-[#0572CE] bg-blue-50/50 border border-blue-100 rounded-md px-2.5 py-1.5 font-mono break-all">
             {entry.tailwindClass}
           </code>
         </div>
@@ -785,10 +785,10 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
         {entry.requiresCss && entry.cssCode && (
           <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">CSS requerido</p>
+              <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">CSS requerido</p>
               <CopyButton text={entry.cssCode} />
             </div>
-            <pre className="text-[10px] text-gray-600 bg-gray-50 border border-gray-200 rounded-md px-2.5 py-2 font-mono overflow-x-auto whitespace-pre leading-relaxed">
+            <pre className="text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-md px-2.5 py-2 font-mono overflow-x-auto whitespace-pre leading-relaxed">
               {entry.cssCode}
             </pre>
           </div>
@@ -796,10 +796,10 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
 
         {/* Meta */}
         <div className="flex items-center gap-3 pt-1">
-          <span className="text-[10px] text-gray-400">
+          <span className="text-xs text-gray-400">
             ⏱ {entry.duration}
           </span>
-          <span className="text-[10px] text-gray-400">
+          <span className="text-xs text-gray-400">
             ⚡ {entry.easing}
           </span>
         </div>
@@ -826,22 +826,22 @@ export function AnimationsPage() {
       {/* Header */}
       <div className="border-b border-gray-100 bg-gray-50/50">
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <p className="text-[11px] font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Recursos</p>
+          <p className="text-xs font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Recursos</p>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Animaciones</h1>
           <p className="text-sm text-gray-500 max-w-xl leading-relaxed">
             Catálogo de animaciones listas para usar con Tailwind CSS 4. Las que requieren CSS
-            necesitan agregar el <code className="text-[11px] bg-gray-100 px-1.5 py-0.5 rounded font-mono">@keyframes</code> en tu archivo CSS global.
+            necesitan agregar el <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded font-mono">@keyframes</code> en tu archivo CSS global.
           </p>
 
           {/* Guía rápida */}
           <Card className="mt-5 max-w-xl">
             <CardContent>
-              <p className="text-[11px] font-semibold text-gray-700 uppercase tracking-wider mb-2">Cómo usar en Tailwind 4</p>
+              <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Cómo usar en Tailwind 4</p>
               <ol className="text-xs text-gray-600 space-y-1.5 list-decimal list-inside leading-relaxed">
                 <li>Si la animación es nativa de Tailwind (spin, ping, pulse, bounce), úsala directamente.</li>
-                <li>Si requiere CSS, copia el <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">@keyframes</code> en tu <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">index.css</code>.</li>
-                <li>Aplica la clase con la sintaxis arbitraria: <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">animate-[nombre_duración_easing]</code></li>
-                <li>Para <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-[10px]">forwards</code> (mantener estado final), agrégualo al final de la clase.</li>
+                <li>Si requiere CSS, copia el <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">@keyframes</code> en tu <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">index.css</code>.</li>
+                <li>Aplica la clase con la sintaxis arbitraria: <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">animate-[nombre_duración_easing]</code></li>
+                <li>Para <code className="bg-gray-100 px-1 py-0.5 rounded font-mono text-xs">forwards</code> (mantener estado final), agrégualo al final de la clase.</li>
               </ol>
             </CardContent>
           </Card>

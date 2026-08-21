@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { LuMenu, LuX, LuSearch, LuChevronDown } from "react-icons/lu";
 import { registry } from "../../docs/registry";
@@ -6,10 +6,8 @@ import { methodsRegistry } from "../../docs/methods-registry";
 import { slugify } from "../../docs/registry/slugify";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `inline-flex justify-center items-center rounded-2xl border border-transparent px-4 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${
-    isActive
-      ? "bg-[#0572CE] text-white"
-      : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
+  `relative inline-flex justify-center items-center px-4 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${
+    isActive ? "text-[#0572CE]" : "text-gray-600 hover:text-[#0572CE]"
   }`;
 
 const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>

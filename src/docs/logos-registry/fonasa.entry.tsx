@@ -29,5 +29,17 @@ export const fonasaLogo: LogoEntry = {
       format: "svg",
       background: "dark",
     },
+    {
+      label: "Logo Full (SVG)",
+      src: "/logos/fonasa/svg/fonasa-logo-full.svg",
+      format: "svg",
+      background: "light",
+    },
+    {
+      label: "Logo Name (SVG)",
+      src: "/logos/fonasa/svg/fonasa-logo-name.svg",
+      format: "svg",
+      background: "light",
+    },
   ],
 };

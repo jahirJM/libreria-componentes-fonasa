@@ -7,7 +7,7 @@ export function ColorsLayout() {
     <div className="min-h-screen flex flex-col bg-white text-gray-800">
       <div className="flex pt-14 flex-1">
         <ColorsSidebar />
-        <main className="flex-1 ml-64 min-w-0 overflow-hidden flex flex-col">
+        <main className="flex-1 lg:ml-64 min-w-0 overflow-hidden flex flex-col">
           <div className="flex-1 p-8">
             <Outlet />
           </div>

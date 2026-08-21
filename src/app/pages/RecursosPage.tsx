@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode } from "react-icons/lu";
+import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown } from "react-icons/lu";
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
 import { FormBuilderPage } from "./FormBuilderPage";
@@ -19,7 +19,8 @@ interface FlatVariant {
 type SidebarItem =
   | { type: "logo"; entry: LogoEntry }
   | { type: "template"; label: string }
-  | { type: "formbuilder"; label: string };
+  | { type: "formbuilder"; label: string }
+  | { type: "fonts"; label: string };
 
 interface SidebarGroup {
   name: string;
@@ -58,6 +59,14 @@ function buildSidebarGroups(): SidebarGroup[] {
     items: [
       { type: "template", label: "Template Email" },
       { type: "formbuilder", label: "Form Builder" },
+    ],
+  });
+
+  // Agregar grupo Fuentes
+  groups.push({
+    name: "Tipografía",
+    items: [
+      { type: "fonts", label: "Fuentes" },
     ],
   });
 
@@ -541,6 +550,112 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// FUENTES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const robotoWeights = [
+  { weight: 100, name: "Thin" },
+  { weight: 300, name: "Light" },
+  { weight: 400, name: "Regular" },
+  { weight: 500, name: "Medium" },
+  { weight: 700, name: "Bold" },
+  { weight: 900, name: "Black" },
+];
+
+function FontsSection() {
+  return (
+    <div className="flex-1 overflow-y-auto p-8">
+      <div className="max-w-3xl mx-auto">
+        <p className="text-xs font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Tipografía</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Fuentes</h1>
+        <p className="text-sm text-gray-500 mb-8">
+          La plataforma utiliza <strong>Roboto</strong> como fuente principal. Se carga desde Google Fonts con todos los pesos disponibles.
+        </p>
+
+        {/* Specimen */}
+        <div className="rounded-xl border border-gray-200 p-6 mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Roboto</h2>
+          <p className="text-base text-gray-600 mb-6 leading-relaxed">
+            Roboto es una fuente sans-serif diseñada por Google. Ofrece un equilibrio entre forma geométrica y curvas amigables, ideal para interfaces digitales.
+          </p>
+
+          <div className="space-y-4">
+            {robotoWeights.map((w) => (
+              <div key={w.weight} className="flex items-baseline gap-4 border-b border-gray-100 pb-3 last:border-0">
+                <span className="text-xs text-gray-400 w-20 shrink-0">{w.weight} — {w.name}</span>
+                <p className="text-xl text-gray-800" style={{ fontWeight: w.weight }}>
+                  El veloz murciélago hindú comía feliz cardillo y kiwi.
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Escala de tamaños */}
+        <div className="rounded-xl border border-gray-200 p-6 mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Escala de tamaños</h2>
+          <div className="space-y-3">
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-xs</code>
+              <span className="text-xs text-gray-800">12px — Labels, metadata, tooltips</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-sm</code>
+              <span className="text-sm text-gray-800">14px — Texto de soporte, inputs</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-base</code>
+              <span className="text-base text-gray-800">16px — Párrafos, contenido principal</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-lg</code>
+              <span className="text-lg text-gray-800">18px — Subtítulos</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-xl</code>
+              <span className="text-xl text-gray-800">20px — Títulos de sección</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-2xl</code>
+              <span className="text-2xl text-gray-800">24px — Títulos secundarios</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-3xl</code>
+              <span className="text-3xl text-gray-800">30px — Títulos de página</span>
+            </div>
+            <div className="flex items-baseline gap-4">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-4xl</code>
+              <span className="text-4xl text-gray-800">36px — Heroes</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Instalación */}
+        <div className="rounded-xl border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Instalación</h2>
+          <p className="text-sm text-gray-600 mb-3">
+            Agregar en el <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded font-mono">index.html</code> del proyecto:
+          </p>
+          <pre className="text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono overflow-x-auto whitespace-pre leading-relaxed">
+{`<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />`}
+          </pre>
+          <p className="text-sm text-gray-600 mt-4 mb-3">
+            En <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded font-mono">index.css</code> (Tailwind 4):
+          </p>
+          <pre className="text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono overflow-x-auto whitespace-pre leading-relaxed">
+{`@theme {
+  --font-sans: "Roboto", sans-serif;
+}`}
+          </pre>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // PÁGINA PRINCIPAL: RECURSOS
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -549,55 +664,94 @@ export function RecursosPage() {
 
   const [activeItem, setActiveItem] = useState<SidebarItem>(sidebarGroups[0]?.items[0] ?? { type: "template", label: "Template Email" });
 
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    sidebarGroups.forEach((g) => (initial[g.name] = true));
+    return initial;
+  });
+
+  const toggleGroup = (group: string) => {
+    setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
+  };
+
   return (
-    <div className="flex h-[calc(100vh-3.5rem)]">
-      {/* ─── Sidebar izquierdo ─── */}
-      <aside className="hidden lg:flex flex-col w-56 border-r border-gray-200 bg-white overflow-y-auto py-5 px-3">
-        {sidebarGroups.map((group) => (
-          <div key={group.name} className="mb-4">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-1.5">
-              {group.name}
-            </p>
-            <ul className="space-y-0.5">
-              {group.items.map((item) => {
-                const label = item.type === "logo" ? item.entry.name : item.label;
-                const isActive =
-                  item.type === activeItem.type &&
-                  (item.type === "logo" && activeItem.type === "logo"
-                    ? item.entry.name === activeItem.entry.name
-                    : (item.type === "template" && activeItem.type === "template")
-                      ? item.label === activeItem.label
-                      : (item.type === "formbuilder" && activeItem.type === "formbuilder")
-                        ? item.label === activeItem.label
-                        : false);
-                return (
-                  <li key={label}>
-                    <button
-                      onClick={() => setActiveItem(item)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
-                        isActive
-                          ? "bg-[#0572CE]/10 text-[#0572CE] font-medium"
-                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+    <>
+      {/* ─── Sidebar izquierdo (fixed, igual que Componentes/Métodos) ─── */}
+      <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
+        <div className="ml-3 mt-2 border-l-2 border-gray-300 pl-3">
+          <nav className="flex flex-col gap-0.5 text-sm font-medium">
+            {sidebarGroups.map((group) => {
+              const groupKey = group.name;
+              const isOpen = openGroups[groupKey] ?? true;
+              return (
+                <div key={group.name} className="mt-1">
+                  <button
+                    type="button"
+                    onClick={() => toggleGroup(groupKey)}
+                    className="w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 hover:bg-[#0572CE] hover:text-white transition-colors duration-100 group"
+                  >
+                    <span className="font-semibold">{group.name}</span>
+                    <LuChevronDown
+                      className={`text-xs transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
                       }`}
-                    >
-                      {label}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+                    />
+                  </button>
+                  <div
+                    className="grid transition-[grid-template-rows] duration-200 ease-in-out"
+                    style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                        {group.items.map((item) => {
+                          const label = item.type === "logo" ? item.entry.name : item.label;
+                          const isActive =
+                            item.type === activeItem.type &&
+                            (item.type === "logo" && activeItem.type === "logo"
+                              ? item.entry.name === activeItem.entry.name
+                              : (item.type === "template" && activeItem.type === "template")
+                                ? item.label === activeItem.label
+                                : (item.type === "formbuilder" && activeItem.type === "formbuilder")
+                                  ? item.label === activeItem.label
+                                  : (item.type === "fonts" && activeItem.type === "fonts")
+                                    ? item.label === activeItem.label
+                                    : false);
+                          return (
+                            <button
+                              key={label}
+                              onClick={() => setActiveItem(item)}
+                              className={`w-full text-left rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
+                                isActive
+                                  ? "bg-[#0572CE] text-white font-semibold"
+                                  : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
+                              }`}
+                            >
+                              {label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </nav>
+        </div>
       </aside>
 
       {/* ─── Contenido principal ─── */}
-      {activeItem.type === "logo" ? (
-        <LogoViewer entry={activeItem.entry} />
-      ) : activeItem.type === "formbuilder" ? (
-        <FormBuilderPage />
-      ) : (
-        <TemplateBuilder />
-      )}
-    </div>
+      <div className="flex-1 lg:ml-64 overflow-hidden">
+        {activeItem.type === "logo" ? (
+          <LogoViewer entry={activeItem.entry} />
+        ) : activeItem.type === "formbuilder" ? (
+          <FormBuilderPage />
+        ) : activeItem.type === "fonts" ? (
+          <FontsSection />
+        ) : (
+          <TemplateBuilder />
+        )}
+      </div>
+    </>
   );
 }

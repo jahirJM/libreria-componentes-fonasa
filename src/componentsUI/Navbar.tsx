@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, type ReactNode } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -24,6 +24,8 @@ export interface NavbarProps {
   logoSrc?: string;
   /** Alt text del logo */
   logoAlt?: string;
+  /** Elemento custom para reemplazar el logo (tiene prioridad sobre logoSrc) */
+  logoElement?: ReactNode;
   /** Título junto al logo */
   title?: string;
   /** Callback al hacer clic en un item */
@@ -49,6 +51,7 @@ export function Navbar({
   variant = "underline",
   logoSrc,
   logoAlt = "Logo",
+  logoElement,
   title,
   onNavigate,
   onLogoClick,
@@ -133,9 +136,11 @@ export function Navbar({
               onClick={onLogoClick}
               className="flex items-center gap-2 focus:outline-none"
             >
-              {logoSrc && (
+              {logoElement ? (
+                logoElement
+              ) : logoSrc ? (
                 <img src={logoSrc} alt={logoAlt} className="h-8 w-auto" />
-              )}
+              ) : null}
               {title && (
                 <span className="text-lg font-bold text-[#0572CE]">
                   {title}
@@ -162,7 +167,7 @@ export function Navbar({
                     }}
                     type="button"
                     onClick={() => handleItemClick(item.path)}
-                    className={`relative inline-flex items-center px-4 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${
+                    className={`relative inline-flex items-center px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${
                       variant === "pill" ? pillClasses : underlineClasses
                     }`}
                   >

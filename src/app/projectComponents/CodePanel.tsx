@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Highlight, themes } from "prism-react-renderer";
+import { fonasaToast } from "../../componentsUI/Toast";
 
 interface CodePanelProps {
   code: string;
@@ -14,9 +15,11 @@ export function CodePanel({ code, language = "tsx" }: CodePanelProps) {
   async function handleCopy() {
     try {
       await navigator.clipboard.writeText(code);
+      fonasaToast.success("Código copiado");
       setCopyState("success");
       setTimeout(() => setCopyState("idle"), 2000);
     } catch {
+      fonasaToast.error("No se pudo copiar el código");
       setCopyState("error");
       setTimeout(() => setCopyState("idle"), 2000);
     }

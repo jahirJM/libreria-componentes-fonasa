@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Card, CardHeader, CardTitle, CardContent } from "../../componentsUI/Card";
+import { BotonOutline } from "../../componentsUI/Botones";
+import { FiCopy } from "react-icons/fi";
 
 interface DependencyDoc {
   id: string;
@@ -148,56 +151,52 @@ export function DocsDependencias() {
 
       <div className="space-y-10">
         {dependencies.map((dep) => (
-          <article
-            key={dep.id}
-            id={`dep-${dep.id}`}
-            className="scroll-mt-24 rounded-xl border border-gray-200 bg-gray-50 p-6"
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <h3 className="text-lg font-semibold text-gray-800">{dep.name}</h3>
-              <a
-                href={dep.docsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-[#0572CE] hover:text-blue-700 transition-colors"
-              >
-                Documentación oficial ↗
-              </a>
-            </div>
-
-            <p className="text-sm text-gray-600 mb-4">{dep.description}</p>
-
-            {/* Instalación */}
-            <div className="mb-4">
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Instalación
-              </span>
-              <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-white border border-gray-200 px-4 py-2.5">
-                <code className="text-sm text-green-600 flex-1 font-mono">
-                  {dep.install}
-                </code>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(dep.install);
-                  }}
-                  className="text-xs text-gray-500 hover:text-gray-800 transition-colors px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+          <article key={dep.id} id={`dep-${dep.id}`} className="scroll-mt-24">
+            <Card>
+              <CardHeader>
+                <CardTitle>{dep.name}</CardTitle>
+                <a
+                  href={dep.docsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#0572CE] hover:text-blue-700 transition-colors"
                 >
-                  Copiar
-                </button>
-              </div>
-            </div>
+                  Documentación oficial ↗
+                </a>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-gray-600">{dep.description}</p>
 
-            {/* Uso básico */}
-            <div>
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Uso básico
-              </span>
-              <div className="mt-1.5 rounded-lg bg-white border border-gray-200 p-4 overflow-x-auto">
-                <pre className="text-xs text-gray-700 font-mono whitespace-pre">
-                  {dep.usage}
-                </pre>
-              </div>
-            </div>
+                {/* Instalación */}
+                <div>
+                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Instalación
+                  </span>
+                  <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-gray-50 border border-gray-200 px-4 py-2.5">
+                    <code className="text-sm text-green-600 flex-1 font-mono">
+                      {dep.install}
+                    </code>
+                    <BotonOutline
+                      label="Copiar"
+                      icon={FiCopy}
+                      onClick={() => navigator.clipboard.writeText(dep.install)}
+                    />
+                  </div>
+                </div>
+
+                {/* Uso básico */}
+                <div>
+                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Uso básico
+                  </span>
+                  <div className="mt-1.5 rounded-lg bg-gray-50 border border-gray-200 p-4 overflow-x-auto">
+                    <pre className="text-xs text-gray-700 font-mono whitespace-pre">
+                      {dep.usage}
+                    </pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </article>
         ))}
       </div>

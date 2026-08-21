@@ -1,3 +1,6 @@
+import { Card, CardContent } from "../../componentsUI/Card";
+import { Alerta } from "../../componentsUI/Alerta";
+
 export function DocsInstalacion() {
   return (
     <div>
@@ -13,23 +16,20 @@ export function DocsInstalacion() {
           <li>Node.js 18 o superior</li>
           <li>Acceso al repositorio privado de GitHub (colaborador o miembro de la organización)</li>
         </ul>
-        <div className="rounded-lg bg-amber-50 border border-amber-200 p-4">
-          <p className="text-sm text-amber-800">
-            <strong>⚠️ Importante:</strong> Si no tienes acceso al repositorio, solicítalo al equipo
-            mantenedor. Sin acceso, la CLI no podrá descargar los componentes.
-          </p>
-        </div>
+        <Alerta variante="warning" cerrar={false} mensaje="Si no tienes acceso al repositorio, solicítalo al equipo mantenedor. Sin acceso, la CLI no podrá descargar los componentes." />
       </section>
 
       {/* Paso 1 */}
       <section className="mt-10 space-y-4 text-gray-600">
         <h2 className="text-xl font-semibold text-gray-800">1. Instalar la CLI</h2>
         <p>Desde la raíz de tu proyecto, ejecuta:</p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-          <code className="text-sm text-[#0572CE]">
-            npm install -D github:jahirJM/libreria-componentes-fonasa
-          </code>
-        </div>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">
+              npm install -D github:jahirJM/libreria-componentes-fonasa
+            </code>
+          </CardContent>
+        </Card>
         <p className="text-sm text-gray-500">
           Esto agrega la CLI <code className="text-[#0572CE]">fonasa-ui</code> como dependencia de desarrollo en tu proyecto.
         </p>
@@ -38,9 +38,11 @@ export function DocsInstalacion() {
       {/* Paso 2 */}
       <section className="mt-10 space-y-4 text-gray-600">
         <h2 className="text-xl font-semibold text-gray-800">2. Inicializar configuración</h2>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-          <code className="text-sm text-[#0572CE]">npx fonasa-ui init</code>
-        </div>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">npx fonasa-ui init</code>
+          </CardContent>
+        </Card>
         <p>Te preguntará:</p>
         <ul className="list-disc list-inside space-y-1 text-gray-500">
           <li><strong>¿Dónde guardar los componentes?</strong> — Ejemplo: <code className="text-[#0572CE]">src/components/ui</code></li>
@@ -49,32 +51,38 @@ export function DocsInstalacion() {
         <p className="text-sm text-gray-500">
           Esto crea un archivo <code className="text-[#0572CE]">fonasa-ui.json</code> en la raíz de tu proyecto:
         </p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 overflow-x-auto">
-          <pre className="text-xs text-gray-700 font-mono whitespace-pre">{`{
+        <Card>
+          <CardContent>
+            <pre className="text-xs text-gray-700 font-mono whitespace-pre">{`{
   "componentsDir": "src/components/ui",
   "typescript": true
 }`}</pre>
-        </div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* Paso 3 */}
       <section className="mt-10 space-y-4 text-gray-600">
         <h2 className="text-xl font-semibold text-gray-800">3. Verificar instalación</h2>
         <p>Comprueba que la CLI funciona listando los componentes disponibles:</p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-          <code className="text-sm text-[#0572CE]">npx fonasa-ui list</code>
-        </div>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">npx fonasa-ui list</code>
+          </CardContent>
+        </Card>
       </section>
 
       {/* Actualizar */}
       <section className="mt-10 space-y-4 text-gray-600">
         <h2 className="text-xl font-semibold text-gray-800">Actualizar la CLI</h2>
         <p>Cuando el equipo publique nuevos componentes o mejoras, actualiza con:</p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-          <code className="text-sm text-[#0572CE]">
-            npm install -D github:jahirJM/libreria-componentes-fonasa
-          </code>
-        </div>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">
+              npm install -D github:jahirJM/libreria-componentes-fonasa
+            </code>
+          </CardContent>
+        </Card>
         <p className="text-sm text-gray-500">
           Esto descarga la versión más reciente del repositorio con todos los componentes actualizados.
         </p>

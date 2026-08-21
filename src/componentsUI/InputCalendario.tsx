@@ -137,7 +137,7 @@ export function InputCalendario({
         {/* Input inicio / única fecha */}
         <div className="flex-1 min-w-0">
           {!noLabel && (
-            <label className="block text-[10px] font-medium text-gray-500 uppercase leading-none mb-0.5">
+            <label className="block text-xs font-medium text-gray-500 uppercase leading-none mb-0.5">
               {labelInicio}
             </label>
           )}
@@ -157,7 +157,7 @@ export function InputCalendario({
             <span className="text-gray-300 text-sm">→</span>
             <div className="flex-1 min-w-0">
               {!noLabel && (
-                <label className="block text-[10px] font-medium text-gray-500 uppercase leading-none mb-0.5">
+                <label className="block text-xs font-medium text-gray-500 uppercase leading-none mb-0.5">
                   {labelFin}
                 </label>
               )}

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Roboto", sans-serif;
+}
+
 @keyframes highlight {
   from {
     background-color: rgba(5, 114, 206, 0.3);

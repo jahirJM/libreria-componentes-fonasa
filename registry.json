@@ -173,6 +173,11 @@
     "group": "Modales"
   },
   {
+    "name": "navbar",
+    "file": "Navbar.tsx",
+    "description": "Barra de navegación superior fija con logo, título, links con indicador activo (barrita inferior) y menú móvil responsive."
+  },
+  {
     "name": "paginacion",
     "file": "Paginacion.tsx",
     "description": "Paginación genérica con rango visible de hasta 5 páginas, centrada en la página actual. Flechas de navegación anterior/siguiente.",

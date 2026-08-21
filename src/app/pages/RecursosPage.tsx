@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode } from "react-icons/lu";
+import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown } from "react-icons/lu";
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
 import { FormBuilderPage } from "./FormBuilderPage";
+import { Switch } from "../../componentsUI/Switch";
+import { BotonPrimario, BotonOutline } from "../../componentsUI/Botones";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TIPOS Y HELPERS
@@ -17,7 +19,8 @@ interface FlatVariant {
 type SidebarItem =
   | { type: "logo"; entry: LogoEntry }
   | { type: "template"; label: string }
-  | { type: "formbuilder"; label: string };
+  | { type: "formbuilder"; label: string }
+  | { type: "fonts"; label: string };
 
 interface SidebarGroup {
   name: string;
@@ -56,6 +59,14 @@ function buildSidebarGroups(): SidebarGroup[] {
     items: [
       { type: "template", label: "Template Email" },
       { type: "formbuilder", label: "Form Builder" },
+    ],
+  });
+
+  // Agregar grupo Fuentes
+  groups.push({
+    name: "Tipografía",
+    items: [
+      { type: "fonts", label: "Fuentes" },
     ],
   });
 
@@ -298,12 +309,12 @@ function TemplateBuilder() {
       <div className="w-80 border-r border-gray-200 bg-white overflow-y-auto p-5 flex flex-col gap-4">
         <div>
           <h2 className="text-base font-semibold text-gray-800">Template Builder</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Configura las partes del email</p>
+          <p className="text-xs text-gray-400 mt-0.5">Configura las partes del email</p>
         </div>
 
         {/* Estructura */}
         <div className="space-y-2.5">
-          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Estructura</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Estructura</p>
           <ToggleRow label="Header (Logo)" checked={parts.header} onChange={(v) => updatePart("header", v)} />
           <ToggleRow label="Disclaimer" checked={parts.disclaimer} onChange={(v) => updatePart("disclaimer", v)} />
           <ToggleRow label="Redes Sociales" checked={parts.socialLinks} onChange={(v) => updatePart("socialLinks", v)} />
@@ -312,7 +323,7 @@ function TemplateBuilder() {
 
         {/* Contenido */}
         <div className="space-y-2.5">
-          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Contenido</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Contenido</p>
           <fieldset className="space-y-1">
             <label className="text-xs font-medium text-gray-600">Título</label>
             <input type="text" value={parts.title} onChange={(e) => updatePart("title", e.target.value)} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 outline-none focus:border-[#0572CE] focus:ring-1 focus:ring-[#0572CE]/20 transition-colors" />
@@ -324,13 +335,13 @@ function TemplateBuilder() {
           <fieldset className="space-y-1">
             <label className="text-xs font-medium text-gray-600">Cuerpo</label>
             <textarea value={parts.body} onChange={(e) => updatePart("body", e.target.value)} rows={3} className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 outline-none focus:border-[#0572CE] focus:ring-1 focus:ring-[#0572CE]/20 transition-colors resize-none" />
-            <p className="text-[10px] text-gray-400">Soporta HTML: &lt;strong&gt;, &lt;a&gt;, etc.</p>
+            <p className="text-xs text-gray-400">Soporta HTML: &lt;strong&gt;, &lt;a&gt;, etc.</p>
           </fieldset>
         </div>
 
         {/* Bloques opcionales */}
         <div className="space-y-2.5">
-          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Bloques</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Bloques</p>
 
           {/* Info Box */}
           <ToggleRow label="Info Box (destacado)" checked={parts.infoBox} onChange={(v) => updatePart("infoBox", v)} />
@@ -344,7 +355,7 @@ function TemplateBuilder() {
             <div className="space-y-2 pl-1">
               <div className="flex gap-1">
                 {(["success", "error", "warning"] as AlertType[]).map((t) => (
-                  <button key={t} onClick={() => updatePart("alertType", t)} className={`flex-1 text-[10px] font-medium py-1.5 rounded-md border transition-colors ${parts.alertType === t ? (t === "success" ? "bg-green-50 border-green-300 text-green-700" : t === "error" ? "bg-red-50 border-red-300 text-red-700" : "bg-yellow-50 border-yellow-300 text-yellow-700") : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
+                  <button key={t} onClick={() => updatePart("alertType", t)} className={`flex-1 text-xs font-medium py-1.5 rounded-md border transition-colors ${parts.alertType === t ? (t === "success" ? "bg-green-50 border-green-300 text-green-700" : t === "error" ? "bg-red-50 border-red-300 text-red-700" : "bg-yellow-50 border-yellow-300 text-yellow-700") : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}>
                     {t === "success" ? "Éxito" : t === "error" ? "Error" : "Aviso"}
                   </button>
                 ))}
@@ -388,9 +399,12 @@ function TemplateBuilder() {
         </div>
 
         {/* Copiar */}
-        <button onClick={handleCopy} className="mt-auto flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-[#0572CE] hover:bg-[#0460ad] text-white text-sm font-medium transition-all shrink-0">
-          {copied ? <><LuCheck className="size-4" /> Copiado</> : <><LuCopy className="size-4" /> Copiar HTML</>}
-        </button>
+        <BotonPrimario
+          label={copied ? "Copiado" : "Copiar HTML"}
+          icon={copied ? LuCheck : LuCopy}
+          onClick={handleCopy}
+          customClass="mt-auto w-full"
+        />
       </div>
 
       {/* Preview panel */}
@@ -421,15 +435,7 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
   return (
     <label className="flex items-center justify-between cursor-pointer group">
       <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">{label}</span>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${checked ? "bg-[#0572CE]" : "bg-gray-300"}`}
-      >
-        <span className={`inline-block h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform ${checked ? "translate-x-4.5" : "translate-x-0.75"}`} />
-      </button>
+      <Switch checked={checked} onChange={onChange} tamano="sm" variante="primary" />
     </label>
   );
 }
@@ -498,23 +504,17 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <button
+          <BotonPrimario
+            label="Descargar"
+            icon={LuDownload}
             onClick={handleDownload}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0572CE] hover:bg-[#0460ad] text-white text-sm font-medium transition-all hover:scale-[1.03] active:scale-95"
-          >
-            <LuDownload className="size-4" /> Descargar
-          </button>
+          />
           {selected?.variant.url && (
-            <button
+            <BotonOutline
+              label={urlCopied ? "Copiado" : "URL"}
+              icon={urlCopied ? LuCheck : LuLink}
               onClick={handleCopyUrl}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-gray-200 text-gray-600 hover:border-[#0572CE] hover:text-[#0572CE] text-sm font-medium transition-all hover:scale-[1.03] active:scale-95"
-            >
-              {urlCopied ? (
-                <><LuCheck className="size-4 text-green-500" /><span className="text-green-600">Copiado</span></>
-              ) : (
-                <><LuLink className="size-4" /> URL</>
-              )}
-            </button>
+            />
           )}
         </div>
       </div>
@@ -536,13 +536,119 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
                 <div className={`flex items-center justify-center w-full h-14 rounded-lg mb-2 ${item.variant.background === "dark" ? "bg-gray-700" : "bg-gray-50"}`}>
                   <img src={item.variant.src} alt={item.variant.label} className="max-h-9 max-w-[85%] object-contain" />
                 </div>
-                <p className={`text-[10px] font-medium text-center leading-tight line-clamp-2 ${isActive ? "text-[#0572CE]" : "text-gray-500"}`}>
+                <p className={`text-xs font-medium text-center leading-tight line-clamp-2 ${isActive ? "text-[#0572CE]" : "text-gray-500"}`}>
                   {item.variant.label}
                 </p>
                 {isActive && <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#0572CE]" />}
               </button>
             );
           })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// FUENTES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const robotoWeights = [
+  { weight: 100, name: "Thin" },
+  { weight: 300, name: "Light" },
+  { weight: 400, name: "Regular" },
+  { weight: 500, name: "Medium" },
+  { weight: 700, name: "Bold" },
+  { weight: 900, name: "Black" },
+];
+
+function FontsSection() {
+  return (
+    <div className="flex-1 overflow-y-auto p-8">
+      <div className="max-w-3xl mx-auto">
+        <p className="text-xs font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Tipografía</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Fuentes</h1>
+        <p className="text-sm text-gray-500 mb-8">
+          La plataforma utiliza <strong>Roboto</strong> como fuente principal. Se carga desde Google Fonts con todos los pesos disponibles.
+        </p>
+
+        {/* Specimen */}
+        <div className="rounded-xl border border-gray-200 p-6 mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Roboto</h2>
+          <p className="text-base text-gray-600 mb-6 leading-relaxed">
+            Roboto es una fuente sans-serif diseñada por Google. Ofrece un equilibrio entre forma geométrica y curvas amigables, ideal para interfaces digitales.
+          </p>
+
+          <div className="space-y-4">
+            {robotoWeights.map((w) => (
+              <div key={w.weight} className="flex items-baseline gap-4 border-b border-gray-100 pb-3 last:border-0">
+                <span className="text-xs text-gray-400 w-20 shrink-0">{w.weight} — {w.name}</span>
+                <p className="text-xl text-gray-800" style={{ fontWeight: w.weight }}>
+                  El veloz murciélago hindú comía feliz cardillo y kiwi.
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Escala de tamaños */}
+        <div className="rounded-xl border border-gray-200 p-6 mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Escala de tamaños</h2>
+          <div className="space-y-3">
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-xs</code>
+              <span className="text-xs text-gray-800">12px — Labels, metadata, tooltips</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-sm</code>
+              <span className="text-sm text-gray-800">14px — Texto de soporte, inputs</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-base</code>
+              <span className="text-base text-gray-800">16px — Párrafos, contenido principal</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-lg</code>
+              <span className="text-lg text-gray-800">18px — Subtítulos</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-xl</code>
+              <span className="text-xl text-gray-800">20px — Títulos de sección</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-2xl</code>
+              <span className="text-2xl text-gray-800">24px — Títulos secundarios</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-gray-100 pb-2">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-3xl</code>
+              <span className="text-3xl text-gray-800">30px — Títulos de página</span>
+            </div>
+            <div className="flex items-baseline gap-4">
+              <code className="text-xs text-gray-400 w-24 shrink-0">text-4xl</code>
+              <span className="text-4xl text-gray-800">36px — Heroes</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Instalación */}
+        <div className="rounded-xl border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Instalación</h2>
+          <p className="text-sm text-gray-600 mb-3">
+            Agregar en el <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded font-mono">index.html</code> del proyecto:
+          </p>
+          <pre className="text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono overflow-x-auto whitespace-pre leading-relaxed">
+{`<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />`}
+          </pre>
+          <p className="text-sm text-gray-600 mt-4 mb-3">
+            En <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded font-mono">index.css</code> (Tailwind 4):
+          </p>
+          <pre className="text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono overflow-x-auto whitespace-pre leading-relaxed">
+{`@theme {
+  --font-sans: "Roboto", sans-serif;
+}`}
+          </pre>
         </div>
       </div>
     </div>
@@ -558,55 +664,94 @@ export function RecursosPage() {
 
   const [activeItem, setActiveItem] = useState<SidebarItem>(sidebarGroups[0]?.items[0] ?? { type: "template", label: "Template Email" });
 
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    sidebarGroups.forEach((g) => (initial[g.name] = true));
+    return initial;
+  });
+
+  const toggleGroup = (group: string) => {
+    setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
+  };
+
   return (
-    <div className="flex h-[calc(100vh-3.5rem)]">
-      {/* ─── Sidebar izquierdo ─── */}
-      <aside className="hidden lg:flex flex-col w-56 border-r border-gray-200 bg-white overflow-y-auto py-5 px-3">
-        {sidebarGroups.map((group) => (
-          <div key={group.name} className="mb-4">
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-3 mb-1.5">
-              {group.name}
-            </p>
-            <ul className="space-y-0.5">
-              {group.items.map((item) => {
-                const label = item.type === "logo" ? item.entry.name : item.label;
-                const isActive =
-                  item.type === activeItem.type &&
-                  (item.type === "logo" && activeItem.type === "logo"
-                    ? item.entry.name === activeItem.entry.name
-                    : (item.type === "template" && activeItem.type === "template")
-                      ? item.label === activeItem.label
-                      : (item.type === "formbuilder" && activeItem.type === "formbuilder")
-                        ? item.label === activeItem.label
-                        : false);
-                return (
-                  <li key={label}>
-                    <button
-                      onClick={() => setActiveItem(item)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
-                        isActive
-                          ? "bg-[#0572CE]/10 text-[#0572CE] font-medium"
-                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+    <>
+      {/* ─── Sidebar izquierdo (fixed, igual que Componentes/Métodos) ─── */}
+      <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
+        <div className="ml-3 mt-2 border-l-2 border-gray-300 pl-3">
+          <nav className="flex flex-col gap-0.5 text-sm font-medium">
+            {sidebarGroups.map((group) => {
+              const groupKey = group.name;
+              const isOpen = openGroups[groupKey] ?? true;
+              return (
+                <div key={group.name} className="mt-1">
+                  <button
+                    type="button"
+                    onClick={() => toggleGroup(groupKey)}
+                    className="w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 hover:bg-[#0572CE] hover:text-white transition-colors duration-100 group"
+                  >
+                    <span className="font-semibold">{group.name}</span>
+                    <LuChevronDown
+                      className={`text-xs transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
                       }`}
-                    >
-                      {label}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+                    />
+                  </button>
+                  <div
+                    className="grid transition-[grid-template-rows] duration-200 ease-in-out"
+                    style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                        {group.items.map((item) => {
+                          const label = item.type === "logo" ? item.entry.name : item.label;
+                          const isActive =
+                            item.type === activeItem.type &&
+                            (item.type === "logo" && activeItem.type === "logo"
+                              ? item.entry.name === activeItem.entry.name
+                              : (item.type === "template" && activeItem.type === "template")
+                                ? item.label === activeItem.label
+                                : (item.type === "formbuilder" && activeItem.type === "formbuilder")
+                                  ? item.label === activeItem.label
+                                  : (item.type === "fonts" && activeItem.type === "fonts")
+                                    ? item.label === activeItem.label
+                                    : false);
+                          return (
+                            <button
+                              key={label}
+                              onClick={() => setActiveItem(item)}
+                              className={`w-full text-left rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
+                                isActive
+                                  ? "bg-[#0572CE] text-white font-semibold"
+                                  : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
+                              }`}
+                            >
+                              {label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </nav>
+        </div>
       </aside>
 
       {/* ─── Contenido principal ─── */}
-      {activeItem.type === "logo" ? (
-        <LogoViewer entry={activeItem.entry} />
-      ) : activeItem.type === "formbuilder" ? (
-        <FormBuilderPage />
-      ) : (
-        <TemplateBuilder />
-      )}
-    </div>
+      <div className="flex-1 lg:ml-64 overflow-hidden">
+        {activeItem.type === "logo" ? (
+          <LogoViewer entry={activeItem.entry} />
+        ) : activeItem.type === "formbuilder" ? (
+          <FormBuilderPage />
+        ) : activeItem.type === "fonts" ? (
+          <FontsSection />
+        ) : (
+          <TemplateBuilder />
+        )}
+      </div>
+    </>
   );
 }

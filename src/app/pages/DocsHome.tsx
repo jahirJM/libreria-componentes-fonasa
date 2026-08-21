@@ -1,3 +1,5 @@
+import { Card, CardContent } from "../../componentsUI/Card";
+
 export function DocsHome() {
   return (
     <div>
@@ -21,11 +23,13 @@ export function DocsHome() {
           Los componentes están diseñados para proyectos React con Tailwind CSS 4.
           Asegúrate de tener instalado:
         </p>
-        <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-          <code className="text-sm text-[#0572CE]">
-            npm install tailwindcss @tailwindcss/vite
-          </code>
-        </div>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">
+              npm install tailwindcss @tailwindcss/vite
+            </code>
+          </CardContent>
+        </Card>
       </section>
 
       <section className="mt-10 space-y-4 text-gray-600">
@@ -45,20 +49,26 @@ export function DocsHome() {
       <section className="mt-10 space-y-4 text-gray-600">
         <h2 className="text-xl font-semibold text-gray-800">Inicio rápido</h2>
         <div className="space-y-3">
-          <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-2">1. Instalar la CLI</p>
-            <code className="text-sm text-[#0572CE]">
-              npm install -D github:jahirJM/libreria-componentes-fonasa
-            </code>
-          </div>
-          <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-2">2. Inicializar configuración</p>
-            <code className="text-sm text-[#0572CE]">npx fonasa-ui init</code>
-          </div>
-          <div className="rounded-lg bg-gray-50 border border-gray-200 p-4">
-            <p className="text-xs text-gray-500 mb-2">3. Agregar un componente</p>
-            <code className="text-sm text-[#0572CE]">npx fonasa-ui add Input</code>
-          </div>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">1. Instalar la CLI</p>
+              <code className="text-sm text-[#0572CE]">
+                npm install -D github:jahirJM/libreria-componentes-fonasa
+              </code>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">2. Inicializar configuración</p>
+              <code className="text-sm text-[#0572CE]">npx fonasa-ui init</code>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">3. Agregar un componente</p>
+              <code className="text-sm text-[#0572CE]">npx fonasa-ui add Input</code>
+            </CardContent>
+          </Card>
         </div>
         <p className="text-sm text-gray-500 mt-4">
           Consulta las secciones de <strong>Instalación CLI</strong> y <strong>Uso de componentes</strong> para más detalles.

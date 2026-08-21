@@ -7,8 +7,11 @@ import {
   type ConfigFiltro,
 } from "../../methods/filtroInput";
 import { Input } from "../../componentsUI/Input";
+import { Label } from "../../componentsUI/Label";
+import { Alerta } from "../../componentsUI/Alerta";
+import { BotonOutline } from "../../componentsUI/Botones";
 import { CodePanel } from "../projectComponents/CodePanel";
-import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { fonasaToast } from "../../componentsUI/Toast";
 import { FiCopy, FiCheck } from "react-icons/fi";
 
 // ─── Opciones de caracteres ───────────────────────────────────────────────────
@@ -69,12 +72,12 @@ function InputNumerico({ label, valor, onChange, placeholder }: {
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-medium text-gray-500">{label}</label>
-      <input
-        type="number" min={0} max={500} value={valor}
+      <Label text={label} />
+      <Input
+        type="number"
+        value={valor}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm outline-none transition-all focus:border-[#0572CE] focus:ring-2 focus:ring-[#0572CE]/20"
       />
     </div>
   );
@@ -223,7 +226,6 @@ export function FiltroInputPage() {
 
   return (
     <div className="max-w-3xl">
-      <FonasaToaster />
 
       {/* Header */}
       <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">Métodos</p>
@@ -365,36 +367,31 @@ export function FiltroInputPage() {
             </div>
             {/* Botón validar — visible solo si hay algo que validar */}
             {necesitaValidar && (
-              <button
-                type="button"
+              <BotonOutline
+                label="Validar"
                 onClick={handleValidar}
-                className="shrink-0 rounded-xl border border-[#0572CE] bg-white px-4 py-2 text-sm font-medium text-[#0572CE] hover:bg-[#0572CE] hover:text-white transition-all duration-200 active:scale-95"
-              >
-                Validar
-              </button>
+              />
             )}
           </div>
 
           {/* Resultado de validación */}
           {estadoValidacion === "error" && errorMsg && (
-            <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2">
-              <span className="text-red-500 text-sm">✗</span>
-              <p className="text-xs text-red-600">{errorMsg}</p>
-            </div>
+            <Alerta variante="error" cerrar={false} mensaje={errorMsg} />
           )}
           {estadoValidacion === "ok" && (
-            <div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-3 py-2">
-              <span className="text-green-500 text-sm">✓</span>
-              <p className="text-xs text-green-700">
-                {modoEmail
+            <Alerta
+              variante="success"
+              cerrar={false}
+              mensaje={
+                modoEmail
                   ? "Correo electrónico válido"
                   : modoCelular
                     ? "Número de celular válido"
                     : modoTelefonoFijo
                       ? "Teléfono fijo válido"
-                      : "Valor dentro del rango permitido"}
-              </p>
-            </div>
+                      : "Valor dentro del rango permitido"
+              }
+            />
           )}
 
           {/* Barra de progreso */}

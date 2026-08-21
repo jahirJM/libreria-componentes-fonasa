@@ -4,32 +4,43 @@ import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types
 import { CodePanel } from "./CodePanel";
 import { FiCode, FiCopy, FiX } from "react-icons/fi";
 import { IoMdHome } from "react-icons/io";
-import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
+import { fonasaToast } from "../../componentsUI/Toast";
+import { CustomModal } from "../../componentsUI/CustomModal";
+import { Badge } from "../../componentsUI/Badge";
 
 interface ComponentPreviewProps {
   entry: ComponentEntry;
 }
 
 function ColorPill({ color }: { color: { name: string; value: string; usage: string } }) {
+  const [copied, setCopied] = useState(false);
+
   function handleCopy() {
     navigator.clipboard.writeText(color.value);
     fonasaToast.success(`Color ${color.value} copiado`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
   }
 
   return (
     <button
       onClick={handleCopy}
-      className="w-full flex items-center justify-start gap-2 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 hover:border-[#0572CE] transition-colors cursor-pointer text-left"
+      className="relative w-full flex items-center justify-start gap-2 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 hover:border-[#0572CE] transition-colors cursor-pointer text-left"
     >
+      {copied && (
+        <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-white/90 z-10">
+          <span className="text-xs font-medium text-green-600 flex items-center gap-1">✓ Copiado</span>
+        </div>
+      )}
       <div
         className="size-5 rounded-md border border-gray-200 shrink-0"
         style={{ backgroundColor: color.value }}
       />
       <div className="flex flex-col">
-        <span className="text-[11px] font-medium text-gray-700 leading-tight">
+        <span className="text-xs font-medium text-gray-700 leading-tight">
           {color.name}
         </span>
-        <span className="text-[10px] font-mono text-gray-500 leading-tight">
+        <span className="text-xs font-mono text-gray-500 leading-tight">
           {color.value}
         </span>
       </div>
@@ -83,32 +94,16 @@ function VariantCodeModal({
   const formattedCode = formatCode(variant.usageCode);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      {/* Modal */}
-      <div className="relative w-full max-w-2xl rounded-xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-5 py-3">
-          <span className="text-sm font-semibold text-gray-700">
-            Código — {variant.label}
-          </span>
-          <button
-            onClick={onClose}
-            className="rounded-md p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-          >
-            <FiX className="size-4" />
-          </button>
-        </div>
-        {/* Code - vertical scroll */}
-        <div className="max-h-[60vh] overflow-y-auto">
-          <CodePanel code={formattedCode} />
-        </div>
+    <CustomModal
+      size="md"
+      title={`Código — ${variant.label}`}
+      showModal={true}
+      onClose={onClose}
+    >
+      <div className="max-h-[60vh] overflow-y-auto">
+        <CodePanel code={formattedCode} />
       </div>
-    </div>
+    </CustomModal>
   );
 }
 
@@ -152,11 +147,11 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
             </button>
             <button
               onClick={handleCopy}
-              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors"
+              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors size-7 flex items-center justify-center"
               title="Copiar código"
             >
               {copyState === "success" ? (
-                <span className="text-green-600 text-xs font-medium">✓</span>
+                <span className="text-green-600 text-sm font-medium">✓</span>
               ) : (
                 <FiCopy className="size-4" />
               )}
@@ -242,7 +237,7 @@ function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
               {v.label}
             </button>
             {/* Tooltip hover */}
-            <span className="z-[99] absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+            <span className="z-[99] absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
               {v.label}
             </span>
           </div>
@@ -279,7 +274,7 @@ function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
                     {v.label}
                   </button>
                   {/* Tooltip hover */}
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-[11px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
                     {v.label}
                   </span>
                 </div>
@@ -312,7 +307,6 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
 
   return (
     <section className="flex flex-col lg:flex-row gap-0 overflow-show">
-      <FonasaToaster />
       {/* Columna izquierda: todo el contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "lg:pr-4" : "pr-0"}`}>
         {/* Breadcrumb: Inicio */}
@@ -343,16 +337,16 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         {/* Dependencias como pills */}
         {entry.dependencies && entry.dependencies.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-[11px] text-gray-500 uppercase tracking-wider font-medium">
+            <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
               Requiere:
             </span>
             {entry.dependencies.map((dep) => (
               <Link
                 key={dep}
-                to={`/docs#dep-${dep}`}
-                className="inline-flex items-center rounded-full bg-yellow-50 px-3 py-1 text-xs font-medium text-yellow-700 border border-yellow-200 hover:bg-yellow-100 hover:border-yellow-300 transition-colors"
+                to={`/docs/dependencias#dep-${dep}`}
+                className="inline-flex"
               >
-                {dep}
+                <Badge variant="estado-pendiente" text={dep} />
               </Link>
             ))}
           </div>

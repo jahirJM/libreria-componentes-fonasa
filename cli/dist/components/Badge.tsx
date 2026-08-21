@@ -43,7 +43,7 @@ const dotColors: Record<BadgeVariant, string> = {
 
 /** Estilos del counter colapsado: círculo sin padding ni border, solo el número */
 const counterCollapsedStyles =
-  "size-5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold flex items-center justify-center";
+  "size-5 rounded-full bg-gray-100 text-gray-500 text-xs font-bold flex items-center justify-center";
 
 /**
  * Badge de estado con variantes semánticas y modo responsive.
@@ -65,7 +65,7 @@ export const Badge = ({
   forceCollapsed = false,
 }: BadgeProps) => {
   const baseStyles =
-    "text-[10px] px-2 py-0.5 rounded-full font-bold text-sm!";
+    "text-xs px-2 py-0.5 rounded-full font-bold text-sm!";
 
   const variantStyles = {
     counter: "bg-gray-100 text-gray-500 border border-gray-200",

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types";
 import { CodePanel } from "./CodePanel";
-import { FiCode, FiCopy } from "react-icons/fi";
+import { FiCode, FiCopy, FiX } from "react-icons/fi";
 import { IoMdHome } from "react-icons/io";
 import { FonasaToaster, fonasaToast } from "../../componentsUI/Toast";
 import { CustomModal } from "../../componentsUI/CustomModal";

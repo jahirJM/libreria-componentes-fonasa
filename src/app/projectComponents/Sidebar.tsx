@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { LuChevronDown, LuSearch } from "react-icons/lu";
-import { IoMdHome } from "react-icons/io";
 import { registry } from "../../docs/registry";
 import { slugify } from "../../docs/registry/slugify";
 import { Input } from "../../componentsUI/Input";

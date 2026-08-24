@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import { ThemeProvider } from "./app/context/ThemeContext";
 import { ComponentsLayout } from "./app/layouts/ComponentsLayout";
 import { ComponentsIndex } from "./app/pages/ComponentsIndex";
 import { DefaultLayout } from "./app/layouts/DefaultLayout";
@@ -27,10 +28,11 @@ import { FonasaToaster } from "./componentsUI/Toast";
 
 function App() {
   return (
-    <BrowserRouter>
-      <FonasaToaster />
-      <Navbar />
-      <Routes>
+    <ThemeProvider>
+      <BrowserRouter>
+        <FonasaToaster />
+        <Navbar />
+        <Routes>
         {/* Rutas sin sidebar */}
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Home />} />
@@ -77,6 +79,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

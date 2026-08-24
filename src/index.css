@@ -1,7 +1,129 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Roboto", sans-serif;
+  --color-dark-bg: #121e2b;
+  --color-dark-surface: #061018;
+  --color-dark-card: #111d2a;
+  --color-dark-border: #1e3044;
+  --color-dark-text: #e2e8f0;
+  --color-dark-text-muted: #94a3b8;
+}
+
+/* ─── Dark mode: remap text grays to light ─── */
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-gray-400 {
+  color: #64748b !important;
+}
+
+/* Dark mode: remap backgrounds */
+.dark .bg-white {
+  background-color: #111d2a !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: #0a1520 !important;
+}
+
+.dark .bg-gray-200 {
+  background-color: #1e3044 !important;
+}
+
+/* Dark mode: remap borders */
+.dark .border-gray-200,
+.dark .border-gray-300,
+.dark .border-gray-100 {
+  border-color: #1e3044 !important;
+}
+
+/* Dark mode: inputs y form elements */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #0a1520;
+  border-color: #1e3044;
+  color: #e2e8f0;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b;
+}
+
+/* Dark mode: code blocks y badges con fondo azul claro */
+.dark .bg-blue-50\/50,
+.dark .bg-blue-50 {
+  background-color: rgba(5, 114, 206, 0.1) !important;
+}
+
+.dark .border-blue-100 {
+  border-color: rgba(5, 114, 206, 0.25) !important;
+}
+
+/* Dark mode: filtros y botones con bg-gray-900 en contexto de tabs */
+.dark .bg-gray-900.text-white {
+  background-color: #0572CE !important;
+}
+
+/* Dark mode: sticky bars y sub-headers */
+.dark .bg-gray-50\/50 {
+  background-color: #0a1520 !important;
+}
+
+/* Dark mode: footer force */
+.dark footer {
+  background-color: #061018 !important;
+  color: #94a3b8 !important;
+}
+
+/* ─── Scrollbar custom ─── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.dark * {
+  scrollbar-color: #1e3044 transparent;
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #1e3044;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #2d4a6a;
 }
 
 @keyframes highlight {

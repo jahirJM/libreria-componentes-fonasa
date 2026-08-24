@@ -125,16 +125,16 @@ function VariantCard({ variant }: { variant: ComponentVariant }) {
 
   return (
     <>
-      <div className="rounded-xl border border-gray-200 bg-gray-50 overflow-visible flex flex-col h-full">
+      <div className="rounded-xl border border-gray-200 dark:border-[#1e3044] bg-gray-50 dark:bg-[#111d2a] overflow-visible flex flex-col h-full">
         {/* Preview */}
-        <div className="bg-white p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-visible rounded-t-xl">
+        <div className="bg-white dark:bg-[#0a1520] p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-visible rounded-t-xl">
           <div className={variant.responsive ? "w-full relative" : "w-full"}>
             {variant.render()}
           </div>
         </div>
         {/* Footer con label + acciones */}
         {!variant.noLabel && (
-        <div className="flex items-center justify-between border-t border-gray-200 px-4 py-2.5 bg-gray-100">
+        <div className="flex items-center justify-between border-t border-gray-200 dark:border-[#1e3044] px-4 py-2.5 bg-gray-100 dark:bg-[#061018]">
           <span className="text-xs font-medium text-gray-600 truncate">
             {variant.label}
           </span>
@@ -366,8 +366,8 @@ function InstallCommand({ name, hasTest, dependencies }: { name: string; hasTest
       )}
 
       {/* Comando copiable */}
-      <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
-        <code className="text-sm text-gray-700 font-mono flex-1 truncate">
+      <div className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-[#1e3044] bg-gray-50 dark:bg-[#111d2a] px-3 py-2">
+        <code className="text-sm text-gray-700 dark:text-[#e2e8f0] font-mono flex-1 truncate">
           {getCommand()}
         </code>
         <button
@@ -480,13 +480,13 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
       {/* Columna derecha: código fuente colapsable — solo visible en lg+ como sidebar */}
       <div
         className={`hidden lg:block sticky top-0 self-start transition-all duration-300 overflow-hidden shrink-0 ${
-          showCode ? "w-[40%] rounded-lg border border-gray-200" : "w-auto"
+          showCode ? "w-[40%] rounded-lg border border-gray-200 dark:border-[#1e3044]" : "w-auto"
         }`}
       >
         {!showCode ? (
           <button
             onClick={() => setShowCode(true)}
-            className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 px-3 py-2 transition-colors cursor-pointer"
+            className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-[#1e3044] bg-gray-50 dark:bg-[#111d2a] hover:bg-gray-100 dark:hover:bg-[#162536] px-3 py-2 transition-colors cursor-pointer"
             title="Ver código fuente"
           >
             <FiCode className="size-4 text-gray-500" />
@@ -497,8 +497,8 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
         ) : (
           <div className="flex flex-col h-[calc(100vh-6rem)]">
             {/* Header del panel */}
-            <div className="flex items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2.5 shrink-0">
-              <span className="text-xs font-medium text-gray-600">
+            <div className="flex items-center justify-between border-b border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] px-4 py-2.5 shrink-0">
+              <span className="text-xs font-medium text-gray-600 dark:text-[#94a3b8]">
                 Código fuente
               </span>
               <button
@@ -540,9 +540,9 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
             className="absolute inset-0 bg-black/30"
             onClick={() => setShowCode(false)}
           />
-          <div className="relative mt-auto w-full max-h-[80vh] rounded-t-xl bg-white border-t border-gray-200 shadow-2xl flex flex-col overflow-hidden animate-slide-in-right">
-            <div className="flex items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2.5 shrink-0">
-              <span className="text-sm font-medium text-gray-600">
+          <div className="relative mt-auto w-full max-h-[80vh] rounded-t-xl bg-white dark:bg-[#111d2a] border-t border-gray-200 dark:border-[#1e3044] shadow-2xl flex flex-col overflow-hidden animate-slide-in-right">
+            <div className="flex items-center justify-between border-b border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] px-4 py-2.5 shrink-0">
+              <span className="text-sm font-medium text-gray-600 dark:text-[#94a3b8]">
                 Código fuente
               </span>
               <button

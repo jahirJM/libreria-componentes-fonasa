@@ -4,7 +4,7 @@ import { MethodsSidebar } from "../projectComponents/MethodsSidebar";
 
 export function MethodsLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-800">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#121e2b] text-gray-800 dark:text-[#e2e8f0] transition-colors duration-200">
       <div className="flex pt-14 flex-1">
         <MethodsSidebar />
         <main className="flex-1 lg:ml-64 p-8 min-w-0 overflow-hidden flex flex-col">

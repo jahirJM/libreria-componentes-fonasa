@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Highlight, themes } from "prism-react-renderer";
 import { fonasaToast } from "../../componentsUI/Toast";
+import { useTheme } from "../context/ThemeContext";
 
 interface CodePanelProps {
   code: string;
@@ -8,6 +9,7 @@ interface CodePanelProps {
 }
 
 export function CodePanel({ code, language = "tsx" }: CodePanelProps) {
+  const { theme } = useTheme();
   const [copyState, setCopyState] = useState<"idle" | "success" | "error">(
     "idle"
   );
@@ -26,11 +28,11 @@ export function CodePanel({ code, language = "tsx" }: CodePanelProps) {
   }
 
   return (
-    <div className="relative rounded-b-lg bg-[#f8f9fa] overflow-hidden border-t border-gray-200">
+    <div className="relative rounded-b-lg bg-[#f8f9fa] dark:bg-[#0a1520] overflow-hidden border-t border-gray-200 dark:border-[#1e3044]">
       <button
         type="button"
         onClick={handleCopy}
-        className="absolute top-3 right-3 z-10 rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
+        className="absolute top-3 right-3 z-10 rounded border border-gray-300 dark:border-[#1e3044] bg-white dark:bg-[#111d2a] px-2 py-1 text-xs text-gray-500 dark:text-[#94a3b8] transition-colors hover:bg-gray-100 dark:hover:bg-[#162536] hover:text-gray-700 dark:hover:text-[#e2e8f0]"
         aria-label="Copiar código"
       >
         {copyState === "success" && (
@@ -56,7 +58,7 @@ export function CodePanel({ code, language = "tsx" }: CodePanelProps) {
           </svg>
         )}
       </button>
-      <Highlight theme={themes.github} code={code.trim()} language={language}>
+      <Highlight theme={theme === "dark" ? themes.vsDark : themes.github} code={code.trim()} language={language}>
         {({ tokens, getLineProps, getTokenProps }) => (
           <div className="flex overflow-x-auto p-4 text-sm leading-relaxed">
             <div className="flex-none pr-4 text-right select-none text-gray-400" aria-hidden="true">

@@ -23,10 +23,10 @@ export function ComponentsIndex() {
       <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
         Componentes
       </p>
-      <h1 className="text-4xl font-bold text-gray-800 mb-4">
+      <h1 className="text-4xl font-bold text-gray-800 dark:text-[#e2e8f0] mb-4">
         Librería de componentes
       </h1>
-      <p className="text-gray-500 mb-8">
+      <p className="text-gray-500 dark:text-[#94a3b8] mb-8">
         Componentes listos para copiar y usar en tus proyectos React + Tailwind CSS.
       </p>
 
@@ -53,7 +53,7 @@ export function ComponentsIndex() {
               </CardTitle>
               {entry.description && (
                 <CardContent>
-                  <p className="text-sm text-gray-500">{entry.description}</p>
+                  <p className="text-sm text-gray-500 dark:text-[#94a3b8]">{entry.description}</p>
                 </CardContent>
               )}
             </Card>

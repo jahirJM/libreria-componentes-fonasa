@@ -68,7 +68,7 @@ export function MethodsSidebar() {
   if (!isMethodsSection) return null;
 
   return (
-    <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
+    <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] p-4 transition-colors duration-200">
       {/* Filtro de búsqueda */}
       <div className="mt-3 mb-2">
         <Input

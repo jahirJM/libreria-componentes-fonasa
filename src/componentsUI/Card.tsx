@@ -11,11 +11,11 @@ import type { HTMLAttributes, ReactNode } from "react";
 export type VarianteCard = "default" | "elevada" | "outline" | "interactiva";
 
 const ESTILOS_VARIANTE: Record<VarianteCard, string> = {
-  default: "border border-gray-200 rounded-2xl",
-  elevada: "rounded-2xl shadow-md shadow-gray-100",
-  outline: "border-2 border-gray-300 rounded-2xl",
+  default: "border border-gray-200 dark:border-[#1e3044] rounded-2xl",
+  elevada: "rounded-2xl shadow-md shadow-gray-100 dark:shadow-black/20",
+  outline: "border-2 border-gray-300 dark:border-[#1e3044] rounded-2xl",
   interactiva:
-    "border border-gray-200 rounded-2xl transition-shadow duration-200 hover:shadow-md hover:shadow-gray-100 cursor-pointer",
+    "border border-gray-200 dark:border-[#1e3044] rounded-2xl transition-shadow duration-200 hover:shadow-md hover:shadow-gray-100 dark:hover:shadow-black/20 cursor-pointer",
 };
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -53,7 +53,7 @@ export const Card = ({
     return (
       <div
         className={clsx(
-          "flex flex-col gap-4 bg-white p-6 text-gray-900 animate-pulse",
+          "flex flex-col gap-4 bg-white dark:bg-[#111d2a] p-6 text-gray-900 dark:text-[#e2e8f0] animate-pulse",
           ESTILOS_VARIANTE[variante],
           className
         )}
@@ -82,7 +82,7 @@ export const Card = ({
   return (
     <div
       className={clsx(
-        "flex flex-col gap-4 bg-white p-6 text-gray-900",
+        "flex flex-col gap-4 bg-white dark:bg-[#111d2a] p-6 text-gray-900 dark:text-[#e2e8f0]",
         ESTILOS_VARIANTE[variante],
         className
       )}

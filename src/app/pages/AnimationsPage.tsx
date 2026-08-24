@@ -734,7 +734,7 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
   return (
     <Card className="overflow-hidden hover:border-gray-300 transition-colors !p-0 !gap-0">
       {/* Preview area */}
-      <div className="relative h-32 flex items-center justify-center bg-gray-50 border-b border-gray-100">
+      <div className="relative h-32 flex items-center justify-center border-b border-gray-100">
         <div
           key={key}
           className={`w-12 h-12 rounded-lg bg-[#0572CE] shadow-md ${
@@ -750,7 +750,7 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
         {!isInteraction && !isLoop && (
           <button
             onClick={replay}
-            className="absolute bottom-2 right-2 p-1.5 rounded-md bg-white border border-gray-200 text-gray-500 hover:text-[#0572CE] hover:border-[#0572CE] transition-colors shadow-sm"
+            className="absolute bottom-2 right-2 p-1.5 rounded-md border border-gray-200 text-gray-500 hover:text-[#0572CE] hover:border-[#0572CE] transition-colors shadow-sm"
             title="Reproducir"
           >
             {playing ? <LuRotateCcw className="size-3.5" /> : <LuPlay className="size-3.5" />}
@@ -822,9 +822,9 @@ export function AnimationsPage() {
     : animations.filter((a) => a.category === activeCategory);
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] bg-white">
+    <div className="min-h-[calc(100vh-3.5rem)]">
       {/* Header */}
-      <div className="border-b border-gray-100 bg-gray-50/50">
+      <div className="border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 py-8">
           <p className="text-xs font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Recursos</p>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Animaciones</h1>
@@ -849,7 +849,7 @@ export function AnimationsPage() {
       </div>
 
       {/* Filtros */}
-      <div className="sticky top-14 z-10 bg-white border-b border-gray-100">
+      <div className="sticky top-14 z-10 border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center gap-2 overflow-x-auto">
           <button
             onClick={() => setActiveCategory("all")}

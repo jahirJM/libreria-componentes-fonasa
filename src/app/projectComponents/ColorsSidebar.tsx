@@ -35,7 +35,7 @@ export function ColorsSidebar() {
   }
 
   return (
-    <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
+    <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] p-4 transition-colors duration-200">
       {/* Section links */}
       <div className="ml-3 mt-2 border-l-2 border-gray-300 pl-3">
         <nav className="flex flex-col gap-0.5 text-sm font-medium">

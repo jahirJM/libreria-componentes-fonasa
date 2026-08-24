@@ -70,7 +70,7 @@ export function Sidebar() {
   if (!isComponentsSection) return null;
 
   return (
-    <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 bg-gray-100 p-4">
+    <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] p-4 transition-colors duration-200">
       {/* Filtro de búsqueda */}
       <div className="mt-3 mb-2">
         <Input
@@ -89,7 +89,7 @@ export function Sidebar() {
       )}
 
       {/* Lista de componentes */}
-      <div className="ml-3 mt-2 border-l-2 border-gray-300 pl-3">
+      <div className="ml-3 mt-2 border-l-2 border-gray-300 dark:border-[#1e3044] pl-3">
         <nav className="flex flex-col gap-0.5 text-sm font-medium">
           {/* Componentes sin grupo */}
           {ungrouped.map((entry) => (
@@ -116,7 +116,7 @@ export function Sidebar() {
                 <button
                   type="button"
                   onClick={() => toggleGroup(groupName)}
-                  className="w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 hover:bg-[#0572CE] hover:text-white transition-colors duration-100 group"
+                  className="w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE] hover:text-white transition-colors duration-100 group"
                 >
                   <span className="font-semibold">{groupName}</span>
                   <LuChevronDown

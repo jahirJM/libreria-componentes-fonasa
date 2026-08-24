@@ -28,7 +28,7 @@ export function Home() {
   return (
     <div className="flex flex-col items-center text-center py-20">
       <h1 className="text-5xl font-bold text-[#0572CE] mb-4">Fonasa UI</h1>
-      <p className="text-lg text-gray-500 max-w-xl mb-8">
+      <p className="text-lg text-gray-500 dark:text-[#94a3b8] max-w-xl mb-8">
         Librería de componentes React para proyectos internos de Fonasa.
         Componentes listos para copiar y pegar en tu proyecto.
       </p>
@@ -42,11 +42,11 @@ export function Home() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <pre className="text-xs text-gray-500 mb-4 font-mono leading-relaxed">
+          <pre className="text-xs text-gray-500 dark:text-[#94a3b8] mb-4 font-mono leading-relaxed">
             {BASE_REQUIREMENTS}
           </pre>
           <div className="flex items-center gap-2">
-            <code className="flex-1 rounded bg-gray-100 border border-gray-200 px-3 py-2 text-xs text-gray-700 font-mono overflow-x-auto">
+            <code className="flex-1 rounded bg-gray-100 dark:bg-[#0a1520] border border-gray-200 dark:border-[#1e3044] px-3 py-2 text-xs text-gray-700 dark:text-[#e2e8f0] font-mono overflow-x-auto">
               {INSTALL_COMMAND}
             </code>
             <BotonOutline

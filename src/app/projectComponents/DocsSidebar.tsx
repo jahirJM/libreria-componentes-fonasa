@@ -23,10 +23,10 @@ export function DocsSidebar() {
       {/* Botón mobile */}
       <button
         onClick={() => setOpen(true)}
-        className="lg:hidden fixed top-16 left-4 z-40 p-2 bg-white border border-gray-200 rounded-lg shadow-sm"
+        className="lg:hidden fixed top-16 left-4 z-40 p-2 bg-white dark:bg-[#061018] border border-gray-200 dark:border-[#1e3044] rounded-lg shadow-sm"
         aria-label="Abrir menú de documentación"
       >
-        <FiMenu className="w-5 h-5 text-gray-600" />
+        <FiMenu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
       </button>
 
       {/* Overlay mobile */}
@@ -40,17 +40,17 @@ export function DocsSidebar() {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-14 left-0 z-50 h-[calc(100vh-3.5rem)] w-64 bg-white border-r border-gray-200
+          fixed top-14 left-0 z-50 h-[calc(100vh-3.5rem)] w-64 bg-white dark:bg-[#061018] border-r border-gray-200 dark:border-[#1e3044]
           overflow-y-auto transition-transform duration-200
           lg:translate-x-0 lg:z-0
           ${open ? "translate-x-0" : "-translate-x-full"}
         `}
       >
         {/* Header mobile */}
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-100">
-          <span className="text-sm font-semibold text-gray-700">Documentación</span>
+        <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-100 dark:border-[#1e3044]">
+          <span className="text-sm font-semibold text-gray-700 dark:text-[#e2e8f0]">Documentación</span>
           <button onClick={() => setOpen(false)} aria-label="Cerrar menú">
-            <FiX className="w-5 h-5 text-gray-500" />
+            <FiX className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
@@ -68,8 +68,8 @@ export function DocsSidebar() {
               className={({ isActive }) =>
                 `block px-3 py-2 rounded-lg text-sm transition-colors ${
                   isActive
-                    ? "bg-[#eff6ff] text-[#0572CE] font-medium"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    ? "bg-[#eff6ff] dark:bg-[#0572CE]/15 text-[#0572CE] font-medium"
+                    : "text-gray-600 dark:text-[#94a3b8] hover:bg-gray-50 dark:hover:bg-[#111d2a] hover:text-gray-900 dark:hover:text-[#e2e8f0]"
                 }`
               }
             >

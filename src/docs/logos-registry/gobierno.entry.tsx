@@ -6,22 +6,16 @@ export const gobiernoLogo: LogoEntry = {
   group: "Institucional",
   variants: [
     {
-      label: "Color (PNG)",
-      src: "/logos/gobierno/png/gob-color.png",
-      format: "png",
-      background: "light",
-    },
-    {
-      label: "Color (SVG)",
-      src: "/logos/gobierno/svg/gob-color.svg",
+      label: "Color",
+      src: "/logos/gobierno/svg/gob-logo.svg",
       format: "svg",
       background: "light",
     },
     {
-      label: "Blanco (SVG)",
-      src: "/logos/gobierno/svg/gob-blanco.svg",
+      label: "Gris",
+      src: "/logos/gobierno/svg/gob-logo-gris.svg",
       format: "svg",
-      background: "dark",
+      background: "light",
     },
   ],
 };

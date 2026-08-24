@@ -5,8 +5,8 @@ export interface LogoVariant {
   src: string;
   /** Formato del archivo */
   format: "svg" | "png";
-  /** Fondo recomendado para previsualizar (ej: "white", "dark") */
-  background?: "light" | "dark";
+  /** Fondo recomendado para previsualizar (ej: "white", "dark") o color hex custom */
+  background?: "light" | "dark" | string;
   /** URL externa asociada al recurso (ej: link de descarga oficial) */
   url?: string;
 }

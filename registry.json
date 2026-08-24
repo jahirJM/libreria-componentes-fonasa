@@ -68,6 +68,15 @@
     "testFile": "Card.test.tsx"
   },
   {
+    "name": "carousel",
+    "file": "Carousel.tsx",
+    "description": "Carrusel genérico con grilla configurable (cols × rows por página). Soporta navegación con flechas, indicadores de página (dots) y modo controlado/no controlado.",
+    "dependencies": [
+      "react-icons",
+      "clsx"
+    ]
+  },
+  {
     "name": "check-button",
     "file": "CheckButton.tsx",
     "description": "Checkbox/radio button group con variantes primary (checkbox múltiple) y secondary (radio single).",

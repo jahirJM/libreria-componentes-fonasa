@@ -40,8 +40,8 @@ export function Navbar() {
         logoElement={
           <div className="relative">
             <img src="/logos/fonasa/svg/fonasa-logo-name.svg" alt="Fonasa UI" className="h-8 w-auto" />
-            <span className="absolute -bottom-2 -right-4.5 flex items-center justify-center size-6 rounded-full border-2 border-white dark:border-[#061018] bg-[#0572CE]">
-              <LuCode className="size-4 text-[#fff] rotate-10 stroke-[3]" />
+            <span className="absolute -bottom-2 -right-4.5 flex items-center justify-center size-6 rounded-full border-2 border-white bg-[#0572CE]">
+              <LuCode className="size-3.5 text-white rotate-10 stroke-[2.5]" />
             </span>
           </div>
         }
@@ -57,14 +57,12 @@ export function Navbar() {
         title={theme === "dark" ? "Modo claro" : "Modo oscuro"}
         aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       >
-        <div className={`relative w-12 h-6 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${
-          theme === "dark" ? "bg-[#1e3044] border-[#2d4a6a]" : "bg-gray-200 border-gray-300"
-        } ${trackTilt}`}>
-          <div className={`absolute top-0.5 size-5 rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${
-            theme === "dark"
+        <div className={`relative w-12 h-6 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${theme === "dark" ? "bg-[#1e3044] border-[#2d4a6a]" : "bg-gray-200 border-gray-300"
+          } ${trackTilt}`}>
+          <div className={`absolute top-0.5 size-5 rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${theme === "dark"
               ? "left-[26px] bg-[#0572CE] rotate-[360deg]"
               : "left-0.5 bg-white shadow-md rotate-0"
-          }`}>
+            }`}>
             {theme === "dark" ? (
               <FiSun className="size-3 text-white" />
             ) : (
@@ -81,14 +79,12 @@ export function Navbar() {
         title={theme === "dark" ? "Modo claro" : "Modo oscuro"}
         aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       >
-        <div className={`relative w-12 h-6 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${
-          theme === "dark" ? "bg-[#1e3044] border-[#2d4a6a]" : "bg-gray-200 border-gray-300"
-        } ${trackTilt}`}>
-          <div className={`absolute top-0.5 size-5 rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${
-            theme === "dark"
+        <div className={`relative w-12 h-6 rounded-full border transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${theme === "dark" ? "bg-[#1e3044] border-[#2d4a6a]" : "bg-gray-200 border-gray-300"
+          } ${trackTilt}`}>
+          <div className={`absolute top-0.5 size-5 rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.2,0.27,1.2)] ${theme === "dark"
               ? "left-[26px] bg-[#0572CE] rotate-[360deg]"
               : "left-0.5 bg-white shadow-md rotate-0"
-          }`}>
+            }`}>
             {theme === "dark" ? (
               <FiSun className="size-3 text-white" />
             ) : (

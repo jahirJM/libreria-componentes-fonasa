@@ -3,6 +3,7 @@ import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
 import { FormBuilderPage } from "./FormBuilderPage";
+import { IconBuilderPage } from "./IconBuilderPage";
 import { Switch } from "../../componentsUI/Switch";
 import { BotonPrimario, BotonOutline } from "../../componentsUI/Botones";
 
@@ -20,6 +21,7 @@ type SidebarItem =
   | { type: "logo"; entry: LogoEntry }
   | { type: "template"; label: string }
   | { type: "formbuilder"; label: string }
+  | { type: "iconbuilder"; label: string }
   | { type: "fonts"; label: string };
 
 interface SidebarGroup {
@@ -59,6 +61,7 @@ function buildSidebarGroups(): SidebarGroup[] {
     items: [
       { type: "template", label: "Template Email" },
       { type: "formbuilder", label: "Form Builder" },
+      { type: "iconbuilder", label: "Icon Builder" },
     ],
   });
 
@@ -450,22 +453,47 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
   const [animKey, setAnimKey] = useState(0);
   const selected = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
   const [urlCopied, setUrlCopied] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
 
   // Reset cuando cambia la organización
   useEffect(() => {
     const newVariants = getVariantsForEntry(entry);
     setSelectedVariantId(newVariants[0]?.id ?? "");
     setAnimKey((k) => k + 1);
+    setImageLoading(true);
   }, [entry.name]);
 
-  function handleDownload() {
+  // Reset loading al cambiar variante
+  useEffect(() => {
+    setImageLoading(true);
+  }, [selectedVariantId]);
+
+  async function handleDownload() {
     if (!selected) return;
-    const link = document.createElement("a");
-    link.href = selected.variant.src;
-    link.download = selected.variant.src.split("/").pop() || "logo";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    setDownloading(true);
+    try {
+      const response = await fetch(selected.variant.src);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = selected.variant.src.split("/").pop() || "logo";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch {
+      // Fallback al método directo
+      const link = document.createElement("a");
+      link.href = selected.variant.src;
+      link.download = selected.variant.src.split("/").pop() || "logo";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } finally {
+      setDownloading(false);
+    }
   }
 
   async function handleCopyUrl() {
@@ -480,16 +508,27 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
   }
 
   return (
-    <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 px-6 pb-6 overflow-y-auto">
+    <div className="flex-1 flex flex-col lg:flex-row items-start justify-center gap-8 px-6 py-10 overflow-y-auto min-h-full">
       {/* Showcase */}
       <div className="flex flex-col items-center gap-5">
-        <div key={`${entry.name}-${selectedVariantId}-${animKey}`} className="animate-[fadeSlideUp_0.3s_ease-out]">
+        <div key={`${entry.name}-${selectedVariantId}-${animKey}`}>
           <div
-            className={`flex items-center justify-center w-64 h-64 lg:w-80 lg:h-80 rounded-2xl border transition-colors ${
-              selected?.variant.background === "dark" ? "bg-gray-800 border-gray-700" : "bg-gray-50 border-gray-200"
+            className={`relative flex items-center justify-center w-64 h-64 lg:w-80 lg:h-80 rounded-2xl border transition-colors ${
+              selected?.variant.background === "dark" ? "bg-gray-800 border-gray-700" : selected?.variant.background === "light" || !selected?.variant.background ? "bg-gray-50 border-gray-200" : "border-gray-200"
             }`}
+            style={selected?.variant.background && selected.variant.background !== "dark" && selected.variant.background !== "light" ? { backgroundColor: selected.variant.background } : undefined}
           >
-            <img src={selected?.variant.src} alt={selected?.variant.label} className="max-w-[70%] max-h-[70%] object-contain" />
+            {imageLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-3 border-b-3 border-[#0572CE]"></div>
+              </div>
+            )}
+            <img
+              src={selected?.variant.src}
+              alt={selected?.variant.label}
+              className={`w-full h-full object-contain p-6 transition-opacity duration-200 ${imageLoading ? "opacity-0" : "opacity-100"}`}
+              onLoad={() => setImageLoading(false)}
+            />
           </div>
         </div>
 
@@ -504,11 +543,22 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <BotonPrimario
-            label="Descargar"
-            icon={LuDownload}
-            onClick={handleDownload}
-          />
+          {downloading ? (
+            <button
+              type="button"
+              disabled
+              className="inline-flex justify-center items-center rounded-2xl border border-transparent px-4 py-1.5 text-sm font-medium text-white bg-[#0572CE] opacity-70 cursor-not-allowed"
+            >
+              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
+              Descargando...
+            </button>
+          ) : (
+            <BotonPrimario
+              label="Descargar"
+              icon={LuDownload}
+              onClick={handleDownload}
+            />
+          )}
           {selected?.variant.url && (
             <BotonOutline
               label={urlCopied ? "Copiado" : "URL"}
@@ -520,7 +570,7 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
       </div>
 
       {/* Grid variantes */}
-      <div className="w-full max-w-xs">
+      <div className="w-full lg:w-auto lg:flex-1 max-w-md">
         <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 text-center">Variantes</p>
         <div className="grid grid-cols-2 gap-3">
           {variants.map((item) => {
@@ -529,17 +579,19 @@ function LogoViewer({ entry }: { entry: LogoEntry }) {
               <button
                 key={item.id}
                 onClick={() => { setSelectedVariantId(item.id); setAnimKey((k) => k + 1); }}
-                className={`group relative flex flex-col items-center justify-center p-3 rounded-xl border transition-all duration-200 ${
+                className={`group relative flex flex-col items-center justify-center w-full p-3 rounded-xl border transition-all duration-200 ${
                   isActive ? "border-[#0572CE] bg-blue-50/50 ring-1 ring-[#0572CE]/20" : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
                 }`}
               >
-                <div className={`flex items-center justify-center w-full h-14 rounded-lg mb-2 ${item.variant.background === "dark" ? "bg-gray-700" : "bg-gray-50"}`}>
+                <div
+                  className={`flex items-center justify-center w-full h-14 rounded-lg mb-2 ${item.variant.background === "dark" ? "bg-gray-700" : item.variant.background === "light" || !item.variant.background ? "bg-gray-50" : ""}`}
+                  style={item.variant.background && item.variant.background !== "dark" && item.variant.background !== "light" ? { backgroundColor: item.variant.background } : undefined}
+                >
                   <img src={item.variant.src} alt={item.variant.label} className="max-h-9 max-w-[85%] object-contain" />
                 </div>
                 <p className={`text-xs font-medium text-center leading-tight line-clamp-2 ${isActive ? "text-[#0572CE]" : "text-gray-500"}`}>
                   {item.variant.label}
                 </p>
-                {isActive && <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#0572CE]" />}
               </button>
             );
           })}
@@ -713,9 +765,11 @@ export function RecursosPage() {
                                 ? item.label === activeItem.label
                                 : (item.type === "formbuilder" && activeItem.type === "formbuilder")
                                   ? item.label === activeItem.label
-                                  : (item.type === "fonts" && activeItem.type === "fonts")
+                                  : (item.type === "iconbuilder" && activeItem.type === "iconbuilder")
                                     ? item.label === activeItem.label
-                                    : false);
+                                    : (item.type === "fonts" && activeItem.type === "fonts")
+                                      ? item.label === activeItem.label
+                                      : false);
                           return (
                             <button
                               key={label}
@@ -741,11 +795,13 @@ export function RecursosPage() {
       </aside>
 
       {/* ─── Contenido principal ─── */}
-      <div className="flex-1 lg:ml-64 overflow-hidden">
+      <div className="flex-1 lg:ml-64 overflow-hidden min-h-[calc(100vh-3.5rem)]">
         {activeItem.type === "logo" ? (
           <LogoViewer entry={activeItem.entry} />
         ) : activeItem.type === "formbuilder" ? (
           <FormBuilderPage />
+        ) : activeItem.type === "iconbuilder" ? (
+          <IconBuilderPage />
         ) : activeItem.type === "fonts" ? (
           <FontsSection />
         ) : (

@@ -6,40 +6,28 @@ export const fonasaLogo: LogoEntry = {
   group: "Institucional",
   variants: [
     {
-      label: "Horizontal Color (PNG)",
-      src: "/logos/fonasa/png/fonasa-horizontal-color.png",
-      format: "png",
-      background: "light",
-    },
-    {
-      label: "Vertical Color (PNG)",
-      src: "/logos/fonasa/png/fonasa-vertical-color.png",
-      format: "png",
-      background: "light",
-    },
-    {
-      label: "Horizontal Blanco + Gob (SVG)",
-      src: "/logos/fonasa/svg/fonasa-horizontal-blanco-gob.svg",
-      format: "svg",
-      background: "dark",
-    },
-    {
-      label: "Vertical Blanco (SVG)",
-      src: "/logos/fonasa/svg/fonasa-vertical-blanco.svg",
-      format: "svg",
-      background: "dark",
-    },
-    {
-      label: "Logo Full (SVG)",
+      label: "Logo+Nombre",
       src: "/logos/fonasa/svg/fonasa-logo-full.svg",
       format: "svg",
       background: "light",
     },
     {
-      label: "Logo Name (SVG)",
+      label: "Solo Logo",
+      src: "/logos/fonasa/svg/fonasa-logo-icon.svg",
+      format: "svg",
+      background: "light",
+    },
+    {
+      label: "Solo Nombre",
       src: "/logos/fonasa/svg/fonasa-logo-name.svg",
       format: "svg",
       background: "light",
+    },
+    {
+      label: "Logo+Nombre Blanco",
+      src: "/logos/fonasa/svg/fonasa-blanco.svg",
+      format: "svg",
+      background: "dark",
     },
   ],
 };

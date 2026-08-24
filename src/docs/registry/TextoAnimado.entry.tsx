@@ -1,5 +1,6 @@
 import { useState } from "react";
 import textoAnimadoCode from "../../componentsUI/TextoAnimado.tsx?raw";
+import textoAnimadoTestCode from "../../tests/TextoAnimado.test.tsx?raw";
 import { TextoAnimado } from "../../componentsUI/TextoAnimado";
 import { Input } from "../../componentsUI/Input";
 import type { ComponentEntry } from "./types";
@@ -86,6 +87,7 @@ export const textoAnimadoEntry: ComponentEntry = {
   description:
     "Componente que muestra un valor con animación suave tipo slot-machine al cambiar. Ideal para resultados de formateo, montos, o cualquier dato dinámico.",
   code: textoAnimadoCode,
+  testCode: textoAnimadoTestCode,
   colors: [
     { name: "Fondo (sutil)", value: "#f9fafb", usage: "Fondo variante normal" },
     { name: "Fondo (cards)", value: "#f3f4f6", usage: "Fondo degradado variante grande" },

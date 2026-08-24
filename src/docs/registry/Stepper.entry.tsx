@@ -1,4 +1,5 @@
-import stepperCode from "../../componentsUI/Stepper.tsx?raw"
+import stepperCode from "../../componentsUI/Stepper.tsx?raw";
+import stepperTestCode from "../../tests/Stepper.test.tsx?raw";
 import { StepperDemo } from "../demos/StepperDemo";
 import { Stepper } from "../../componentsUI/Stepper";
 import type { ComponentEntry } from "./types";
@@ -8,6 +9,7 @@ export const stepperEntry: ComponentEntry =   {
     description:
       "Utiliza: botones. Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
     code: stepperCode,
+    testCode: stepperTestCode,
     colors: [
       { name: "Color primario (fonasa)", value: "#0572CE", usage: "Círculos activos, línea de progreso, texto del paso actual y borde del badge mobile" },
       { name: "Blanco", value: "#ffffff", usage: "Texto dentro de los círculos" },

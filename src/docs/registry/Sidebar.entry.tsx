@@ -1,4 +1,5 @@
-import sidebarCode from "../../componentsUI/Sidebar.tsx?raw"
+import sidebarCode from "../../componentsUI/Sidebar.tsx?raw";
+import sidebarTestCode from "../../tests/Sidebar.test.tsx?raw";
 import { FaFileMedical, FaHospital, FaUserCircle, FaUsers } from "react-icons/fa";
 import type { ComponentEntry } from "./types";
 import Sidebar from "../../componentsUI/Sidebar";
@@ -11,6 +12,7 @@ export const sidebarEntry: ComponentEntry =   {
     description:
       "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
     code: sidebarCode,
+    testCode: sidebarTestCode,
     dependencies: ["react-icons"],
     colors: [
       { name: "Color primario (fonasa)", value: "#0572CE", usage: "Texto de ítems, íconos, fondo de ítem activo y hover" },

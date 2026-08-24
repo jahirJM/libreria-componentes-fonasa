@@ -1,4 +1,5 @@
-import badgeCode from "../../componentsUI/Badge.tsx?raw"
+import badgeCode from "../../componentsUI/Badge.tsx?raw";
+import badgeTestCode from "../../tests/Badge.test.tsx?raw";
 import { Badge } from "../../componentsUI/Badge";
 import type { ComponentEntry } from "./types";
 
@@ -7,6 +8,7 @@ export const badgeEntry: ComponentEntry =   {
     description:
       "Badge/pill para indicar estados, contadores y categorías. Variantes de color según contexto.",
     code: badgeCode,
+    testCode: badgeTestCode,
     dependencies: ["clsx"],
     colors: [
       { name: "Fondo (pendiente)", value: "#fefce8", usage: "Fondo badge pendiente" },

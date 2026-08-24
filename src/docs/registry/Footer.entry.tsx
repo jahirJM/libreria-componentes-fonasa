@@ -1,5 +1,6 @@
 import { Footer } from "../../componentsUI/Footer";
 import footerCode from "../../componentsUI/Footer.tsx?raw";
+import footerTestCode from "../../tests/Footer.test.tsx?raw";
 import type { ComponentEntry } from "./types";
 
 export const footerEntry: ComponentEntry = {
@@ -7,6 +8,7 @@ export const footerEntry: ComponentEntry = {
   description:
     "Footer institucional de FONASA con copyright dinámico (año actual) y mensaje decorativo. Color de texto configurable.",
   code: footerCode,
+  testCode: footerTestCode,
   dependencies: ["react-icons"],
   colors: [
     { name: "Fondos (dark)", value: "#1f2937", usage: "Texto del footer por defecto" },

@@ -1,4 +1,5 @@
 import switchCode from "../../componentsUI/Switch.tsx?raw";
+import switchTestCode from "../../tests/Switch.test.tsx?raw";
 import { Switch } from "../../componentsUI/Switch";
 import type { ComponentEntry } from "./types";
 
@@ -7,6 +8,7 @@ export const switchEntry: ComponentEntry = {
   description:
     "Toggle switch con 5 variantes de color (primary, success, error, warning, neutral), 3 tamaños (sm, md, lg), íconos internos opcionales, y soporte controlado/no-controlado.",
   code: switchCode,
+  testCode: switchTestCode,
   dependencies: ["clsx", "react-icons"],
   colors: [
     { name: "sky-600", value: "#0284c7", usage: "Pista activa variante primary" },

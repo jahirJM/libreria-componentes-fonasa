@@ -6,7 +6,8 @@
     "dependencies": [
       "clsx",
       "react-icons"
-    ]
+    ],
+    "testFile": "Acordeon.test.tsx"
   },
   {
     "name": "alerta",
@@ -16,7 +17,8 @@
       "clsx",
       "react-icons"
     ],
-    "group": "Alertas"
+    "group": "Alertas",
+    "testFile": "Alerta.test.tsx"
   },
   {
     "name": "badge",
@@ -24,13 +26,15 @@
     "description": "Badge/pill para indicar estados, contadores y categorías. Variantes de color según contexto.",
     "dependencies": [
       "clsx"
-    ]
+    ],
+    "testFile": "Badge.test.tsx"
   },
   {
     "name": "boton-clave-unica",
     "file": "BotonClaveUnica.tsx",
     "description": "Botón oficial de inicio de sesión con ClaveÚnica según la guía de Gobierno Digital.\\n*Para más información revisar documentación oficial en:\\nhttps://wikiguias.digital.gob.cl/Manuales/BotónCU*",
-    "group": "Botones"
+    "group": "Botones",
+    "testFile": "BotonClaveUnica.test.tsx"
   },
   {
     "name": "botones",
@@ -38,7 +42,8 @@
     "description": "Conjunto de botones (Confirmar, Cancelar, Primario, Secundario, Outline, Link) con soporte para íconos y estado deshabilitado.",
     "dependencies": [
       "react-icons"
-    ]
+    ],
+    "testFile": "Botones.test.tsx"
   },
   {
     "name": "calendario",
@@ -47,7 +52,8 @@
     "dependencies": [
       "date-holidays"
     ],
-    "group": "Calendario"
+    "group": "Calendario",
+    "testFile": "CalendarioRango.test.tsx"
   },
   {
     "name": "card",
@@ -58,7 +64,8 @@
     ],
     "internalDeps": [
       "botones"
-    ]
+    ],
+    "testFile": "Card.test.tsx"
   },
   {
     "name": "check-button",
@@ -66,12 +73,14 @@
     "description": "Checkbox/radio button group con variantes primary (checkbox múltiple) y secondary (radio single).",
     "dependencies": [
       "clsx"
-    ]
+    ],
+    "testFile": "CheckButton.test.tsx"
   },
   {
     "name": "contador-estadistica",
     "file": "ContadorEstadistica.tsx",
-    "description": "Tarjeta de métrica animada con patrón de composición. Cuenta desde 0 hasta el valor final al entrar en pantalla. Usa sub-componentes: Cabecera, Metrica, Contenido, Etiqueta, Descripcion y Tendencia."
+    "description": "Tarjeta de métrica animada con patrón de composición. Cuenta desde 0 hasta el valor final al entrar en pantalla. Usa sub-componentes: Cabecera, Metrica, Contenido, Etiqueta, Descripcion y Tendencia.",
+    "testFile": "ContadorEstadistica.test.tsx"
   },
   {
     "name": "drawer",
@@ -81,7 +90,8 @@
       "clsx",
       "react-icons",
       "react-dom"
-    ]
+    ],
+    "testFile": "Drawer.test.tsx"
   },
   {
     "name": "footer",
@@ -89,12 +99,14 @@
     "description": "Footer institucional de FONASA con copyright dinámico (año actual) y mensaje decorativo. Color de texto configurable.",
     "dependencies": [
       "react-icons"
-    ]
+    ],
+    "testFile": "Footer.test.tsx"
   },
   {
     "name": "indicador-requerido",
     "file": "IndicadorRequerido.tsx",
-    "description": "Asterisco rojo (*) que indica campo obligatorio. Componente auxiliar usado internamente por Label."
+    "description": "Asterisco rojo (*) que indica campo obligatorio. Componente auxiliar usado internamente por Label.",
+    "testFile": "IndicadorRequerido.test.tsx"
   },
   {
     "name": "input",
@@ -103,7 +115,8 @@
     "dependencies": [
       "clsx",
       "react-icons"
-    ]
+    ],
+    "testFile": "Input.test.tsx"
   },
   {
     "name": "input-calendario",
@@ -115,7 +128,8 @@
     "internalDeps": [
       "calendario"
     ],
-    "group": "Calendario"
+    "group": "Calendario",
+    "testFile": "InputCalendario.test.tsx"
   },
   {
     "name": "label",
@@ -127,7 +141,8 @@
     ],
     "internalDeps": [
       "indicador-requerido"
-    ]
+    ],
+    "testFile": "Label.test.tsx"
   },
   {
     "name": "lista-paginada",
@@ -140,12 +155,14 @@
       "paginacion",
       "badge",
       "skeleton-solicitud"
-    ]
+    ],
+    "testFile": "ListaPaginada.test.tsx"
   },
   {
     "name": "loading",
     "file": "Loading.tsx",
-    "description": "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner)."
+    "description": "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner).",
+    "testFile": "Loading.test.tsx"
   },
   {
     "name": "modal-info",
@@ -158,7 +175,8 @@
     "internalDeps": [
       "botones"
     ],
-    "group": "Modales"
+    "group": "Modales",
+    "testFile": "CustomModal.test.tsx"
   },
   {
     "name": "modal-notificacion",
@@ -170,12 +188,14 @@
     "internalDeps": [
       "label"
     ],
-    "group": "Modales"
+    "group": "Modales",
+    "testFile": "Modal.test.tsx"
   },
   {
     "name": "navbar",
     "file": "Navbar.tsx",
-    "description": "Barra de navegación superior fija con logo, título, links con indicador activo (barrita inferior) y menú móvil responsive."
+    "description": "Barra de navegación superior fija con logo, título, links con indicador activo (barrita inferior) y menú móvil responsive.",
+    "testFile": "Navbar.test.tsx"
   },
   {
     "name": "paginacion",
@@ -183,7 +203,8 @@
     "description": "Paginación genérica con rango visible de hasta 5 páginas, centrada en la página actual. Flechas de navegación anterior/siguiente.",
     "dependencies": [
       "react-icons"
-    ]
+    ],
+    "testFile": "Paginacion.test.tsx"
   },
   {
     "name": "select",
@@ -192,7 +213,8 @@
     "dependencies": [
       "clsx",
       "react-icons"
-    ]
+    ],
+    "testFile": "Select.test.tsx"
   },
   {
     "name": "select-buscable",
@@ -201,7 +223,8 @@
     "dependencies": [
       "clsx",
       "react-icons"
-    ]
+    ],
+    "testFile": "SelectBuscable.test.tsx"
   },
   {
     "name": "sidebar",
@@ -209,7 +232,8 @@
     "description": "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
     "dependencies": [
       "react-icons"
-    ]
+    ],
+    "testFile": "Sidebar.test.tsx"
   },
   {
     "name": "stepper",
@@ -217,7 +241,8 @@
     "description": "Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
     "internalDeps": [
       "botones"
-    ]
+    ],
+    "testFile": "Stepper.test.tsx"
   },
   {
     "name": "switch",
@@ -226,7 +251,8 @@
     "dependencies": [
       "clsx",
       "react-icons"
-    ]
+    ],
+    "testFile": "Switch.test.tsx"
   },
   {
     "name": "tabla-avanzada",
@@ -238,7 +264,8 @@
     "internalDeps": [
       "tabla-basica"
     ],
-    "group": "Tablas"
+    "group": "Tablas",
+    "testFile": "Table.test.tsx"
   },
   {
     "name": "tabla-basica",
@@ -247,7 +274,8 @@
     "dependencies": [
       "clsx"
     ],
-    "group": "Tablas"
+    "group": "Tablas",
+    "testFile": "TablaBasica.test.tsx"
   },
   {
     "name": "tabla-datos",
@@ -256,7 +284,8 @@
     "dependencies": [
       "react-icons"
     ],
-    "group": "Tablas"
+    "group": "Tablas",
+    "testFile": "TablaDatos.test.tsx"
   },
   {
     "name": "textarea",
@@ -264,12 +293,14 @@
     "description": "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     "dependencies": [
       "clsx"
-    ]
+    ],
+    "testFile": "TextArea.test.tsx"
   },
   {
     "name": "texto-animado",
     "file": "TextoAnimado.tsx",
-    "description": "Componente que muestra un valor con animación suave tipo slot-machine al cambiar. Ideal para resultados de formateo, montos, o cualquier dato dinámico."
+    "description": "Componente que muestra un valor con animación suave tipo slot-machine al cambiar. Ideal para resultados de formateo, montos, o cualquier dato dinámico.",
+    "testFile": "TextoAnimado.test.tsx"
   },
   {
     "name": "toast",
@@ -281,7 +312,8 @@
     "internalDeps": [
       "botones"
     ],
-    "group": "Alertas"
+    "group": "Alertas",
+    "testFile": "Toast.test.tsx"
   },
   {
     "name": "upload-box",
@@ -290,6 +322,7 @@
     "dependencies": [
       "clsx",
       "react-icons"
-    ]
+    ],
+    "testFile": "UploadBox.test.tsx"
   }
 ]

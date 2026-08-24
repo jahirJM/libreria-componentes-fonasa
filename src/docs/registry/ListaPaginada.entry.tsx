@@ -1,6 +1,7 @@
 
 import { useCallback, useRef, useState } from "react";
-import listaPaginadaCode from "../../componentsUI/ListaPaginada.tsx?raw"
+import listaPaginadaCode from "../../componentsUI/ListaPaginada.tsx?raw";
+import listaPaginadaTestCode from "../../tests/ListaPaginada.test.tsx?raw";
 import { ListaPaginada } from "../../componentsUI/ListaPaginada";
 import { SolicitudCard } from "../../componentsUI/SolicitudCard";
 import type { ComponentEntry } from "./types";
@@ -84,6 +85,7 @@ export const listaPaginadaEntry: ComponentEntry =   {
     description:
       "Utiliza: paginacion, badge, skeleton-solicitud. Contenedor de lista de solicitudes con skeleton de carga, manejo de error, contador de resultados y paginación integrada.",
     code: listaPaginadaCode,
+    testCode: listaPaginadaTestCode,
     dependencies: ["react-icons"],
     colors: [
       { name: "Color primario (fonasa)", value: "#0572CE", usage: "ID de solicitud, enlaces 'Ver', acordeón de documentos" },

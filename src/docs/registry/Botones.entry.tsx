@@ -1,5 +1,6 @@
 import { BotonCancelar, BotonConfirmar, BotonPrimario, BotonSecundario, BotonOutline, BotonLink } from "../../componentsUI/Botones";
-import botonesCode from "../../componentsUI/Botones.tsx?raw"
+import botonesCode from "../../componentsUI/Botones.tsx?raw";
+import botonesTestCode from "../../tests/Botones.test.tsx?raw";
 import type { ComponentEntry } from "./types";
 
 export const botonesEntry: ComponentEntry =   {
@@ -7,6 +8,7 @@ export const botonesEntry: ComponentEntry =   {
     description:
       "Conjunto de botones (Confirmar, Cancelar, Primario, Secundario, Outline, Link) con soporte para íconos y estado deshabilitado.",
     code: botonesCode,
+    testCode: botonesTestCode,
     dependencies: ["react-icons"],
     colors: [
       { name: "Botón toast éxito", value: "#0891b2", usage: "Fondo BotonConfirmar" },

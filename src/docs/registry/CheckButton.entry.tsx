@@ -1,4 +1,5 @@
-import checkButtonCode from "../../componentsUI/CheckButton.tsx?raw"
+import checkButtonCode from "../../componentsUI/CheckButton.tsx?raw";
+import checkButtonTestCode from "../../tests/CheckButton.test.tsx?raw";
 import { CheckButtonDemo } from "../demos/CheckButtonDemo";
 import { CheckButton } from "../../componentsUI/CheckButton";
 import type { ComponentEntry } from "./types";
@@ -8,6 +9,7 @@ export const checkButtonEntry: ComponentEntry =   {
     description:
       "Checkbox/radio button group con variantes primary (checkbox múltiple) y secondary (radio single).",
     code: checkButtonCode,
+    testCode: checkButtonTestCode,
     dependencies: ["clsx"],
     colors: [
       { name: "Texto (fondos claros)", value: "#374151", usage: "Texto de los labels" },

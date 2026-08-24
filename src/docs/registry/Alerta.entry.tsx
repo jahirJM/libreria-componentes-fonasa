@@ -1,4 +1,5 @@
 import alertaCode from "../../componentsUI/Alerta.tsx?raw";
+import alertaTestCode from "../../tests/Alerta.test.tsx?raw";
 import { Alerta } from "../../componentsUI/Alerta";
 import { FiShield } from "react-icons/fi";
 import { SkeletonAlerta } from "../../skeletons/SkeletonAlerta";
@@ -10,6 +11,7 @@ export const alertaEntry: ComponentEntry = {
   description:
     "Componente de alerta con 5 variantes semánticas (success, error, warning, info, neutral), título opcional, contenido libre (children), ícono personalizable, acción secundaria y botón de cierre.",
   code: alertaCode,
+  testCode: alertaTestCode,
   dependencies: ["clsx", "react-icons"],
   colors: [
     { name: "emerald-500/10", value: "rgba(16,185,129,0.1)", usage: "Fondo variante success" },

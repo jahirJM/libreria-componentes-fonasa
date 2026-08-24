@@ -1,4 +1,5 @@
-import uploadBoxCode from "../../componentsUI/UploadBox.tsx?raw"
+import uploadBoxCode from "../../componentsUI/UploadBox.tsx?raw";
+import uploadBoxTestCode from "../../tests/UploadBox.test.tsx?raw";
 import { UploadBox } from "../../componentsUI/UploadBox";
 import { UploadBoxResizeDemo } from "../demos/UploadBoxDemo";
 import type { ComponentEntry } from "./types";
@@ -8,6 +9,7 @@ export const uploadBoxEntry: ComponentEntry =   {
     description:
       "Zona de carga de archivos con estados: default, confirmación y error. Estilo drag & drop.",
     code: uploadBoxCode,
+    testCode: uploadBoxTestCode,
     dependencies: ["clsx", "react-icons"],
     colors: [
       { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Fondo del estado default" },

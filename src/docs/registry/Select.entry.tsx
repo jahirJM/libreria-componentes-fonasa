@@ -1,5 +1,6 @@
 import { useState } from "react";
 import selectCode from "../../componentsUI/Select.tsx?raw";
+import selectTestCode from "../../tests/Select.test.tsx?raw";
 import { Select } from "../../componentsUI/Select";
 import { SelectResizeDemo } from "../demos/SelectDemo";
 import type { ComponentEntry } from "./types";
@@ -64,6 +65,7 @@ export const selectEntry: ComponentEntry = {
   description:
     "Select desplegable custom con soporte para estados de error y deshabilitado. Dropdown controlado por CSS/JS (no nativo).",
   code: selectCode,
+  testCode: selectTestCode,
   dependencies: ["clsx", "react-icons"],
   colors: [
     { name: "Blanco", value: "#ffffff", usage: "Fondo del trigger y dropdown" },

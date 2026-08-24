@@ -1,4 +1,5 @@
-import paginacionCode from "../../componentsUI/Paginacion.tsx?raw"
+import paginacionCode from "../../componentsUI/Paginacion.tsx?raw";
+import paginacionTestCode from "../../tests/Paginacion.test.tsx?raw";
 import { PaginacionDemo, PaginacionResizeDemo } from "../demos/PaginacionDemo";
 import { Paginacion } from "../../componentsUI/Paginacion";
 import type { ComponentEntry } from "./types";
@@ -8,6 +9,7 @@ export const paginacionEntry: ComponentEntry =  {
     description:
       "Paginación genérica con rango visible de hasta 5 páginas, centrada en la página actual. Flechas de navegación anterior/siguiente.",
     code: paginacionCode,
+    testCode: paginacionTestCode,
     dependencies: ["react-icons"],
     propsInterface: `interface PaginacionProps {
   paginaActual: number;

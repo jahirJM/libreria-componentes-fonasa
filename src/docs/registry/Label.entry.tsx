@@ -1,4 +1,5 @@
 import labelCode from "../../componentsUI/Label.tsx?raw";
+import labelTestCode from "../../tests/Label.test.tsx?raw";
 import { Label } from "../../componentsUI/Label";
 import type { ComponentEntry } from "./types";
 
@@ -7,6 +8,7 @@ export const labelEntry: ComponentEntry =   {
     description:
       "Utiliza: indicador-requerido. Etiqueta de texto con asterisco de campo obligatorio y mensaje de error 'requerido' con ícono.",
     code: labelCode,
+    testCode: labelTestCode,
     dependencies: ["clsx", "react-icons"],
     colors: [
       { name: "Texto (medio)", value: "#4b5563", usage: "Texto del label" },

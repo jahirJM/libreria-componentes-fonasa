@@ -1,4 +1,5 @@
 import calendarioRangoCode from "../../componentsUI/CalendarioRango.tsx?raw";
+import calendarioRangoTestCode from "../../tests/CalendarioRango.test.tsx?raw";
 import { CalendarioRango } from "../../componentsUI/CalendarioRango";
 import { SkeletonCalendarioRango } from "../../skeletons/SkeletonCalendarioRango";
 import type { ComponentEntry } from "./types";
@@ -9,6 +10,7 @@ export const calendarioRangoEntry: ComponentEntry = {
   description:
     "Calendario mensual con selección de rango de fechas (inicio y fin). Marca los feriados de Chile en rojo usando la librería date-holidays. Soporta modo single y double. Los filtros (feriados, habiles, finSemana) solo afectan el conteo de días, no la visualización del calendario.",
   code: calendarioRangoCode,
+  testCode: calendarioRangoTestCode,
   dependencies: ["date-holidays"],
   colors: [
     { name: "Color primario (fonasa)", value: "#0572CE", usage: "Extremos del rango, labels y stats" },

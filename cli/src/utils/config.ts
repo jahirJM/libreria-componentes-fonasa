@@ -4,6 +4,8 @@ import { resolve } from "path";
 export interface FonasaUIConfig {
   componentsDir: string;
   typescript: boolean;
+  /** Directorio donde se copian los archivos de test (opcional) */
+  testsDir?: string;
 }
 
 const CONFIG_FILE = "fonasa-ui.json";

@@ -38,26 +38,69 @@ npx fonasa-ui add Input Select Badge Modal
 
 # Sobrescribir si ya existe
 npx fonasa-ui add Input --overwrite
+
+# Incluir archivos de test (Jest)
+npx fonasa-ui add Input --with-tests
+
+# Varios componentes con tests
+npx fonasa-ui add Input Select --with-tests --overwrite
+
+# Agregar SOLO los tests (componente ya instalado previamente)
+npx fonasa-ui add Input Select --only-tests
 ```
 
 La CLI automáticamente:
 - Copia el archivo del componente a tu proyecto
 - Resuelve dependencias internas (si un componente usa otro, te lo instala también)
 - Te muestra las dependencias npm que necesitas instalar
+- Con `--with-tests`: copia los archivos de test y te muestra las devDependencies de testing
 
 ## Configuración (fonasa-ui.json)
 
 ```json
 {
   "componentsDir": "src/components/ui",
-  "typescript": true
+  "typescript": true,
+  "testsDir": "__tests__"
 }
 ```
 
 - `componentsDir`: Ruta donde se copiarán los componentes (relativa a la raíz del proyecto)
 - `typescript`: Si tu proyecto usa TypeScript (por ahora siempre true, los componentes son .tsx)
+- `testsDir` (opcional): Ruta donde se copiarán los archivos de test al usar `--with-tests`. Por defecto `__tests__`
 
 ## Para mantenedores
+
+### Agregar tests a un componente
+
+1. Crea el archivo de test en `src/tests/` con la convención `NombreComponente.test.tsx`:
+
+```bash
+# Ejemplo
+src/tests/Input.test.tsx
+src/tests/Select.test.tsx
+src/tests/Badge.test.tsx
+```
+
+2. (Opcional) Importa el test como `?raw` en el `.entry.tsx` del componente para mostrarlo en el previsualizador:
+
+```tsx
+import inputTestCode from "../../tests/Input.test.tsx?raw";
+
+export const inputEntry: ComponentEntry = {
+  // ...
+  testCode: inputTestCode,
+  // ...
+};
+```
+
+3. Regenera el registry:
+
+```bash
+npm run generate:registry
+```
+
+El script detecta automáticamente los archivos de test por convención de nombre.
 
 ### Generar registry.json
 

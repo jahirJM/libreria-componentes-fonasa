@@ -1,4 +1,5 @@
-import tablaBasicaCode from "../../componentsUI/TablaBasica.tsx?raw"
+import tablaBasicaCode from "../../componentsUI/TablaBasica.tsx?raw";
+import tablaBasicaTestCode from "../../tests/TablaBasica.test.tsx?raw";
 import { TablaBasica } from "../../componentsUI/TablaBasica";
 import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
@@ -8,6 +9,7 @@ export const tablaBasicaEntry: ComponentEntry =   {
     description:
       "Tabla HTML simple sin lógica, con header estilizado y columnas configurables.",
     code: tablaBasicaCode,
+    testCode: tablaBasicaTestCode,
     group: "Tablas",
     dependencies: ["clsx"],
     colors: [

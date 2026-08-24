@@ -10,6 +10,7 @@
  * - group
  * - internalDeps (extraído del patrón "Utiliza: X, Y." en la description)
  * - file (nombre del archivo .tsx del componente)
+ * - testFile (nombre del archivo .test.tsx si existe en src/tests/)
  */
 
 import { readdirSync, readFileSync, writeFileSync } from "fs";
@@ -22,12 +23,23 @@ const rootDir = resolve(__dirname, "..");
 
 const registryDir = resolve(rootDir, "src/docs/registry");
 const componentsDir = resolve(rootDir, "src/componentsUI");
+const testsDir = resolve(rootDir, "src/tests");
 const outputPath = resolve(rootDir, "registry.json");
 
 // Obtener todos los archivos de componentes disponibles
 const componentFiles = readdirSync(componentsDir).filter((f) =>
   f.endsWith(".tsx")
 );
+
+// Obtener todos los archivos de test disponibles
+let testFiles = [];
+try {
+  testFiles = readdirSync(testsDir).filter((f) =>
+    f.endsWith(".test.tsx") || f.endsWith(".test.ts")
+  );
+} catch {
+  // Si no existe la carpeta de tests, no pasa nada
+}
 
 // Obtener todos los entry files
 const entryFiles = readdirSync(registryDir).filter((f) =>
@@ -100,6 +112,13 @@ for (const entryFile of entryFiles) {
     }
   }
 
+  // Buscar archivo de test correspondiente
+  // Convención: ComponentName.test.tsx (ej: Input.test.tsx, Select.test.tsx)
+  const baseName = file.replace(/\.tsx$/, "");
+  const testFile = testFiles.find(
+    (t) => t === `${baseName}.test.tsx` || t === `${baseName}.test.ts`
+  );
+
   registry.push({
     name,
     file,
@@ -109,6 +128,7 @@ for (const entryFile of entryFiles) {
     ...(dependencies && dependencies.length > 0 && { dependencies }),
     ...(internalDeps && internalDeps.length > 0 && { internalDeps }),
     ...(group && { group }),
+    ...(testFile && { testFile }),
   });
 }
 
@@ -118,4 +138,5 @@ registry.sort((a, b) => a.name.localeCompare(b.name));
 writeFileSync(outputPath, JSON.stringify(registry, null, 2) + "\n");
 
 console.log(`✅ registry.json generado con ${registry.length} componentes.`);
+console.log(`   Tests detectados: ${registry.filter(r => r.testFile).length}`);
 console.log(`   Ruta: ${outputPath}`);

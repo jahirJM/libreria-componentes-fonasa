@@ -1,4 +1,5 @@
-import textAreaCode from "../../componentsUI/TextArea.tsx?raw"
+import textAreaCode from "../../componentsUI/TextArea.tsx?raw";
+import textAreaTestCode from "../../tests/TextArea.test.tsx?raw";
 import { TextArea } from "../../componentsUI/TextArea";
 import type { ComponentEntry } from "./types";
 
@@ -7,6 +8,7 @@ export const textAreaEntry: ComponentEntry =   {
     description:
       "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     code: textAreaCode,
+    testCode: textAreaTestCode,
     dependencies: ["clsx"],
     colors: [
       { name: "Blanco", value: "#ffffff", usage: "Fondo del textarea" },

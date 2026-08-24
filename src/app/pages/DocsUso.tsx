@@ -137,9 +137,86 @@ function MiFormulario() {
         </Card>
         <p className="text-sm text-gray-500">
           Muestra todos los componentes agrupados por categoría, con su descripción y dependencias.
+          Los componentes con test disponible se marcan con 🧪.
           También puedes explorar los componentes visualmente en la sección{" "}
           <a href="/components" className="text-[#0572CE] hover:underline">Componentes</a> de esta documentación.
         </p>
+      </section>
+
+      {/* Tests */}
+      <section className="mt-10 space-y-4 text-gray-600">
+        <h2 className="text-xl font-semibold text-gray-800">Tests (Jest)</h2>
+        <p>
+          Cada componente de la librería incluye un archivo de test opcional con Jest y Testing Library.
+          Puedes elegir si instalarlo o no según las necesidades de tu proyecto.
+        </p>
+
+        <h3 className="text-lg font-medium text-gray-700 mt-6">Instalar componente con test incluido</h3>
+        <p className="text-sm text-gray-500">
+          Usa la flag <code className="text-[#0572CE]">--with-tests</code> para copiar el componente y su test de una sola vez:
+        </p>
+        <div className="space-y-3">
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">Un componente con test:</p>
+              <code className="text-sm text-[#0572CE]">npx fonasa-ui add Input --with-tests</code>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <p className="text-xs text-gray-500 mb-2">Varios componentes con tests:</p>
+              <code className="text-sm text-[#0572CE]">npx fonasa-ui add Input Select Badge --with-tests</code>
+            </CardContent>
+          </Card>
+        </div>
+
+        <h3 className="text-lg font-medium text-gray-700 mt-6">Agregar solo el test (componente ya instalado)</h3>
+        <p className="text-sm text-gray-500">
+          Si ya instalaste un componente y luego decides agregar su test, usa <code className="text-[#0572CE]">--only-tests</code>:
+        </p>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">npx fonasa-ui add Input --only-tests</code>
+          </CardContent>
+        </Card>
+        <p className="text-sm text-gray-500">
+          Esto copia únicamente el archivo de test sin tocar el componente existente.
+        </p>
+
+        <h3 className="text-lg font-medium text-gray-700 mt-6">¿Dónde se guardan los tests?</h3>
+        <p className="text-sm text-gray-500">
+          Por defecto se copian a la carpeta <code className="text-[#0572CE]">__tests__/</code> en la raíz de tu proyecto.
+          Puedes configurar una ruta diferente durante <code className="text-[#0572CE]">npx fonasa-ui init</code> o
+          agregando <code className="text-[#0572CE]">testsDir</code> a tu <code className="text-[#0572CE]">fonasa-ui.json</code>:
+        </p>
+        <Card>
+          <CardContent>
+            <pre className="text-xs text-gray-700 font-mono whitespace-pre">{`{
+  "componentsDir": "src/components/ui",
+  "typescript": true,
+  "testsDir": "src/__tests__/ui"
+}`}</pre>
+          </CardContent>
+        </Card>
+
+        <h3 className="text-lg font-medium text-gray-700 mt-6">Dependencias de testing</h3>
+        <p className="text-sm text-gray-500">
+          Al instalar tests, la CLI te mostrará las devDependencies que necesitas:
+        </p>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">npm install -D jest @testing-library/react @testing-library/jest-dom @types/jest ts-jest jest-environment-jsdom</code>
+          </CardContent>
+        </Card>
+
+        <h3 className="text-lg font-medium text-gray-700 mt-6">Ejecutar tests</h3>
+        <Card>
+          <CardContent>
+            <code className="text-sm text-[#0572CE]">npx jest</code>
+          </CardContent>
+        </Card>
+
+        <Alerta variante="info" cerrar={false} mensaje="Los tests son opcionales. Si tu proyecto no usa testing, puedes ignorar esta funcionalidad y solo instalar los componentes." />
       </section>
     </div>
   );

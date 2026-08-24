@@ -1,4 +1,5 @@
-import customModalCode from "../../componentsUI/CustomModal.tsx?raw"
+import customModalCode from "../../componentsUI/CustomModal.tsx?raw";
+import customModalTestCode from "../../tests/CustomModal.test.tsx?raw";
 import { ModalDemo } from "../demos/ModalDemo";
 import { SkeletonModal } from "../../skeletons/SkeletonModal";
 import type { ComponentEntry } from "./types";
@@ -8,6 +9,7 @@ export const customModalEntry: ComponentEntry =  {
     description:
       "Utiliza: botones. Modal con animaciones de transición, tamaños configurables (sm, md, lg), header con título y botón de cierre.",
     code: customModalCode,
+    testCode: customModalTestCode,
     group: "Modales",
     dependencies: ["@headlessui/react", "react-icons"],
     colors: [

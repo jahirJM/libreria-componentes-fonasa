@@ -1,4 +1,5 @@
 import navbarCode from "../../componentsUI/Navbar.tsx?raw";
+import navbarTestCode from "../../tests/Navbar.test.tsx?raw";
 import { Navbar } from "../../componentsUI/Navbar";
 import type { ComponentEntry } from "./types";
 import { useState } from "react";
@@ -87,6 +88,7 @@ export const navbarEntry: ComponentEntry = {
   description:
     "Barra de navegación superior fija con logo, título, links con indicador activo (barrita inferior) y menú móvil responsive.",
   code: navbarCode,
+  testCode: navbarTestCode,
   colors: [
     { name: "Color primario (fonasa)", value: "#0572CE", usage: "Texto activo, barrita indicadora, título y color del botón hamburguesa" },
     { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Borde inferior del navbar y borde lateral del panel móvil" },

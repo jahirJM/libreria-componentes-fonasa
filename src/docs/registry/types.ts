@@ -27,4 +27,6 @@ export interface ComponentEntry {
   variants: ComponentVariant[];
   /** Grupo/subsección para agrupar componentes en el sidebar */
   group?: string;
+  /** Código fuente del archivo de test (Jest) del componente */
+  testCode?: string;
 }

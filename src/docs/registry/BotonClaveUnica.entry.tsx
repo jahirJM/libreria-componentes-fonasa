@@ -1,5 +1,6 @@
 import { BotonClaveUnica } from "../../componentsUI/BotonClaveUnica";
 import botonClaveUnicaCode from "../../componentsUI/BotonClaveUnica.tsx?raw";
+import botonClaveUnicaTestCode from "../../tests/BotonClaveUnica.test.tsx?raw";
 import type { ComponentEntry } from "./types";
 
 export const botonClaveUnicaEntry: ComponentEntry = {
@@ -7,6 +8,7 @@ export const botonClaveUnicaEntry: ComponentEntry = {
   description:
     "Botón oficial de inicio de sesión con ClaveÚnica según la guía de Gobierno Digital.\n*Para más información revisar documentación oficial en:\nhttps://wikiguias.digital.gob.cl/Manuales/BotónCU*",
   code: botonClaveUnicaCode,
+  testCode: botonClaveUnicaTestCode,
   group: "Botones",
   colors: [
     { name: "ClaveÚnica (contenedor)", value: "#0F69C4", usage: "Fondo del botón estándar" },

@@ -1,4 +1,5 @@
 import inputCalendarioCode from "../../componentsUI/InputCalendario.tsx?raw";
+import inputCalendarioTestCode from "../../tests/InputCalendario.test.tsx?raw";
 import { InputCalendario } from "../../componentsUI/InputCalendario";
 import { SkeletonInputCalendario } from "../../skeletons/SkeletonInputCalendario";
 import type { ComponentEntry } from "./types";
@@ -9,6 +10,7 @@ export const inputCalendarioEntry: ComponentEntry = {
   description:
     "Utiliza: calendario. Input con popover de calendario integrado. Soporta modo fecha (una sola fecha) y modo rango (fecha inicio y fin). Al seleccionar en el calendario, los campos se rellenan automáticamente.",
   code: inputCalendarioCode,
+  testCode: inputCalendarioTestCode,
   dependencies: ["date-holidays"],
   colors: [
     { name: "Color primario (fonasa)", value: "#0572CE", usage: "Focus ring y label activo" },

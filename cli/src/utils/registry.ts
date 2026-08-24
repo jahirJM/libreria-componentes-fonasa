@@ -9,6 +9,8 @@ export interface RegistryEntry {
   dependencies?: string[];
   internalDeps?: string[];
   group?: string;
+  /** Nombre del archivo de test (ej: "Input.test.tsx") */
+  testFile?: string;
 }
 
 /**

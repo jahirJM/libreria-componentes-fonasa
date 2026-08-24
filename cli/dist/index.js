@@ -11055,6 +11055,24 @@ async function fetchComponentSource(fileName) {
   }
   return null;
 }
+async function fetchTestSource(testFileName) {
+  const __filename = fileURLToPath2(import.meta.url);
+  const __dirname = dirname2(__filename);
+  const candidates = [
+    // 1. Tests empaquetados junto al bundle (dist/tests/)
+    resolve3(__dirname, "tests", testFileName),
+    // 2. Desde la raíz del repo (cli/dist/ → ../../src/tests/)
+    resolve3(__dirname, "..", "..", "src", "tests", testFileName),
+    // 3. Modo desarrollo (cwd es la raíz del repo)
+    resolve3(process.cwd(), "src", "tests", testFileName)
+  ];
+  for (const candidate of candidates) {
+    if (existsSync3(candidate)) {
+      return readFileSync3(candidate, "utf-8");
+    }
+  }
+  return null;
+}
 
 // src/utils/ui.ts
 var brand = {
@@ -11123,7 +11141,7 @@ function stripAnsi2(str) {
 }
 
 // src/commands/add.ts
-var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes a tu proyecto").argument("<componentes...>", "Nombres de los componentes a instalar").option("-y, --yes", "Instalar sin confirmaci\xF3n", false).option("-o, --overwrite", "Sobrescribir archivos existentes", false).action(async (componentes, opts) => {
+var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes a tu proyecto").argument("<componentes...>", "Nombres de los componentes a instalar").option("-y, --yes", "Instalar sin confirmaci\xF3n", false).option("-o, --overwrite", "Sobrescribir archivos existentes", false).option("-t, --with-tests", "Incluir archivos de test (Jest)", false).option("--only-tests", "Instalar solo los tests (sin copiar componentes)", false).action(async (componentes, opts) => {
   printBanner();
   const config = loadConfig();
   if (!config) {
@@ -11166,59 +11184,145 @@ var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes
     if (toInstall.length === 0) return;
   }
   const allComponents = resolveInternalDeps(toInstall, registry);
-  printSection("\u{1F4CB}", "Plan de instalaci\xF3n");
-  console.log("");
-  console.log(`    ${brand.muted("Destino:")} ${brand.primary(config.componentsDir)}`);
-  console.log("");
-  for (const comp of allComponents) {
-    const isExplicit = toInstall.some((t) => t.name === comp.name);
-    if (isExplicit) {
-      console.log(`    ${brand.primary("\u25C6")} ${comp.file}`);
-    } else {
-      console.log(`    ${brand.dim("\u25C7")} ${comp.file} ${brand.dim("(dependencia)")}`);
-    }
-  }
-  const allExternalDeps = /* @__PURE__ */ new Set();
-  for (const comp of allComponents) {
-    if (comp.dependencies) {
-      for (const dep of comp.dependencies) {
-        allExternalDeps.add(dep);
+  const onlyTests = opts.onlyTests;
+  const includeTests = opts.withTests || onlyTests;
+  const includeComponents = !onlyTests;
+  const testsDir = config.testsDir || "__tests__";
+  if (onlyTests) {
+    const sinTest = allComponents.filter((c) => !c.testFile);
+    if (sinTest.length > 0) {
+      console.log("");
+      for (const comp of sinTest) {
+        printSkippedItem(`${comp.name} no tiene test disponible`);
       }
     }
   }
-  const destDir = resolve4(process.cwd(), config.componentsDir);
-  if (!existsSync4(destDir)) {
-    mkdirSync(destDir, { recursive: true });
+  printSection("\u{1F4CB}", "Plan de instalaci\xF3n");
+  console.log("");
+  if (includeComponents) {
+    console.log(`    ${brand.muted("Destino:")} ${brand.primary(config.componentsDir)}`);
+  }
+  if (includeTests) {
+    console.log(`    ${brand.muted("Tests:")}   ${brand.primary(testsDir)}`);
+  }
+  if (onlyTests) {
+    console.log(`    ${brand.muted("Modo:")}    ${brand.primary("solo tests")}`);
+  }
+  console.log("");
+  for (const comp of allComponents) {
+    const isExplicit = toInstall.some((t) => t.name === comp.name);
+    const hasTest = comp.testFile ? " \u{1F9EA}" : "";
+    if (onlyTests) {
+      if (comp.testFile) {
+        if (isExplicit) {
+          console.log(`    ${brand.primary("\u25C6")} ${comp.testFile}`);
+        } else {
+          console.log(`    ${brand.dim("\u25C7")} ${comp.testFile} ${brand.dim("(dependencia)")}`);
+        }
+      }
+    } else {
+      if (isExplicit) {
+        console.log(`    ${brand.primary("\u25C6")} ${comp.file}${includeTests ? hasTest : ""}`);
+      } else {
+        console.log(`    ${brand.dim("\u25C7")} ${comp.file} ${brand.dim("(dependencia)")}${includeTests ? hasTest : ""}`);
+      }
+    }
+  }
+  const allExternalDeps = /* @__PURE__ */ new Set();
+  if (includeComponents) {
+    for (const comp of allComponents) {
+      if (comp.dependencies) {
+        for (const dep of comp.dependencies) {
+          allExternalDeps.add(dep);
+        }
+      }
+    }
+  }
+  const testDevDeps = /* @__PURE__ */ new Set();
+  if (includeTests) {
+    testDevDeps.add("jest");
+    testDevDeps.add("@testing-library/react");
+    testDevDeps.add("@testing-library/jest-dom");
+    testDevDeps.add("@types/jest");
+    testDevDeps.add("ts-jest");
+    testDevDeps.add("jest-environment-jsdom");
+  }
+  if (includeComponents) {
+    const destDir = resolve4(process.cwd(), config.componentsDir);
+    if (!existsSync4(destDir)) {
+      mkdirSync(destDir, { recursive: true });
+    }
+  }
+  const testDestDir = resolve4(process.cwd(), testsDir);
+  if (includeTests && !existsSync4(testDestDir)) {
+    mkdirSync(testDestDir, { recursive: true });
   }
   printSection("\u2B07\uFE0F", "Instalando");
   console.log("");
   let installed = 0;
   let skipped = 0;
+  let testsInstalled = 0;
+  let testsSkipped = 0;
   for (const comp of allComponents) {
-    const destFile = join(destDir, comp.file);
-    if (existsSync4(destFile) && !opts.overwrite) {
-      printSkippedItem(`${comp.file} ya existe`);
-      skipped++;
-      continue;
-    }
-    try {
-      const source = await fetchComponentSource(comp.file);
-      if (!source) {
-        printErrorItem(`No se pudo obtener ${comp.file}`);
-        continue;
+    if (includeComponents) {
+      const destDir = resolve4(process.cwd(), config.componentsDir);
+      const destFile = join(destDir, comp.file);
+      if (existsSync4(destFile) && !opts.overwrite) {
+        printSkippedItem(`${comp.file} ya existe`);
+        skipped++;
+      } else {
+        try {
+          const source = await fetchComponentSource(comp.file);
+          if (!source) {
+            printErrorItem(`No se pudo obtener ${comp.file}`);
+            continue;
+          }
+          writeFileSync(destFile, source, "utf-8");
+          printSuccessItem(comp.file);
+          installed++;
+        } catch (error) {
+          printErrorItem(`${comp.file} \u2014 ${error.message}`);
+        }
       }
-      writeFileSync(destFile, source, "utf-8");
-      printSuccessItem(comp.file);
-      installed++;
-    } catch (error) {
-      printErrorItem(`${comp.file} \u2014 ${error.message}`);
+    }
+    if (includeTests && comp.testFile) {
+      const testDestFile = join(testDestDir, comp.testFile);
+      if (existsSync4(testDestFile) && !opts.overwrite) {
+        printSkippedItem(`${comp.testFile} ya existe`);
+        testsSkipped++;
+      } else {
+        try {
+          const testSource = await fetchTestSource(comp.testFile);
+          if (!testSource) {
+            printSkippedItem(`${comp.testFile} no disponible`);
+            testsSkipped++;
+            continue;
+          }
+          writeFileSync(testDestFile, testSource, "utf-8");
+          printSuccessItem(`${comp.testFile} ${brand.dim("(test)")}`);
+          testsInstalled++;
+        } catch (error) {
+          printErrorItem(`${comp.testFile} \u2014 ${error.message}`);
+        }
+      }
     }
   }
   printSeparator();
   console.log("");
-  console.log(
-    `    ${brand.success("\u25CF")} ${installed} instalado${installed !== 1 ? "s" : ""}` + (skipped > 0 ? `  ${brand.warning("\u25CB")} ${skipped} omitido${skipped !== 1 ? "s" : ""}` : "")
-  );
+  if (includeComponents) {
+    let summary = `    ${brand.success("\u25CF")} ${installed} instalado${installed !== 1 ? "s" : ""}`;
+    if (skipped > 0) {
+      summary += `  ${brand.warning("\u25CB")} ${skipped} omitido${skipped !== 1 ? "s" : ""}`;
+    }
+    console.log(summary);
+  }
+  if (includeTests && (testsInstalled > 0 || testsSkipped > 0)) {
+    let testSummary = `    ${brand.success("\u25CF")} ${testsInstalled} test${testsInstalled !== 1 ? "s" : ""} instalado${testsInstalled !== 1 ? "s" : ""}`;
+    if (testsSkipped > 0) {
+      testSummary += `  ${brand.warning("\u25CB")} ${testsSkipped} test${testsSkipped !== 1 ? "s" : ""} omitido${testsSkipped !== 1 ? "s" : ""}`;
+    }
+    console.log(testSummary);
+  }
   if (allExternalDeps.size > 0) {
     const depsArray = Array.from(allExternalDeps);
     console.log("");
@@ -11228,8 +11332,21 @@ var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes
       ""
     ]);
   }
-  if (skipped > 0) {
+  if (includeTests && testDevDeps.size > 0) {
+    const testDepsArray = Array.from(testDevDeps);
+    console.log("");
+    printBox("Dependencias de testing (devDependencies)", [
+      "",
+      `  ${brand.primary(`npm install -D ${testDepsArray.join(" ")}`)}`,
+      ""
+    ]);
+  }
+  if (onlyTests && testsInstalled > 0) {
+    printTip("\xA1Tests agregados! Ejecuta con " + brand.primary("npx jest"));
+  } else if (skipped > 0) {
     printTip(`Usa ${brand.primary("--overwrite")} para reemplazar archivos existentes`);
+  } else if (includeTests && testsInstalled > 0) {
+    printTip("\xA1Componentes y tests listos! Ejecuta tus tests con " + brand.primary("npx jest"));
   } else {
     printTip("\xA1Componentes listos para usar! Imp\xF3rtalos en tu c\xF3digo.");
   }
@@ -11261,12 +11378,14 @@ var listCommand = new Command("list").description("Lista todos los componentes d
       const isLast = idx === components.length - 1;
       const connector = isLast ? "\u2514" : "\u251C";
       const deps = comp.dependencies?.length ? brand.dim(` [${comp.dependencies.join(", ")}]`) : "";
+      const testBadge = comp.testFile ? source_default.green(" \u{1F9EA}") : "";
       const desc = comp.description ? brand.muted(` \u2014 ${comp.description.slice(0, 50)}${comp.description.length > 50 ? "\u2026" : ""}`) : "";
-      console.log(`    ${source_default.white(connector)}\u2500 ${brand.primary(comp.name)}${desc}${deps}`);
+      console.log(`    ${source_default.white(connector)}\u2500 ${brand.primary(comp.name)}${testBadge}${desc}${deps}`);
     });
   }
   printSeparator();
   printTip(`Instalar \u2192 ${brand.primary("npx fonasa-ui add <nombre>")}`);
+  printTip(`Con tests \u2192 ${brand.primary("npx fonasa-ui add --with-tests <nombre>")} ${brand.dim("(\u{1F9EA} = test disponible)")}`);
 });
 
 // src/commands/init.ts
@@ -11295,7 +11414,7 @@ var initCommand = new Command("init").description("Inicializa la configuraci\xF3
       return;
     }
   }
-  const { componentsDir, typescript } = await (0, import_prompts.default)([
+  const { componentsDir, typescript, includeTests } = await (0, import_prompts.default)([
     {
       type: "text",
       name: "componentsDir",
@@ -11307,25 +11426,54 @@ var initCommand = new Command("init").description("Inicializa la configuraci\xF3
       name: "typescript",
       message: "\xBFTu proyecto usa TypeScript?",
       initial: true
+    },
+    {
+      type: "confirm",
+      name: "includeTests",
+      message: "\xBFDeseas configurar directorio para tests?",
+      initial: false
     }
   ]);
   if (!componentsDir) {
     console.log(brand.dim("\n  Operaci\xF3n cancelada.\n"));
     return;
   }
+  let testsDir;
+  if (includeTests) {
+    const { testsDirAnswer } = await (0, import_prompts.default)({
+      type: "text",
+      name: "testsDirAnswer",
+      message: "\xBFD\xF3nde quieres guardar los tests?",
+      initial: "__tests__"
+    });
+    testsDir = testsDirAnswer || void 0;
+  }
   const config = {
     $schema: "https://github.com/jahirJM/libreria-componentes-fonasa/blob/main/cli/schema.json",
     componentsDir,
     typescript
   };
+  if (testsDir) {
+    config.testsDir = testsDir;
+  }
   writeFileSync2(configPath, JSON.stringify(config, null, 2) + "\n");
   console.log("");
-  printBox("Configuraci\xF3n creada", [
+  const boxContent = [
     `${brand.muted("Archivo:")}     fonasa-ui.json`,
     `${brand.muted("Componentes:")} ${componentsDir}`,
     `${brand.muted("TypeScript:")}  ${typescript ? "s\xED" : "no"}`
-  ]);
-  printTip("Siguiente paso \u2192 " + brand.primary("npx fonasa-ui add input"));
+  ];
+  if (testsDir) {
+    boxContent.push(`${brand.muted("Tests:")}      ${testsDir}`);
+  }
+  printBox("Configuraci\xF3n creada", boxContent);
+  if (testsDir) {
+    printTip(
+      "Para instalar componentes con tests usa " + brand.primary("npx fonasa-ui add --with-tests <componente>")
+    );
+  } else {
+    printTip("Siguiente paso \u2192 " + brand.primary("npx fonasa-ui add input"));
+  }
 });
 
 // src/index.ts

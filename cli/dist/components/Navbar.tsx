@@ -126,7 +126,7 @@ export function Navbar({
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 h-14 border-b border-gray-200 bg-white shadow-sm ${className}`}
+        className={`fixed top-0 left-0 right-0 z-50 h-14 border-b border-gray-200 dark:border-[#1e3044] bg-white dark:bg-[#061018] shadow-sm transition-colors duration-200 ${className}`}
       >
         <div className="flex h-full items-center justify-between px-6">
           {/* Logo + Title + Desktop Nav */}
@@ -157,7 +157,7 @@ export function Navbar({
                   : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white rounded-2xl border border-transparent";
                 const underlineClasses = active
                   ? "text-[#0572CE]"
-                  : "text-gray-600 hover:text-[#0572CE]";
+                  : "text-gray-600 dark:text-[#94a3b8] hover:text-[#0572CE]";
 
                 return (
                   <button
@@ -218,7 +218,7 @@ export function Navbar({
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
-          <aside className="fixed top-14 right-0 bottom-0 z-45 w-72 max-w-[85vw] bg-white border-l border-gray-200 shadow-lg overflow-y-auto lg:hidden">
+          <aside className="fixed top-14 right-0 bottom-0 z-45 w-72 max-w-[85vw] bg-white dark:bg-[#061018] border-l border-gray-200 dark:border-[#1e3044] shadow-lg overflow-y-auto lg:hidden">
             <div className="p-4 space-y-1">
               {items.map((item) => {
                 const active = isActive(item.path, activePath, item.exact);
@@ -230,7 +230,7 @@ export function Navbar({
                     className={`w-full text-left block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       active
                         ? "bg-[#0572CE] text-white"
-                        : "text-gray-700 hover:bg-gray-100 hover:text-[#0572CE]"
+                        : "text-gray-700 dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#111d2a] hover:text-[#0572CE]"
                     }`}
                   >
                     {item.label}

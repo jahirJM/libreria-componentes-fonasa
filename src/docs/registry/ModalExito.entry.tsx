@@ -1,5 +1,6 @@
 import { useState } from "react";
 import modalCode from "../../componentsUI/Modal.tsx?raw";
+import modalTestCode from "../../tests/Modal.test.tsx?raw";
 import Modal from "../../componentsUI/Modal";
 import { BotonPrimario } from "../../componentsUI/Botones";
 import { SkeletonModal } from "../../skeletons/SkeletonModal";
@@ -44,6 +45,7 @@ export const modalExitoEntry: ComponentEntry = {
   description:
     "Utiliza: label. Modal de éxito con ícono de check verde, mensaje y número de solicitud opcional. Se cierra automáticamente después de 5 segundos.",
   code: modalCode,
+  testCode: modalTestCode,
   group: "Modales",
   dependencies: ["react-icons"],
   colors: [

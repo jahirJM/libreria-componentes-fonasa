@@ -1,4 +1,5 @@
 import inputCode from "../../componentsUI/Input.tsx?raw";
+import inputTestCode from "../../tests/Input.test.tsx?raw";
 import { Input } from "../../componentsUI/Input";
 import { InputResizeDemo } from "../demos/InputDemo";
 import { FiEye, FiSearch } from "react-icons/fi";
@@ -9,6 +10,7 @@ export const inputEntry: ComponentEntry =   {
     description:
       "Input con soporte para múltiples tipos, íconos, loading y copyable.",
     code: inputCode,
+    testCode: inputTestCode,
     dependencies: ["clsx", "react-icons"],
     colors: [
       { name: "Blanco", value: "#ffffff", usage: "Fondo del input" },

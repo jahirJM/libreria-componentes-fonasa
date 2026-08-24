@@ -1,4 +1,5 @@
 import cardCode from "../../componentsUI/Card.tsx?raw";
+import cardTestCode from "../../tests/Card.test.tsx?raw";
 import {
   Card,
   CardHeader,
@@ -16,6 +17,7 @@ export const cardEntry: ComponentEntry = {
   description:
     "Utiliza: botones. Contenedor card composable con Header (título, descripción, acción), Content y Footer. 4 variantes: default, elevada, outline e interactiva.",
   code: cardCode,
+  testCode: cardTestCode,
   dependencies: ["clsx"],
   colors: [
     { name: "white", value: "#ffffff", usage: "Fondo de la card" },

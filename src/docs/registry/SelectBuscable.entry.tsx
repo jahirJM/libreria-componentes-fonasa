@@ -1,5 +1,6 @@
 import { useState } from "react";
 import selectBuscableCode from "../../componentsUI/SelectBuscable.tsx?raw";
+import selectBuscableTestCode from "../../tests/SelectBuscable.test.tsx?raw";
 import { SelectBuscable } from "../../componentsUI/SelectBuscable";
 import { SelectBuscableResizeDemo } from "../demos/SelectBuscableDemo";
 import type { ComponentEntry } from "./types";
@@ -126,6 +127,7 @@ export const selectBuscableEntry: ComponentEntry = {
   description:
     "Select desplegable con campo de búsqueda integrado, navegación por teclado, opciones deshabilitadas y soporte para múltiples tamaños.",
   code: selectBuscableCode,
+  testCode: selectBuscableTestCode,
   dependencies: ["clsx", "react-icons"],
   propsInterface: `interface OpcionBuscable {
   value: string;

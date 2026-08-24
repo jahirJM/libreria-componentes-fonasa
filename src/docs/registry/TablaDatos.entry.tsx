@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
-import tablaDatosCode from "../../componentsUI/TablaDatos.tsx?raw"
+import tablaDatosCode from "../../componentsUI/TablaDatos.tsx?raw";
+import tablaDatosTestCode from "../../tests/TablaDatos.test.tsx?raw";
 import { TablaDatos } from "../../componentsUI/TablaDatos";
 import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
@@ -81,6 +82,7 @@ export const tablaDatosEntry: ComponentEntry = {
   description:
     "Tabla con grid dinamico, variantes de color en header, y botones de editar/eliminar por fila. Incluye su propio Skeleton loader.",
   code: tablaDatosCode,
+  testCode: tablaDatosTestCode,
   group: "Tablas",
   dependencies: ["react-icons"],
   colors: [

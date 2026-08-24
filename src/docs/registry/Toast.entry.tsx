@@ -1,6 +1,7 @@
 import { fonasaToast, FonasaToaster } from "../../componentsUI/Toast";
 import { BotonConfirmar, BotonCancelar, BotonPrimario, BotonSecundario } from "../../componentsUI/Botones";
-import toastCode from "../../componentsUI/Toast.tsx?raw"
+import toastCode from "../../componentsUI/Toast.tsx?raw";
+import toastTestCode from "../../tests/Toast.test.tsx?raw";
 import type { ComponentEntry } from "./types";
 
 export const toastEntry: ComponentEntry =   {
@@ -9,6 +10,7 @@ export const toastEntry: ComponentEntry =   {
     description:
       "Utiliza: botones. Notificaciones toast con estilos Fonasa. Incluye variantes de éxito, error, info y advertencia.",
     code: toastCode,
+    testCode: toastTestCode,
     dependencies: ["sonner"],
     colors: [
       { name: "Fondo (éxito)", value: "#dcfce7", usage: "Fondo toast éxito" },

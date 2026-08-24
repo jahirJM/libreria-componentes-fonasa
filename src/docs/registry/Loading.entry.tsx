@@ -1,5 +1,6 @@
 import { Loading, LoadingFonasa } from "../../componentsUI/Loading";
-import loadingCode from "../../componentsUI/Loading.tsx?raw"
+import loadingCode from "../../componentsUI/Loading.tsx?raw";
+import loadingTestCode from "../../tests/Loading.test.tsx?raw";
 import type { ComponentEntry } from "./types";
 
 export const loadingEntry: ComponentEntry = {
@@ -7,6 +8,7 @@ export const loadingEntry: ComponentEntry = {
   description:
     "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner).",
   code: loadingCode,
+  testCode: loadingTestCode,
   colors: [
     { name: "Color primario (fonasa)", value: "#0572CE", usage: "Borde del spinner (border-t y border-b)" },
     { name: "Blanco", value: "#ffffff", usage: "Fondo del círculo contenedor del spinner y texto del mensaje" },

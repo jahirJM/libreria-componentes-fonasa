@@ -1,4 +1,5 @@
-import tableCode from "../../componentsUI/Table.tsx?raw"
+import tableCode from "../../componentsUI/Table.tsx?raw";
+import tableTestCode from "../../tests/Table.test.tsx?raw";
 import { Table } from "../../componentsUI/Table";
 import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
@@ -8,6 +9,7 @@ export const tablaAvanzadaEntry: ComponentEntry =   {
     description:
       "Utiliza: tabla-basica. Tabla con columnas ocultables (se contraen a '...') y redimensionables tipo Excel.",
     code: tableCode,
+    testCode: tableTestCode,
     group: "Tablas",
     dependencies: ["clsx"],
     colors: [

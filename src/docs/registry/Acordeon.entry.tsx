@@ -1,4 +1,5 @@
 import acordeonCode from "../../componentsUI/Acordeon.tsx?raw";
+import acordeonTestCode from "../../tests/Acordeon.test.tsx?raw";
 import {
   Acordeon,
   ItemAcordeon,
@@ -14,6 +15,7 @@ export const acordeonEntry: ComponentEntry = {
   description:
     "Acordeon con soporte para múltiples ítems abiertos, ítems deshabilitados, bordes y modo controlado.",
   code: acordeonCode,
+  testCode: acordeonTestCode,
   dependencies: ["clsx", "react-icons"],
   colors: [
     { name: "Blanco", value: "#ffffff", usage: "Fondo del contenedor" },

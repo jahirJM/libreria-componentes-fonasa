@@ -33,7 +33,7 @@ export const initCommand = new Command("init")
       }
     }
 
-    const { componentsDir, typescript } = await prompts([
+    const { componentsDir, typescript, includeTests } = await prompts([
       {
         type: "text",
         name: "componentsDir",
@@ -46,6 +46,12 @@ export const initCommand = new Command("init")
         message: "¿Tu proyecto usa TypeScript?",
         initial: true,
       },
+      {
+        type: "confirm",
+        name: "includeTests",
+        message: "¿Deseas configurar directorio para tests?",
+        initial: false,
+      },
     ]);
 
     if (!componentsDir) {
@@ -53,20 +59,49 @@ export const initCommand = new Command("init")
       return;
     }
 
-    const config = {
+    let testsDir: string | undefined;
+
+    if (includeTests) {
+      const { testsDirAnswer } = await prompts({
+        type: "text",
+        name: "testsDirAnswer",
+        message: "¿Dónde quieres guardar los tests?",
+        initial: "__tests__",
+      });
+      testsDir = testsDirAnswer || undefined;
+    }
+
+    const config: Record<string, unknown> = {
       $schema: "https://github.com/jahirJM/libreria-componentes-fonasa/blob/main/cli/schema.json",
       componentsDir,
       typescript,
     };
 
+    if (testsDir) {
+      config.testsDir = testsDir;
+    }
+
     writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
 
     console.log("");
-    printBox("Configuración creada", [
+    const boxContent = [
       `${brand.muted("Archivo:")}     fonasa-ui.json`,
       `${brand.muted("Componentes:")} ${componentsDir}`,
       `${brand.muted("TypeScript:")}  ${typescript ? "sí" : "no"}`,
-    ]);
+    ];
 
-    printTip("Siguiente paso → " + brand.primary("npx fonasa-ui add input"));
+    if (testsDir) {
+      boxContent.push(`${brand.muted("Tests:")}      ${testsDir}`);
+    }
+
+    printBox("Configuración creada", boxContent);
+
+    if (testsDir) {
+      printTip(
+        "Para instalar componentes con tests usa " +
+          brand.primary("npx fonasa-ui add --with-tests <componente>")
+      );
+    } else {
+      printTip("Siguiente paso → " + brand.primary("npx fonasa-ui add input"));
+    }
   });

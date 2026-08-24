@@ -1,4 +1,5 @@
 import contadorCode from "../../componentsUI/ContadorEstadistica.tsx?raw";
+import contadorEstadisticaTestCode from "../../tests/ContadorEstadistica.test.tsx?raw";
 import { ContadorEstadistica } from "../../componentsUI/ContadorEstadistica";
 import type { ComponentEntry } from "./types";
 
@@ -35,6 +36,7 @@ export const contadorEstadisticaEntry: ComponentEntry = {
   description:
     "Tarjeta de métrica animada con patrón de composición. Cuenta desde 0 hasta el valor final al entrar en pantalla. Usa sub-componentes: Cabecera, Metrica, Contenido, Etiqueta, Descripcion y Tendencia.",
   code: contadorCode,
+  testCode: contadorEstadisticaTestCode,
   colors: [
     { name: "Blanco", value: "#ffffff", usage: "Fondo de todas las variantes" },
     { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Borde variante neutral" },

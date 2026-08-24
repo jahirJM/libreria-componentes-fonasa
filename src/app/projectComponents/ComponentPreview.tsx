@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types";
 import { CodePanel } from "./CodePanel";
-import { FiCode, FiCopy, FiX } from "react-icons/fi";
+import { FiCode, FiCopy, FiX, FiTerminal, FiCheckCircle } from "react-icons/fi";
 import { IoMdHome } from "react-icons/io";
 import { fonasaToast } from "../../componentsUI/Toast";
 import { CustomModal } from "../../componentsUI/CustomModal";
 import { Badge } from "../../componentsUI/Badge";
+import { Switch } from "../../componentsUI/Switch";
 
 interface ComponentPreviewProps {
   entry: ComponentEntry;
@@ -302,6 +303,107 @@ function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
   );
 }
 
+function InstallCommand({ name, hasTest, dependencies }: { name: string; hasTest: boolean; dependencies?: string[] }) {
+  const [withTests, setWithTests] = useState(false);
+  const [onlyTests, setOnlyTests] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  function getCommand() {
+    if (onlyTests) return `npx fonasa-ui add ${name} --only-tests`;
+    if (withTests) return `npx fonasa-ui add ${name} --with-tests`;
+    return `npx fonasa-ui add ${name}`;
+  }
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(getCommand());
+      fonasaToast.success("Comando copiado");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // silently fail
+    }
+  }
+
+  return (
+    <div className="mb-8">
+      <div className="flex items-center gap-2 mb-3">
+        <FiTerminal className="size-4 text-gray-500" />
+        <h3 className="text-sm font-semibold text-gray-700">Instalación</h3>
+      </div>
+
+      {/* Opciones con Switch */}
+      {hasTest && (
+        <div className="flex flex-wrap items-center gap-4 mb-3">
+          <label className="inline-flex items-center gap-2 cursor-pointer">
+            <Switch
+              checked={withTests}
+              onChange={(v) => {
+                setWithTests(v);
+                if (v) setOnlyTests(false);
+              }}
+              variante="primary"
+              tamano="sm"
+              disabled={onlyTests}
+            />
+            <span className="text-xs text-gray-600">Incluir test</span>
+          </label>
+
+          <label className="inline-flex items-center gap-2 cursor-pointer">
+            <Switch
+              checked={onlyTests}
+              onChange={(v) => {
+                setOnlyTests(v);
+                if (v) setWithTests(false);
+              }}
+              variante="primary"
+              tamano="sm"
+              disabled={withTests}
+            />
+            <span className="text-xs text-gray-600">Solo test</span>
+          </label>
+        </div>
+      )}
+
+      {/* Comando copiable */}
+      <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+        <code className="text-sm text-gray-700 font-mono flex-1 truncate">
+          {getCommand()}
+        </code>
+        <button
+          onClick={handleCopy}
+          className="shrink-0 p-1.5 rounded-md text-gray-400 hover:text-[#0572CE] hover:bg-gray-100 transition-colors"
+          title="Copiar comando"
+        >
+          {copied ? (
+            <FiCheckCircle className="size-4 text-green-600" />
+          ) : (
+            <FiCopy className="size-4" />
+          )}
+        </button>
+      </div>
+
+      {/* Dependencias requeridas — solo las del componente */}
+      {dependencies && dependencies.length > 0 && !onlyTests && (
+        <div className="flex flex-wrap items-center gap-2 mt-3">
+          <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
+            Requiere:
+          </span>
+          {dependencies.map((dep) => (
+            <Link
+              key={dep}
+              to={`/docs/dependencias#dep-${dep}`}
+              className="inline-flex"
+            >
+              <Badge variant="estado-pendiente" text={dep} />
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function ComponentPreview({ entry }: ComponentPreviewProps) {
   const [showCode, setShowCode] = useState(false);
 
@@ -334,23 +436,8 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
           </p>
         )}
 
-        {/* Dependencias como pills */}
-        {entry.dependencies && entry.dependencies.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
-              Requiere:
-            </span>
-            {entry.dependencies.map((dep) => (
-              <Link
-                key={dep}
-                to={`/docs/dependencias#dep-${dep}`}
-                className="inline-flex"
-              >
-                <Badge variant="estado-pendiente" text={dep} />
-              </Link>
-            ))}
-          </div>
-        )}
+        {/* Instalación CLI con switch */}
+        <InstallCommand name={entry.name} hasTest={!!entry.testCode} dependencies={entry.dependencies} />
 
         {/* Metadata: colores + interface en fila */}
         {(entry.colors?.length || entry.propsInterface) && (

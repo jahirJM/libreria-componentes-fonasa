@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { IoMdHome } from "react-icons/io";
 import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown, LuImageDown, LuHammer, LuType } from "react-icons/lu";
 import { logosRegistry } from "../../docs/logos-registry";
@@ -1072,6 +1072,29 @@ export function RecursosPage() {
   const sidebarGroups = buildSidebarGroups();
 
   const [activeItem, setActiveItem] = useState<SidebarItem>({ type: "home" });
+  const navRef = useRef<HTMLElement>(null);
+  const [indicator, setIndicator] = useState<{ top: number; height: number; opacity: number }>({ top: 0, height: 0, opacity: 0 });
+
+  const updateIndicator = useCallback(() => {
+    if (!navRef.current) return;
+    const activeEl = navRef.current.querySelector<HTMLElement>("[data-active='true']");
+    if (activeEl) {
+      const navRect = navRef.current.getBoundingClientRect();
+      const elRect = activeEl.getBoundingClientRect();
+      setIndicator({
+        top: elRect.top - navRect.top,
+        height: elRect.height,
+        opacity: 1,
+      });
+    } else {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }));
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(updateIndicator, 50);
+    return () => clearTimeout(timer);
+  }, [activeItem, updateIndicator]);
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
@@ -1081,6 +1104,7 @@ export function RecursosPage() {
 
   const toggleGroup = (group: string) => {
     setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
+    setTimeout(updateIndicator, 220);
   };
 
   return (
@@ -1088,7 +1112,16 @@ export function RecursosPage() {
       {/* ─── Sidebar izquierdo ─── */}
       <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] p-4 transition-colors duration-200">
         <div className="ml-3 mt-2 border-l-2 border-gray-300 dark:border-[#1e3044] pl-3">
-          <nav className="flex flex-col gap-0.5 text-sm font-medium">
+          <nav ref={navRef} className="relative flex flex-col gap-0.5 text-sm font-medium">
+            {/* Sliding indicator */}
+            <div
+              className="absolute left-0 right-0 rounded-lg bg-[#0572CE] pointer-events-none z-0 transition-all duration-250 ease-in-out"
+              style={{
+                top: indicator.top,
+                height: indicator.height,
+                opacity: indicator.opacity,
+              }}
+            />
             {/* Groups */}
             {sidebarGroups.map((group) => {
               const groupKey = group.name;
@@ -1098,7 +1131,7 @@ export function RecursosPage() {
                   <button
                     type="button"
                     onClick={() => toggleGroup(groupKey)}
-                    className="w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE] hover:text-white transition-colors duration-100 group"
+                    className="relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE]/10 transition-colors duration-100 group"
                   >
                     <span className="font-semibold">{group.name}</span>
                     <LuChevronDown
@@ -1119,10 +1152,11 @@ export function RecursosPage() {
                           return (
                             <button
                               key={label}
+                              data-active={isActive}
                               onClick={() => setActiveItem(item)}
-                              className={`w-full text-left rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${isActive
-                                ? "bg-[#0572CE] text-white font-semibold"
-                                : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
+                              className={`relative z-10 w-full text-left rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${isActive
+                                ? "text-white font-semibold"
+                                : "text-[#0572CE] hover:bg-[#0572CE]/10"
                                 }`}
                             >
                               {label}

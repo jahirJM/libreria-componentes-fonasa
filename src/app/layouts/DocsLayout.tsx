@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { DocsSidebar } from "../projectComponents/DocsSidebar";
 import { Footer } from "../../componentsUI/Footer";
+import { PageTransition } from "../projectComponents/PageTransition";
 
 export function DocsLayout() {
   return (
@@ -10,7 +11,9 @@ export function DocsLayout() {
         <main className="flex-1 lg:ml-64 min-w-0 overflow-hidden flex flex-col">
           <div className="flex-1 p-4 pl-0 sm:p-6 lg:p-8">
             <div className="mx-auto max-w-4xl">
-              <Outlet />
+              <PageTransition>
+                <Outlet />
+              </PageTransition>
             </div>
           </div>
           <Footer />

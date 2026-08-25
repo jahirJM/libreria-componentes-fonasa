@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Footer } from "../../componentsUI/Footer";
 import { MethodsSidebar } from "../projectComponents/MethodsSidebar";
+import { PageTransition } from "../projectComponents/PageTransition";
 
 export function MethodsLayout() {
   return (
@@ -9,7 +10,9 @@ export function MethodsLayout() {
         <MethodsSidebar />
         <main className="flex-1 lg:ml-64 p-8 min-w-0 overflow-hidden flex flex-col">
           <div className="flex-1">
-            <Outlet />
+            <PageTransition>
+              <Outlet />
+            </PageTransition>
           </div>
           <Footer />
         </main>

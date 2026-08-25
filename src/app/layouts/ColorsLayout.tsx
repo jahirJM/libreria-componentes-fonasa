@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { ColorsSidebar } from "../projectComponents/ColorsSidebar";
 import { Footer } from "../../componentsUI/Footer";
+import { PageTransition } from "../projectComponents/PageTransition";
 
 export function ColorsLayout() {
   return (
@@ -9,7 +10,9 @@ export function ColorsLayout() {
         <ColorsSidebar />
         <main className="flex-1 lg:ml-64 min-w-0 overflow-hidden flex flex-col">
           <div className="flex-1 p-8">
-            <Outlet />
+            <PageTransition>
+              <Outlet />
+            </PageTransition>
           </div>
           <Footer />
         </main>

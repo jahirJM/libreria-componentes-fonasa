@@ -1,15 +1,45 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { LuChevronDown, LuSearch } from "react-icons/lu";
 import { registry } from "../../docs/registry";
 import { slugify } from "../../docs/registry/slugify";
 import { Input } from "../../componentsUI/Input";
 
+interface IndicatorStyle {
+  top: number;
+  height: number;
+  opacity: number;
+}
+
 export function Sidebar() {
   const location = useLocation();
   const isComponentsSection = location.pathname.startsWith("/components");
 
   const [filter, setFilter] = useState("");
+  const navRef = useRef<HTMLElement>(null);
+  const [indicator, setIndicator] = useState<IndicatorStyle>({ top: 0, height: 0, opacity: 0 });
+
+  const updateIndicator = useCallback(() => {
+    if (!navRef.current) return;
+    const activeLink = navRef.current.querySelector<HTMLElement>("[data-active='true']");
+    if (activeLink) {
+      const navRect = navRef.current.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      setIndicator({
+        top: linkRect.top - navRect.top,
+        height: linkRect.height,
+        opacity: 1,
+      });
+    } else {
+      setIndicator((prev) => ({ ...prev, opacity: 0 }));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Small delay to allow DOM to update after route change
+    const timer = setTimeout(updateIndicator, 50);
+    return () => clearTimeout(timer);
+  }, [location.pathname, updateIndicator]);
 
   // Filtrar entries según el texto de búsqueda
   const filteredRegistry = useMemo(() => {
@@ -65,7 +95,15 @@ export function Sidebar() {
 
   const toggleGroup = (group: string) => {
     setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
+    // Recalculate indicator after group toggle animation
+    setTimeout(updateIndicator, 220);
   };
+
+  // Recalculate indicator when filter changes
+  useEffect(() => {
+    const timer = setTimeout(updateIndicator, 60);
+    return () => clearTimeout(timer);
+  }, [filter, updateIndicator]);
 
   if (!isComponentsSection) return null;
 
@@ -90,23 +128,36 @@ export function Sidebar() {
 
       {/* Lista de componentes */}
       <div className="ml-3 mt-2 border-l-2 border-gray-300 dark:border-[#1e3044] pl-3">
-        <nav className="flex flex-col gap-0.5 text-sm font-medium">
+        <nav ref={navRef} className="relative flex flex-col gap-0.5 text-sm font-medium">
+          {/* Sliding indicator */}
+          <div
+            className="absolute left-0 right-0 rounded-lg bg-[#0572CE] pointer-events-none z-0 transition-all duration-250 ease-in-out"
+            style={{
+              top: indicator.top,
+              height: indicator.height,
+              opacity: indicator.opacity,
+            }}
+          />
+
           {/* Componentes sin grupo */}
-          {ungrouped.map((entry) => (
-            <NavLink
-              key={entry.name}
-              to={`/components/${slugify(entry.name)}`}
-              className={({ isActive }) =>
-                `rounded-lg px-3 py-1.5 transition-colors duration-100 ${
+          {ungrouped.map((entry) => {
+            const path = `/components/${slugify(entry.name)}`;
+            const isActive = location.pathname === path;
+            return (
+              <NavLink
+                key={entry.name}
+                to={path}
+                data-active={isActive}
+                className={`relative z-10 rounded-lg px-3 py-1.5 transition-colors duration-100 ${
                   isActive
-                    ? "bg-[#0572CE] text-white font-semibold"
-                    : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
-                }`
-              }
-            >
-              {entry.name}
-            </NavLink>
-          ))}
+                    ? "text-white font-semibold"
+                    : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                }`}
+              >
+                {entry.name}
+              </NavLink>
+            );
+          })}
 
           {/* Sub-secciones agrupadas */}
           {Object.entries(grouped).map(([groupName, entries]) => {
@@ -116,7 +167,7 @@ export function Sidebar() {
                 <button
                   type="button"
                   onClick={() => toggleGroup(groupName)}
-                  className="w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE] hover:text-white transition-colors duration-100 group"
+                  className="relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE]/10 transition-colors duration-100 group"
                 >
                   <span className="font-semibold">{groupName}</span>
                   <LuChevronDown
@@ -131,21 +182,24 @@ export function Sidebar() {
                 >
                   <div className="overflow-hidden">
                     <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
-                      {entries.map((entry) => (
-                        <NavLink
-                          key={entry.name}
-                          to={`/components/${slugify(entry.name)}`}
-                          className={({ isActive }) =>
-                            `rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
+                      {entries.map((entry) => {
+                        const path = `/components/${slugify(entry.name)}`;
+                        const isActive = location.pathname === path;
+                        return (
+                          <NavLink
+                            key={entry.name}
+                            to={path}
+                            data-active={isActive}
+                            className={`relative z-10 rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
                               isActive
-                                ? "bg-[#0572CE] text-white font-semibold"
-                                : "text-[#0572CE] hover:bg-[#0572CE] hover:text-white"
-                            }`
-                          }
-                        >
-                          {entry.name}
-                        </NavLink>
-                      ))}
+                                ? "text-white font-semibold"
+                                : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                            }`}
+                          >
+                            {entry.name}
+                          </NavLink>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

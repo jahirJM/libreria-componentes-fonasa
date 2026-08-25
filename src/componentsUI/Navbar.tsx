@@ -58,6 +58,7 @@ export function Navbar({
   className = "",
 }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileClosing, setMobileClosing] = useState(false);
   const navContainerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number } | null>(null);
@@ -93,14 +94,23 @@ export function Navbar({
 
   // Close mobile menu on route change
   useEffect(() => {
-    setMobileOpen(false);
+    if (mobileOpen && !mobileClosing) {
+      setMobileClosing(true);
+      setTimeout(() => {
+        setMobileOpen(false);
+        setMobileClosing(false);
+      }, 200);
+    }
   }, [activePath]);
 
   // Close on resize to desktop
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const handler = () => {
-      if (mq.matches) setMobileOpen(false);
+      if (mq.matches) {
+        setMobileOpen(false);
+        setMobileClosing(false);
+      }
     };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -120,7 +130,15 @@ export function Navbar({
 
   const handleItemClick = (path: string) => {
     onNavigate?.(path);
-    setMobileOpen(false);
+    closeMobile();
+  };
+
+  const closeMobile = () => {
+    setMobileClosing(true);
+    setTimeout(() => {
+      setMobileOpen(false);
+      setMobileClosing(false);
+    }, 200);
   };
 
   return (
@@ -194,7 +212,7 @@ export function Navbar({
           {/* Mobile hamburger */}
           <button
             type="button"
-            onClick={() => setMobileOpen((prev) => !prev)}
+            onClick={() => mobileOpen ? closeMobile() : setMobileOpen(true)}
             className="lg:hidden p-2 rounded-lg text-[#0572CE] hover:bg-gray-100 transition-colors"
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -215,11 +233,19 @@ export function Navbar({
       {mobileOpen && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-black/30 lg:hidden"
-            onClick={() => setMobileOpen(false)}
+            className={`fixed inset-0 z-40 bg-black/30 lg:hidden ${
+              mobileClosing ? "animate-[fadeOut_0.2s_ease-in_both]" : "animate-[fadeIn_0.2s_ease-out_both]"
+            }`}
+            onClick={closeMobile}
             aria-hidden="true"
           />
-          <aside className="fixed top-14 right-0 bottom-0 z-45 w-72 max-w-[85vw] bg-white dark:bg-[#061018] border-l border-gray-200 dark:border-[#1e3044] shadow-lg overflow-y-auto lg:hidden" role="navigation" aria-label="Menú de navegación móvil">
+          <aside
+            className={`fixed top-14 right-0 bottom-0 z-45 w-72 max-w-[85vw] bg-white dark:bg-[#061018] border-l border-gray-200 dark:border-[#1e3044] shadow-lg overflow-y-auto lg:hidden ${
+              mobileClosing ? "animate-[slideOutRight_0.2s_ease-in_both]" : "animate-[slideInRight_0.25s_ease-out_both]"
+            }`}
+            role="navigation"
+            aria-label="Menú de navegación móvil"
+          >
             <div className="p-4 space-y-1">
               {items.map((item) => {
                 const active = isActive(item.path, activePath, item.exact);

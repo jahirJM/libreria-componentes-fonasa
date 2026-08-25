@@ -5,7 +5,7 @@ import ora from "ora";
 import { loadRegistry, type RegistryEntry } from "../utils/registry.js";
 import { loadConfig } from "../utils/config.js";
 import { resolveInternalDeps } from "../utils/resolve.js";
-import { fetchComponentSource, fetchTestSource } from "../utils/fetch.js";
+import { fetchComponentSource, fetchTestSource, fetchAssetSource } from "../utils/fetch.js";
 import {
   printBanner,
   printSection,
@@ -25,6 +25,11 @@ export const addCommand = new Command("add")
   .option("-o, --overwrite", "Sobrescribir archivos existentes", false)
   .option("-t, --with-tests", "Incluir archivos de test (Jest)", false)
   .option("--only-tests", "Instalar solo los tests (sin copiar componentes)", false)
+  .option("--contacto", "Solo iconos de contacto (mesa telefónica, consultas)", false)
+  .option("--fonasa", "Solo iconos de Fonasa (logos institucionales)", false)
+  .option("--gob-chile", "Solo iconos de Gobierno de Chile", false)
+  .option("--clave-unica", "Solo icono de ClaveÚnica", false)
+  .option("--rrss", "Solo iconos de redes sociales", false)
   .action(async (componentes: string[], opts) => {
     printBanner();
 
@@ -232,6 +237,66 @@ export const addCommand = new Command("add")
       }
     }
 
+    // 7.5 Copiar assets (SVGs, imágenes) si el componente los tiene
+    let assetsInstalled = 0;
+    let assetsSkipped = 0;
+
+    // Determinar si hay filtros de subset activos
+    const subsetFlags: string[] = [];
+    if (opts.contacto) subsetFlags.push("contacto");
+    if (opts.fonasa) subsetFlags.push("fonasa");
+    if (opts.gobChile) subsetFlags.push("gob-chile");
+    if (opts.claveUnica) subsetFlags.push("clave-unica");
+    if (opts.rrss) subsetFlags.push("rrss");
+
+    for (const comp of allComponents) {
+      if (comp.assets && comp.assets.length > 0) {
+        // Filtrar assets si hay subset flags activos y el componente tiene assetGroups
+        let assetsToInstall = comp.assets;
+
+        if (subsetFlags.length > 0 && comp.assetGroups) {
+          const filteredAssets: string[] = [];
+          for (const flag of subsetFlags) {
+            const groupAssets = comp.assetGroups[flag];
+            if (groupAssets) {
+              filteredAssets.push(...groupAssets);
+            }
+          }
+          if (filteredAssets.length > 0) {
+            assetsToInstall = filteredAssets;
+          }
+        }
+
+        const assetsDestDir = resolve(process.cwd(), comp.assetsDir || "public/assets");
+        if (!existsSync(assetsDestDir)) {
+          mkdirSync(assetsDestDir, { recursive: true });
+        }
+
+        for (const assetFile of assetsToInstall) {
+          const destFile = join(assetsDestDir, assetFile);
+
+          if (existsSync(destFile) && !opts.overwrite) {
+            printSkippedItem(`${assetFile} ya existe`);
+            assetsSkipped++;
+          } else {
+            try {
+              const assetContent = await fetchAssetSource(assetFile);
+              if (!assetContent) {
+                printErrorItem(`No se pudo obtener ${assetFile}`);
+                continue;
+              }
+
+              writeFileSync(destFile, assetContent, "utf-8");
+              printSuccessItem(`${assetFile} ${brand.dim("(asset)")}`);
+              assetsInstalled++;
+            } catch (error) {
+              printErrorItem(`${assetFile} — ${(error as Error).message}`);
+            }
+          }
+        }
+      }
+    }
+
     // 8. Resumen
     printSeparator();
     console.log("");
@@ -250,6 +315,14 @@ export const addCommand = new Command("add")
         testSummary += `  ${brand.warning("○")} ${testsSkipped} test${testsSkipped !== 1 ? "s" : ""} omitido${testsSkipped !== 1 ? "s" : ""}`;
       }
       console.log(testSummary);
+    }
+
+    if (assetsInstalled > 0 || assetsSkipped > 0) {
+      let assetSummary = `    ${brand.success("●")} ${assetsInstalled} asset${assetsInstalled !== 1 ? "s" : ""} instalado${assetsInstalled !== 1 ? "s" : ""}`;
+      if (assetsSkipped > 0) {
+        assetSummary += `  ${brand.warning("○")} ${assetsSkipped} asset${assetsSkipped !== 1 ? "s" : ""} omitido${assetsSkipped !== 1 ? "s" : ""}`;
+      }
+      console.log(assetSummary);
     }
 
     // 9. Dependencias npm

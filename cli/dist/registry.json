@@ -112,6 +112,29 @@
     "testFile": "Footer.test.tsx"
   },
   {
+    "name": "iconos",
+    "file": "IconosRRSS.tsx",
+    "description": "Recursos gráficos institucionales de Contacto, Fonasa, Gobierno de Chile, ClaveÚnica y redes sociales. Se instalan como assets SVG en app/imgs/.",
+    "assets": [
+      "mesa-telefonica.svg",
+      "consultas-contacto.svg",
+      "fonasa-logo-full.svg",
+      "fonasa-logo-icon.svg",
+      "fonasa-logo-name.svg",
+      "fonasa-blanco.svg",
+      "gob-logo.svg",
+      "gob-logo-gris.svg",
+      "ico-clave-unica.svg",
+      "twitter-icon.svg",
+      "twitter-x-icon.svg",
+      "facebook-icon.svg",
+      "youtube-icon.svg",
+      "instagram-icon.svg",
+      "linkedin-icon.svg"
+    ],
+    "assetsDir": "app/imgs"
+  },
+  {
     "name": "indicador-requerido",
     "file": "IndicadorRequerido.tsx",
     "description": "Asterisco rojo (*) que indica campo obligatorio. Componente auxiliar usado internamente por Label.",

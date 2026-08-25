@@ -11,6 +11,12 @@ export interface RegistryEntry {
   group?: string;
   /** Nombre del archivo de test (ej: "Input.test.tsx") */
   testFile?: string;
+  /** Archivos de assets estáticos (SVGs, imágenes) que se copian al proyecto */
+  assets?: string[];
+  /** Agrupación de assets por categoría (para instalación selectiva) */
+  assetGroups?: Record<string, string[]>;
+  /** Directorio destino para los assets (relativo al proyecto del usuario) */
+  assetsDir?: string;
 }
 
 /**

@@ -11073,6 +11073,26 @@ async function fetchTestSource(testFileName) {
   }
   return null;
 }
+async function fetchAssetSource(fileName) {
+  const __filename = fileURLToPath2(import.meta.url);
+  const __dirname = dirname2(__filename);
+  const candidates = [
+    // 1. Assets empaquetados junto al bundle (dist/assets/)
+    resolve3(__dirname, "assets", fileName),
+    // 2. Desde la raíz del repo (cli/dist/ → ../../public/logos/)
+    resolve3(__dirname, "..", "..", "public", "logos", "fonasa", "svg", fileName),
+    resolve3(__dirname, "..", "..", "public", "logos", "gobierno", "svg", fileName),
+    // 3. Modo desarrollo (cwd es la raíz del repo)
+    resolve3(process.cwd(), "public", "logos", "fonasa", "svg", fileName),
+    resolve3(process.cwd(), "public", "logos", "gobierno", "svg", fileName)
+  ];
+  for (const candidate of candidates) {
+    if (existsSync3(candidate)) {
+      return readFileSync3(candidate, "utf-8");
+    }
+  }
+  return null;
+}
 
 // src/utils/ui.ts
 var brand = {
@@ -11307,6 +11327,36 @@ var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes
       }
     }
   }
+  let assetsInstalled = 0;
+  let assetsSkipped = 0;
+  for (const comp of allComponents) {
+    if (comp.assets && comp.assets.length > 0) {
+      const assetsDestDir = resolve4(process.cwd(), comp.assetsDir || "public/assets");
+      if (!existsSync4(assetsDestDir)) {
+        mkdirSync(assetsDestDir, { recursive: true });
+      }
+      for (const assetFile of comp.assets) {
+        const destFile = join(assetsDestDir, assetFile);
+        if (existsSync4(destFile) && !opts.overwrite) {
+          printSkippedItem(`${assetFile} ya existe`);
+          assetsSkipped++;
+        } else {
+          try {
+            const assetContent = await fetchAssetSource(assetFile);
+            if (!assetContent) {
+              printErrorItem(`No se pudo obtener ${assetFile}`);
+              continue;
+            }
+            writeFileSync(destFile, assetContent, "utf-8");
+            printSuccessItem(`${assetFile} ${brand.dim("(asset)")}`);
+            assetsInstalled++;
+          } catch (error) {
+            printErrorItem(`${assetFile} \u2014 ${error.message}`);
+          }
+        }
+      }
+    }
+  }
   printSeparator();
   console.log("");
   if (includeComponents) {
@@ -11322,6 +11372,13 @@ var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes
       testSummary += `  ${brand.warning("\u25CB")} ${testsSkipped} test${testsSkipped !== 1 ? "s" : ""} omitido${testsSkipped !== 1 ? "s" : ""}`;
     }
     console.log(testSummary);
+  }
+  if (assetsInstalled > 0 || assetsSkipped > 0) {
+    let assetSummary = `    ${brand.success("\u25CF")} ${assetsInstalled} asset${assetsInstalled !== 1 ? "s" : ""} instalado${assetsInstalled !== 1 ? "s" : ""}`;
+    if (assetsSkipped > 0) {
+      assetSummary += `  ${brand.warning("\u25CB")} ${assetsSkipped} asset${assetsSkipped !== 1 ? "s" : ""} omitido${assetsSkipped !== 1 ? "s" : ""}`;
+    }
+    console.log(assetSummary);
   }
   if (allExternalDeps.size > 0) {
     const depsArray = Array.from(allExternalDeps);

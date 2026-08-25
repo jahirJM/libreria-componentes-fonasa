@@ -29,4 +29,10 @@ export interface ComponentEntry {
   group?: string;
   /** Código fuente del archivo de test (Jest) del componente */
   testCode?: string;
+  /** Archivos de assets estáticos (SVGs, imágenes) incluidos con este componente */
+  assets?: string[];
+  /** Agrupación de assets por categoría (para instalación selectiva vía CLI) */
+  assetGroups?: Record<string, string[]>;
+  /** Directorio destino para los assets (relativo al proyecto del usuario) */
+  assetsDir?: string;
 }

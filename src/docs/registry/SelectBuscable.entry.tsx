@@ -147,6 +147,10 @@ interface SelectBuscableProps {
   isLoading?: boolean;
   className?: string;
   size?: SelectBuscableSize;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
+  /** ID del elemento que actúa como label del select. */
+  ariaLabelledBy?: string;
 }`,
   colors: [
     { name: "Blanco", value: "#ffffff", usage: "Fondo del trigger y del dropdown" },

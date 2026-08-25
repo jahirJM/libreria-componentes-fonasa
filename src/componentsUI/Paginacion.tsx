@@ -101,6 +101,8 @@ export const Paginacion = ({
       key={pagina}
       type="button"
       onClick={() => onCambiarPagina(pagina)}
+      aria-label={`Página ${pagina}`}
+      aria-current={pagina === paginaActual ? "page" : undefined}
       className={`cursor-pointer min-w-[32px] h-8 px-2 rounded-md text-xs font-medium transition-colors ${
         pagina === paginaActual
           ? "bg-[#0572CE] text-white shadow-sm"
@@ -112,14 +114,15 @@ export const Paginacion = ({
   );
 
   return (
-    <div className="flex items-center justify-center gap-1 mt-4">
+    <nav aria-label="Paginación" className="flex items-center justify-center gap-1 mt-4">
       <button
         type="button"
         disabled={!hayAnterior}
         onClick={() => onCambiarPagina(paginaActual - 1)}
+        aria-label="Página anterior"
         className="p-1.5 rounded-md text-[#0572CE] hover:bg-blue-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
       >
-        <HiChevronLeft className="size-4" />
+        <HiChevronLeft className="size-4" aria-hidden="true" />
       </button>
 
       {/* Vista desktop (sm+): rango normal */}
@@ -144,10 +147,11 @@ export const Paginacion = ({
         type="button"
         disabled={!haySiguiente}
         onClick={() => onCambiarPagina(paginaActual + 1)}
+        aria-label="Página siguiente"
         className="p-1.5 rounded-md text-[#0572CE] hover:bg-blue-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
       >
-        <HiChevronRight className="size-4" />
+        <HiChevronRight className="size-4" aria-hidden="true" />
       </button>
-    </div>
+    </nav>
   );
 };

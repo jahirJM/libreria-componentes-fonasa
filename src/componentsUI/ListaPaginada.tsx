@@ -47,7 +47,7 @@ export const ListaPaginada = ({
 
   return (
     <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-white/50 shadow-xl p-6">
-      <section>
+      <section aria-label={titulo}>
         <h2 className="mb-4 font-semibold text-gray-800">{titulo}</h2>
 
         {/* Loading skeleton */}
@@ -55,7 +55,7 @@ export const ListaPaginada = ({
 
         {/* Error */}
         {!isLoading && error && (
-          <div className="w-full flex items-center gap-3 bg-red-500/10 text-red-900 border border-red-500 rounded-xl px-3 py-4">
+          <div role="alert" className="w-full flex items-center gap-3 bg-red-500/10 text-red-900 border border-red-500 rounded-xl px-3 py-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

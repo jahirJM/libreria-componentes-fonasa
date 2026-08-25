@@ -85,6 +85,10 @@ interface SelectBuscableProps {
   className?: string;
   /** Tamaño del componente. `md` reproduce el diseño original. @default "md" */
   size?: SelectBuscableSize;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
+  /** ID del elemento que actúa como label del select. */
+  ariaLabelledBy?: string;
 }
 
 // `md` = estilos originales, tal cual. sm/lg son variantes nuevas.
@@ -140,6 +144,8 @@ export const SelectBuscable = ({
   isLoading = false,
   className = "",
   size = "md",
+  ariaLabel,
+  ariaLabelledBy,
 }: SelectBuscableProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
@@ -264,6 +270,12 @@ export const SelectBuscable = ({
         type="button"
         onClick={handleAbrir}
         disabled={disabled || isLoading}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-invalid={error || undefined}
         className={clsx(
           "w-full flex items-center justify-between border text-left",
           "focus:ring-[#0572CE] focus:border-[#0572CE] focus:outline-none",
@@ -305,9 +317,11 @@ export const SelectBuscable = ({
           {value && !disabled && (
             <span
               onClick={handleLimpiar}
+              role="button"
+              aria-label="Limpiar selección"
               className="p-0.5 rounded hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors"
             >
-              <FiX className="size-3.5" />
+              <FiX className="size-3.5" aria-hidden="true" />
             </span>
           )}
           <FiChevronDown
@@ -339,15 +353,17 @@ export const SelectBuscable = ({
           </div>
 
           {/* Lista de opciones */}
-          <ul ref={listaRef} className="max-h-48 overflow-y-auto py-1">
+          <ul ref={listaRef} role="listbox" className="max-h-48 overflow-y-auto py-1">
             {opcionesFiltradas.length === 0 ? (
-              <li className="px-3 py-2 text-sm text-gray-400 text-center">
+              <li className="px-3 py-2 text-sm text-gray-400 text-center" role="option" aria-selected={false}>
                 Sin resultados
               </li>
             ) : (
               opcionesFiltradas.map((opcion, index) => (
                 <li
                   key={opcion.value}
+                  role="option"
+                  aria-selected={opcion.value === value}
                   onClick={() => handleSeleccionar(opcion)}
                   className={clsx(
                     "cursor-pointer transition-colors flex items-center gap-1.5 hover:bg-gray-100",

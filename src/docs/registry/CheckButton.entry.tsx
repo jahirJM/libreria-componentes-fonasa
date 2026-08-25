@@ -29,6 +29,9 @@ interface CheckButtonProps {
   customClassLabel?: string;
   isDisabled?: boolean;
   variant?: "primary" | "secondary";
+  isLoading?: boolean;
+  /** Texto descriptivo para lectores de pantalla del grupo. */
+  ariaLabel?: string;
 }`,
     variants: [
       {

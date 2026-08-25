@@ -20,6 +20,11 @@ export const textAreaEntry: ComponentEntry =   {
     ],
     propsInterface: `interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
       error?: boolean;
+      isLoading?: boolean;
+      /** Texto descriptivo para lectores de pantalla. */
+      ariaLabel?: string;
+      /** ID del elemento que describe el textarea. */
+      ariaDescribedBy?: string;
     }`,
     variants: [
       {

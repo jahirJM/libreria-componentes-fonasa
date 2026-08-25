@@ -108,19 +108,21 @@ export const TablaDatos = ({
                     {onEdit && (
                       <button
                         type="button"
+                        aria-label={`Editar fila ${item.id}`}
                         className="cursor-pointer text-gray-600 hover:text-gray-800 hover:bg-gray-200 p-2 rounded-2xl transition-all ease-in-out duration-300"
                         onClick={() => onEdit(item)}
                       >
-                        <MdOutlineEdit />
+                        <MdOutlineEdit aria-hidden="true" />
                       </button>
                     )}
                     {onDelete && (
                       <button
                         type="button"
+                        aria-label={`Eliminar fila ${item.id}`}
                         className="cursor-pointer text-gray-600 hover:text-red-600 hover:bg-gray-200 p-2 rounded-2xl transition-all ease-in-out duration-300"
                         onClick={() => onDelete(item)}
                       >
-                        <FaRegTrashAlt />
+                        <FaRegTrashAlt aria-hidden="true" />
                       </button>
                     )}
                   </div>
@@ -162,19 +164,21 @@ export const TablaDatos = ({
                 {onEdit && (
                   <button
                     type="button"
+                    aria-label={`Editar fila ${item.id}`}
                     className="cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors text-[#008CB5]"
                     onClick={() => onEdit(item)}
                   >
-                    <MdOutlineEdit size={16} />
+                    <MdOutlineEdit size={16} aria-hidden="true" />
                   </button>
                 )}
                 {onDelete && (
                   <button
                     type="button"
+                    aria-label={`Eliminar fila ${item.id}`}
                     className="cursor-pointer p-2 rounded-lg hover:bg-red-50 transition-colors text-red-500"
                     onClick={() => onDelete(item)}
                   >
-                    <FaRegTrashAlt size={14} />
+                    <FaRegTrashAlt size={14} aria-hidden="true" />
                   </button>
                 )}
               </div>

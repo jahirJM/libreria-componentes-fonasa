@@ -22,6 +22,8 @@ interface UploadBoxProps {
   isLoading?: boolean;
   /** Si true, fuerza la vista compacta (solo ícono + max size). @default false */
   forceCompact?: boolean;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
 }
 
 /**
@@ -48,6 +50,7 @@ export const UploadBox = ({
   maxSize = "10MB",
   isLoading = false,
   forceCompact = false,
+  ariaLabel,
 }: UploadBoxProps) => {
   if (isLoading) {
     return (
@@ -61,10 +64,20 @@ export const UploadBox = ({
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={ariaLabel ?? `${textStrong} ${text}. Formatos: ${allowedFormats}. Máximo: ${maxSize}`}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          (e.currentTarget as HTMLElement).click();
+        }
+      }}
       className={clsx(
         "cursor-pointer flex flex-col justify-center items-center w-full p-5",
         "rounded-md border-dotted border-2",
         "transition-colors duration-200",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0572CE] focus-visible:ring-offset-2",
         error
           ? "bg-red-50 border-red-500 hover:bg-red-100"
           : "bg-gray-200 border-gray-300 hover:bg-gray-100",

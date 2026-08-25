@@ -21,6 +21,12 @@ interface InputProps
   type?: "text" | "email" | "number" | "password" | "tel" | "url" | "file";
   /** Si true, muestra skeleton de carga en lugar del input. @default false */
   isLoading?: boolean;
+  /** Texto descriptivo para lectores de pantalla cuando no hay label visible. */
+  ariaLabel?: string;
+  /** ID del elemento que describe el input (ej. mensaje de error). */
+  ariaDescribedBy?: string;
+  /** ID del elemento que actúa como label del input. */
+  ariaLabelledBy?: string;
 }
 
 /**
@@ -48,6 +54,9 @@ export function Input({
   loading = false,
   copyable = false,
   isLoading = false,
+  ariaLabel,
+  ariaDescribedBy,
+  ariaLabelledBy,
   ...props
 }: InputProps) {
   if (isLoading) {
@@ -61,12 +70,17 @@ export function Input({
   return (
     <div className="relative flex items-center">
       {leftIcon && (
-        <div className="absolute left-3 text-gray-500">{leftIcon}</div>
+        <div className="absolute left-3 text-gray-500" aria-hidden="true">{leftIcon}</div>
       )}
 
       <input
         type={type}
         disabled={disabled || loading}
+        aria-invalid={error || undefined}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
+        aria-labelledby={ariaLabelledBy}
+        aria-busy={loading || undefined}
         {...(type !== "file" ? { value } : {})}
         {...props}
         className={clsx(
@@ -86,21 +100,22 @@ export function Input({
       />
 
       {loading && (
-        <div className="absolute right-3 text-gray-500">
+        <div className="absolute right-3 text-gray-500" aria-hidden="true">
           <AiOutlineLoading3Quarters className="animate-spin" />
         </div>
       )}
 
       {!loading && rightIcon && (
-        <div className="absolute right-3 text-gray-500">{rightIcon}</div>
+        <div className="absolute right-3 text-gray-500" aria-hidden="true">{rightIcon}</div>
       )}
 
       {!loading && copyable && (
         <button
           type="button"
+          aria-label="Copiar al portapapeles"
           className="absolute right-3 text-gray-500 hover:text-blue-900"
         >
-          <FiCopy />
+          <FiCopy aria-hidden="true" />
         </button>
       )}
     </div>

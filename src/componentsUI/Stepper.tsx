@@ -83,11 +83,13 @@ export const Stepper = ({
 
       {/* Desktop sm+: stepper horizontal */}
       {!forceMobile && (
-        <div className="hidden md:flex items-start justify-between">
+        <div className="hidden md:flex items-start justify-between" role="list" aria-label="Pasos del proceso">
           {pasos.map((paso, index) => (
             <div
               key={paso.id}
               className="flex flex-col items-center flex-1 relative"
+              role="listitem"
+              aria-current={index + 1 === pasoActual ? "step" : undefined}
             >
               {/* Línea */}
               {index < pasos.length - 1 && (
@@ -108,6 +110,15 @@ export const Stepper = ({
                   index + 1 <= pasoActual ? "bg-[#0572CE]" : "bg-gray-300"
                 } ${puedeNavegar ? "cursor-pointer" : "cursor-default"}`}
                 onClick={() => puedeNavegar && onCambiarPaso?.(index + 1)}
+                role={puedeNavegar ? "button" : undefined}
+                tabIndex={puedeNavegar ? 0 : undefined}
+                aria-label={`Paso ${index + 1}: ${paso.label}${index + 1 <= pasoActual ? " (completado)" : ""}`}
+                onKeyDown={(e) => {
+                  if (puedeNavegar && (e.key === "Enter" || e.key === " ")) {
+                    e.preventDefault();
+                    onCambiarPaso?.(index + 1);
+                  }
+                }}
               >
                 {index + 1}
               </div>

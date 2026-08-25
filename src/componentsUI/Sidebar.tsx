@@ -109,6 +109,8 @@ function SidebarItem({ item, isActive, activePath, onNavigate }: SidebarItemProp
           if (hasSubItems) setIsExpanded((prev) => !prev);
           else onNavigate?.(item.path);
         }}
+        aria-expanded={hasSubItems ? isExpanded : undefined}
+        aria-current={isActive && !hasSubItems ? "page" : undefined}
         className={`w-full flex items-center p-2 rounded-lg group transition-colors duration-100 ${
           isActive
             ? "bg-[#0572CE] text-white"
@@ -210,18 +212,20 @@ function SidebarMenu({ items, activePath, onNavigate }: SidebarMenuProps) {
   };
 
   return (
-    <ul className="space-y-2 font-medium px-3 text-sm">
-      {items.map((item, index) => (
-        <li key={index}>
-          <SidebarItem
-            item={item}
-            isActive={isActive(item)}
-            activePath={activePath}
-            onNavigate={onNavigate}
-          />
-        </li>
-      ))}
-    </ul>
+    <nav aria-label="Menú principal">
+      <ul className="space-y-2 font-medium px-3 text-sm">
+        {items.map((item, index) => (
+          <li key={index}>
+            <SidebarItem
+              item={item}
+              isActive={isActive(item)}
+              activePath={activePath}
+              onNavigate={onNavigate}
+            />
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
 
@@ -299,6 +303,8 @@ export function Sidebar({
   return (
     <aside
       id="sidebar"
+      aria-label={title}
+      aria-hidden={!isOpen}
       className={`${className} bg-gray-100 border-r border-gray-200 transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}

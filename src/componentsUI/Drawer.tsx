@@ -213,6 +213,7 @@ export const Drawer = ({
         ref={panelRef}
         role="dialog"
         aria-modal="true"
+        aria-label={typeof titulo === "string" ? titulo : undefined}
         onClick={(e) => e.stopPropagation()}
         className={clsx(
           "absolute bg-white shadow-xl flex flex-col transition-transform duration-300 ease-out",
@@ -238,9 +239,10 @@ export const Drawer = ({
               <button
                 type="button"
                 onClick={onClose}
+                aria-label="Cerrar panel"
                 className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0"
               >
-                <FiX className="size-4" />
+                <FiX className="size-4" aria-hidden="true" />
               </button>
             )}
           </DrawerHeader>

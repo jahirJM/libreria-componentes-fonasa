@@ -19,10 +19,10 @@ export const Footer = ({ textColor = "text-gray-800" }: FooterProps) => {
   const year = fechaHoy.getFullYear();
 
   return (
-    <footer className={`text-xs text-center bg-[#fafdff] dark:bg-[#061018] py-2 w-full ${textColor}`}>
+    <footer className={`text-xs text-center bg-[#fafdff] dark:bg-[#061018] py-2 w-full ${textColor}`} role="contentinfo">
       <p>© {year} Copyright FONASA, todos los derechos reservados</p>
       <p>
-        Hecho con <HiHeart className="text-red-500 size-5 inline" /> por FONASA
+        Hecho con <HiHeart className="text-red-500 size-5 inline" aria-hidden="true" /><span className="sr-only">amor</span> por FONASA
       </p>
     </footer>
   );

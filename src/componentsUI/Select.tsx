@@ -64,6 +64,10 @@ interface SelectProps {
   /** Clases CSS adicionales para el contenedor. */
   className?: string;
   children?: ReactNode;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
+  /** ID del elemento que actúa como label del select. */
+  ariaLabelledBy?: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -93,6 +97,8 @@ export const Select = ({
   error = false,
   isLoading = false,
   className = "",
+  ariaLabel,
+  ariaLabelledBy,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [indiceFocused, setIndiceFocused] = useState(-1);
@@ -220,6 +226,12 @@ export const Select = ({
         onClick={handleAbrir}
         onKeyDown={handleKeyDown}
         disabled={disabled}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-invalid={error || undefined}
         className={clsx(
           "w-full flex items-center justify-between border text-left",
           "px-3 py-2 rounded-md text-sm",
@@ -242,6 +254,7 @@ export const Select = ({
         </span>
 
         <FiChevronDown
+          aria-hidden="true"
           className={clsx(
             "size-4 text-gray-400 transition-transform shrink-0 ml-2",
             isOpen && "rotate-180",
@@ -252,10 +265,13 @@ export const Select = ({
       {/* Dropdown */}
       {isOpen && (
         <Card ref={dropdownRef} style={dropdownStyle}>
-          <ul ref={listaRef} className="max-h-48 overflow-y-auto py-1">
+          <ul ref={listaRef} role="listbox" className="max-h-48 overflow-y-auto py-1">
             {opciones.map((opcion, index) => (
               <li
                 key={opcion.value}
+                role="option"
+                aria-selected={opcion.value === value}
+                aria-disabled={opcion.disabled || undefined}
                 onClick={() => handleSeleccionar(opcion)}
                 className={clsx(
                   "px-3 py-2 text-sm cursor-pointer transition-colors truncate",

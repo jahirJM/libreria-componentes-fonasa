@@ -33,8 +33,11 @@ export const uploadBoxEntry: ComponentEntry =   {
   allowedFormats?: string;
   /** Tamaño máximo, ej: "10MB" */
   maxSize?: string;
+  isLoading?: boolean;
   /** Si true, fuerza la vista compacta (solo ícono + max size) */
   forceCompact?: boolean;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
 }`,
     variants: [
       {

@@ -30,6 +30,13 @@ export const inputEntry: ComponentEntry =   {
       loading?: boolean;
       copyable?: boolean;
       type?: "text" | "email" | "number" | "password" | "tel" | "url" | "file";
+      isLoading?: boolean;
+      /** Texto descriptivo para lectores de pantalla cuando no hay label visible. */
+      ariaLabel?: string;
+      /** ID del elemento que describe el input (ej. mensaje de error). */
+      ariaDescribedBy?: string;
+      /** ID del elemento que actúa como label del input. */
+      ariaLabelledBy?: string;
     }`,
     variants: [
       {

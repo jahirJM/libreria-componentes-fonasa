@@ -1,6 +1,7 @@
 export { SkeletonAcordeon } from "./SkeletonAcordeon";
 export { SkeletonAlerta } from "./SkeletonAlerta";
 export { SkeletonBotones } from "./SkeletonBotones";
+export { SkeletonBreadcrumbs } from "./SkeletonBreadcrumbs";
 export { SkeletonCalendarioRango } from "./SkeletonCalendarioRango";
 export { SkeletonCard } from "./SkeletonCard";
 export { SkeletonCheckButton } from "./SkeletonCheckButton";

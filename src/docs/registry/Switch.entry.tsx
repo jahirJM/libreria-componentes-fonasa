@@ -1,6 +1,6 @@
 import switchCode from "../../componentsUI/Switch.tsx?raw";
 import switchTestCode from "../../tests/Switch.test.tsx?raw";
-import { Switch } from "../../componentsUI/Switch";
+import { Switch, SegmentedToggle } from "../../componentsUI/Switch";
 import type { ComponentEntry } from "./types";
 
 export const switchEntry: ComponentEntry = {
@@ -46,6 +46,21 @@ interface SwitchProps {
   ariaLabel?: string;
   /** ID del elemento que actúa como label del switch. */
   ariaLabelledBy?: string;
+}
+
+interface SegmentedToggleProps {
+  /** Las dos opciones del toggle. */
+  options: [string, string];
+  /** Índice de la opción activa (0 o 1). */
+  value?: number;
+  /** Estado inicial cuando no es controlado. @default 0 */
+  defaultValue?: number;
+  /** Se dispara con el índice seleccionado al cambiar. */
+  onChange?: (index: number) => void;
+  /** Tamaño del toggle. */
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
+  className?: string;
 }`,
   variants: [
     {
@@ -208,6 +223,22 @@ interface SwitchProps {
         </div>
       ),
       usageCode: `<Switch isLoading />`,
+    },
+    {
+      label: "Toggle segmentado",
+      props: {},
+      render: () => (
+        <div className="flex flex-col items-center gap-4">
+          <SegmentedToggle options={["1 col", "2 col"]} defaultValue={1} size="md" />
+          <SegmentedToggle options={["Mensual", "Anual"]} defaultValue={0} size="sm" />
+          <SegmentedToggle options={["Lista", "Grilla"]} defaultValue={0} size="lg" />
+        </div>
+      ),
+      usageCode: `<SegmentedToggle
+  options={["1 col", "2 col"]}
+  value={active}
+  onChange={(i) => setActive(i)}
+/>`,
     },
   ],
 };

@@ -1,11 +1,11 @@
 import carouselCode from "../../componentsUI/Carousel.tsx?raw";
-import { CarouselDemo1x1, CarouselDemo3x3, CarouselDemo2x2, CarouselDemoDotsOnly } from "../demos/CarouselDemo";
+import { CarouselDemo1x1, CarouselDemo3x3, CarouselDemo2x2, CarouselDemoDotsOnly, CarouselDemoInfinite, CarouselDemoAutoPlay } from "../demos/CarouselDemo";
 import type { ComponentEntry } from "./types";
 
 export const carouselEntry: ComponentEntry = {
   name: "carousel",
   description:
-    "Carrusel genérico con grilla configurable (cols × rows por página). Soporta navegación con flechas, indicadores de página (dots) y modo controlado/no controlado.",
+    "Carrusel genérico con grilla configurable (cols × rows por página). Soporta navegación con flechas, indicadores de página (dots), loop infinito, autoplay y modo controlado/no controlado.",
   code: carouselCode,
   dependencies: ["react-icons", "clsx"],
   propsInterface: `interface CarouselProps<T> {
@@ -29,6 +29,10 @@ export const carouselEntry: ComponentEntry = {
   showDots?: boolean;
   /** Si true, muestra botones de navegación. @default true */
   showArrows?: boolean;
+  /** Si true, al llegar al final vuelve al inicio y viceversa. @default false */
+  infinite?: boolean;
+  /** Intervalo en milisegundos para avance automático. Si se omite o es 0, no avanza automáticamente. */
+  autoPlay?: number;
 }`,
   colors: [
     {
@@ -89,6 +93,27 @@ export const carouselEntry: ComponentEntry = {
   cols={3}
   rows={1}
   showArrows={false}
+  renderItem={(item) => <div>{item.label}</div>}
+/>`,
+    },
+    {
+      label: "Infinito (loop)",
+      props: { infinite: true },
+      render: () => <CarouselDemoInfinite />,
+      usageCode: `<Carousel
+  items={items}
+  infinite
+  renderItem={(item) => <div>{item.label}</div>}
+/>`,
+    },
+    {
+      label: "Autoplay (3s)",
+      props: { infinite: true, autoPlay: 3000 },
+      render: () => <CarouselDemoAutoPlay />,
+      usageCode: `<Carousel
+  items={items}
+  infinite
+  autoPlay={3000}
   renderItem={(item) => <div>{item.label}</div>}
 />`,
     },

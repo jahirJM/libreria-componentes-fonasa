@@ -184,3 +184,108 @@ export const Switch = ({
     </button>
   );
 };
+
+/* ------------------------------------------------------------------ */
+/* SegmentedToggle — Toggle con labels de texto                        */
+/* ------------------------------------------------------------------ */
+
+export interface SegmentedToggleProps {
+  /** Las dos opciones del toggle. */
+  options: [string, string];
+  /** Índice de la opción activa (0 o 1). */
+  value?: number;
+  /** Estado inicial cuando no es controlado. @default 0 */
+  defaultValue?: number;
+  /** Se dispara con el índice seleccionado al cambiar. */
+  onChange?: (index: number) => void;
+  /** Tamaño del toggle. */
+  size?: "sm" | "md" | "lg";
+  /** Deshabilitar interacción. */
+  disabled?: boolean;
+  /** Clases adicionales. */
+  className?: string;
+}
+
+const SEGMENTED_SIZES = {
+  sm: { container: "p-1 rounded-lg", button: "px-3 py-1 text-xs rounded-md" },
+  md: { container: "p-1.5 rounded-xl", button: "px-4 py-1.5 text-sm rounded-lg" },
+  lg: { container: "p-2 rounded-2xl", button: "px-6 py-2 text-base rounded-xl" },
+};
+
+/**
+ * Toggle segmentado con dos opciones de texto y un indicador deslizante.
+ * Ideal para alternar entre dos vistas o modos.
+ *
+ * @example
+ * ```tsx
+ * <SegmentedToggle
+ *   options={["1 col", "2 col"]}
+ *   value={cols}
+ *   onChange={(i) => setCols(i)}
+ * />
+ * ```
+ */
+export const SegmentedToggle = ({
+  options,
+  value,
+  defaultValue = 0,
+  onChange,
+  size = "md",
+  disabled = false,
+  className,
+}: SegmentedToggleProps) => {
+  const isControlled = value !== undefined;
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const active = isControlled ? value : internalValue;
+
+  const s = SEGMENTED_SIZES[size];
+
+  const handleSelect = (index: number) => {
+    if (disabled || index === active) return;
+    if (!isControlled) setInternalValue(index);
+    onChange?.(index);
+  };
+
+  return (
+    <div
+      className={clsx(
+        "relative inline-flex items-center bg-gray-100 border border-gray-200",
+        s.container,
+        disabled && "opacity-50 cursor-not-allowed",
+        className,
+      )}
+    >
+      {/* Sliding indicator */}
+      <div
+        className={clsx(
+          "absolute top-1.5 bottom-1.5 bg-gray-900 shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] pointer-events-none",
+          s.button,
+        )}
+        style={{
+          left: active === 0 ? "6px" : "50%",
+          width: "calc(50% - 6px)",
+        }}
+      />
+
+      {/* Options */}
+      {options.map((label, i) => (
+        <button
+          key={label}
+          type="button"
+          onClick={() => handleSelect(i)}
+          disabled={disabled}
+          className={clsx(
+            "relative z-10 font-medium transition-colors duration-200 text-center flex-1",
+            s.button,
+            active === i
+              ? "text-white"
+              : "text-gray-500 hover:text-gray-700",
+            !disabled && "cursor-pointer",
+          )}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+};

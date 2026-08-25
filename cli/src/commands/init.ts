@@ -62,13 +62,13 @@ export const initCommand = new Command("init")
     let testsDir: string | undefined;
 
     if (includeTests) {
-      const { testsDirAnswer } = await prompts({
+      const response = await prompts({
         type: "text",
         name: "testsDirAnswer",
         message: "¿Dónde quieres guardar los tests?",
         initial: "__tests__",
       });
-      testsDir = testsDirAnswer || undefined;
+      testsDir = (response.testsDirAnswer as string) || undefined;
     }
 
     const config: Record<string, unknown> = {

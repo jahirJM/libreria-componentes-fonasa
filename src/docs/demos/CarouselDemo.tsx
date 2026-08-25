@@ -81,3 +81,40 @@ export function CarouselDemoDotsOnly() {
     />
   );
 }
+
+/** Demo con loop infinito */
+export function CarouselDemoInfinite() {
+  return (
+    <Carousel
+      items={sampleItems.slice(0, 5)}
+      infinite
+      renderItem={(item) => (
+        <div
+          className="h-24 rounded-lg flex items-center justify-center text-white font-semibold text-sm"
+          style={{ backgroundColor: item.color }}
+        >
+          {item.label}
+        </div>
+      )}
+    />
+  );
+}
+
+/** Demo con autoplay */
+export function CarouselDemoAutoPlay() {
+  return (
+    <Carousel
+      items={sampleItems.slice(0, 5)}
+      infinite
+      autoPlay={3000}
+      renderItem={(item) => (
+        <div
+          className="h-24 rounded-lg flex items-center justify-center text-white font-semibold text-sm"
+          style={{ backgroundColor: item.color }}
+        >
+          {item.label}
+        </div>
+      )}
+    />
+  );
+}

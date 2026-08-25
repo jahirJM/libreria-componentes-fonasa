@@ -1,6 +1,7 @@
 import { BotonConfirmar, BotonCancelar } from "./Botones";
 import { Label } from "./Label";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { FaRegCheckCircle } from "react-icons/fa";
 
 interface ModalProps {
@@ -78,7 +79,7 @@ export default function Modal({
     }
   };
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
       onClick={handleBackdropClick}
@@ -184,6 +185,7 @@ export default function Modal({
           )}
         </div>
       ) : null}
-    </div>
+    </div>,
+    document.body
   );
 }

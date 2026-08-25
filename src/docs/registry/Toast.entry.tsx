@@ -1,4 +1,4 @@
-import { fonasaToast, FonasaToaster } from "../../componentsUI/Toast";
+import { fonasaToast } from "../../componentsUI/Toast";
 import { BotonConfirmar, BotonCancelar, BotonPrimario, BotonSecundario } from "../../componentsUI/Botones";
 import toastCode from "../../componentsUI/Toast.tsx?raw";
 import toastTestCode from "../../tests/Toast.test.tsx?raw";
@@ -41,7 +41,6 @@ fonasaToast.warning(mensaje: string): void;
         props: {},
         render: () => (
           <div className="flex justify-center w-full">
-            <FonasaToaster />
             <BotonConfirmar
               label="Mostrar Toast Éxito"
               onClick={() =>
@@ -57,7 +56,6 @@ fonasaToast.warning(mensaje: string): void;
         props: {},
         render: () => (
           <div className="flex justify-center w-full">
-            <FonasaToaster />
             <BotonCancelar
               label="Mostrar Toast Error"
               onClick={() =>
@@ -73,7 +71,6 @@ fonasaToast.warning(mensaje: string): void;
         props: {},
         render: () => (
           <div className="flex justify-center w-full">
-            <FonasaToaster />
             <BotonPrimario
               label="Mostrar Toast Info"
               onClick={() =>
@@ -89,7 +86,6 @@ fonasaToast.warning(mensaje: string): void;
         props: {},
         render: () => (
           <div className="flex justify-center w-full">
-            <FonasaToaster />
             <BotonSecundario
               label="Mostrar Toast Advertencia"
               onClick={() =>

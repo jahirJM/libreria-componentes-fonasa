@@ -108,70 +108,6 @@ function VariantCodeModal({
   );
 }
 
-function VariantCard({ variant }: { variant: ComponentVariant }) {
-  const [showModal, setShowModal] = useState(false);
-  const [copyState, setCopyState] = useState<"idle" | "success">("idle");
-
-  async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(variant.usageCode);
-      fonasaToast.success("Código copiado");
-      setCopyState("success");
-      setTimeout(() => setCopyState("idle"), 2000);
-    } catch {
-      // silently fail
-    }
-  }
-
-  return (
-    <>
-      <div className="rounded-xl border border-gray-200 dark:border-[#1e3044] bg-gray-50 dark:bg-[#111d2a] overflow-visible flex flex-col h-full">
-        {/* Preview */}
-        <div className="bg-white dark:bg-[#0a1520] p-4 flex items-center justify-center flex-1 min-h-[120px] overflow-visible rounded-t-xl">
-          <div className={variant.responsive ? "w-full relative" : "w-full"}>
-            {variant.render()}
-          </div>
-        </div>
-        {/* Footer con label + acciones */}
-        {!variant.noLabel && (
-        <div className="flex items-center justify-between border-t border-gray-200 dark:border-[#1e3044] px-4 py-2.5 bg-gray-100 dark:bg-[#061018]">
-          <span className="text-xs font-medium text-gray-600 truncate">
-            {variant.label}
-          </span>
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setShowModal(true)}
-              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors"
-              title="Ver código"
-            >
-              <FiCode className="size-4" />
-            </button>
-            <button
-              onClick={handleCopy}
-              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] hover:bg-gray-200 transition-colors size-7 flex items-center justify-center"
-              title="Copiar código"
-            >
-              {copyState === "success" ? (
-                <span className="text-green-600 text-sm font-medium">✓</span>
-              ) : (
-                <FiCopy className="size-4" />
-              )}
-            </button>
-          </div>
-        </div>
-        )}
-      </div>
-
-      {showModal && (
-        <VariantCodeModal
-          variant={variant}
-          onClose={() => setShowModal(false)}
-        />
-      )}
-    </>
-  );
-}
-
 /** Orden de prioridad para badges fijos */
 const FIXED_PATTERNS = [
   { pattern: /^(default|normal|texto|sin acciones|pocas)/i, label: "default" },
@@ -209,96 +145,93 @@ function classifyVariants(variants: ComponentVariant[]) {
 function VariantSelector({ variants }: { variants: ComponentVariant[] }) {
   const { fixed, rest } = classifyVariants(variants);
   const [selectedIdx, setSelectedIdx] = useState(0);
-  const [carouselOffset, setCarouselOffset] = useState(0);
   const allOrdered = [...fixed, ...rest];
-  const maxVisible = 5;
+  const [showCodePanel, setShowCodePanel] = useState(false);
+  const [copyState, setCopyState] = useState<"idle" | "success">("idle");
 
   const selected = allOrdered[selectedIdx];
 
-  // Carrusel: items del rest que se muestran
-  const visibleRest = rest.slice(carouselOffset, carouselOffset + maxVisible);
-  const canScrollLeft = carouselOffset > 0;
-  const canScrollRight = carouselOffset + maxVisible < rest.length;
+  async function handleCopy() {
+    if (!selected) return;
+    try {
+      await navigator.clipboard.writeText(selected.usageCode);
+      fonasaToast.success("Código copiado");
+      setCopyState("success");
+      setTimeout(() => setCopyState("idle"), 2000);
+    } catch {
+      // silently fail
+    }
+  }
 
   return (
-    <div>
-      {/* Badges */}
-      <div className="flex items-center gap-2 mb-4 flex-wrap overflow-visible relative z-10">
-        {/* Badges fijos */}
-        {fixed.map((v, i) => (
-          <div key={v.label} className="relative group">
+    <div className="flex flex-col lg:flex-row gap-0 rounded-2xl border border-gray-100 dark:border-[#1e3044] overflow-hidden bg-white dark:bg-[#0a1520]">
+      {/* Left panel: variant list — always visible */}
+      <div className="lg:w-48 shrink-0 border-b lg:border-b-0 lg:border-r border-gray-100 dark:border-[#1e3044] bg-gray-50/50 dark:bg-[#061018]/50">
+        <div className="p-2 lg:p-3 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-y-auto lg:max-h-[400px] scrollbar-none">
+          {allOrdered.map((v, i) => (
             <button
+              key={v.label}
               onClick={() => setSelectedIdx(i)}
-              className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
+              className={`group relative flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer whitespace-nowrap lg:whitespace-normal lg:w-full text-left ${
                 selectedIdx === i
-                  ? "bg-[#0572CE] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-white dark:bg-[#1e3044] text-[#0572CE] shadow-sm"
+                  : "text-gray-500 dark:text-[#94a3b8] hover:bg-white/60 dark:hover:bg-[#1e3044]/50 hover:text-gray-700"
               }`}
             >
               {v.label}
             </button>
-            {/* Tooltip hover */}
-            <span className="z-[99] absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
-              {v.label}
-            </span>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
 
-        {/* Separador si hay rest */}
-        {rest.length > 0 && (
-          <div className="h-5 w-px bg-gray-300 mx-1" />
-        )}
-
-        {/* Carrusel de resto */}
-        {rest.length > 0 && (
+      {/* Right panel: preview + code */}
+      <div className="flex-1 min-w-0 flex flex-col">
+        {/* Toolbar */}
+        <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100/60 dark:border-[#1e3044]">
+          <span className="text-xs font-mono text-gray-400 dark:text-[#94a3b8] tabular-nums">
+            {selectedIdx + 1} / {allOrdered.length}
+          </span>
           <div className="flex items-center gap-1">
-            {canScrollLeft && (
-              <button
-                onClick={() => setCarouselOffset((o) => Math.max(0, o - maxVisible))}
-                className="p-1 rounded-md text-gray-400 hover:text-[#0572CE] hover:bg-gray-100 transition-colors cursor-pointer"
-              >
-                ‹
-              </button>
-            )}
-            {visibleRest.map((v) => {
-              const globalIdx = allOrdered.indexOf(v);
-              return (
-                <div key={v.label} className="relative group">
-                  <button
-                    onClick={() => setSelectedIdx(globalIdx)}
-                    className={`w-20 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer truncate ${
-                      selectedIdx === globalIdx
-                        ? "bg-[#0572CE] text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
-                  >
-                    {v.label}
-                  </button>
-                  {/* Tooltip hover */}
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[9999]">
-                    {v.label}
-                  </span>
-                </div>
-              );
-            })}
-            {canScrollRight && (
-              <button
-                onClick={() => setCarouselOffset((o) => Math.min(rest.length - maxVisible, o + maxVisible))}
-                className="p-1 rounded-md text-gray-400 hover:text-[#0572CE] hover:bg-gray-100 transition-colors cursor-pointer"
-              >
-                ›
-              </button>
-            )}
+            <button
+              onClick={() => setShowCodePanel((v) => !v)}
+              className={`rounded-md p-1.5 text-xs transition-colors ${showCodePanel ? "text-[#0572CE] bg-[#0572CE]/10" : "text-gray-400 hover:text-[#0572CE]"}`}
+              title="Ver código"
+            >
+              <FiCode className="size-3.5" />
+            </button>
+            <button
+              onClick={handleCopy}
+              className="rounded-md p-1.5 text-gray-400 hover:text-[#0572CE] transition-colors"
+              title="Copiar código"
+            >
+              {copyState === "success" ? (
+                <FiCheckCircle className="size-3.5 text-green-600" />
+              ) : (
+                <FiCopy className="size-3.5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Preview area */}
+        <div className="flex-1 p-6 flex items-center justify-center min-h-[180px]">
+          {selected && (
+            <div
+              key={selected.label}
+              className={`animate-[blurIn_0.25s_ease-out_both] w-full ${selected.responsive ? "" : "max-w-sm mx-auto"}`}
+            >
+              {selected.render()}
+            </div>
+          )}
+        </div>
+
+        {/* Code panel — expandable */}
+        {showCodePanel && selected && (
+          <div className="border-t border-gray-100 dark:border-[#1e3044] animate-[fadeSlideUp_0.2s_ease-out_both]">
+            <CodePanel code={selected.usageCode} />
           </div>
         )}
       </div>
-
-      {/* Variante seleccionada */}
-      {selected && (
-        <div className={selected.responsive ? "max-w-4xl" : "max-w-2xl"}>
-          <VariantCard variant={selected} />
-        </div>
-      )}
     </div>
   );
 }

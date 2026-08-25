@@ -2,9 +2,8 @@ import type { LogoEntry } from "./types";
 
 export const claveUnicaLogo: LogoEntry = {
   name: "ClaveÚnica",
-  description: "Isotipo oficial de ClaveÚnica para uso en botones de autenticación. Dimensiones recomendadas: 24x24px.",
-  group: "ClaveÚnica",
-  variants: [
+  description: "Isotipo oficial de ClaveÚnica para uso en botones de autenticación.",
+   variants: [
     {
       label: "Ícono Blanco (SVG)",
       src: "/logos/gobierno/svg/ico-clave-unica.svg",
@@ -12,4 +11,5 @@ export const claveUnicaLogo: LogoEntry = {
       background: "dark",
     },
   ],
+  detail:"Para mas especificaciones consultar en  https://wikiguias.digital.gob.cl/Manuales/BotónCU"
 };

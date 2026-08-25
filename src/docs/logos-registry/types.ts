@@ -20,4 +20,5 @@ export interface LogoEntry {
   variants: LogoVariant[];
   /** Grupo/categoría para el sidebar */
   group?: string;
+  detail?: string;
 }

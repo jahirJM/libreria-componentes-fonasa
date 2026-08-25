@@ -66,3 +66,38 @@ export async function fetchTestSource(
 
   return null;
 }
+
+
+/**
+ * Obtiene el contenido de un archivo de asset (SVG, imagen, etc.).
+ *
+ * Estrategia de resolución:
+ * 1. Busca en la carpeta `assets/` incluida junto al CLI (dist/assets/)
+ * 2. Desde la raíz del repo, en los directorios públicos de Fonasa y Gobierno.
+ * 3. Modo desarrollo, en los directorios públicos de Fonasa y Gobierno.
+ */
+export async function fetchAssetSource(
+  fileName: string
+): Promise<string | null> {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+
+  const candidates = [
+    // 1. Assets empaquetados junto al bundle (dist/assets/)
+    resolve(__dirname, "assets", fileName),
+    // 2. Desde la raíz del repo (cli/dist/ → ../../public/logos/)
+    resolve(__dirname, "..", "..", "public", "logos", "fonasa", "svg", fileName),
+    resolve(__dirname, "..", "..", "public", "logos", "gobierno", "svg", fileName),
+    // 3. Modo desarrollo (cwd es la raíz del repo)
+    resolve(process.cwd(), "public", "logos", "fonasa", "svg", fileName),
+    resolve(process.cwd(), "public", "logos", "gobierno", "svg", fileName),
+  ];
+
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) {
+      return readFileSync(candidate, "utf-8");
+    }
+  }
+
+  return null;
+}

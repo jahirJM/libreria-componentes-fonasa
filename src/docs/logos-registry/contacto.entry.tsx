@@ -3,7 +3,7 @@ import type { LogoEntry } from "./types";
 export const contactoLogos: LogoEntry = {
   name: "Contacto",
   description: "Iconos de canales de contacto de Fonasa.",
-  group: "Institucional",
+  group: "Contacto",
   variants: [
     {
       label: "Mesa Telefónica",

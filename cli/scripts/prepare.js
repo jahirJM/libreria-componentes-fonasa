@@ -46,3 +46,46 @@ if (existsSync(srcRegistry)) {
 } else {
   console.warn("⚠️  No se encontró registry.json. Ejecuta: node scripts/generate-registry.js");
 }
+
+// Copiar assets gráficos institucionales
+const assetGroups = [
+  {
+    sourceDir: resolve(repoRoot, "public", "logos", "fonasa", "svg"),
+    files: [
+      "mesa-telefonica.svg",
+      "consultas-contacto.svg",
+      "fonasa-logo-full.svg",
+      "fonasa-logo-icon.svg",
+      "fonasa-logo-name.svg",
+      "fonasa-blanco.svg",
+      "twitter-icon.svg",
+      "twitter-x-icon.svg",
+      "facebook-icon.svg",
+      "youtube-icon.svg",
+      "instagram-icon.svg",
+      "linkedin-icon.svg",
+    ],
+  },
+  {
+    sourceDir: resolve(repoRoot, "public", "logos", "gobierno", "svg"),
+    files: ["gob-logo.svg", "gob-logo-gris.svg", "ico-clave-unica.svg"],
+  },
+];
+const destAssets = resolve(cliRoot, "dist", "assets");
+
+mkdirSync(destAssets, { recursive: true });
+let assetsCopied = 0;
+for (const group of assetGroups) {
+  for (const file of group.files) {
+    const src = resolve(group.sourceDir, file);
+    if (existsSync(src)) {
+      cpSync(src, resolve(destAssets, file));
+      assetsCopied++;
+    } else {
+      console.warn(`⚠️  Asset no encontrado: ${file}`);
+    }
+  }
+}
+if (assetsCopied > 0) {
+  console.log(`✅ ${assetsCopied} assets copiados a cli/dist/assets/`);
+}

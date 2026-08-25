@@ -3,7 +3,7 @@ import type { LogoEntry } from "./types";
 export const fonasaLogo: LogoEntry = {
   name: "Fonasa",
   description: "Logotipo institucional del Fondo Nacional de Salud.",
-  group: "Institucional",
+  group: "Fonasa",
   variants: [
     {
       label: "Logo+Nombre",

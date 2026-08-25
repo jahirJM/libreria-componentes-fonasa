@@ -5,7 +5,9 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragOverlay,
   type DragEndEvent,
+  type DragStartEvent,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -18,7 +20,8 @@ import {
   LuPlus, LuTrash2, LuGripVertical, LuCopy, LuCheck, LuCode, LuEye, LuSettings,
   LuTextCursorInput, LuAlignLeft, LuChevronDown, LuSearch, LuToggleLeft,
   LuSquareCheck, LuCircleDot, LuHeading, LuType, LuMinus, LuLayoutList,
-  LuCalendar, LuUpload, LuHash,
+  LuCalendar, LuUpload, LuHash, LuMove,
+  LuArrowUp, LuArrowDown, LuArrowLeft, LuArrowRight,
 } from "react-icons/lu";
 
 import { Input } from "../../componentsUI/Input";
@@ -55,7 +58,6 @@ interface FormField {
   switchIcons?: boolean;
   inputError?: boolean;
   inputDisabled?: boolean;
-  /** Nombre visual en la lista (independiente del label del formulario) */
   listName?: string;
 }
 
@@ -88,7 +90,7 @@ let idCounter = 0;
 function genId() { return `field-${++idCounter}-${Date.now()}`; }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SORTABLE ITEM
+// SORTABLE ITEM (sidebar)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function SortableFieldItem({ field, isSelected, onSelect, onRemove, onUpdateName }: { field: FormField; isSelected: boolean; onSelect: () => void; onRemove: () => void; onUpdateName: (name: string) => void }) {
@@ -100,18 +102,8 @@ function SortableFieldItem({ field, isSelected, onSelect, onRemove, onUpdateName
 
   const displayName = field.type === "section" ? field.sectionName || "Sección" : field.listName || field.label || typeLabel;
 
-  function startEdit(e: React.MouseEvent) {
-    e.stopPropagation();
-    setEditValue(displayName);
-    setEditing(true);
-  }
-
-  function finishEdit() {
-    setEditing(false);
-    if (editValue.trim()) {
-      onUpdateName(editValue.trim());
-    }
-  }
+  function startEdit(e: React.MouseEvent) { e.stopPropagation(); setEditValue(displayName); setEditing(true); }
+  function finishEdit() { setEditing(false); if (editValue.trim()) onUpdateName(editValue.trim()); }
 
   return (
     <div ref={setNodeRef} style={style} onClick={onSelect}
@@ -121,20 +113,12 @@ function SortableFieldItem({ field, isSelected, onSelect, onRemove, onUpdateName
       </button>
       <div className="flex-1 min-w-0">
         {editing ? (
-          <input
-            type="text"
-            value={editValue}
-            onChange={(e) => setEditValue(e.target.value)}
-            onBlur={finishEdit}
+          <input type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)} onBlur={finishEdit}
             onKeyDown={(e) => { if (e.key === "Enter") finishEdit(); if (e.key === "Escape") setEditing(false); }}
-            autoFocus
-            onClick={(e) => e.stopPropagation()}
-            className="w-full text-xs font-medium text-gray-700 bg-transparent border-b border-[#0572CE] outline-none py-0"
-          />
+            autoFocus onClick={(e) => e.stopPropagation()}
+            className="w-full text-xs font-medium text-gray-700 bg-transparent border-b border-[#0572CE] outline-none py-0" />
         ) : (
-          <p className="text-xs font-medium text-gray-700 truncate hover:text-[#0572CE] cursor-text" onDoubleClick={startEdit}>
-            {displayName}
-          </p>
+          <p className="text-xs font-medium text-gray-700 truncate hover:text-[#0572CE] cursor-text" onDoubleClick={startEdit}>{displayName}</p>
         )}
         <p className="text-xs text-gray-400">{typeLabel}{field.required ? " •" : ""}</p>
       </div>
@@ -186,6 +170,88 @@ function PreviewField({ field }: { field: FormField }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// PREVIEW SORTABLE ITEM (with position controls)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function SortablePreviewField({ field, isSelected, onSelect, index, total, columns, onMove, onResize }: {
+  field: FormField;
+  isSelected: boolean;
+  onSelect: () => void;
+  index: number;
+  total: number;
+  columns: 1 | 2;
+  onMove: (direction: "up" | "down") => void;
+  onResize: (span: 1 | 2) => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: field.id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+    zIndex: isDragging ? 50 : undefined,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      onClick={(e) => { e.stopPropagation(); onSelect(); }}
+      className={`relative group rounded-lg transition-shadow ${
+        field.colSpan === 2 && columns > 1 ? "col-span-2" : ""
+      } ${
+        isSelected
+          ? "ring-2 ring-[#0572CE] ring-offset-2 bg-blue-50/30"
+          : "hover:ring-1 hover:ring-gray-300 hover:ring-offset-1"
+      } ${isDragging ? "shadow-xl" : ""}`}
+    >
+      <div className="p-2">
+        <PreviewField field={field} />
+      </div>
+
+      {/* Drag handle — always visible when selected, hover otherwise */}
+      <button
+        {...attributes}
+        {...listeners}
+        className={`absolute top-1.5 right-1.5 p-1 rounded bg-white border border-gray-200 shadow-sm cursor-grab active:cursor-grabbing text-gray-400 hover:text-[#0572CE] transition-all touch-none ${
+          isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        }`}
+        title="Arrastra para mover"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <LuMove className="size-3.5" />
+      </button>
+
+      {/* Position controls when selected */}
+      {isSelected && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-white border border-gray-200 rounded-lg shadow-sm px-1 py-0.5 z-20">
+          <button onClick={(e) => { e.stopPropagation(); onMove("up"); }} disabled={index === 0}
+            title="Mover arriba" className="p-1 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-gray-600 hover:text-[#0572CE]">
+            <LuArrowUp className="size-3" />
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); onMove("down"); }} disabled={index === total - 1}
+            title="Mover abajo" className="p-1 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-gray-600 hover:text-[#0572CE]">
+            <LuArrowDown className="size-3" />
+          </button>
+          {columns === 2 && (
+            <>
+              <div className="w-px h-4 bg-gray-200 mx-0.5" />
+              <button onClick={(e) => { e.stopPropagation(); onResize(1); }} disabled={field.colSpan === 1}
+                title="Mitad de ancho" className="p-1 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-gray-600 hover:text-[#0572CE]">
+                <LuArrowLeft className="size-3" />
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); onResize(2); }} disabled={field.colSpan === 2}
+                title="Ancho completo" className="p-1 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-gray-600 hover:text-[#0572CE]">
+                <LuArrowRight className="size-3" />
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // CODE GENERATOR
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -230,7 +296,7 @@ function generateCode(fields: FormField[], columns: number): string {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PROPERTIES PANEL (derecha)
+// PROPERTIES PANEL
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (updates: Partial<FormField>) => void }) {
@@ -241,7 +307,6 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Propiedades</p>
       </div>
 
-      {/* Section name */}
       {field.type === "section" && (
         <fieldset className="space-y-1">
           <Label text="Nombre de sección" className="text-xs" />
@@ -249,7 +314,6 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         </fieldset>
       )}
 
-      {/* Label */}
       {field.type !== "divider" && field.type !== "section" && (
         <fieldset className="space-y-1">
           <Label text="Label" className="text-xs" />
@@ -257,7 +321,6 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         </fieldset>
       )}
 
-      {/* Placeholder */}
       {(["input","number","email","password","textarea","select","selectBuscable","date"].includes(field.type)) && (
         <fieldset className="space-y-1">
           <Label text="Placeholder" className="text-xs" />
@@ -265,16 +328,13 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         </fieldset>
       )}
 
-      {/* Options */}
       {(["select","selectBuscable","checkbox","radio"].includes(field.type)) && (
         <fieldset className="space-y-1">
           <Label text="Opciones (una por línea)" className="text-xs" />
-          <TextArea value={(field.options || []).join("\n")} onChange={(e) => onUpdate({ options: e.target.value.split("\n").filter(Boolean) })}
-            rows={3} className="font-mono" />
+          <TextArea value={(field.options || []).join("\n")} onChange={(e) => onUpdate({ options: e.target.value.split("\n").filter(Boolean) })} rows={3} className="font-mono" />
         </fieldset>
       )}
 
-      {/* Input variantes */}
       {(["input","number","email","password"].includes(field.type)) && (
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-1.5 cursor-pointer">
@@ -288,7 +348,6 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         </div>
       )}
 
-      {/* Switch variantes */}
       {field.type === "switch" && (
         <>
           <fieldset className="space-y-1">
@@ -320,7 +379,6 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
         </>
       )}
 
-      {/* Requerido + Ancho */}
       <div className="flex items-center gap-3 pt-2 border-t border-gray-100 flex-wrap">
         {!["heading","paragraph","divider","section"].includes(field.type) && (
           <label className="flex items-center gap-1.5 cursor-pointer">
@@ -348,6 +406,7 @@ export function FormBuilderPage() {
   const [view, setView] = useState<"preview" | "code">("preview");
   const [copied, setCopied] = useState(false);
   const [formTitle, setFormTitle] = useState("Mi Formulario");
+  const [previewDraggingId, setPreviewDraggingId] = useState<string | null>(null);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
   const selectedField = fields.find((f) => f.id === selectedId) ?? null;
@@ -369,10 +428,43 @@ export function FormBuilderPage() {
   function removeField(id: string) { setFields((p) => p.filter((f) => f.id !== id)); if (selectedId === id) setSelectedId(null); }
   function updateField(id: string, updates: Partial<FormField>) { setFields((p) => p.map((f) => f.id === id ? { ...f, ...updates } : f)); }
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
+  function moveField(id: string, direction: "up" | "down") {
+    setFields((prev) => {
+      const idx = prev.findIndex((f) => f.id === id);
+      if (idx < 0) return prev;
+      const targetIdx = direction === "up" ? idx - 1 : idx + 1;
+      if (targetIdx < 0 || targetIdx >= prev.length) return prev;
+      return arrayMove(prev, idx, targetIdx);
+    });
+  }
+
+  // Sidebar DnD
+  const handleSidebarDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
-      setFields((prev) => { const oi = prev.findIndex((f) => f.id === active.id); const ni = prev.findIndex((f) => f.id === over.id); return arrayMove(prev, oi, ni); });
+      setFields((prev) => {
+        const oi = prev.findIndex((f) => f.id === active.id);
+        const ni = prev.findIndex((f) => f.id === over.id);
+        return arrayMove(prev, oi, ni);
+      });
+    }
+  }, []);
+
+  // Preview DnD — uses the same field IDs directly
+  const handlePreviewDragStart = useCallback((event: DragStartEvent) => {
+    setPreviewDraggingId(event.active.id as string);
+  }, []);
+
+  const handlePreviewDragEnd = useCallback((event: DragEndEvent) => {
+    const { active, over } = event;
+    setPreviewDraggingId(null);
+    if (over && active.id !== over.id) {
+      setFields((prev) => {
+        const oi = prev.findIndex((f) => f.id === active.id);
+        const ni = prev.findIndex((f) => f.id === over.id);
+        if (oi < 0 || ni < 0) return prev;
+        return arrayMove(prev, oi, ni);
+      });
     }
   }, []);
 
@@ -380,17 +472,17 @@ export function FormBuilderPage() {
     try { await navigator.clipboard.writeText(generateCode(fields, columns)); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
   }
 
+  const draggingField = previewDraggingId ? fields.find((f) => f.id === previewDraggingId) : null;
+
   return (
     <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
       {/* ─── IZQUIERDA: Catálogo + Lista DnD ─── */}
       <div className="w-72 border-r border-gray-200 bg-white flex flex-col overflow-hidden">
-        {/* Título formulario */}
         <div className="p-3 border-b border-gray-200">
           <Label text="Título" className="text-xs uppercase tracking-wider" />
           <Input value={formTitle} onChange={(e) => setFormTitle(e.target.value)} className="mt-1" />
         </div>
 
-        {/* Catálogo */}
         <div className="p-3 border-b border-gray-200">
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Campos</p>
           <div className="grid grid-cols-4 gap-1">
@@ -404,12 +496,11 @@ export function FormBuilderPage() {
           </div>
         </div>
 
-        {/* Lista DnD */}
         <div className="flex-1 overflow-y-auto p-2">
           {fields.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full"><LuPlus className="size-5 text-gray-300 mb-1" /><p className="text-xs text-gray-400">Agrega campos</p></div>
           ) : (
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleSidebarDragEnd}>
               <SortableContext items={fields.map((f) => f.id)} strategy={verticalListSortingStrategy}>
                 <div className="space-y-1">
                   {fields.map((field) => (<SortableFieldItem key={field.id} field={field} isSelected={selectedId === field.id} onSelect={() => setSelectedId(field.id)} onRemove={() => removeField(field.id)} onUpdateName={(name) => updateField(field.id, { listName: name })} />))}
@@ -439,16 +530,43 @@ export function FormBuilderPage() {
         </div>
         <div className="flex-1 overflow-auto p-5">
           {view === "preview" ? (
-            <div className="mx-auto max-w-2xl p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+            <div className="mx-auto max-w-2xl p-6 bg-white rounded-xl border border-gray-200 shadow-sm" onClick={() => setSelectedId(null)}>
               <h2 className="text-xl font-semibold text-gray-800 mb-5">{formTitle}</h2>
-              {fields.length === 0 ? (<div className="text-center py-12"><LuPlus className="size-7 text-gray-300 mx-auto mb-2" /><p className="text-sm text-gray-400">Agrega campos</p></div>) : (
-                <><div className={columns===1?"space-y-4":"grid grid-cols-1 md:grid-cols-2 gap-4 items-start"}>
-                  {fields.map((f) => (<div key={f.id} className={f.colSpan===2&&columns>1?"col-span-2":""}><PreviewField field={f} /></div>))}
-                </div>
-                <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                  <BotonCancelar label="Cancelar" />
-                  <BotonPrimario label="Enviar" type="submit" />
-                </div></>
+              {fields.length === 0 ? (
+                <div className="text-center py-12"><LuPlus className="size-7 text-gray-300 mx-auto mb-2" /><p className="text-sm text-gray-400">Agrega campos</p></div>
+              ) : (
+                <>
+                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handlePreviewDragStart} onDragEnd={handlePreviewDragEnd}>
+                    <SortableContext items={fields.map((f) => f.id)} strategy={verticalListSortingStrategy}>
+                      <div className={columns === 1 ? "space-y-4" : "grid grid-cols-2 gap-4 items-start"}>
+                        {fields.map((f, idx) => (
+                          <SortablePreviewField
+                            key={f.id}
+                            field={f}
+                            isSelected={selectedId === f.id}
+                            onSelect={() => setSelectedId(f.id)}
+                            index={idx}
+                            total={fields.length}
+                            columns={columns}
+                            onMove={(dir) => moveField(f.id, dir)}
+                            onResize={(span) => updateField(f.id, { colSpan: span })}
+                          />
+                        ))}
+                      </div>
+                    </SortableContext>
+                    <DragOverlay>
+                      {draggingField ? (
+                        <div className="rounded-lg bg-white shadow-xl border border-[#0572CE]/50 p-3 opacity-95 max-w-sm">
+                          <PreviewField field={draggingField} />
+                        </div>
+                      ) : null}
+                    </DragOverlay>
+                  </DndContext>
+                  <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <BotonCancelar label="Cancelar" />
+                    <BotonPrimario label="Enviar" type="submit" />
+                  </div>
+                </>
               )}
             </div>
           ) : (

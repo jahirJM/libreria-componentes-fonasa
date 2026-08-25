@@ -59,6 +59,10 @@ interface FormField {
   inputError?: boolean;
   inputDisabled?: boolean;
   listName?: string;
+  // Accessibility
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  ariaLabelledBy?: string;
 }
 
 interface FieldConfig {
@@ -142,21 +146,21 @@ function PreviewField({ field }: { field: FormField }) {
 
   switch (field.type) {
     case "input": case "email": case "password": case "number":
-      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><Input type={field.type === "input" ? "text" : field.type} placeholder={field.placeholder || ""} error={field.inputError} disabled={field.inputDisabled} /></div>);
+      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><Input type={field.type === "input" ? "text" : field.type} placeholder={field.placeholder || ""} error={field.inputError} disabled={field.inputDisabled} ariaLabel={field.ariaLabel} ariaDescribedBy={field.ariaDescribedBy} ariaLabelledBy={field.ariaLabelledBy} /></div>);
     case "textarea":
-      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><TextArea placeholder={field.placeholder || ""} rows={3} /></div>);
+      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><TextArea placeholder={field.placeholder || ""} rows={3} ariaLabel={field.ariaLabel} ariaDescribedBy={field.ariaDescribedBy} /></div>);
     case "select": case "selectBuscable":
-      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><Select opciones={selectOptions} value={selectValue} onChange={setSelectValue} placeholder={field.placeholder || "Seleccionar..."} /></div>);
+      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><Select opciones={selectOptions} value={selectValue} onChange={setSelectValue} placeholder={field.placeholder || "Seleccionar..."} ariaLabel={field.ariaLabel} ariaLabelledBy={field.ariaLabelledBy} /></div>);
     case "switch":
-      return (<div className="flex items-center justify-between py-1"><Label text={field.label} /><Switch checked={switchValue} onChange={setSwitchValue} variante={field.switchVariant || "primary"} tamano={field.switchSize || "md"} conIconos={field.switchIcons || false} /></div>);
+      return (<div className="flex items-center justify-between py-1"><Label text={field.label} /><Switch checked={switchValue} onChange={setSwitchValue} variante={field.switchVariant || "primary"} tamano={field.switchSize || "md"} conIconos={field.switchIcons || false} ariaLabel={field.ariaLabel} ariaLabelledBy={field.ariaLabelledBy} /></div>);
     case "checkbox":
-      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><CheckButton listaOpciones={(field.options || ["Opción 1", "Opción 2"]).map((o) => ({ id: o, label: o }))} selectedItems={checkItems} onToggle={(op) => setCheckItems((prev) => prev.includes(op.id) ? prev.filter((i) => i !== op.id) : [...prev, op.id])} /></div>);
+      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><CheckButton listaOpciones={(field.options || ["Opción 1", "Opción 2"]).map((o) => ({ id: o, label: o }))} selectedItems={checkItems} onToggle={(op) => setCheckItems((prev) => prev.includes(op.id) ? prev.filter((i) => i !== op.id) : [...prev, op.id])} ariaLabel={field.ariaLabel} /></div>);
     case "radio":
-      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><CheckButton variant="secondary" listaOpciones={(field.options || ["Sí", "No"]).map((o) => ({ id: o, label: o }))} selectedItems={checkItems} onToggle={(op) => setCheckItems([op.id])} /></div>);
+      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><CheckButton variant="secondary" listaOpciones={(field.options || ["Sí", "No"]).map((o) => ({ id: o, label: o }))} selectedItems={checkItems} onToggle={(op) => setCheckItems([op.id])} ariaLabel={field.ariaLabel} /></div>);
     case "date":
-      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><Input type="text" placeholder={field.placeholder || "dd/mm/aaaa"} /></div>);
+      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><Input type="text" placeholder={field.placeholder || "dd/mm/aaaa"} ariaLabel={field.ariaLabel} ariaDescribedBy={field.ariaDescribedBy} ariaLabelledBy={field.ariaLabelledBy} /></div>);
     case "file":
-      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><UploadBox text="o arrastra tu archivo aquí" textStrong="Haz clic para subir" /></div>);
+      return (<div className="space-y-1.5"><Label text={field.label} indicador={field.required} /><UploadBox text="o arrastra tu archivo aquí" textStrong="Haz clic para subir" ariaLabel={field.ariaLabel} /></div>);
     case "heading":
       return <h3 className="text-lg font-semibold text-gray-800 pt-2">{field.label}</h3>;
     case "paragraph":
@@ -269,21 +273,27 @@ function generateCode(fields: FormField[], columns: number): string {
   }
   const lines = fields.map((f) => {
     const sp = columns > 1 && f.colSpan === 2 ? " col-span-2" : "";
+    const ariaProps = [
+      f.ariaLabel ? `ariaLabel="${f.ariaLabel}"` : "",
+      f.ariaDescribedBy ? `ariaDescribedBy="${f.ariaDescribedBy}"` : "",
+      f.ariaLabelledBy ? `ariaLabelledBy="${f.ariaLabelledBy}"` : "",
+    ].filter(Boolean).join(" ");
+    const ariaStr = ariaProps ? ` ${ariaProps}` : "";
     switch (f.type) {
       case "input": case "email": case "password": case "number": case "date":
-        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <Input type="${f.type === "input" ? "text" : f.type === "date" ? "text" : f.type}" placeholder="${f.placeholder || ""}" />\n        </div>`;
+        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <Input type="${f.type === "input" ? "text" : f.type === "date" ? "text" : f.type}" placeholder="${f.placeholder || ""}"${ariaStr} />\n        </div>`;
       case "file":
-        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <UploadBox text="o arrastra tu archivo aquí" textStrong="Haz clic para subir" />\n        </div>`;
+        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <UploadBox text="o arrastra tu archivo aquí" textStrong="Haz clic para subir"${ariaStr} />\n        </div>`;
       case "textarea":
-        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <TextArea placeholder="${f.placeholder || ""}" rows={3} />\n        </div>`;
+        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <TextArea placeholder="${f.placeholder || ""}" rows={3}${ariaStr} />\n        </div>`;
       case "select": case "selectBuscable":
-        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <Select opciones={[${(f.options||[]).map(o=>`{value:"${o}",label:"${o}"}`).join(",")}]} value={val} onChange={setVal} placeholder="${f.placeholder||"Seleccionar..."}" />\n        </div>`;
+        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <Select opciones={[${(f.options||[]).map(o=>`{value:"${o}",label:"${o}"}`).join(",")}]} value={val} onChange={setVal} placeholder="${f.placeholder||"Seleccionar..."}"${ariaStr} />\n        </div>`;
       case "switch":
-        return `        <div className="flex items-center justify-between${sp}">\n          <Label text="${f.label}" />\n          <Switch checked={on} onChange={setOn} variante="${f.switchVariant||"primary"}" tamano="${f.switchSize||"md"}"${f.switchIcons?" conIconos":""} />\n        </div>`;
+        return `        <div className="flex items-center justify-between${sp}">\n          <Label text="${f.label}" />\n          <Switch checked={on} onChange={setOn} variante="${f.switchVariant||"primary"}" tamano="${f.switchSize||"md"}"${f.switchIcons?" conIconos":""}${ariaStr} />\n        </div>`;
       case "checkbox":
-        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <CheckButton listaOpciones={[${(f.options||[]).map(o=>`{id:"${o}",label:"${o}"}`).join(",")}]} selectedItems={sel} onToggle={handleToggle} />\n        </div>`;
+        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <CheckButton listaOpciones={[${(f.options||[]).map(o=>`{id:"${o}",label:"${o}"}`).join(",")}]} selectedItems={sel} onToggle={handleToggle}${ariaStr} />\n        </div>`;
       case "radio":
-        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <CheckButton variant="secondary" listaOpciones={[${(f.options||[]).map(o=>`{id:"${o}",label:"${o}"}`).join(",")}]} selectedItems={sel} onToggle={handleRadio} />\n        </div>`;
+        return `        <div className="${sp}">\n          <Label text="${f.label}" ${f.required?'indicador ':''}/>\n          <CheckButton variant="secondary" listaOpciones={[${(f.options||[]).map(o=>`{id:"${o}",label:"${o}"}`).join(",")}]} selectedItems={sel} onToggle={handleRadio}${ariaStr} />\n        </div>`;
       case "heading": return `        <h3 className="text-lg font-semibold text-gray-800 pt-2${sp}">${f.label}</h3>`;
       case "paragraph": return `        <p className="text-sm text-gray-600${sp}">${f.label}</p>`;
       case "divider": return `        <hr className="border-gray-200${sp}" />`;
@@ -391,6 +401,37 @@ function PropertiesPanel({ field, onUpdate }: { field: FormField; onUpdate: (upd
           <span className="text-xs text-gray-600">Ancho completo</span>
         </label>
       </div>
+
+      {/* Accessibility */}
+      {!["heading","paragraph","divider","section"].includes(field.type) && (
+        <div className="pt-2 border-t border-gray-100 space-y-2">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Accesibilidad</p>
+          <fieldset className="space-y-1">
+            <Label text="aria-label" className="text-xs! font-mono" />
+            <Input
+              value={field.ariaLabel || ""}
+              onChange={(e) => onUpdate({ ariaLabel: e.target.value })}
+              placeholder="Texto para lectores de pantalla"
+            />
+          </fieldset>
+          <fieldset className="space-y-1">
+            <Label text="aria-describedby" className="text-xs! font-mono" />
+            <Input
+              value={field.ariaDescribedBy || ""}
+              onChange={(e) => onUpdate({ ariaDescribedBy: e.target.value })}
+              placeholder="ID del elemento descriptivo"
+            />
+          </fieldset>
+          <fieldset className="space-y-1">
+            <Label text="aria-labelledby" className="text-xs! font-mono" />
+            <Input
+              value={field.ariaLabelledBy || ""}
+              onChange={(e) => onUpdate({ ariaLabelledBy: e.target.value })}
+              placeholder="ID del label externo"
+            />
+          </fieldset>
+        </div>
+      )}
     </div>
   );
 }

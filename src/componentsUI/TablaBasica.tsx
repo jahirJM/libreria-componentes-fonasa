@@ -39,6 +39,7 @@ export const TablaBasica = ({
               {nombreColumnas.map((columna, index) => (
                 <th
                   key={index}
+                  scope="col"
                   className={clsx(
                     "px-4 py-3 text-left font-semibold text-white",
                     classTh,

@@ -35,8 +35,8 @@ export const Label = ({
       {text}
       {indicador && <IndicadorRequerido />}
       {error && (
-        <span className="inline-flex items-center gap-1 text-red-500 text-xs font-medium">
-          <PiWarningCircleBold className="text-sm" />
+        <span className="inline-flex items-center gap-1 text-red-500 text-xs font-medium" role="alert">
+          <PiWarningCircleBold className="text-sm" aria-hidden="true" />
           requerido
         </span>
       )}

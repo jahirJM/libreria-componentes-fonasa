@@ -6,6 +6,10 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: boolean;
   /** Si true, muestra skeleton de carga en lugar del textarea. @default false */
   isLoading?: boolean;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
+  /** ID del elemento que describe el textarea. */
+  ariaDescribedBy?: string;
 }
 
 /**
@@ -27,6 +31,8 @@ export const TextArea = ({
   className,
   disabled,
   isLoading = false,
+  ariaLabel,
+  ariaDescribedBy,
   ...props
 }: TextAreaProps) => {
   if (isLoading) {
@@ -40,6 +46,9 @@ export const TextArea = ({
   return (
     <textarea
       disabled={disabled}
+      aria-invalid={error || undefined}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
       className={clsx(
         "w-full placeholder:text-sm text-sm border rounded-xl px-3 py-1.5 text-gray-600",
         "focus:ring-[#0572CE] focus:border-[#0572CE] focus:outline-none",

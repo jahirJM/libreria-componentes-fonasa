@@ -93,6 +93,10 @@ interface SelectProps {
   error?: boolean;
   isLoading?: boolean;
   className?: string;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
+  /** ID del elemento que actúa como label del select. */
+  ariaLabelledBy?: string;
 }`,
   variants: [
     {

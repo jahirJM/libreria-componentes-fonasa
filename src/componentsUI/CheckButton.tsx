@@ -29,6 +29,8 @@ interface CheckButtonProps {
   variant?: Variant;
   /** Si true, muestra skeleton de carga. @default false */
   isLoading?: boolean;
+  /** Texto descriptivo para lectores de pantalla del grupo. */
+  ariaLabel?: string;
 }
 
 /**
@@ -54,6 +56,7 @@ export const CheckButton = ({
   isDisabled = false,
   variant = "primary",
   isLoading = false,
+  ariaLabel,
 }: CheckButtonProps) => {
   const opciones: Opcion[] =
     variant === "secondary"
@@ -77,7 +80,11 @@ export const CheckButton = ({
   }
 
   return (
-    <div className={clsx("flex flex-col gap-y-5", customClass)}>
+    <div
+      className={clsx("flex flex-col gap-y-5", customClass)}
+      role={variant === "secondary" ? "radiogroup" : "group"}
+      aria-label={ariaLabel}
+    >
       {opciones.map((opcion) => {
         const checked = selectedItems?.includes(opcion.id);
         return (

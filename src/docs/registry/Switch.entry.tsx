@@ -41,6 +41,11 @@ interface SwitchProps {
   className?: string;
   name?: string;
   id?: string;
+  isLoading?: boolean;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
+  /** ID del elemento que actúa como label del switch. */
+  ariaLabelledBy?: string;
 }`,
   variants: [
     {

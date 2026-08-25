@@ -118,6 +118,8 @@ export const Badge = ({
           dotColors[variant],
           customClass,
         )}
+        role="status"
+        aria-label={text}
         title={text}
       />
     );
@@ -135,6 +137,8 @@ export const Badge = ({
               dotColors[variant],
               customClass,
             )}
+            role="status"
+            aria-label={text}
             title={text}
           />
           {/* Desktop: badge completo */}

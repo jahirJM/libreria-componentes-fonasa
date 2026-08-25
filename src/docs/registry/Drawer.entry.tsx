@@ -1,6 +1,7 @@
 import drawerCode from "../../componentsUI/Drawer.tsx?raw";
 import drawerTestCode from "../../tests/Drawer.test.tsx?raw";
 import { BottomDemo, DefaultDemo, LargeDemo, LeftDemo, NoCerrarAlClickFueraDemo, SinBotonCerrarDemo, SkeletonDrawerDemo, TopDemo, WithFooterDemo } from "../demos/DrawerDemo";
+import { DrawerPlayground } from "../demos/DrawerPlayground";
 import type { ComponentEntry } from "./types";
 
 /**
@@ -27,6 +28,7 @@ export const drawerEntry: ComponentEntry = {
   code: drawerCode,
   testCode: drawerTestCode,
   dependencies: ["clsx", "react-icons", "react-dom"],
+  playground: () => <DrawerPlayground />,
   propsInterface: `type DrawerPosicion = "right" | "left" | "bottom" | "top";
 type DrawerSize = "sm" | "md" | "lg" | "xl" | "full";
 

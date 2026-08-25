@@ -1,5 +1,6 @@
 import carouselCode from "../../componentsUI/Carousel.tsx?raw";
 import { CarouselDemo1x1, CarouselDemo3x3, CarouselDemo2x2, CarouselDemoDotsOnly, CarouselDemoInfinite, CarouselDemoAutoPlay } from "../demos/CarouselDemo";
+import { CarouselPlayground } from "../demos/CarouselPlayground";
 import type { ComponentEntry } from "./types";
 
 export const carouselEntry: ComponentEntry = {
@@ -8,6 +9,7 @@ export const carouselEntry: ComponentEntry = {
     "Carrusel genérico con grilla configurable (cols × rows por página). Soporta navegación con flechas, indicadores de página (dots), loop infinito, autoplay y modo controlado/no controlado.",
   code: carouselCode,
   dependencies: ["react-icons", "clsx"],
+  playground: () => <CarouselPlayground />,
   propsInterface: `interface CarouselProps<T> {
   /** Array de items a mostrar en el carrusel. */
   items: T[];

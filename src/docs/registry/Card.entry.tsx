@@ -10,6 +10,7 @@ import {
   CardFooter,
 } from "../../componentsUI/Card";
 import { BotonPrimario, BotonCancelar, BotonOutline, BotonLink } from "../../componentsUI/Botones";
+import { CardPlayground } from "../demos/CardPlayground";
 import type { ComponentEntry } from "./types";
 
 export const cardEntry: ComponentEntry = {
@@ -18,6 +19,7 @@ export const cardEntry: ComponentEntry = {
     "Utiliza: botones. Contenedor card composable con Header (título, descripción, acción), Content y Footer. 4 variantes: default, elevada, outline e interactiva.",
   code: cardCode,
   testCode: cardTestCode,
+  playground: () => <CardPlayground />,
   dependencies: ["clsx"],
   colors: [
     { name: "white", value: "#ffffff", usage: "Fondo de la card" },

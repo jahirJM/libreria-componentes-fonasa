@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import tablaDatosCode from "../../componentsUI/TablaDatos.tsx?raw";
 import tablaDatosTestCode from "../../tests/TablaDatos.test.tsx?raw";
 import { TablaDatos } from "../../componentsUI/TablaDatos";
+import { TablaDatosPlayground } from "../demos/TablaDatosPlayground";
 import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
@@ -85,6 +86,7 @@ export const tablaDatosEntry: ComponentEntry = {
   testCode: tablaDatosTestCode,
   group: "Tablas",
   dependencies: ["react-icons"],
+  playground: () => <TablaDatosPlayground />,
   colors: [
     { name: "Color primario (prestadores naturales)", value: "#008CB5", usage: "Fondo del header en variante primary" },
     { name: "Texto (parrafos)", value: "#414951", usage: "Fondo del header en variante secondary" },

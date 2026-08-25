@@ -4,6 +4,7 @@ import modalTestCode from "../../tests/Modal.test.tsx?raw";
 import Modal from "../../componentsUI/Modal";
 import { BotonPrimario } from "../../componentsUI/Botones";
 import { SkeletonModal } from "../../skeletons/SkeletonModal";
+import { ModalPlayground } from "../demos/ModalPlayground";
 import type { ComponentEntry } from "./types";
 
 function ModalExitoDemo() {
@@ -48,6 +49,7 @@ export const modalExitoEntry: ComponentEntry = {
   testCode: modalTestCode,
   group: "Modales",
   dependencies: ["react-icons"],
+  playground: () => <ModalPlayground />,
   colors: [
     { name: "Negro/50", value: "rgba(0,0,0,0.5)", usage: "Overlay/backdrop del modal" },
     { name: "Blanco", value: "#ffffff", usage: "Fondo del contenedor del modal" },

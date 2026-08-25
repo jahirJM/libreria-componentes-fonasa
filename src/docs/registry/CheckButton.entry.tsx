@@ -1,6 +1,7 @@
 import checkButtonCode from "../../componentsUI/CheckButton.tsx?raw";
 import checkButtonTestCode from "../../tests/CheckButton.test.tsx?raw";
 import { CheckButtonDemo } from "../demos/CheckButtonDemo";
+import { CheckButtonPlayground } from "../demos/CheckButtonPlayground";
 import { CheckButton } from "../../componentsUI/CheckButton";
 import type { ComponentEntry } from "./types";
 
@@ -11,6 +12,7 @@ export const checkButtonEntry: ComponentEntry =   {
     code: checkButtonCode,
     testCode: checkButtonTestCode,
     dependencies: ["clsx"],
+    playground: () => <CheckButtonPlayground />,
     colors: [
       { name: "Texto (fondos claros)", value: "#374151", usage: "Texto de los labels" },
       { name: "Color primario (fonasa)", value: "#0572CE", usage: "Color del checkbox/radio cuando está seleccionado (accent-color CSS)" },

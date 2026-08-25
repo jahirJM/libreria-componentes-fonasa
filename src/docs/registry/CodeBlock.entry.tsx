@@ -1,5 +1,6 @@
 import codeBlockCode from "../../componentsUI/CodeBlock.tsx?raw";
 import { CodeBlock } from "../../componentsUI/CodeBlock";
+import { CodeBlockPlayground } from "../demos/CodeBlockPlayground";
 import type { ComponentEntry } from "./types";
 
 export const codeBlockEntry: ComponentEntry = {
@@ -8,6 +9,7 @@ export const codeBlockEntry: ComponentEntry = {
     "Bloque de código o comando con botón de copiar al portapapeles. Ideal para snippets, comandos de terminal o configuraciones copiables.",
   code: codeBlockCode,
   dependencies: ["clsx", "react-icons"],
+  playground: () => <CodeBlockPlayground />,
   colors: [
     { name: "Fondos (overlay)", value: "#111827", usage: "Fondo del bloque variante dark" },
     { name: "Texto (fondos claros)", value: "#374151", usage: "Borde variante dark" },

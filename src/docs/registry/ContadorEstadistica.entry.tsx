@@ -1,6 +1,7 @@
 import contadorCode from "../../componentsUI/ContadorEstadistica.tsx?raw";
 import contadorEstadisticaTestCode from "../../tests/ContadorEstadistica.test.tsx?raw";
 import { ContadorEstadistica } from "../../componentsUI/ContadorEstadistica";
+import { ContadorEstadisticaPlayground } from "../demos/ContadorEstadisticaPlayground";
 import type { ComponentEntry } from "./types";
 
 // ─── Íconos SVG inline ────────────────────────────────────────────────────────
@@ -37,6 +38,7 @@ export const contadorEstadisticaEntry: ComponentEntry = {
     "Tarjeta de métrica animada con patrón de composición. Cuenta desde 0 hasta el valor final al entrar en pantalla. Usa sub-componentes: Cabecera, Metrica, Contenido, Etiqueta, Descripcion y Tendencia.",
   code: contadorCode,
   testCode: contadorEstadisticaTestCode,
+  playground: () => <ContadorEstadisticaPlayground />,
   colors: [
     { name: "Blanco", value: "#ffffff", usage: "Fondo de todas las variantes" },
     { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Borde variante neutral" },

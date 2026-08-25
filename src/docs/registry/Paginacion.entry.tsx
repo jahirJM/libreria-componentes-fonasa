@@ -1,6 +1,7 @@
 import paginacionCode from "../../componentsUI/Paginacion.tsx?raw";
 import paginacionTestCode from "../../tests/Paginacion.test.tsx?raw";
 import { PaginacionDemo, PaginacionResizeDemo } from "../demos/PaginacionDemo";
+import { PaginacionPlayground } from "../demos/PaginacionPlayground";
 import { Paginacion } from "../../componentsUI/Paginacion";
 import type { ComponentEntry } from "./types";
 
@@ -11,6 +12,7 @@ export const paginacionEntry: ComponentEntry =  {
     code: paginacionCode,
     testCode: paginacionTestCode,
     dependencies: ["react-icons"],
+    playground: () => <PaginacionPlayground />,
     propsInterface: `interface PaginacionProps {
   paginaActual: number;
   totalPaginas: number;

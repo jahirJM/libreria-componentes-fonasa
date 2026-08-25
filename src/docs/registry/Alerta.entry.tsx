@@ -3,6 +3,7 @@ import alertaTestCode from "../../tests/Alerta.test.tsx?raw";
 import { Alerta } from "../../componentsUI/Alerta";
 import { FiShield } from "react-icons/fi";
 import { SkeletonAlerta } from "../../skeletons/SkeletonAlerta";
+import { AlertaPlayground } from "../demos/AlertaPlayground";
 import type { ComponentEntry } from "./types";
 
 export const alertaEntry: ComponentEntry = {
@@ -13,6 +14,7 @@ export const alertaEntry: ComponentEntry = {
   code: alertaCode,
   testCode: alertaTestCode,
   dependencies: ["clsx", "react-icons"],
+  playground: () => <AlertaPlayground />,
   colors: [
     { name: "emerald-500/10", value: "rgba(16,185,129,0.1)", usage: "Fondo variante success" },
     { name: "emerald-700", value: "#047857", usage: "Texto variante success" },

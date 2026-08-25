@@ -1,6 +1,7 @@
 import uploadBoxCode from "../../componentsUI/UploadBox.tsx?raw";
 import uploadBoxTestCode from "../../tests/UploadBox.test.tsx?raw";
 import { UploadBox } from "../../componentsUI/UploadBox";
+import { UploadBoxPlayground } from "../demos/UploadBoxPlayground";
 import { UploadBoxResizeDemo } from "../demos/UploadBoxDemo";
 import type { ComponentEntry } from "./types";
 
@@ -11,6 +12,7 @@ export const uploadBoxEntry: ComponentEntry =   {
     code: uploadBoxCode,
     testCode: uploadBoxTestCode,
     dependencies: ["clsx", "react-icons"],
+    playground: () => <UploadBoxPlayground />,
     colors: [
       { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Fondo del estado default" },
       { name: "Bordes (dividers)", value: "#d1d5db", usage: "Borde punteado del estado default" },

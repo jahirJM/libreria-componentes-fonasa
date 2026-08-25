@@ -1,6 +1,7 @@
 import badgeCode from "../../componentsUI/Badge.tsx?raw";
 import badgeTestCode from "../../tests/Badge.test.tsx?raw";
 import { Badge } from "../../componentsUI/Badge";
+import { BadgePlayground } from "../demos/BadgePlayground";
 import type { ComponentEntry } from "./types";
 
 export const badgeEntry: ComponentEntry =   {
@@ -10,6 +11,7 @@ export const badgeEntry: ComponentEntry =   {
     code: badgeCode,
     testCode: badgeTestCode,
     dependencies: ["clsx"],
+    playground: () => <BadgePlayground />,
     colors: [
       { name: "Fondo (pendiente)", value: "#fefce8", usage: "Fondo badge pendiente" },
       { name: "Texto (pendiente)", value: "#a16207", usage: "Texto badge pendiente" },

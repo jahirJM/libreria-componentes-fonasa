@@ -1,6 +1,7 @@
 import { BotonCancelar, BotonConfirmar, BotonPrimario, BotonSecundario, BotonOutline, BotonLink } from "../../componentsUI/Botones";
 import botonesCode from "../../componentsUI/Botones.tsx?raw";
 import botonesTestCode from "../../tests/Botones.test.tsx?raw";
+import { BotonesPlayground } from "../demos/BotonesPlayground";
 import type { ComponentEntry } from "./types";
 
 export const botonesEntry: ComponentEntry =   {
@@ -10,6 +11,7 @@ export const botonesEntry: ComponentEntry =   {
     code: botonesCode,
     testCode: botonesTestCode,
     dependencies: ["react-icons"],
+    playground: () => <BotonesPlayground />,
     colors: [
       { name: "Botón toast éxito", value: "#0891b2", usage: "Fondo BotonConfirmar" },
       { name: "Hover botón toast éxito", value: "#06b6d4", usage: "Fondo hover BotonConfirmar" },

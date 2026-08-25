@@ -2,6 +2,7 @@ import inputCalendarioCode from "../../componentsUI/InputCalendario.tsx?raw";
 import inputCalendarioTestCode from "../../tests/InputCalendario.test.tsx?raw";
 import { InputCalendario } from "../../componentsUI/InputCalendario";
 import { SkeletonInputCalendario } from "../../skeletons/SkeletonInputCalendario";
+import { InputCalendarioPlayground } from "../demos/InputCalendarioPlayground";
 import type { ComponentEntry } from "./types";
 
 export const inputCalendarioEntry: ComponentEntry = {
@@ -12,6 +13,7 @@ export const inputCalendarioEntry: ComponentEntry = {
   code: inputCalendarioCode,
   testCode: inputCalendarioTestCode,
   dependencies: ["date-holidays"],
+  playground: () => <InputCalendarioPlayground />,
   colors: [
     { name: "Color primario (fonasa)", value: "#0572CE", usage: "Focus ring y label activo" },
     { name: "Bordes (dividers)", value: "#d1d5db", usage: "Borde del input" },

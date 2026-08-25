@@ -1,6 +1,7 @@
 import tablaBasicaCode from "../../componentsUI/TablaBasica.tsx?raw";
 import tablaBasicaTestCode from "../../tests/TablaBasica.test.tsx?raw";
 import { TablaBasica } from "../../componentsUI/TablaBasica";
+import { TablaBasicaPlayground } from "../demos/TablaBasicaPlayground";
 import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
@@ -12,6 +13,7 @@ export const tablaBasicaEntry: ComponentEntry =   {
     testCode: tablaBasicaTestCode,
     group: "Tablas",
     dependencies: ["clsx"],
+    playground: () => <TablaBasicaPlayground />,
     colors: [
       { name: "Focus ring inputs", value: "#1e3a5f", usage: "Fondo del header" },
       { name: "Blanco", value: "#ffffff", usage: "Texto del header y fondo de la tabla" },

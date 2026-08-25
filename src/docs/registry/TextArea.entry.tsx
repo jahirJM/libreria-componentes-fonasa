@@ -1,6 +1,7 @@
 import textAreaCode from "../../componentsUI/TextArea.tsx?raw";
 import textAreaTestCode from "../../tests/TextArea.test.tsx?raw";
 import { TextArea } from "../../componentsUI/TextArea";
+import { TextAreaPlayground } from "../demos/TextAreaPlayground";
 import type { ComponentEntry } from "./types";
 
 export const textAreaEntry: ComponentEntry =   {
@@ -10,6 +11,7 @@ export const textAreaEntry: ComponentEntry =   {
     code: textAreaCode,
     testCode: textAreaTestCode,
     dependencies: ["clsx"],
+    playground: () => <TextAreaPlayground />,
     colors: [
       { name: "Blanco", value: "#ffffff", usage: "Fondo del textarea" },
       { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Fondo del textarea deshabilitado" },

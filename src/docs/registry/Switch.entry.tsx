@@ -1,6 +1,7 @@
 import switchCode from "../../componentsUI/Switch.tsx?raw";
 import switchTestCode from "../../tests/Switch.test.tsx?raw";
 import { Switch, SegmentedToggle } from "../../componentsUI/Switch";
+import { SwitchPlayground } from "../demos/SwitchPlayground";
 import type { ComponentEntry } from "./types";
 
 export const switchEntry: ComponentEntry = {
@@ -10,6 +11,7 @@ export const switchEntry: ComponentEntry = {
   code: switchCode,
   testCode: switchTestCode,
   dependencies: ["clsx", "react-icons"],
+  playground: () => <SwitchPlayground />,
   colors: [
     { name: "sky-600", value: "#0284c7", usage: "Pista activa variante primary" },
     { name: "emerald-600", value: "#059669", usage: "Pista activa variante success / ícono check" },

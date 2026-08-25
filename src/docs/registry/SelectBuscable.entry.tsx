@@ -3,6 +3,7 @@ import selectBuscableCode from "../../componentsUI/SelectBuscable.tsx?raw";
 import selectBuscableTestCode from "../../tests/SelectBuscable.test.tsx?raw";
 import { SelectBuscable } from "../../componentsUI/SelectBuscable";
 import { SelectBuscableResizeDemo } from "../demos/SelectBuscableDemo";
+import { SelectBuscablePlayground } from "../demos/SelectBuscablePlayground";
 import type { ComponentEntry } from "./types";
 
 const opcionesEjemplo = [
@@ -129,6 +130,7 @@ export const selectBuscableEntry: ComponentEntry = {
   code: selectBuscableCode,
   testCode: selectBuscableTestCode,
   dependencies: ["clsx", "react-icons"],
+  playground: () => <SelectBuscablePlayground />,
   propsInterface: `interface OpcionBuscable {
   value: string;
   label: string;

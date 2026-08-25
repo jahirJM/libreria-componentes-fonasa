@@ -35,4 +35,6 @@ export interface ComponentEntry {
   assetGroups?: Record<string, string[]>;
   /** Directorio destino para los assets (relativo al proyecto del usuario) */
   assetsDir?: string;
+  /** Componente React de playground interactivo para este componente */
+  playground?: () => ReactNode;
 }

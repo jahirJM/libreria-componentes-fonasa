@@ -1,6 +1,7 @@
 import tableCode from "../../componentsUI/Table.tsx?raw";
 import tableTestCode from "../../tests/Table.test.tsx?raw";
 import { Table } from "../../componentsUI/Table";
+import { TablePlayground } from "../demos/TablePlayground";
 import { SkeletonTabla } from "../../skeletons/SkeletonTabla";
 import type { ComponentEntry } from "./types";
 
@@ -12,6 +13,7 @@ export const tablaAvanzadaEntry: ComponentEntry =   {
     testCode: tableTestCode,
     group: "Tablas",
     dependencies: ["clsx"],
+    playground: () => <TablePlayground />,
     colors: [
       { name: "Focus ring inputs", value: "#1e3a5f", usage: "Fondo del header" },
       { name: "Texto links", value: "#1e40af", usage: "Fondo hover del header (ocultable)" },

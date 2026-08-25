@@ -2,6 +2,7 @@ import customModalCode from "../../componentsUI/CustomModal.tsx?raw";
 import customModalTestCode from "../../tests/CustomModal.test.tsx?raw";
 import { ModalDemo } from "../demos/ModalDemo";
 import { SkeletonModal } from "../../skeletons/SkeletonModal";
+import { CustomModalPlayground } from "../demos/CustomModalPlayground";
 import type { ComponentEntry } from "./types";
 
 export const customModalEntry: ComponentEntry =  {
@@ -12,6 +13,7 @@ export const customModalEntry: ComponentEntry =  {
     testCode: customModalTestCode,
     group: "Modales",
     dependencies: ["@headlessui/react", "react-icons"],
+    playground: () => <CustomModalPlayground />,
     colors: [
       { name: "Blanco", value: "#ffffff", usage: "Fondo del modal" },
       { name: "Fondos (dark)", value: "rgba(31,41,55,0.5)", usage: "Overlay de fondo" },

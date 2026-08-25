@@ -3,6 +3,7 @@ import inputTestCode from "../../tests/Input.test.tsx?raw";
 import { Input } from "../../componentsUI/Input";
 import { InputResizeDemo } from "../demos/InputDemo";
 import { FiEye, FiSearch } from "react-icons/fi";
+import { InputPlayground } from "../demos/InputPlayground";
 import type { ComponentEntry } from "./types";
 
 export const inputEntry: ComponentEntry =   {
@@ -12,6 +13,7 @@ export const inputEntry: ComponentEntry =   {
     code: inputCode,
     testCode: inputTestCode,
     dependencies: ["clsx", "react-icons"],
+    playground: () => <InputPlayground />,
     colors: [
       { name: "Blanco", value: "#ffffff", usage: "Fondo del input" },
       { name: "Fondo (cards)", value: "#f3f4f6", usage: "Fondo del input deshabilitado" },

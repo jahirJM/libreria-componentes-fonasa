@@ -3,6 +3,7 @@ import selectCode from "../../componentsUI/Select.tsx?raw";
 import selectTestCode from "../../tests/Select.test.tsx?raw";
 import { Select } from "../../componentsUI/Select";
 import { SelectResizeDemo } from "../demos/SelectDemo";
+import { SelectPlayground } from "../demos/SelectPlayground";
 import type { ComponentEntry } from "./types";
 
 const opcionesEjemplo = [
@@ -67,6 +68,7 @@ export const selectEntry: ComponentEntry = {
   code: selectCode,
   testCode: selectTestCode,
   dependencies: ["clsx", "react-icons"],
+  playground: () => <SelectPlayground />,
   colors: [
     { name: "Blanco", value: "#ffffff", usage: "Fondo del trigger y dropdown" },
     { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Fondo del trigger deshabilitado" },

@@ -339,6 +339,7 @@ function InstallCommand({ name, hasTest, dependencies }: { name: string; hasTest
 
 export function ComponentPreview({ entry }: ComponentPreviewProps) {
   const [showCode, setShowCode] = useState(false);
+  const [showPlayground, setShowPlayground] = useState(false);
 
   return (
     <section className="flex flex-col lg:flex-row gap-0 overflow-show">
@@ -405,9 +406,35 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
 
         {/* Ejemplos */}
         <div className="mb-12">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Ejemplos</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Ejemplos</h3>
+            {entry.playground && (
+              <button
+                onClick={() => setShowPlayground(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#0572CE] bg-[#0572CE]/5 hover:bg-[#0572CE]/10 border border-[#0572CE]/20 transition-colors cursor-pointer"
+              >
+                <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Playground
+              </button>
+            )}
+          </div>
           <VariantSelector variants={entry.variants} />
         </div>
+
+        {/* Playground modal */}
+        {entry.playground && showPlayground && (
+          <CustomModal
+            size="lg"
+            title={`Playground — ${entry.name}`}
+            showModal={showPlayground}
+            onClose={() => setShowPlayground(false)}
+          >
+            {entry.playground()}
+          </CustomModal>
+        )}
       </div>
 
       {/* Columna derecha: código fuente colapsable — solo visible en lg+ como sidebar */}

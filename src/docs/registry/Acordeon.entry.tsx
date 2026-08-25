@@ -8,6 +8,7 @@ import {
 } from "../../componentsUI/Acordeon";
 import { FiHeart, FiShield } from "react-icons/fi";
 import { SkeletonAcordeon } from "../../skeletons/SkeletonAcordeon";
+import { AcordeonPlayground } from "../demos/AcordeonPlayground";
 import type { ComponentEntry } from "./types";
 
 export const acordeonEntry: ComponentEntry = {
@@ -17,6 +18,7 @@ export const acordeonEntry: ComponentEntry = {
   code: acordeonCode,
   testCode: acordeonTestCode,
   dependencies: ["clsx", "react-icons"],
+  playground: () => <AcordeonPlayground />,
   colors: [
     { name: "Blanco", value: "#ffffff", usage: "Fondo del contenedor" },
     { name: "Bordes (suaves)", value: "#e5e7eb", usage: "Separador entre ítems (divide-y) y borde" },

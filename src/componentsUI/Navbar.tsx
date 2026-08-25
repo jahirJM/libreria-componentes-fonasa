@@ -149,7 +149,7 @@ export function Navbar({
             </button>
 
             {/* Desktop navigation */}
-            <div ref={navContainerRef} className="relative hidden lg:flex items-center gap-1">
+            <div ref={navContainerRef} className="relative hidden lg:flex items-center gap-1" role="navigation" aria-label="Navegación principal">
               {items.map((item) => {
                 const active = isActive(item.path, activePath, item.exact);
                 const pillClasses = active
@@ -167,6 +167,7 @@ export function Navbar({
                     }}
                     type="button"
                     onClick={() => handleItemClick(item.path)}
+                    aria-current={active ? "page" : undefined}
                     className={`relative inline-flex items-center px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2 ${
                       variant === "pill" ? pillClasses : underlineClasses
                     }`}
@@ -218,7 +219,7 @@ export function Navbar({
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
-          <aside className="fixed top-14 right-0 bottom-0 z-45 w-72 max-w-[85vw] bg-white dark:bg-[#061018] border-l border-gray-200 dark:border-[#1e3044] shadow-lg overflow-y-auto lg:hidden">
+          <aside className="fixed top-14 right-0 bottom-0 z-45 w-72 max-w-[85vw] bg-white dark:bg-[#061018] border-l border-gray-200 dark:border-[#1e3044] shadow-lg overflow-y-auto lg:hidden" role="navigation" aria-label="Menú de navegación móvil">
             <div className="p-4 space-y-1">
               {items.map((item) => {
                 const active = isActive(item.path, activePath, item.exact);
@@ -227,6 +228,7 @@ export function Navbar({
                     key={item.path}
                     type="button"
                     onClick={() => handleItemClick(item.path)}
+                    aria-current={active ? "page" : undefined}
                     className={`w-full text-left block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       active
                         ? "bg-[#0572CE] text-white"

@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { IoMdHome } from "react-icons/io";
-import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown, LuImageDown, LuHammer, LuType } from "react-icons/lu";
+import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown, LuSearch } from "react-icons/lu";
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
 import { FormBuilderPage } from "./FormBuilderPage";
 import { IconBuilderPage } from "./IconBuilderPage";
 import { Switch } from "../../componentsUI/Switch";
+import { Input } from "../../componentsUI/Input";
 import { BotonPrimario, BotonOutline } from "../../componentsUI/Botones";
 import { fonasaToast } from "../../componentsUI/Toast";
 import { CustomModal } from "../../componentsUI/CustomModal";
@@ -982,8 +983,6 @@ function FontsSection({ onGoHome }: { onGoHome: () => void }) {
 interface ResourceSection {
   title: string;
   description: string;
-  icon: React.ReactNode;
-  items?: string[];
   installCommand?: string;
 }
 
@@ -991,18 +990,15 @@ function ResourcesHome({ onNavigate }: { onNavigate: (item: SidebarItem) => void
   const sections: ResourceSection[] = [
     {
       title: "Iconos",
-      description: "Logotipos institucionales, iconos de contacto, gobierno y redes sociales en formato SVG y PNG listos para usar.",
-      icon: <LuImageDown className="size-6 text-[#0572CE]" />,
+      description: "Logotipos institucionales, iconos de contacto, gobierno y redes sociales en formato SVG listos para usar.",
     },
     {
       title: "Builders",
       description: "Herramientas visuales para construir templates de email, formularios e iconos personalizados.",
-      icon: <LuHammer className="size-6 text-[#0572CE]" />,
     },
     {
       title: "Tipografía",
       description: "Fuente institucional Roboto con todos sus pesos y la escala de tamaños estandarizada del sistema de diseño.",
-      icon: <LuType className="size-6 text-[#0572CE]" />,
     },
   ];
 
@@ -1031,31 +1027,23 @@ function ResourcesHome({ onNavigate }: { onNavigate: (item: SidebarItem) => void
         </p>
 
         {/* Section cards */}
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {sections.map((section) => (
             <div
               key={section.title}
               className="rounded-xl border border-gray-200 p-6 hover:border-[#0572CE]/30 hover:shadow-sm transition-all cursor-pointer group"
               onClick={() => handleSectionClick(section.title)}
             >
-              <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-50 shrink-0 group-hover:bg-blue-100 transition-colors">
-                  {section.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-1 group-hover:text-[#0572CE] transition-colors">
-                    {section.title}
-                  </h2>
-                  <p className="text-sm text-gray-500 mb-4">{section.description}</p>
+              <h2 className="text-base font-semibold text-gray-800 mb-2 group-hover:text-[#0572CE] transition-colors">
+                {section.title}
+              </h2>
+              <p className="text-sm text-gray-500">{section.description}</p>
 
-
-                  {section.installCommand && (
-                    <div className="rounded-lg bg-gray-900 px-4 py-2.5">
-                      <code className="text-xs text-green-400 font-mono">{section.installCommand}</code>
-                    </div>
-                  )}
+              {section.installCommand && (
+                <div className="rounded-lg bg-gray-900 px-4 py-2.5 mt-4">
+                  <code className="text-xs text-green-400 font-mono">{section.installCommand}</code>
                 </div>
-              </div>
+              )}
             </div>
           ))}
         </div>
@@ -1072,6 +1060,7 @@ export function RecursosPage() {
   const sidebarGroups = buildSidebarGroups();
 
   const [activeItem, setActiveItem] = useState<SidebarItem>({ type: "home" });
+  const [filter, setFilter] = useState("");
   const navRef = useRef<HTMLElement>(null);
   const [indicator, setIndicator] = useState<{ top: number; height: number; opacity: number }>({ top: 0, height: 0, opacity: 0 });
 
@@ -1107,10 +1096,58 @@ export function RecursosPage() {
     setTimeout(updateIndicator, 220);
   };
 
+  // Filter sidebar groups based on search
+  const filteredGroups = useMemo(() => {
+    if (!filter.trim()) return sidebarGroups;
+    const term = filter.toLowerCase().trim();
+    return sidebarGroups
+      .map((group) => ({
+        ...group,
+        items: group.items.filter((item) => {
+          const label = getItemLabel(item);
+          return label.toLowerCase().includes(term) || group.name.toLowerCase().includes(term);
+        }),
+      }))
+      .filter((group) => group.items.length > 0);
+  }, [filter, sidebarGroups]);
+
+  // Force all groups open when filter is active
+  const effectiveOpenGroups = useMemo(() => {
+    if (filter.trim()) {
+      const allOpen: Record<string, boolean> = {};
+      filteredGroups.forEach((g) => (allOpen[g.name] = true));
+      return allOpen;
+    }
+    return openGroups;
+  }, [filter, openGroups, filteredGroups]);
+
+  // Recalculate indicator when filter changes
+  useEffect(() => {
+    const timer = setTimeout(updateIndicator, 60);
+    return () => clearTimeout(timer);
+  }, [filter, updateIndicator]);
+
   return (
     <>
       {/* ─── Sidebar izquierdo ─── */}
       <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] p-4 transition-colors duration-200">
+        {/* Filtro de búsqueda */}
+        <div className="mt-3 mb-2">
+          <Input
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder="Buscar recurso..."
+            leftIcon={<LuSearch className="size-3.5" />}
+          />
+        </div>
+
+        {/* Mensaje sin resultados */}
+        {filter.trim() && filteredGroups.length === 0 && (
+          <p className="px-3 py-2 text-xs text-gray-500 italic">
+            Sin resultados para "{filter}"
+          </p>
+        )}
+
         <div className="ml-3 mt-2 border-l-2 border-gray-300 dark:border-[#1e3044] pl-3">
           <nav ref={navRef} className="relative flex flex-col gap-0.5 text-sm font-medium">
             {/* Sliding indicator */}
@@ -1123,9 +1160,9 @@ export function RecursosPage() {
               }}
             />
             {/* Groups */}
-            {sidebarGroups.map((group) => {
+            {filteredGroups.map((group) => {
               const groupKey = group.name;
-              const isOpen = openGroups[groupKey] ?? true;
+              const isOpen = effectiveOpenGroups[groupKey] ?? true;
               return (
                 <div key={group.name} className="mt-1">
                   <button

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { fonasaToast } from "../../componentsUI/Toast";
+import { Carousel } from "../../componentsUI/Carousel";
 
 interface ColorSwatch {
   name: string;
@@ -340,22 +341,85 @@ export const colorSections: ColorSection[] = [
 ];
 
 export function ColorsPage() {
+  const [activeSection, setActiveSection] = useState<string>("all");
+
+  const filtered =
+    activeSection === "all"
+      ? colorSections
+      : colorSections.filter(
+          (s) => slugifySection(s.title) === activeSection
+        );
+
+  const allSwatches = useMemo(
+    () => colorSections.flatMap((s) => s.colors),
+    []
+  );
+
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          Paleta de Colores
-        </h1>
-        <p className="text-gray-500">
-          Colores institucionales y funcionales usados en los componentes de
-          Fonasa. Organizados por propósito para facilitar la consistencia
-          visual.
-        </p>
+    <div className="min-h-[calc(100vh-3.5rem)] flex flex-col">
+      {/* Header */}
+      <div className="border-b border-gray-100">
+        <div className="px-6 py-5 flex items-center gap-6 max-w-5xl mx-auto">
+          {/* Izquierda: título y descripción */}
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">Recursos</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Paleta de Colores</h1>
+            <p className="text-base text-gray-500 max-w-xl leading-relaxed">
+              Colores institucionales y funcionales usados en los componentes de
+              Fonasa. Organizados por propósito para facilitar la consistencia visual.
+            </p>
+          </div>
+        </div>
       </div>
 
-      {colorSections.map((section) => (
-        <Section key={section.title} section={section} />
-      ))}
+      {/* Contenido principal: filtros verticales + secciones */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Columna izquierda: filtros verticales */}
+        <nav className="shrink-0 w-48 border-r border-gray-100 p-4 overflow-y-auto">
+          <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-3">Categorías</p>
+          <div className="flex flex-col gap-1.5">
+            <button
+              onClick={() => setActiveSection("all")}
+              className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                activeSection === "all" ? "bg-[#0572CE] text-white" : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              Todas ({colorSections.length})
+            </button>
+            {colorSections.map((section) => {
+              const id = slugifySection(section.title);
+              return (
+                <button
+                  key={section.title}
+                  onClick={() => setActiveSection(id)}
+                  className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    activeSection === id ? "bg-[#0572CE] text-white" : "text-gray-500 hover:bg-gray-100"
+                  }`}
+                >
+                  {section.title}
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+
+        {/* Columna derecha: carrusel (todas) o secciones filtradas */}
+        <section className="flex-1 min-w-0 p-6 overflow-y-auto">
+          {activeSection === "all" ? (
+            <Carousel
+              items={allSwatches}
+              cols={5}
+              rows={3}
+              gap="gap-4"
+              renderItem={(color) => <Swatch key={color.name + color.value} color={color} />}
+            />
+          ) : (
+            filtered.map((section) => (
+              <Section key={section.title} section={section} />
+            ))
+          )}
+        </section>
+      </div>
     </div>
   );
 }

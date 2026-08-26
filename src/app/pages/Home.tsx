@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "../../componentsUI/Card";
 import { BotonPrimario, BotonOutline } from "../../componentsUI/Botones";
@@ -10,6 +10,43 @@ tailwindcss: ^4.x
 @tailwindcss/vite: ^4.x`;
 
 const INSTALL_COMMAND = "npm install react react-dom tailwindcss @tailwindcss/vite";
+
+function Typewriter({ text }: { text: string }) {
+  const [displayed, setDisplayed] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    setDisplayed("");
+    let i = 0;
+    let rafId: number;
+    let start: number | null = null;
+    const totalDuration = text.length * 100; // total ms for all characters
+
+    function animate(timestamp: number) {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / totalDuration, 1);
+      const chars = Math.round(progress * text.length);
+      setDisplayed(text.slice(0, chars));
+
+      if (progress < 1) {
+        rafId = requestAnimationFrame(animate);
+      } else {
+        setTimeout(() => setShowCursor(false), 1500);
+      }
+    }
+
+    rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
+  }, [text]);
+
+  return (
+    <span>
+      {displayed}
+      <span className={`inline-block w-[2px] h-[1em] bg-[#0572CE] ml-0.5 align-middle ${showCursor ? "animate-[blink_0.8s_step-end_infinite]" : "opacity-0"}`} />
+    </span>
+  );
+}
 
 export function Home() {
   const [copied, setCopied] = useState(false);
@@ -27,7 +64,9 @@ export function Home() {
 
   return (
     <div className="flex flex-col items-center text-center py-20">
-      <h1 className="text-5xl font-bold text-[#0572CE] mb-4">Fonasa UI</h1>
+      <h1 className="text-5xl font-bold text-[#0572CE] mb-4">
+        <Typewriter text="Fonasa UI" />
+      </h1>
       <p className="text-lg text-gray-500 dark:text-[#94a3b8] max-w-xl mb-8">
         Librería de componentes React para proyectos internos de Fonasa.
         Componentes listos para copiar y pegar en tu proyecto.

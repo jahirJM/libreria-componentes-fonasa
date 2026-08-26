@@ -182,6 +182,21 @@
   }
 }
 
+@keyframes codeSymbolUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+}
+
+@keyframes codeSymbolDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(1px); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .animate-page-in {
   animation: pageIn 0.25s ease-out both;
 }

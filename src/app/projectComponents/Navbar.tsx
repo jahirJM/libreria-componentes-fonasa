@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Navbar as NavbarUI, type NavbarItem } from "../../componentsUI/Navbar";
-import { LuCode } from "react-icons/lu";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 
@@ -38,10 +37,13 @@ export function Navbar() {
         activePath={location.pathname}
         variant="underline"
         logoElement={
-          <div className="relative">
+          <div className="relative group">
             <img src="/logos/fonasa/svg/fonasa-logo-name.svg" alt="Fonasa UI" className="h-8 w-auto" />
-            <span className="absolute -bottom-2 -right-4.5 flex items-center justify-center size-6 rounded-full border-2 border-white bg-[#0572CE]">
-              <LuCode className="size-3.5 text-white rotate-10 stroke-[2.5]" />
+            <span className="absolute -bottom-2 -right-4.5 flex items-center justify-center size-6 rounded-full border-2 border-white bg-[#0572CE] dark:border-[#111d29]">
+              <span className="flex items-center gap-px text-white font-bold text-[13px] rotate-10">
+                <span className="animate-[codeSymbolUp_4s_ease-in-out_infinite]">&lt;</span>
+                <span className="animate-[codeSymbolDown_4s_ease-in-out_infinite]">&gt;</span>
+              </span>
             </span>
           </div>
         }

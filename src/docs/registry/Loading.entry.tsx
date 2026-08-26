@@ -6,6 +6,7 @@ import type { ComponentEntry } from "./types";
 
 export const loadingEntry: ComponentEntry = {
   name: "loading",
+  group: "Otros",
   description:
     "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner).",
   code: loadingCode,

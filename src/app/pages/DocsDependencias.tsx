@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "../../componentsUI/Card";
 import { BotonOutline } from "../../componentsUI/Botones";
 import { FiCopy } from "react-icons/fi";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 interface DependencyDoc {
   id: string;
@@ -140,9 +141,7 @@ export function DocsDependencias() {
 
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-        Documentación
-      </p>
+      <Breadcrumb items={[{ label: "Documentación", to: "/docs" }, { label: "Dependencias externas" }]} />
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Dependencias externas</h1>
 
       <p className="text-gray-500 mb-8">

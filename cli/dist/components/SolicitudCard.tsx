@@ -79,8 +79,9 @@ export const SolicitudCard = ({
   };
 
   return (
-    <div
+    <article
       onClick={handleClickCard}
+      aria-label={`Solicitud #${id} - ${tipo} - ${estado.label}`}
       className={`border rounded-xl transition-all hover:shadow-md ${
         resuelta
           ? "border-gray-300 shadow-lg shadow-gray-300/50 cursor-pointer"
@@ -138,6 +139,7 @@ export const SolicitudCard = ({
         <div className="border-t border-gray-100">
           <button
             onClick={() => setDocsOpen((v) => !v)}
+            aria-expanded={docsOpen}
             className="w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-[#0572CE] hover:bg-blue-50/40 transition-colors cursor-pointer"
           >
             <span className="flex items-center gap-1.5 text-xs md:text-sm">
@@ -231,10 +233,11 @@ export const SolicitudCard = ({
                   </span>
                   <button
                     type="button"
+                    aria-label={`Ver documento ${documentoRespuesta.nombre}`}
                     onClick={documentoRespuesta.onVer}
                     className="flex items-center text-sm gap-1 text-[#0572CE] hover:underline shrink-0 ml-3 cursor-pointer"
                   >
-                    <FiExternalLink size={11} />
+                    <FiExternalLink size={11} aria-hidden="true" />
                   </button>
                 </div>
               )}
@@ -250,10 +253,11 @@ export const SolicitudCard = ({
                   </span>
                   <button
                     type="button"
+                    aria-label={`Ver documento ${doc.nombre}`}
                     onClick={doc.onVer}
                     className="flex items-center text-sm gap-1 text-[#0572CE] hover:underline shrink-0 ml-3 cursor-pointer"
                   >
-                    <FiExternalLink size={11} />
+                    <FiExternalLink size={11} aria-hidden="true" />
                   </button>
                 </div>
               ))}
@@ -261,6 +265,6 @@ export const SolicitudCard = ({
           )}
         </div>
       )}
-    </div>
+    </article>
   );
 };

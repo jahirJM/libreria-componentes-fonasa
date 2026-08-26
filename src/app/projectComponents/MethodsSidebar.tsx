@@ -135,24 +135,6 @@ export function MethodsSidebar() {
             }}
           />
 
-          {/* Herramienta especial — Constructor de Filtros */}
-          {(() => {
-            const isActive = location.pathname === "/methods/constructor-filtros";
-            return (
-              <NavLink
-                to="/methods/constructor-filtros"
-                data-active={isActive}
-                className={`relative z-10 flex items-center gap-2 rounded-lg px-3 py-1.5 transition-colors duration-100 ${
-                  isActive
-                    ? "text-white font-semibold"
-                    : "text-[#0572CE] hover:bg-[#0572CE]/10"
-                }`}
-              >
-                Constructor de Filtros
-              </NavLink>
-            );
-          })()}
-
           {/* Métodos sin grupo */}
           {ungrouped.map((entry) => {
             const path = `/methods/${slugify(entry.name)}`;
@@ -172,6 +154,55 @@ export function MethodsSidebar() {
               </NavLink>
             );
           })}
+
+          {/* Builders group (Constructor de Filtros) */}
+          {(() => {
+            const builderLabel = "Constructor de Filtros";
+            const builderPath = "/methods/constructor-filtros";
+            // Hide if filter is active and doesn't match
+            if (filter.trim() && !builderLabel.toLowerCase().includes(filter.toLowerCase().trim())) {
+              return null;
+            }
+            const groupName = "Builders";
+            const isOpen = filter.trim() ? true : (effectiveOpenGroups[groupName] ?? location.pathname === builderPath);
+            const isActive = location.pathname === builderPath;
+            return (
+              <div className="mt-1">
+                <button
+                  type="button"
+                  onClick={() => toggleGroup(groupName)}
+                  className="relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 hover:bg-[#0572CE]/10 transition-colors duration-100 group"
+                >
+                  <span className="font-semibold">{groupName}</span>
+                  <LuChevronDown
+                    className={`text-xs transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  className="grid transition-[grid-template-rows] duration-200 ease-in-out"
+                  style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+                >
+                  <div className="overflow-hidden">
+                    <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                      <NavLink
+                        to={builderPath}
+                        data-active={isActive}
+                        className={`relative z-10 rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
+                          isActive
+                            ? "text-white font-semibold"
+                            : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                        }`}
+                      >
+                        {builderLabel}
+                      </NavLink>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Sub-secciones agrupadas */}
           {Object.entries(grouped).map(([groupName, entries]) => {

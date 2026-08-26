@@ -5,6 +5,7 @@ import type { ComponentEntry } from "./types";
 
 export const codeBlockEntry: ComponentEntry = {
   name: "code-block",
+  group: "Otros",
   description:
     "Bloque de código o comando con botón de copiar al portapapeles. Ideal para snippets, comandos de terminal o configuraciones copiables.",
   code: codeBlockCode,

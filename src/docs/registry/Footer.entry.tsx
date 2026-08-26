@@ -5,6 +5,7 @@ import type { ComponentEntry } from "./types";
 
 export const footerEntry: ComponentEntry = {
   name: "footer",
+  group: "Otros",
   description:
     "Footer institucional de FONASA con copyright dinámico (año actual) y mensaje decorativo. Color de texto configurable.",
   code: footerCode,

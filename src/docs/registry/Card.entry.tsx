@@ -15,6 +15,7 @@ import type { ComponentEntry } from "./types";
 
 export const cardEntry: ComponentEntry = {
   name: "card",
+  group: "Otros",
   description:
     "Utiliza: botones. Contenedor card composable con Header (título, descripción, acción), Content y Footer. 4 variantes: default, elevada, outline e interactiva.",
   code: cardCode,

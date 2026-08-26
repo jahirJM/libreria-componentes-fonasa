@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { IoMdHome } from "react-icons/io";
-import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown, LuImageDown, LuHammer, LuType } from "react-icons/lu";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown, LuSearch } from "react-icons/lu";
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
 import { FormBuilderPage } from "./FormBuilderPage";
 import { IconBuilderPage } from "./IconBuilderPage";
 import { Switch } from "../../componentsUI/Switch";
+import { Input } from "../../componentsUI/Input";
 import { BotonPrimario, BotonOutline } from "../../componentsUI/Botones";
 import { fonasaToast } from "../../componentsUI/Toast";
 import { CustomModal } from "../../componentsUI/CustomModal";
@@ -15,6 +15,7 @@ import youtubeIcon from "/logos/fonasa/svg/youtube-icon.svg";
 import instagramIcon from "/logos/fonasa/svg/instagram-icon.svg";
 import fonasaLogoFull from "/logos/fonasa/svg/fonasa-logo-full.svg";
 import { FiTerminal } from "react-icons/fi";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TIPOS Y HELPERS
@@ -337,7 +338,7 @@ ${socialHtml}
 </html>`;
 }
 
-function TemplateBuilder({ onNavigateToIconos, onGoHome }: { onNavigateToIconos: () => void; onGoHome: () => void }) {
+function TemplateBuilder({ onNavigateToIconos }: { onNavigateToIconos: () => void }) {
   const [parts, setParts] = useState<TemplateParts>(defaultParts);
   const [view, setView] = useState<"preview" | "code">("preview");
   const [copied, setCopied] = useState(false);
@@ -395,15 +396,7 @@ function TemplateBuilder({ onNavigateToIconos, onGoHome }: { onNavigateToIconos:
         {/* Config panel */}
         <div className="w-80 border-r border-gray-200 bg-white overflow-y-auto p-5 flex flex-col gap-4">
           <div>
-            <button
-              type="button"
-              onClick={onGoHome}
-              className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-2"
-              title="Volver al inicio"
-            >
-              <IoMdHome className="size-4" />
-              <span className="font-medium">Inicio</span>
-            </button>
+            <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Template Email" }]} />
             <h2 className="text-base font-semibold text-gray-800">Template Builder</h2>
             <p className="text-xs text-gray-400 mt-0.5">Configura las partes del email</p>
           </div>
@@ -589,7 +582,7 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
 // LOGO VIEWER (embebido)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function LogoViewer({ entry, onGoHome }: { entry: LogoEntry; onGoHome: () => void }) {
+function LogoViewer({ entry }: { entry: LogoEntry }) {
   const variants = getVariantsForEntry(entry);
   const [selectedVariantId, setSelectedVariantId] = useState<string>(variants[0]?.id ?? "");
   const [animKey, setAnimKey] = useState(0);
@@ -689,18 +682,7 @@ function LogoViewer({ entry, onGoHome }: { entry: LogoEntry; onGoHome: () => voi
   return (
     <div className="flex-1 overflow-y-auto px-6 py-8 lg:px-8 min-h-full">
       <div className="max-w-5xl">
-        <button
-          type="button"
-          onClick={onGoHome}
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-          title="Volver al inicio"
-        >
-          <IoMdHome className="size-4" />
-          <span className="font-medium">Inicio</span>
-        </button>
-        <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-          Iconos
-        </p>
+        <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Iconos" }, { label: entry.name }]} />
         <h1 className="text-4xl font-bold text-gray-800 dark:text-[#e2e8f0] mb-2">
           {entry.name}
         </h1>
@@ -873,20 +855,11 @@ const robotoWeights = [
   { weight: 900, name: "Black" },
 ];
 
-function FontsSection({ onGoHome }: { onGoHome: () => void }) {
+function FontsSection() {
   return (
     <div className="flex-1 overflow-y-auto p-8 lg:px-8">
       <div className="max-w-3xl">
-        <button
-          type="button"
-          onClick={onGoHome}
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-          title="Volver al inicio"
-        >
-          <IoMdHome className="size-4" />
-          <span className="font-medium">Inicio</span>
-        </button>
-        <p className="text-xs font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Tipografía</p>
+        <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Tipografía" }]} />
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Fuentes</h1>
         <p className="text-sm text-gray-500 mb-8">
           La plataforma utiliza <strong>Roboto</strong> como fuente principal. Se carga desde Google Fonts con todos los pesos disponibles.
@@ -982,8 +955,6 @@ function FontsSection({ onGoHome }: { onGoHome: () => void }) {
 interface ResourceSection {
   title: string;
   description: string;
-  icon: React.ReactNode;
-  items?: string[];
   installCommand?: string;
 }
 
@@ -991,18 +962,15 @@ function ResourcesHome({ onNavigate }: { onNavigate: (item: SidebarItem) => void
   const sections: ResourceSection[] = [
     {
       title: "Iconos",
-      description: "Logotipos institucionales, iconos de contacto, gobierno y redes sociales en formato SVG y PNG listos para usar.",
-      icon: <LuImageDown className="size-6 text-[#0572CE]" />,
+      description: "Logotipos institucionales, iconos de contacto, gobierno y redes sociales en formato SVG listos para usar.",
     },
     {
       title: "Builders",
       description: "Herramientas visuales para construir templates de email, formularios e iconos personalizados.",
-      icon: <LuHammer className="size-6 text-[#0572CE]" />,
     },
     {
       title: "Tipografía",
       description: "Fuente institucional Roboto con todos sus pesos y la escala de tamaños estandarizada del sistema de diseño.",
-      icon: <LuType className="size-6 text-[#0572CE]" />,
     },
   ];
 
@@ -1020,9 +988,7 @@ function ResourcesHome({ onNavigate }: { onNavigate: (item: SidebarItem) => void
   return (
     <div className="flex-1 overflow-y-auto p-8 lg:px-8">
       <div className="max-w-4xl">
-        <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-          Recursos
-        </p>
+        <Breadcrumb items={[{ label: "Recursos" }]} />
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           Recursos de diseño
         </h1>
@@ -1031,31 +997,23 @@ function ResourcesHome({ onNavigate }: { onNavigate: (item: SidebarItem) => void
         </p>
 
         {/* Section cards */}
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {sections.map((section) => (
             <div
               key={section.title}
               className="rounded-xl border border-gray-200 p-6 hover:border-[#0572CE]/30 hover:shadow-sm transition-all cursor-pointer group"
               onClick={() => handleSectionClick(section.title)}
             >
-              <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-50 shrink-0 group-hover:bg-blue-100 transition-colors">
-                  {section.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h2 className="text-xl font-semibold text-gray-800 mb-1 group-hover:text-[#0572CE] transition-colors">
-                    {section.title}
-                  </h2>
-                  <p className="text-sm text-gray-500 mb-4">{section.description}</p>
+              <h2 className="text-base font-semibold text-gray-800 mb-2 group-hover:text-[#0572CE] transition-colors">
+                {section.title}
+              </h2>
+              <p className="text-sm text-gray-500">{section.description}</p>
 
-
-                  {section.installCommand && (
-                    <div className="rounded-lg bg-gray-900 px-4 py-2.5">
-                      <code className="text-xs text-green-400 font-mono">{section.installCommand}</code>
-                    </div>
-                  )}
+              {section.installCommand && (
+                <div className="rounded-lg bg-gray-900 px-4 py-2.5 mt-4">
+                  <code className="text-xs text-green-400 font-mono">{section.installCommand}</code>
                 </div>
-              </div>
+              )}
             </div>
           ))}
         </div>
@@ -1072,6 +1030,7 @@ export function RecursosPage() {
   const sidebarGroups = buildSidebarGroups();
 
   const [activeItem, setActiveItem] = useState<SidebarItem>({ type: "home" });
+  const [filter, setFilter] = useState("");
   const navRef = useRef<HTMLElement>(null);
   const [indicator, setIndicator] = useState<{ top: number; height: number; opacity: number }>({ top: 0, height: 0, opacity: 0 });
 
@@ -1107,10 +1066,58 @@ export function RecursosPage() {
     setTimeout(updateIndicator, 220);
   };
 
+  // Filter sidebar groups based on search
+  const filteredGroups = useMemo(() => {
+    if (!filter.trim()) return sidebarGroups;
+    const term = filter.toLowerCase().trim();
+    return sidebarGroups
+      .map((group) => ({
+        ...group,
+        items: group.items.filter((item) => {
+          const label = getItemLabel(item);
+          return label.toLowerCase().includes(term) || group.name.toLowerCase().includes(term);
+        }),
+      }))
+      .filter((group) => group.items.length > 0);
+  }, [filter, sidebarGroups]);
+
+  // Force all groups open when filter is active
+  const effectiveOpenGroups = useMemo(() => {
+    if (filter.trim()) {
+      const allOpen: Record<string, boolean> = {};
+      filteredGroups.forEach((g) => (allOpen[g.name] = true));
+      return allOpen;
+    }
+    return openGroups;
+  }, [filter, openGroups, filteredGroups]);
+
+  // Recalculate indicator when filter changes
+  useEffect(() => {
+    const timer = setTimeout(updateIndicator, 60);
+    return () => clearTimeout(timer);
+  }, [filter, updateIndicator]);
+
   return (
     <>
       {/* ─── Sidebar izquierdo ─── */}
       <aside className="hidden lg:block fixed top-14 left-0 bottom-0 w-64 overflow-y-auto border-r border-gray-200 dark:border-[#1e3044] bg-gray-100 dark:bg-[#061018] p-4 transition-colors duration-200">
+        {/* Filtro de búsqueda */}
+        <div className="mt-3 mb-2">
+          <Input
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder="Buscar recurso..."
+            leftIcon={<LuSearch className="size-3.5" />}
+          />
+        </div>
+
+        {/* Mensaje sin resultados */}
+        {filter.trim() && filteredGroups.length === 0 && (
+          <p className="px-3 py-2 text-xs text-gray-500 italic">
+            Sin resultados para "{filter}"
+          </p>
+        )}
+
         <div className="ml-3 mt-2 border-l-2 border-gray-300 dark:border-[#1e3044] pl-3">
           <nav ref={navRef} className="relative flex flex-col gap-0.5 text-sm font-medium">
             {/* Sliding indicator */}
@@ -1123,9 +1130,9 @@ export function RecursosPage() {
               }}
             />
             {/* Groups */}
-            {sidebarGroups.map((group) => {
+            {filteredGroups.map((group) => {
               const groupKey = group.name;
-              const isOpen = openGroups[groupKey] ?? true;
+              const isOpen = effectiveOpenGroups[groupKey] ?? true;
               return (
                 <div key={group.name} className="mt-1">
                   <button
@@ -1178,41 +1185,25 @@ export function RecursosPage() {
         {activeItem.type === "home" ? (
           <ResourcesHome onNavigate={setActiveItem} />
         ) : activeItem.type === "logo" ? (
-          <LogoViewer entry={activeItem.entry} onGoHome={() => setActiveItem({ type: "home" })} />
+          <LogoViewer entry={activeItem.entry} />
         ) : activeItem.type === "formbuilder" ? (
           <div className="flex-1 overflow-y-auto flex flex-col">
             <div className="px-6 pt-6">
-              <button
-                type="button"
-                onClick={() => setActiveItem({ type: "home" })}
-                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-                title="Volver al inicio"
-              >
-                <IoMdHome className="size-4" />
-                <span className="font-medium">Inicio</span>
-              </button>
+              <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Form Builder" }]} />
             </div>
             <FormBuilderPage />
           </div>
         ) : activeItem.type === "iconbuilder" ? (
           <div className="flex-1 overflow-y-auto flex flex-col">
             <div className="px-6 pt-6">
-              <button
-                type="button"
-                onClick={() => setActiveItem({ type: "home" })}
-                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-                title="Volver al inicio"
-              >
-                <IoMdHome className="size-4" />
-                <span className="font-medium">Inicio</span>
-              </button>
+              <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Icon Builder" }]} />
             </div>
             <IconBuilderPage />
           </div>
         ) : activeItem.type === "fonts" ? (
-          <FontsSection onGoHome={() => setActiveItem({ type: "home" })} />
+          <FontsSection />
         ) : (
-          <TemplateBuilder onGoHome={() => setActiveItem({ type: "home" })} onNavigateToIconos={() => {
+          <TemplateBuilder onNavigateToIconos={() => {
             const rrssEntry = logosRegistry.find((e) => e.name === "Redes Sociales");
             if (rrssEntry) setActiveItem({ type: "logo", entry: rrssEntry });
           }} />

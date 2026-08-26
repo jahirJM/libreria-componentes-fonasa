@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { IconType } from "react-icons";
 import { LuUserRound, LuChevronDown } from "react-icons/lu";
 
@@ -86,8 +86,21 @@ interface SidebarItemProps {
 
 function SidebarItem({ item, isActive, activePath, onNavigate }: SidebarItemProps) {
   const Icon = item.icon;
-  const [isExpanded, setIsExpanded] = useState(false);
   const hasSubItems = (item.subItems?.length ?? 0) > 0;
+
+  // Check if any sub-item matches the current active path
+  const hasActiveChild = hasSubItems
+    ? item.subItems!.some((sub) => activePath === sub.path)
+    : false;
+
+  const [isExpanded, setIsExpanded] = useState(hasActiveChild);
+
+  // Sync expansion when activePath changes
+  useEffect(() => {
+    if (hasSubItems) {
+      setIsExpanded(hasActiveChild);
+    }
+  }, [activePath, hasSubItems, hasActiveChild]);
 
   if (item.isBlocked) {
     return (

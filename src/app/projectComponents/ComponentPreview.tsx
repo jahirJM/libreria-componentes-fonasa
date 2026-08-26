@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import type { ComponentEntry, ComponentVariant } from "../../docs/registry/types";
 import { CodePanel } from "./CodePanel";
 import { FiCode, FiCopy, FiX, FiTerminal, FiCheckCircle } from "react-icons/fi";
-import { IoMdHome } from "react-icons/io";
 import { fonasaToast } from "../../componentsUI/Toast";
 import { CustomModal } from "../../componentsUI/CustomModal";
 import { Badge } from "../../componentsUI/Badge";
 import { Switch } from "../../componentsUI/Switch";
+import { Breadcrumb } from "./Breadcrumb";
 
 interface ComponentPreviewProps {
   entry: ComponentEntry;
@@ -288,15 +288,8 @@ export function ComponentPreview({ entry }: ComponentPreviewProps) {
     <section className="flex flex-col lg:flex-row gap-0 overflow-show">
       {/* Columna izquierda: todo el contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "lg:pr-4" : "pr-0"}`}>
-        {/* Breadcrumb: Inicio */}
-        <Link
-          to="/components"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-          title="Volver al inicio"
-        >
-          <IoMdHome className="size-4" />
-          <span className="font-medium">Inicio</span>
-        </Link>
+        {/* Breadcrumb */}
+        <Breadcrumb items={[{ label: "Componentes", to: "/components" }, { label: entry.name }]} />
 
         <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">{entry.name}</h2>
         {entry.description && (

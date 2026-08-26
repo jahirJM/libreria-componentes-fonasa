@@ -1,12 +1,11 @@
 import { Card, CardContent } from "../../componentsUI/Card";
 import { Alerta } from "../../componentsUI/Alerta";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 export function DocsColaboradores() {
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-        Documentación
-      </p>
+      <Breadcrumb items={[{ label: "Documentación", to: "/docs" }, { label: "Guía para colaboradores" }]} />
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Guía para colaboradores</h1>
 
       <section className="space-y-4 text-gray-600">

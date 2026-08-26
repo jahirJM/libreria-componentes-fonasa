@@ -13,6 +13,7 @@ import type { ComponentEntry } from "./types";
 
 export const acordeonEntry: ComponentEntry = {
   name: "acordeon",
+  group: "Otros",
   description:
     "Acordeon con soporte para múltiples ítems abiertos, ítems deshabilitados, bordes y modo controlado.",
   code: acordeonCode,

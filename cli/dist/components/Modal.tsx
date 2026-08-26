@@ -56,6 +56,19 @@ export default function Modal({
     }
   }, [variant, modalOpen, setModalOpen]);
 
+  // Close on Escape key
+  useEffect(() => {
+    if (!modalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setModalOpen(false);
+        validacion?.(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [modalOpen, setModalOpen, validacion]);
+
   if (!modalOpen) return null;
 
   const handleBackdropClick = () => {
@@ -69,6 +82,9 @@ export default function Modal({
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
       onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
     >
       {variant === "confirmacion" ? (
         <div

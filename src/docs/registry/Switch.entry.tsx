@@ -6,6 +6,7 @@ import type { ComponentEntry } from "./types";
 
 export const switchEntry: ComponentEntry = {
   name: "switch",
+  group: "Otros",
   description:
     "Toggle switch con 5 variantes de color (primary, success, error, warning, neutral), 3 tamaños (sm, md, lg), íconos internos opcionales, y soporte controlado/no-controlado.",
   code: switchCode,

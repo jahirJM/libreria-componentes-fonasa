@@ -63,6 +63,7 @@ function DisabledDemo() {
 
 export const selectEntry: ComponentEntry = {
   name: "select",
+  group: "Select",
   description:
     "Select desplegable custom con soporte para estados de error y deshabilitado. Dropdown controlado por CSS/JS (no nativo).",
   code: selectCode,

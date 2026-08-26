@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { LuCopy, LuCheck, LuPlay, LuRotateCcw } from "react-icons/lu";
+import { LuCopy, LuCheck, LuPlay, LuRotateCcw, LuCode } from "react-icons/lu";
 import { Card, CardContent } from "../../componentsUI/Card";
-import { Badge } from "../../componentsUI/Badge";
+import { Carousel } from "../../componentsUI/Carousel";
+import { CustomModal } from "../../componentsUI/CustomModal";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // DATOS DE ANIMACIONES
 // ═══════════════════════════════════════════════════════════════════════════════
 
-interface AnimationEntry {
+export interface AnimationEntry {
   name: string;
   description: string;
   /** Clase Tailwind 4 para aplicar */
@@ -24,7 +26,7 @@ interface AnimationEntry {
   category: "Entrada" | "Salida" | "Loop" | "Interacción" | "Feedback";
 }
 
-const animations: AnimationEntry[] = [
+export const animations: AnimationEntry[] = [
   // ─── Entrada ───
   {
     name: "Fade In",
@@ -718,6 +720,8 @@ function CopyButton({ text }: { text: string }) {
 function AnimationCard({ entry }: { entry: AnimationEntry }) {
   const [playing, setPlaying] = useState(false);
   const [key, setKey] = useState(0);
+  const [showClassModal, setShowClassModal] = useState(false);
+  const [showCssModal, setShowCssModal] = useState(false);
 
   function replay() {
     setPlaying(false);
@@ -727,84 +731,101 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
     }, 50);
   }
 
-  // Para interacciones (hover/active) no usamos replay, siempre visible
   const isInteraction = entry.category === "Interacción";
   const isLoop = entry.category === "Loop";
 
   return (
-    <Card className="overflow-hidden hover:border-gray-300 transition-colors !p-0 !gap-0">
-      {/* Preview area */}
-      <div className="relative h-32 flex items-center justify-center border-b border-gray-100">
-        <div
-          key={key}
-          className={`w-12 h-12 rounded-lg bg-[#0572CE] shadow-md ${
-            isInteraction
-              ? entry.tailwindClass
-              : isLoop
+    <>
+      <Card className="overflow-hidden hover:border-gray-300 transition-colors !p-0 !gap-0">
+        {/* Preview area */}
+        <div className="relative h-24 flex items-center justify-center border-b border-gray-100">
+          <div
+            key={key}
+            className={`w-10 h-10 rounded-lg bg-[#0572CE] shadow-md ${
+              isInteraction
                 ? entry.tailwindClass
-                : playing
+                : isLoop
                   ? entry.tailwindClass
-                  : "opacity-0"
-          }`}
-        />
-        {!isInteraction && !isLoop && (
-          <button
-            onClick={replay}
-            className="absolute bottom-2 right-2 p-1.5 rounded-md border border-gray-200 text-gray-500 hover:text-[#0572CE] hover:border-[#0572CE] transition-colors shadow-sm"
-            title="Reproducir"
-          >
-            {playing ? <LuRotateCcw className="size-3.5" /> : <LuPlay className="size-3.5" />}
-          </button>
-        )}
-      </div>
-
-      {/* Content */}
-      <CardContent className="p-4 space-y-3">
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <h3 className="text-sm font-semibold text-gray-800">{entry.name}</h3>
-            <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{entry.description}</p>
-          </div>
-          {entry.requiresCss && (
-            <Badge variant="estado-pendiente" text="CSS" />
+                  : playing
+                    ? entry.tailwindClass
+                    : "opacity-0"
+            }`}
+          />
+          {!isInteraction && !isLoop && (
+            <button
+              onClick={replay}
+              className="absolute bottom-2 right-2 p-1 rounded-md border border-gray-200 text-gray-500 hover:text-[#0572CE] hover:border-[#0572CE] transition-colors cursor-pointer"
+              title="Reproducir"
+            >
+              {playing ? <LuRotateCcw className="size-3" /> : <LuPlay className="size-3" />}
+            </button>
           )}
         </div>
 
-        {/* Clase Tailwind */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between">
-            <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">Clase</p>
-            <CopyButton text={entry.tailwindClass} />
-          </div>
-          <code className="block text-xs text-[#0572CE] bg-blue-50/50 border border-blue-100 rounded-md px-2.5 py-1.5 font-mono break-all">
-            {entry.tailwindClass}
-          </code>
-        </div>
+        {/* Content */}
+        <CardContent className="p-3 space-y-2">
+          <h3 className="text-xs font-semibold text-gray-800 leading-tight">{entry.name}</h3>
 
-        {/* CSS requerido */}
-        {entry.requiresCss && entry.cssCode && (
-          <div className="space-y-1">
-            <div className="flex items-center justify-between">
-              <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">CSS requerido</p>
-              <CopyButton text={entry.cssCode} />
-            </div>
-            <pre className="text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-md px-2.5 py-2 font-mono overflow-x-auto whitespace-pre leading-relaxed">
+          {/* Botones para ver código */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowClassModal(true)}
+              className="inline-flex items-center gap-1 text-xs font-medium text-[#0572CE] bg-blue-50/50 border border-blue-100 rounded px-2 py-1 hover:bg-blue-50 transition-colors cursor-pointer"
+            >
+              <LuCode className="size-3" />
+              Clase
+            </button>
+            {entry.requiresCss && entry.cssCode && (
+              <button
+                onClick={() => setShowCssModal(true)}
+                className="inline-flex items-center gap-1 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded px-2 py-1 hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                <LuCode className="size-3" />
+                CSS
+              </button>
+            )}
+          </div>
+
+          {/* Duración */}
+          <div className="flex items-center gap-1.5 text-xs text-gray-400">
+            <span>⏱</span>
+            <span>{entry.duration}</span>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Modal: Clase Tailwind */}
+      <CustomModal
+        size="sm"
+        title={`Clase — ${entry.name}`}
+        showModal={showClassModal}
+        onClose={() => setShowClassModal(false)}
+      >
+        <div className="space-y-3">
+          <pre className="text-sm text-[#0572CE] bg-blue-50/50 border border-blue-100 rounded-lg px-4 py-3 font-mono whitespace-pre-wrap break-all">
+            {entry.tailwindClass}
+          </pre>
+          <CopyButton text={entry.tailwindClass} />
+        </div>
+      </CustomModal>
+
+      {/* Modal: CSS keyframes */}
+      {entry.requiresCss && entry.cssCode && (
+        <CustomModal
+          size="sm"
+          title={`CSS — ${entry.name}`}
+          showModal={showCssModal}
+          onClose={() => setShowCssModal(false)}
+        >
+          <div className="space-y-3">
+            <pre className="text-sm text-gray-800 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 font-mono whitespace-pre-wrap">
               {entry.cssCode}
             </pre>
+            <CopyButton text={entry.cssCode} />
           </div>
-        )}
-
-        {/* Meta */}
-        <div className="flex items-center gap-3 pt-1">
-          <span className="text-xs text-gray-400">
-            ⏱ {entry.duration}
-          </span>
-          <span className="text-xs text-gray-400">
-            ⚡ {entry.easing}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
+        </CustomModal>
+      )}
+    </>
   );
 }
 
@@ -812,7 +833,7 @@ function AnimationCard({ entry }: { entry: AnimationEntry }) {
 // PÁGINA
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const categories = ["Entrada", "Salida", "Loop", "Interacción", "Feedback"] as const;
+export const categories = ["Entrada", "Salida", "Loop", "Interacción", "Feedback"] as const;
 
 export function AnimationsPage() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
@@ -822,19 +843,22 @@ export function AnimationsPage() {
     : animations.filter((a) => a.category === activeCategory);
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)]">
+    <div className="min-h-[calc(100vh-3.5rem)] flex flex-col">
       {/* Header */}
       <div className="border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <p className="text-xs font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Recursos</p>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Animaciones</h1>
-          <p className="text-sm text-gray-500 max-w-xl leading-relaxed">
-            Catálogo de animaciones listas para usar con Tailwind CSS 4. Las que requieren CSS
-            necesitan agregar el <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded font-mono">@keyframes</code> en tu archivo CSS global.
-          </p>
+        <div className="px-6 py-5 flex items-center gap-6 max-w-5xl mx-auto">
+          {/* Izquierda: título y descripción */}
+          <div className="flex-1 min-w-0">
+            <Breadcrumb items={[{ label: "Animaciones" }]} />
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Animaciones</h1>
+            <p className="text-base text-gray-500 max-w-xl leading-relaxed">
+              Catálogo de animaciones listas para usar con Tailwind CSS 4. Las que requieren CSS
+              necesitan agregar el <code className="text-sm bg-gray-100 px-1.5 py-0.5 rounded font-mono">@keyframes</code> en tu archivo CSS global.
+            </p>
+          </div>
 
-          {/* Guía rápida */}
-          <Card className="mt-5 max-w-xl">
+          {/* Derecha: guía rápida */}
+          <Card className="shrink-0">
             <CardContent>
               <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Cómo usar en Tailwind 4</p>
               <ol className="text-xs text-gray-600 space-y-1.5 list-decimal list-inside leading-relaxed">
@@ -848,41 +872,47 @@ export function AnimationsPage() {
         </div>
       </div>
 
-      {/* Filtros */}
-      <div className="sticky top-14 z-10 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center gap-2 overflow-x-auto">
-          <button
-            onClick={() => setActiveCategory("all")}
-            className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
-              activeCategory === "all" ? "bg-gray-900 text-white" : "text-gray-500 hover:bg-gray-100"
-            }`}
-          >
-            Todas ({animations.length})
-          </button>
-          {categories.map((cat) => {
-            const count = animations.filter((a) => a.category === cat).length;
-            return (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                  activeCategory === cat ? "bg-gray-900 text-white" : "text-gray-500 hover:bg-gray-100"
-                }`}
-              >
-                {cat} ({count})
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Contenido principal: filtros verticales + carousel */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Columna izquierda: filtros verticales */}
+        <nav className="shrink-0 w-48 border-r border-gray-100 p-4 overflow-y-auto">
+          <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-3">Categorías</p>
+          <div className="flex flex-col gap-1.5">
+            <button
+              onClick={() => setActiveCategory("all")}
+              className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                activeCategory === "all" ? "bg-[#0572CE] text-white" : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              Todas ({animations.length})
+            </button>
+            {categories.map((cat) => {
+              const count = animations.filter((a) => a.category === cat).length;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    activeCategory === cat ? "bg-[#0572CE] text-white" : "text-gray-500 hover:bg-gray-100"
+                  }`}
+                >
+                  {cat} ({count})
+                </button>
+              );
+            })}
+          </div>
+        </nav>
 
-      {/* Grid de animaciones */}
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {filtered.map((entry) => (
-            <AnimationCard key={entry.name} entry={entry} />
-          ))}
-        </div>
+        {/* Columna derecha: carousel 3×3 */}
+        <section className="flex-1 min-w-0 p-6 overflow-y-auto">
+          <Carousel
+            items={filtered}
+            cols={5}
+            rows={2}
+            gap="gap-4"
+            renderItem={(entry) => <AnimationCard key={entry.name} entry={entry} />}
+          />
+        </section>
       </div>
     </div>
   );

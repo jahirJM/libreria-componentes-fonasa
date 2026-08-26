@@ -7,6 +7,7 @@ import type { ComponentEntry } from "./types";
 
 export const stepperEntry: ComponentEntry =   {
     name: "stepper",
+    group: "Otros",
     description:
       "Utiliza: botones. Stepper horizontal para formularios multi-paso. Responsive: en mobile muestra badge, en desktop muestra línea de progreso con círculos.",
     code: stepperCode,

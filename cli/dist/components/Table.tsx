@@ -168,6 +168,7 @@ export const Table = ({
                 return (
                   <th
                     key={i}
+                    scope="col"
                     style={
                       !contraida && redimensionable && anchos[i]
                         ? { width: `${anchos[i]}px` }

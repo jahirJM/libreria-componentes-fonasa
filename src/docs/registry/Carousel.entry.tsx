@@ -5,6 +5,7 @@ import type { ComponentEntry } from "./types";
 
 export const carouselEntry: ComponentEntry = {
   name: "carousel",
+  group: "Otros",
   description:
     "Carrusel genérico con grilla configurable (cols × rows por página). Soporta navegación con flechas, indicadores de página (dots), loop infinito, autoplay y modo controlado/no controlado.",
   code: carouselCode,

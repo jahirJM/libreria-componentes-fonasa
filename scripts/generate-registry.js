@@ -119,6 +119,41 @@ for (const entryFile of entryFiles) {
     (t) => t === `${baseName}.test.tsx` || t === `${baseName}.test.ts`
   );
 
+  // Extraer assets (archivos estáticos como SVGs)
+  const assetsMatch = content.match(/assets:\s*\[([^\]]*)\]/s);
+  let assets = undefined;
+  if (assetsMatch) {
+    assets = assetsMatch[1]
+      .match(/["'`]([^"'`]+)["'`]/g)
+      ?.map((d) => d.replace(/["'`]/g, ""));
+  }
+
+  // Extraer assetsDir
+  const assetsDirMatch = content.match(/assetsDir:\s*["'`]([^"'`]+)["'`]/);
+  const assetsDir = assetsDirMatch ? assetsDirMatch[1] : undefined;
+
+  // Extraer assetGroups
+  const assetGroupsMatch = content.match(/assetGroups:\s*\{([\s\S]*?)\n\s*\}/);
+  let assetGroups = undefined;
+  if (assetGroupsMatch) {
+    try {
+      // Parse each group key: [array] pair
+      const groupsBlock = assetGroupsMatch[1];
+      const groupEntries = [...groupsBlock.matchAll(/["']?([^"':\s]+)["']?\s*:\s*\[([^\]]*)\]/g)];
+      if (groupEntries.length > 0) {
+        assetGroups = {};
+        for (const [, key, values] of groupEntries) {
+          const files = values.match(/["'`]([^"'`]+)["'`]/g)?.map((d) => d.replace(/["'`]/g, ""));
+          if (files && files.length > 0) {
+            assetGroups[key] = files;
+          }
+        }
+      }
+    } catch {
+      // Silently skip if parsing fails
+    }
+  }
+
   registry.push({
     name,
     file,
@@ -129,6 +164,9 @@ for (const entryFile of entryFiles) {
     ...(internalDeps && internalDeps.length > 0 && { internalDeps }),
     ...(group && { group }),
     ...(testFile && { testFile }),
+    ...(assets && assets.length > 0 && { assets }),
+    ...(assetGroups && Object.keys(assetGroups).length > 0 && { assetGroups }),
+    ...(assetsDir && { assetsDir }),
   });
 }
 

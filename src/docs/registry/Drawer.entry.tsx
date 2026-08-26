@@ -23,6 +23,7 @@ import type { ComponentEntry } from "./types";
 
 export const drawerEntry: ComponentEntry = {
   name: "drawer",
+  group: "Otros",
   description:
     "Panel deslizante que se abre desde cualquier borde de la pantalla con animación suave, overlay oscuro, cierre con Escape y soporte para header, footer y múltiples tamaños.",
   code: drawerCode,

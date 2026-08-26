@@ -5,7 +5,8 @@ import { BotonesPlayground } from "../demos/BotonesPlayground";
 import type { ComponentEntry } from "./types";
 
 export const botonesEntry: ComponentEntry =   {
-    name: "botones",
+    name: "boton-comun",
+    group: "Botones",
     description:
       "Conjunto de botones (Confirmar, Cancelar, Primario, Secundario, Outline, Link) con soporte para íconos y estado deshabilitado.",
     code: botonesCode,

@@ -86,7 +86,7 @@ export function Carousel<T>({
   return (
     <div className={clsx("flex flex-col", className)}>
       {/* Slide container */}
-      <div className="overflow-hidden">
+      <div className="overflow-hidden" aria-live="polite" aria-atomic="true">
         <div
           ref={trackRef}
           className="flex transition-transform duration-300 ease-in-out"
@@ -123,7 +123,7 @@ export function Carousel<T>({
 
       {/* Navigation */}
       {totalPages > 1 && (showDots || showArrows) && (
-        <div className="flex items-center justify-center gap-2 mt-3">
+        <div className="flex items-center justify-center gap-2 mt-3" role="group" aria-label="Navegación del carrusel">
           {/* Previous arrow */}
           {showArrows && (
             <button

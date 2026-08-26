@@ -9,6 +9,7 @@ import {
   type HTMLAttributes,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import clsx from "clsx";
 import { FiChevronDown } from "react-icons/fi";
 
@@ -200,12 +201,15 @@ export const Select = ({
   // Recalcular posición al hacer scroll o resize
   useEffect(() => {
     if (!isOpen) return;
-    const handleReposition = () => calcularPosicion();
+    const handleReposition = (e: Event) => {
+      if (dropdownRef.current?.contains(e.target as Node)) return;
+      calcularPosicion();
+    };
     window.addEventListener("scroll", handleReposition, true);
-    window.addEventListener("resize", handleReposition);
+    window.addEventListener("resize", calcularPosicion);
     return () => {
       window.removeEventListener("scroll", handleReposition, true);
-      window.removeEventListener("resize", handleReposition);
+      window.removeEventListener("resize", calcularPosicion);
     };
   }, [isOpen, calcularPosicion]);
 
@@ -262,8 +266,8 @@ export const Select = ({
         />
       </button>
 
-      {/* Dropdown */}
-      {isOpen && (
+      {/* Dropdown – renderizado en portal para evitar clipping */}
+      {isOpen && createPortal(
         <Card ref={dropdownRef} style={dropdownStyle}>
           <ul ref={listaRef} role="listbox" className="max-h-48 overflow-y-auto py-1">
             {opciones.map((opcion, index) => (
@@ -288,7 +292,8 @@ export const Select = ({
               </li>
             ))}
           </ul>
-        </Card>
+        </Card>,
+        document.body
       )}
     </div>
   );

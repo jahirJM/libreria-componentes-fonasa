@@ -152,7 +152,7 @@ export function Sidebar() {
                 className={`relative z-10 rounded-lg px-3 py-1.5 transition-colors duration-100 ${
                   isActive
                     ? "text-white font-semibold"
-                    : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                    : "text-[#0572CE] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
                 }`}
               >
                 {entry.name}
@@ -183,7 +183,7 @@ export function Sidebar() {
                   className={`relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 group ${
                     groupIsActive
                       ? "text-white font-semibold"
-                      : "text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE]/10"
+                      : "text-gray-900 dark:text-[#e2e8f0] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
                   }`}
                 >
                   <span className="font-semibold">{groupName}</span>
@@ -198,7 +198,7 @@ export function Sidebar() {
                   style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                 >
                   <div className="overflow-hidden">
-                    <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                    <div className="flex flex-col gap-0.5 mt-0.5">
                       {entries.map((entry) => {
                         const path = `/components/${slugify(entry.name)}`;
                         const isActive = location.pathname === path;
@@ -207,10 +207,10 @@ export function Sidebar() {
                             key={entry.name}
                             to={path}
                             data-active={isActive && isOpen}
-                            className={`relative z-10 rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
+                            className={`relative z-10 rounded-lg pl-6 pr-3 py-1.5 text-sm transition-colors duration-100 ${
                               isActive
                                 ? "text-white font-semibold"
-                                : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                                : "text-[#0572CE] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
                             }`}
                           >
                             {entry.name}

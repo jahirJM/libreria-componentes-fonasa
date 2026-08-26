@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 import { fonasaToast } from "../../componentsUI/Toast";
 import { Carousel } from "../../componentsUI/Carousel";
 import { Breadcrumb } from "../projectComponents/Breadcrumb";
@@ -105,6 +106,9 @@ function ColorPreview({ color }: { color: ColorSwatch }) {
 
 function Swatch({ color }: { color: ColorSwatch }) {
   const [copied, setCopied] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number } | null>(null);
+  const swatchRef = useRef<HTMLDivElement>(null);
 
   const isLight =
     color.value.toLowerCase().includes("ff") ||
@@ -123,10 +127,27 @@ function Swatch({ color }: { color: ColorSwatch }) {
     setTimeout(() => setCopied(false), 2000);
   }
 
+  function handleMouseEnter() {
+    if (!swatchRef.current) return;
+    const rect = swatchRef.current.getBoundingClientRect();
+    setTooltipPos({
+      top: rect.top - 8,
+      left: rect.left + rect.width / 2,
+    });
+    setHovered(true);
+  }
+
+  function handleMouseLeave() {
+    setHovered(false);
+  }
+
   return (
     <div
-      className="relative group flex flex-col gap-1.5 cursor-pointer"
+      ref={swatchRef}
+      className="relative flex flex-col gap-1.5 cursor-pointer"
       onClick={handleCopy}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
         className="h-20 w-full rounded-lg border border-gray-200 shadow-sm flex items-end p-2 hover:ring-2 hover:ring-[#0572CE] transition-all relative"
@@ -148,13 +169,23 @@ function Swatch({ color }: { color: ColorSwatch }) {
         )}
       </div>
 
-      {/* Hover preview */}
-      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 hidden group-hover:block">
-        <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-4 min-w-[160px]">
-          <ColorPreview color={color} />
-        </div>
-        <div className="w-3 h-3 bg-white border-b border-r border-gray-200 rotate-45 absolute -bottom-1.5 left-1/2 -translate-x-1/2" />
-      </div>
+      {/* Hover preview — rendered via portal */}
+      {hovered && tooltipPos && createPortal(
+        <div
+          className="fixed z-9999 pointer-events-none"
+          style={{
+            top: tooltipPos.top,
+            left: tooltipPos.left,
+            transform: "translate(-50%, -100%)",
+          }}
+        >
+          <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-4 min-w-40">
+            <ColorPreview color={color} />
+          </div>
+          <div className="w-3 h-3 bg-white border-b border-r border-gray-200 rotate-45 absolute -bottom-1.5 left-1/2 -translate-x-1/2" />
+        </div>,
+        document.body
+      )}
 
       <div>
         <p className="text-sm font-medium text-gray-700">{color.name}</p>

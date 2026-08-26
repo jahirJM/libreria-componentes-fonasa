@@ -92,6 +92,7 @@ export function MethodsSidebar() {
 
   const toggleGroup = (group: string) => {
     setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
+    setTimeout(updateIndicator, 50);
     setTimeout(updateIndicator, 220);
   };
 
@@ -147,7 +148,7 @@ export function MethodsSidebar() {
                 className={`relative z-10 rounded-lg px-3 py-1.5 transition-colors duration-100 ${
                   isActive
                     ? "text-white font-semibold"
-                    : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                    : "text-[#0572CE] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
                 }`}
               >
                 {entry.name}
@@ -166,12 +167,18 @@ export function MethodsSidebar() {
             const groupName = "Builders";
             const isOpen = filter.trim() ? true : (effectiveOpenGroups[groupName] ?? location.pathname === builderPath);
             const isActive = location.pathname === builderPath;
+            const groupIsActive = isActive && !isOpen;
             return (
               <div className="mt-1">
                 <button
                   type="button"
                   onClick={() => toggleGroup(groupName)}
-                  className="relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 hover:bg-[#0572CE]/10 transition-colors duration-100 group"
+                  data-active={groupIsActive}
+                  className={`relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 group ${
+                    groupIsActive
+                      ? "text-white font-semibold"
+                      : "text-gray-900 hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
+                  }`}
                 >
                   <span className="font-semibold">{groupName}</span>
                   <LuChevronDown
@@ -185,14 +192,14 @@ export function MethodsSidebar() {
                   style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                 >
                   <div className="overflow-hidden">
-                    <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                    <div className="flex flex-col gap-0.5 mt-0.5">
                       <NavLink
                         to={builderPath}
-                        data-active={isActive}
-                        className={`relative z-10 rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
+                        data-active={isActive && isOpen}
+                        className={`relative z-10 rounded-lg pl-6 pr-3 py-1.5 text-sm transition-colors duration-100 ${
                           isActive
                             ? "text-white font-semibold"
-                            : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                            : "text-[#0572CE] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
                         }`}
                       >
                         {builderLabel}
@@ -207,12 +214,21 @@ export function MethodsSidebar() {
           {/* Sub-secciones agrupadas */}
           {Object.entries(grouped).map(([groupName, entries]) => {
             const isOpen = effectiveOpenGroups[groupName] ?? false;
+            const hasActiveChild = entries.some(
+              (e) => location.pathname === `/methods/${slugify(e.name)}`
+            );
+            const groupIsActive = hasActiveChild && !isOpen;
             return (
               <div key={groupName} className="mt-1">
                 <button
                   type="button"
                   onClick={() => toggleGroup(groupName)}
-                  className="relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 hover:bg-[#0572CE]/10 transition-colors duration-100 group"
+                  data-active={groupIsActive}
+                  className={`relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 group ${
+                    groupIsActive
+                      ? "text-white font-semibold"
+                      : "text-gray-900 hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
+                  }`}
                 >
                   <span className="font-semibold">{groupName}</span>
                   <LuChevronDown
@@ -226,7 +242,7 @@ export function MethodsSidebar() {
                   style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                 >
                   <div className="overflow-hidden">
-                    <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                    <div className="flex flex-col gap-0.5 mt-0.5">
                       {entries.map((entry) => {
                         const path = `/methods/${slugify(entry.name)}`;
                         const isActive = location.pathname === path;
@@ -234,11 +250,11 @@ export function MethodsSidebar() {
                           <NavLink
                             key={entry.name}
                             to={path}
-                            data-active={isActive}
-                            className={`relative z-10 rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
+                            data-active={isActive && isOpen}
+                            className={`relative z-10 rounded-lg pl-6 pr-3 py-1.5 text-sm transition-colors duration-100 ${
                               isActive
                                 ? "text-white font-semibold"
-                                : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                                : "text-[#0572CE] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
                             }`}
                           >
                             {entry.name}

@@ -1063,6 +1063,7 @@ export function RecursosPage() {
 
   const toggleGroup = (group: string) => {
     setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
+    setTimeout(updateIndicator, 50);
     setTimeout(updateIndicator, 220);
   };
 
@@ -1133,12 +1134,19 @@ export function RecursosPage() {
             {filteredGroups.map((group) => {
               const groupKey = group.name;
               const isOpen = effectiveOpenGroups[groupKey] ?? true;
+              const hasActiveChild = group.items.some((item) => isSameItem(item, activeItem));
+              const groupIsActive = hasActiveChild && !isOpen;
               return (
                 <div key={group.name} className="mt-1">
                   <button
                     type="button"
                     onClick={() => toggleGroup(groupKey)}
-                    className="relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE]/10 transition-colors duration-100 group"
+                    data-active={groupIsActive}
+                    className={`relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 group ${
+                      groupIsActive
+                        ? "text-white font-semibold"
+                        : "text-gray-900 dark:text-[#e2e8f0] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
+                    }`}
                   >
                     <span className="font-semibold">{group.name}</span>
                     <LuChevronDown
@@ -1151,7 +1159,7 @@ export function RecursosPage() {
                     style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                   >
                     <div className="overflow-hidden">
-                      <div className="flex flex-col gap-0.5 pl-3 mt-0.5">
+                      <div className="flex flex-col gap-0.5 mt-0.5">
                         {/* Render items */}
                         {group.items.map((item) => {
                           const label = getItemLabel(item);
@@ -1159,11 +1167,11 @@ export function RecursosPage() {
                           return (
                             <button
                               key={label}
-                              data-active={isActive}
+                              data-active={isActive && isOpen}
                               onClick={() => setActiveItem(item)}
-                              className={`relative z-10 w-full text-left rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${isActive
+                              className={`relative z-10 w-full text-left rounded-lg pl-6 pr-3 py-1.5 text-sm transition-colors duration-100 ${isActive
                                 ? "text-white font-semibold"
-                                : "text-[#0572CE] hover:bg-[#0572CE]/10"
+                                : "text-[#0572CE] hover:bg-[#D4E8F7] dark:hover:bg-[#0572CE]/20"
                                 }`}
                             >
                               {label}

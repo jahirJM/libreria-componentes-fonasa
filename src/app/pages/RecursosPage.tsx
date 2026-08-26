@@ -338,7 +338,7 @@ ${socialHtml}
 </html>`;
 }
 
-function TemplateBuilder({ onNavigateToIconos, onGoHome }: { onNavigateToIconos: () => void; onGoHome: () => void }) {
+function TemplateBuilder({ onNavigateToIconos }: { onNavigateToIconos: () => void }) {
   const [parts, setParts] = useState<TemplateParts>(defaultParts);
   const [view, setView] = useState<"preview" | "code">("preview");
   const [copied, setCopied] = useState(false);
@@ -582,7 +582,7 @@ function ToggleRow({ label, checked, onChange }: { label: string; checked: boole
 // LOGO VIEWER (embebido)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function LogoViewer({ entry, onGoHome }: { entry: LogoEntry; onGoHome: () => void }) {
+function LogoViewer({ entry }: { entry: LogoEntry }) {
   const variants = getVariantsForEntry(entry);
   const [selectedVariantId, setSelectedVariantId] = useState<string>(variants[0]?.id ?? "");
   const [animKey, setAnimKey] = useState(0);
@@ -855,7 +855,7 @@ const robotoWeights = [
   { weight: 900, name: "Black" },
 ];
 
-function FontsSection({ onGoHome }: { onGoHome: () => void }) {
+function FontsSection() {
   return (
     <div className="flex-1 overflow-y-auto p-8 lg:px-8">
       <div className="max-w-3xl">
@@ -1185,7 +1185,7 @@ export function RecursosPage() {
         {activeItem.type === "home" ? (
           <ResourcesHome onNavigate={setActiveItem} />
         ) : activeItem.type === "logo" ? (
-          <LogoViewer entry={activeItem.entry} onGoHome={() => setActiveItem({ type: "home" })} />
+          <LogoViewer entry={activeItem.entry} />
         ) : activeItem.type === "formbuilder" ? (
           <div className="flex-1 overflow-y-auto flex flex-col">
             <div className="px-6 pt-6">
@@ -1201,9 +1201,9 @@ export function RecursosPage() {
             <IconBuilderPage />
           </div>
         ) : activeItem.type === "fonts" ? (
-          <FontsSection onGoHome={() => setActiveItem({ type: "home" })} />
+          <FontsSection />
         ) : (
-          <TemplateBuilder onGoHome={() => setActiveItem({ type: "home" })} onNavigateToIconos={() => {
+          <TemplateBuilder onNavigateToIconos={() => {
             const rrssEntry = logosRegistry.find((e) => e.name === "Redes Sociales");
             if (rrssEntry) setActiveItem({ type: "logo", entry: rrssEntry });
           }} />

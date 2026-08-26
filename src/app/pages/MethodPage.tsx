@@ -9,6 +9,7 @@ import { Badge } from "../../componentsUI/Badge";
 import { BotonOutline } from "../../componentsUI/Botones";
 import { Card, CardContent } from "../../componentsUI/Card";
 import type { MethodEntry } from "../../docs/methods-registry/types";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 function MethodPreview({ entry }: { entry: MethodEntry }) {
   const [showCode, setShowCode] = useState(false);
@@ -30,10 +31,9 @@ function MethodPreview({ entry }: { entry: MethodEntry }) {
 
       {/* Columna izquierda: contenido */}
       <div className={`flex-1 min-w-0 transition-all duration-300 ${showCode ? "pr-4" : "pr-0"}`}>
-        {/* Header */}
-        <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-          Métodos
-        </p>
+        {/* Breadcrumb */}
+        <Breadcrumb items={[{ label: "Métodos", to: "/methods" }, { label: entry.name }]} />
+
         <h2 className="text-4xl font-bold text-gray-800 mb-2">{entry.name}</h2>
         <p className="text-gray-500 mb-6">{entry.description}</p>
 

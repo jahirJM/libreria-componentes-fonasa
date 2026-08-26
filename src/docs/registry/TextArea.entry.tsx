@@ -5,6 +5,7 @@ import type { ComponentEntry } from "./types";
 
 export const textAreaEntry: ComponentEntry =   {
     name: "textarea",
+    group: "Otros",
     description:
       "Campo de texto multilínea con soporte para estados de error y deshabilitado.",
     code: textAreaCode,

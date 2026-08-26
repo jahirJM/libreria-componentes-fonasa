@@ -82,6 +82,7 @@ function SolicitudCardResizeDemo() {
 
 export const listaPaginadaEntry: ComponentEntry =   {
     name: "lista-paginada",
+    group: "Otros",
     description:
       "Utiliza: paginacion, badge, skeleton-solicitud. Contenedor de lista de solicitudes con skeleton de carga, manejo de error, contador de resultados y paginación integrada.",
     code: listaPaginadaCode,

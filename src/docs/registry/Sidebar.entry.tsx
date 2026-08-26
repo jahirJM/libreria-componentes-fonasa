@@ -9,6 +9,7 @@ import { SidebarDemo } from "../demos/SidebarDemo";
 
 export const sidebarEntry: ComponentEntry =   {
     name: "sidebar",
+    group: "Otros",
     description:
       "Barra lateral de navegación con ítems de menú, subítems desplegables, estado activo y toggle de visibilidad.",
     code: sidebarCode,

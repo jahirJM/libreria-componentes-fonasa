@@ -6,6 +6,7 @@ import type { ComponentEntry } from "./types";
 
 export const paginacionEntry: ComponentEntry =  {
     name: "paginacion",
+    group: "Otros",
     description:
       "Paginación genérica con rango visible de hasta 5 páginas, centrada en la página actual. Flechas de navegación anterior/siguiente.",
     code: paginacionCode,

@@ -3,6 +3,7 @@ import { LuCopy, LuCheck, LuPlay, LuRotateCcw, LuCode } from "react-icons/lu";
 import { Card, CardContent } from "../../componentsUI/Card";
 import { Carousel } from "../../componentsUI/Carousel";
 import { CustomModal } from "../../componentsUI/CustomModal";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // DATOS DE ANIMACIONES
@@ -848,7 +849,7 @@ export function AnimationsPage() {
         <div className="px-6 py-5 flex items-center gap-6 max-w-5xl mx-auto">
           {/* Izquierda: título y descripción */}
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">Recursos</p>
+            <Breadcrumb items={[{ label: "Animaciones" }]} />
             <h1 className="text-4xl font-bold text-gray-900 mb-2">Animaciones</h1>
             <p className="text-base text-gray-500 max-w-xl leading-relaxed">
               Catálogo de animaciones listas para usar con Tailwind CSS 4. Las que requieren CSS

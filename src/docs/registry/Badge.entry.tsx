@@ -7,6 +7,7 @@ export const badgeEntry: ComponentEntry =   {
     name: "badge",
     description:
       "Badge/pill para indicar estados, contadores y categorías. Variantes de color según contexto.",
+    group: "Otros",
     code: badgeCode,
     testCode: badgeTestCode,
     dependencies: ["clsx"],

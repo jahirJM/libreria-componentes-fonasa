@@ -5,6 +5,7 @@ import { slugify } from "../../docs/registry/slugify";
 import { Input } from "../../componentsUI/Input";
 import { Card, CardTitle, CardContent } from "../../componentsUI/Card";
 import { LuSearch } from "react-icons/lu";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 export function ComponentsIndex() {
   const [search, setSearch] = useState("");
@@ -20,9 +21,7 @@ export function ComponentsIndex() {
 
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-        Componentes
-      </p>
+      <Breadcrumb items={[{ label: "Componentes" }]} />
       <h1 className="text-4xl font-bold text-gray-800 dark:text-[#e2e8f0] mb-4">
         Librería de componentes
       </h1>

@@ -8,6 +8,7 @@ export const checkButtonEntry: ComponentEntry =   {
     name: "check-button",
     description:
       "Checkbox/radio button group con variantes primary (checkbox múltiple) y secondary (radio single).",
+    group: "Otros",
     code: checkButtonCode,
     testCode: checkButtonTestCode,
     dependencies: ["clsx"],

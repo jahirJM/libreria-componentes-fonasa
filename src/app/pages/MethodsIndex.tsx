@@ -6,6 +6,7 @@ import { Input } from "../../componentsUI/Input";
 import { Card, CardTitle, CardContent, CardHeader, CardAction } from "../../componentsUI/Card";
 import { Badge } from "../../componentsUI/Badge";
 import { LuSearch } from "react-icons/lu";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 export function MethodsIndex() {
   const [search, setSearch] = useState("");
@@ -21,9 +22,7 @@ export function MethodsIndex() {
 
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-        Métodos
-      </p>
+      <Breadcrumb items={[{ label: "Métodos" }]} />
       <h1 className="text-4xl font-bold text-gray-800 mb-4">
         Utilidades & Helpers
       </h1>

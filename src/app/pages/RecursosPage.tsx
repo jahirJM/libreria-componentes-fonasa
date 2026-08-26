@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { IoMdHome } from "react-icons/io";
 import { LuDownload, LuImage, LuFileCode, LuLink, LuCheck, LuCopy, LuEye, LuCode, LuChevronDown, LuSearch } from "react-icons/lu";
 import { logosRegistry } from "../../docs/logos-registry";
 import type { LogoVariant, LogoEntry } from "../../docs/logos-registry/types";
@@ -16,6 +15,7 @@ import youtubeIcon from "/logos/fonasa/svg/youtube-icon.svg";
 import instagramIcon from "/logos/fonasa/svg/instagram-icon.svg";
 import fonasaLogoFull from "/logos/fonasa/svg/fonasa-logo-full.svg";
 import { FiTerminal } from "react-icons/fi";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TIPOS Y HELPERS
@@ -396,15 +396,7 @@ function TemplateBuilder({ onNavigateToIconos, onGoHome }: { onNavigateToIconos:
         {/* Config panel */}
         <div className="w-80 border-r border-gray-200 bg-white overflow-y-auto p-5 flex flex-col gap-4">
           <div>
-            <button
-              type="button"
-              onClick={onGoHome}
-              className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-2"
-              title="Volver al inicio"
-            >
-              <IoMdHome className="size-4" />
-              <span className="font-medium">Inicio</span>
-            </button>
+            <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Template Email" }]} />
             <h2 className="text-base font-semibold text-gray-800">Template Builder</h2>
             <p className="text-xs text-gray-400 mt-0.5">Configura las partes del email</p>
           </div>
@@ -690,18 +682,7 @@ function LogoViewer({ entry, onGoHome }: { entry: LogoEntry; onGoHome: () => voi
   return (
     <div className="flex-1 overflow-y-auto px-6 py-8 lg:px-8 min-h-full">
       <div className="max-w-5xl">
-        <button
-          type="button"
-          onClick={onGoHome}
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-          title="Volver al inicio"
-        >
-          <IoMdHome className="size-4" />
-          <span className="font-medium">Inicio</span>
-        </button>
-        <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-          Iconos
-        </p>
+        <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Iconos" }, { label: entry.name }]} />
         <h1 className="text-4xl font-bold text-gray-800 dark:text-[#e2e8f0] mb-2">
           {entry.name}
         </h1>
@@ -878,16 +859,7 @@ function FontsSection({ onGoHome }: { onGoHome: () => void }) {
   return (
     <div className="flex-1 overflow-y-auto p-8 lg:px-8">
       <div className="max-w-3xl">
-        <button
-          type="button"
-          onClick={onGoHome}
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-          title="Volver al inicio"
-        >
-          <IoMdHome className="size-4" />
-          <span className="font-medium">Inicio</span>
-        </button>
-        <p className="text-xs font-semibold text-[#0572CE] uppercase tracking-widest mb-2">Tipografía</p>
+        <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Tipografía" }]} />
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Fuentes</h1>
         <p className="text-sm text-gray-500 mb-8">
           La plataforma utiliza <strong>Roboto</strong> como fuente principal. Se carga desde Google Fonts con todos los pesos disponibles.
@@ -1016,9 +988,7 @@ function ResourcesHome({ onNavigate }: { onNavigate: (item: SidebarItem) => void
   return (
     <div className="flex-1 overflow-y-auto p-8 lg:px-8">
       <div className="max-w-4xl">
-        <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-          Recursos
-        </p>
+        <Breadcrumb items={[{ label: "Recursos" }]} />
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
           Recursos de diseño
         </h1>
@@ -1219,30 +1189,14 @@ export function RecursosPage() {
         ) : activeItem.type === "formbuilder" ? (
           <div className="flex-1 overflow-y-auto flex flex-col">
             <div className="px-6 pt-6">
-              <button
-                type="button"
-                onClick={() => setActiveItem({ type: "home" })}
-                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-                title="Volver al inicio"
-              >
-                <IoMdHome className="size-4" />
-                <span className="font-medium">Inicio</span>
-              </button>
+              <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Form Builder" }]} />
             </div>
             <FormBuilderPage />
           </div>
         ) : activeItem.type === "iconbuilder" ? (
           <div className="flex-1 overflow-y-auto flex flex-col">
             <div className="px-6 pt-6">
-              <button
-                type="button"
-                onClick={() => setActiveItem({ type: "home" })}
-                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0572CE] transition-colors mb-3"
-                title="Volver al inicio"
-              >
-                <IoMdHome className="size-4" />
-                <span className="font-medium">Inicio</span>
-              </button>
+              <Breadcrumb items={[{ label: "Recursos", to: "/recursos" }, { label: "Icon Builder" }]} />
             </div>
             <IconBuilderPage />
           </div>

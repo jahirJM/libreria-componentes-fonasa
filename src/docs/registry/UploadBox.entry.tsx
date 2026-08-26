@@ -6,6 +6,7 @@ import type { ComponentEntry } from "./types";
 
 export const uploadBoxEntry: ComponentEntry =   {
     name: "upload-box",
+    group: "Otros",
     description:
       "Zona de carga de archivos con estados: default, confirmación y error. Estilo drag & drop.",
     code: uploadBoxCode,

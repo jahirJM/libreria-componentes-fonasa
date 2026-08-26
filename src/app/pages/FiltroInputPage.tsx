@@ -13,6 +13,7 @@ import { BotonOutline } from "../../componentsUI/Botones";
 import { CodePanel } from "../projectComponents/CodePanel";
 import { fonasaToast } from "../../componentsUI/Toast";
 import { FiCopy, FiCheck } from "react-icons/fi";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 // ─── Opciones de caracteres ───────────────────────────────────────────────────
 
@@ -228,7 +229,7 @@ export function FiltroInputPage() {
     <div className="max-w-3xl">
 
       {/* Header */}
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">Métodos</p>
+      <Breadcrumb items={[{ label: "Métodos", to: "/methods" }, { label: "Constructor de Filtros" }]} />
       <h2 className="text-4xl font-bold text-gray-800 mb-2">Constructor de Filtros</h2>
       <p className="text-gray-500 mb-8">
         Configura qué caracteres acepta un input, sus límites y validaciones. El código se genera listo para copiar.

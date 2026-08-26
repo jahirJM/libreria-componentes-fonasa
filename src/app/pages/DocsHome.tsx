@@ -1,11 +1,10 @@
 import { Card, CardContent } from "../../componentsUI/Card";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 export function DocsHome() {
   return (
     <div>
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-        Documentación
-      </p>
+      <Breadcrumb items={[{ label: "Documentación" }]} />
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Primeros pasos</h1>
 
       <section className="space-y-4 text-gray-600">

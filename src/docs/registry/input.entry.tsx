@@ -7,6 +7,7 @@ import type { ComponentEntry } from "./types";
 
 export const inputEntry: ComponentEntry =   {
     name: "input",
+    group: "Otros",
     description:
       "Input con soporte para múltiples tipos, íconos, loading y copyable.",
     code: inputCode,

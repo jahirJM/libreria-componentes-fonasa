@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { fonasaToast } from "../../componentsUI/Toast";
 import { Carousel } from "../../componentsUI/Carousel";
+import { Breadcrumb } from "../projectComponents/Breadcrumb";
 
 interface ColorSwatch {
   name: string;
@@ -362,7 +363,7 @@ export function ColorsPage() {
         <div className="px-6 py-5 flex items-center gap-6 max-w-5xl mx-auto">
           {/* Izquierda: título y descripción */}
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">Recursos</p>
+            <Breadcrumb items={[{ label: "Colores" }]} />
             <h1 className="text-4xl font-bold text-gray-900 mb-2">Paleta de Colores</h1>
             <p className="text-base text-gray-500 max-w-xl leading-relaxed">
               Colores institucionales y funcionales usados en los componentes de

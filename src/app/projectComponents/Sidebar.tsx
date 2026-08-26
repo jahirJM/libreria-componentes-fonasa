@@ -53,8 +53,8 @@ export function Sidebar() {
     );
   }, [filter]);
 
-  // Separar componentes con grupo y sin grupo
-  const ungrouped = filteredRegistry.filter((entry) => !entry.group);
+  // Separar componentes con grupo y sin grupo (excluir iconos del sidebar)
+  const ungrouped = filteredRegistry.filter((entry) => !entry.group && entry.name !== "iconos");
   const grouped = filteredRegistry.reduce<Record<string, typeof registry>>(
     (acc, entry) => {
       if (entry.group) {
@@ -96,6 +96,7 @@ export function Sidebar() {
   const toggleGroup = (group: string) => {
     setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
     // Recalculate indicator after group toggle animation
+    setTimeout(updateIndicator, 50);
     setTimeout(updateIndicator, 220);
   };
 
@@ -160,14 +161,30 @@ export function Sidebar() {
           })}
 
           {/* Sub-secciones agrupadas */}
-          {Object.entries(grouped).map(([groupName, entries]) => {
+          {Object.entries(grouped)
+            .sort(([a], [b]) => {
+              if (a === "Otros") return 1;
+              if (b === "Otros") return -1;
+              return a.localeCompare(b, "es");
+            })
+            .map(([groupName, entries]) => {
             const isOpen = effectiveOpenGroups[groupName] ?? false;
+            const hasActiveChild = entries.some(
+              (e) => location.pathname === `/components/${slugify(e.name)}`
+            );
+            // Show indicator on group header when collapsed with active child
+            const groupIsActive = hasActiveChild && !isOpen;
             return (
               <div key={groupName} className="mt-1">
                 <button
                   type="button"
                   onClick={() => toggleGroup(groupName)}
-                  className="relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE]/10 transition-colors duration-100 group"
+                  data-active={groupIsActive}
+                  className={`relative z-10 w-full flex items-center justify-between rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 group ${
+                    groupIsActive
+                      ? "text-white font-semibold"
+                      : "text-gray-900 dark:text-[#e2e8f0] hover:bg-[#0572CE]/10"
+                  }`}
                 >
                   <span className="font-semibold">{groupName}</span>
                   <LuChevronDown
@@ -189,7 +206,7 @@ export function Sidebar() {
                           <NavLink
                             key={entry.name}
                             to={path}
-                            data-active={isActive}
+                            data-active={isActive && isOpen}
                             className={`relative z-10 rounded-lg px-3 py-1.5 text-sm transition-colors duration-100 ${
                               isActive
                                 ? "text-white font-semibold"

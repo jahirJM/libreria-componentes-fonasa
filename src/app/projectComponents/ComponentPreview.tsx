@@ -49,64 +49,7 @@ function ColorPill({ color }: { color: { name: string; value: string; usage: str
   );
 }
 
-function VariantCodeModal({
-  variant,
-  onClose,
-}: {
-  variant: ComponentVariant;
-  onClose: () => void;
-}) {
-  /** Formatea JSX de una línea a multilínea con props indentadas */
-  function formatCode(code: string): string {
-    if (code.includes("\n")) return code;
-    const match = code.match(/^(<\w+)\s+(.*?)\s*(\/?>)(.*)$/s);
-    if (!match) return code;
-    const [, tag, propsStr, closing, rest] = match;
-    const props: string[] = [];
-    let current = "";
-    let depth = 0;
-    let inString: string | null = null;
-    for (const ch of propsStr) {
-      if (inString) {
-        current += ch;
-        if (ch === inString) inString = null;
-      } else if (ch === '"' || ch === "'" || ch === "`") {
-        current += ch;
-        inString = ch;
-      } else if (ch === "{") {
-        depth++;
-        current += ch;
-      } else if (ch === "}") {
-        depth--;
-        current += ch;
-      } else if (ch === " " && depth === 0 && current.trim()) {
-        props.push(current.trim());
-        current = "";
-      } else {
-        current += ch;
-      }
-    }
-    if (current.trim()) props.push(current.trim());
-    if (props.length <= 1) return code;
-    const indented = props.map((p) => `  ${p}`).join("\n");
-    return `${tag}\n${indented}\n${closing}${rest}`;
-  }
 
-  const formattedCode = formatCode(variant.usageCode);
-
-  return (
-    <CustomModal
-      size="md"
-      title={`Código — ${variant.label}`}
-      showModal={true}
-      onClose={onClose}
-    >
-      <div className="max-h-[60vh] overflow-y-auto">
-        <CodePanel code={formattedCode} />
-      </div>
-    </CustomModal>
-  );
-}
 
 /** Orden de prioridad para badges fijos */
 const FIXED_PATTERNS = [

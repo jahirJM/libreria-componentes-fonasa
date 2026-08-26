@@ -17,7 +17,6 @@ function Typewriter({ text }: { text: string }) {
 
   useEffect(() => {
     setDisplayed("");
-    let i = 0;
     let rafId: number;
     let start: number | null = null;
     const totalDuration = text.length * 100; // total ms for all characters

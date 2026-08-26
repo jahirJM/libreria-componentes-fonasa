@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { FiCopy, FiCheckCircle, FiPlus, FiTrash2 } from "react-icons/fi";
 import { TablaBasica } from "../../componentsUI/TablaBasica";
-import { Switch } from "../../componentsUI/Switch";
 import { CodePanel } from "../../app/projectComponents/CodePanel";
 import { fonasaToast } from "../../componentsUI/Toast";
 

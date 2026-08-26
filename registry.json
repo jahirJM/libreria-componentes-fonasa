@@ -7,6 +7,7 @@
       "clsx",
       "react-icons"
     ],
+    "group": "Otros",
     "testFile": "Acordeon.test.tsx"
   },
   {
@@ -27,6 +28,7 @@
     "dependencies": [
       "clsx"
     ],
+    "group": "Otros",
     "testFile": "Badge.test.tsx"
   },
   {
@@ -37,12 +39,13 @@
     "testFile": "BotonClaveUnica.test.tsx"
   },
   {
-    "name": "botones",
+    "name": "boton-comun",
     "file": "Botones.tsx",
     "description": "Conjunto de botones (Confirmar, Cancelar, Primario, Secundario, Outline, Link) con soporte para íconos y estado deshabilitado.",
     "dependencies": [
       "react-icons"
     ],
+    "group": "Botones",
     "testFile": "Botones.test.tsx"
   },
   {
@@ -65,6 +68,7 @@
     "internalDeps": [
       "botones"
     ],
+    "group": "Otros",
     "testFile": "Card.test.tsx"
   },
   {
@@ -74,7 +78,8 @@
     "dependencies": [
       "react-icons",
       "clsx"
-    ]
+    ],
+    "group": "Otros"
   },
   {
     "name": "check-button",
@@ -83,12 +88,24 @@
     "dependencies": [
       "clsx"
     ],
+    "group": "Otros",
     "testFile": "CheckButton.test.tsx"
+  },
+  {
+    "name": "code-block",
+    "file": "CodeBlock.tsx",
+    "description": "Bloque de código o comando con botón de copiar al portapapeles. Ideal para snippets, comandos de terminal o configuraciones copiables.",
+    "dependencies": [
+      "clsx",
+      "react-icons"
+    ],
+    "group": "Otros"
   },
   {
     "name": "contador-estadistica",
     "file": "ContadorEstadistica.tsx",
     "description": "Tarjeta de métrica animada con patrón de composición. Cuenta desde 0 hasta el valor final al entrar en pantalla. Usa sub-componentes: Cabecera, Metrica, Contenido, Etiqueta, Descripcion y Tendencia.",
+    "group": "Otros",
     "testFile": "ContadorEstadistica.test.tsx"
   },
   {
@@ -100,6 +117,7 @@
       "react-icons",
       "react-dom"
     ],
+    "group": "Otros",
     "testFile": "Drawer.test.tsx"
   },
   {
@@ -109,6 +127,7 @@
     "dependencies": [
       "react-icons"
     ],
+    "group": "Otros",
     "testFile": "Footer.test.tsx"
   },
   {
@@ -133,11 +152,31 @@
       "linkedin-icon.svg"
     ],
     "assetGroups": {
-      "contacto": ["mesa-telefonica.svg", "consultas-contacto.svg"],
-      "fonasa": ["fonasa-logo-full.svg", "fonasa-logo-icon.svg", "fonasa-logo-name.svg", "fonasa-blanco.svg"],
-      "gob-chile": ["gob-logo.svg", "gob-logo-gris.svg"],
-      "clave-unica": ["ico-clave-unica.svg"],
-      "rrss": ["twitter-icon.svg", "twitter-x-icon.svg", "facebook-icon.svg", "youtube-icon.svg", "instagram-icon.svg", "linkedin-icon.svg"]
+      "contacto": [
+        "mesa-telefonica.svg",
+        "consultas-contacto.svg"
+      ],
+      "fonasa": [
+        "fonasa-logo-full.svg",
+        "fonasa-logo-icon.svg",
+        "fonasa-logo-name.svg",
+        "fonasa-blanco.svg"
+      ],
+      "gob-chile": [
+        "gob-logo.svg",
+        "gob-logo-gris.svg"
+      ],
+      "clave-unica": [
+        "ico-clave-unica.svg"
+      ],
+      "rrss": [
+        "twitter-icon.svg",
+        "twitter-x-icon.svg",
+        "facebook-icon.svg",
+        "youtube-icon.svg",
+        "instagram-icon.svg",
+        "linkedin-icon.svg"
+      ]
     },
     "assetsDir": "app/imgs"
   },
@@ -145,6 +184,7 @@
     "name": "indicador-requerido",
     "file": "IndicadorRequerido.tsx",
     "description": "Asterisco rojo (*) que indica campo obligatorio. Componente auxiliar usado internamente por Label.",
+    "group": "Otros",
     "testFile": "IndicadorRequerido.test.tsx"
   },
   {
@@ -155,6 +195,7 @@
       "clsx",
       "react-icons"
     ],
+    "group": "Otros",
     "testFile": "Input.test.tsx"
   },
   {
@@ -181,6 +222,7 @@
     "internalDeps": [
       "indicador-requerido"
     ],
+    "group": "Otros",
     "testFile": "Label.test.tsx"
   },
   {
@@ -195,12 +237,14 @@
       "badge",
       "skeleton-solicitud"
     ],
+    "group": "Otros",
     "testFile": "ListaPaginada.test.tsx"
   },
   {
     "name": "loading",
     "file": "Loading.tsx",
     "description": "Componentes de carga: Loading (spinner básico) y LoadingFonasa (con favicon de Fonasa al centro del spinner).",
+    "group": "Otros",
     "testFile": "Loading.test.tsx"
   },
   {
@@ -234,6 +278,7 @@
     "name": "navbar",
     "file": "Navbar.tsx",
     "description": "Barra de navegación superior fija con logo, título, links con indicador activo (barrita inferior) y menú móvil responsive.",
+    "group": "Otros",
     "testFile": "Navbar.test.tsx"
   },
   {
@@ -243,6 +288,7 @@
     "dependencies": [
       "react-icons"
     ],
+    "group": "Otros",
     "testFile": "Paginacion.test.tsx"
   },
   {
@@ -253,6 +299,7 @@
       "clsx",
       "react-icons"
     ],
+    "group": "Select",
     "testFile": "Select.test.tsx"
   },
   {
@@ -263,6 +310,7 @@
       "clsx",
       "react-icons"
     ],
+    "group": "Select",
     "testFile": "SelectBuscable.test.tsx"
   },
   {
@@ -272,6 +320,7 @@
     "dependencies": [
       "react-icons"
     ],
+    "group": "Otros",
     "testFile": "Sidebar.test.tsx"
   },
   {
@@ -281,6 +330,7 @@
     "internalDeps": [
       "botones"
     ],
+    "group": "Otros",
     "testFile": "Stepper.test.tsx"
   },
   {
@@ -291,6 +341,7 @@
       "clsx",
       "react-icons"
     ],
+    "group": "Otros",
     "testFile": "Switch.test.tsx"
   },
   {
@@ -333,12 +384,14 @@
     "dependencies": [
       "clsx"
     ],
+    "group": "Otros",
     "testFile": "TextArea.test.tsx"
   },
   {
     "name": "texto-animado",
     "file": "TextoAnimado.tsx",
     "description": "Componente que muestra un valor con animación suave tipo slot-machine al cambiar. Ideal para resultados de formateo, montos, o cualquier dato dinámico.",
+    "group": "Otros",
     "testFile": "TextoAnimado.test.tsx"
   },
   {
@@ -362,6 +415,7 @@
       "clsx",
       "react-icons"
     ],
+    "group": "Otros",
     "testFile": "UploadBox.test.tsx"
   }
 ]

@@ -220,6 +220,8 @@ export function DisparadorAcordeon({
       type="button"
       disabled={deshabilitado}
       aria-expanded={abierto}
+      aria-controls={`acordeon-contenido-${valor}`}
+      id={`acordeon-disparador-${valor}`}
       onClick={() => alternarValor(valor)}
       className={clsx(
         "flex w-full items-center gap-3 px-5 py-4 text-left",
@@ -271,7 +273,7 @@ export function ContenidoAcordeon({
   className,
   ...props
 }: ContenidoAcordeonProps) {
-  const { abierto } = useContextoItem();
+  const { abierto, valor } = useContextoItem();
   const contenidoRef = useRef<HTMLDivElement>(null);
   const [altura, setAltura] = useState(0);
 
@@ -290,6 +292,9 @@ export function ContenidoAcordeon({
 
   return (
     <div
+      id={`acordeon-contenido-${valor}`}
+      role="region"
+      aria-labelledby={`acordeon-disparador-${valor}`}
       aria-hidden={!abierto}
       style={{ maxHeight: abierto ? `${altura}px` : "0px" }}
       className="overflow-hidden transition-[max-height] duration-300 ease-in-out"

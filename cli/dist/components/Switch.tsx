@@ -86,6 +86,10 @@ export interface SwitchProps {
   id?: string;
   /** Si true, muestra skeleton de carga. */
   isLoading?: boolean;
+  /** Texto descriptivo para lectores de pantalla. */
+  ariaLabel?: string;
+  /** ID del elemento que actúa como label del switch. */
+  ariaLabelledBy?: string;
 }
 
 /**
@@ -115,6 +119,8 @@ export const Switch = ({
   name,
   id,
   isLoading = false,
+  ariaLabel,
+  ariaLabelledBy,
 }: SwitchProps) => {
   const idGenerado = useId();
   const switchId = id ?? idGenerado;
@@ -147,6 +153,8 @@ export const Switch = ({
       id={switchId}
       name={name}
       aria-checked={activo}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
       disabled={disabled}
       onClick={toggle}
       className={clsx(

@@ -92,9 +92,10 @@ export const CustomModal = ({
                     </p>
                     <button
                       onClick={onClose}
+                      aria-label="Cerrar modal"
                       className="text-gray-700 p-1 rounded-md hover:bg-gray-700/10 cursor-pointer"
                     >
-                      <BiX className="size-4" />
+                      <BiX className="size-4" aria-hidden="true" />
                     </button>
                   </div>
 

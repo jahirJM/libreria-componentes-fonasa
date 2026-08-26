@@ -11161,7 +11161,7 @@ function stripAnsi2(str) {
 }
 
 // src/commands/add.ts
-var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes a tu proyecto").argument("<componentes...>", "Nombres de los componentes a instalar").option("-y, --yes", "Instalar sin confirmaci\xF3n", false).option("-o, --overwrite", "Sobrescribir archivos existentes", false).option("-t, --with-tests", "Incluir archivos de test (Jest)", false).option("--only-tests", "Instalar solo los tests (sin copiar componentes)", false).action(async (componentes, opts) => {
+var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes a tu proyecto").argument("<componentes...>", "Nombres de los componentes a instalar").option("-y, --yes", "Instalar sin confirmaci\xF3n", false).option("-o, --overwrite", "Sobrescribir archivos existentes", false).option("-t, --with-tests", "Incluir archivos de test (Jest)", false).option("--only-tests", "Instalar solo los tests (sin copiar componentes)", false).option("--contacto", "Solo iconos de contacto (mesa telef\xF3nica, consultas)", false).option("--fonasa", "Solo iconos de Fonasa (logos institucionales)", false).option("--gob-chile", "Solo iconos de Gobierno de Chile", false).option("--clave-unica", "Solo icono de Clave\xDAnica", false).option("--rrss", "Solo iconos de redes sociales", false).action(async (componentes, opts) => {
   printBanner();
   const config = loadConfig();
   if (!config) {
@@ -11329,13 +11329,32 @@ var addCommand = new Command("add").description("Agrega uno o m\xE1s componentes
   }
   let assetsInstalled = 0;
   let assetsSkipped = 0;
+  const subsetFlags = [];
+  if (opts.contacto) subsetFlags.push("contacto");
+  if (opts.fonasa) subsetFlags.push("fonasa");
+  if (opts.gobChile) subsetFlags.push("gob-chile");
+  if (opts.claveUnica) subsetFlags.push("clave-unica");
+  if (opts.rrss) subsetFlags.push("rrss");
   for (const comp of allComponents) {
     if (comp.assets && comp.assets.length > 0) {
+      let assetsToInstall = comp.assets;
+      if (subsetFlags.length > 0 && comp.assetGroups) {
+        const filteredAssets = [];
+        for (const flag of subsetFlags) {
+          const groupAssets = comp.assetGroups[flag];
+          if (groupAssets) {
+            filteredAssets.push(...groupAssets);
+          }
+        }
+        if (filteredAssets.length > 0) {
+          assetsToInstall = filteredAssets;
+        }
+      }
       const assetsDestDir = resolve4(process.cwd(), comp.assetsDir || "public/assets");
       if (!existsSync4(assetsDestDir)) {
         mkdirSync(assetsDestDir, { recursive: true });
       }
-      for (const assetFile of comp.assets) {
+      for (const assetFile of assetsToInstall) {
         const destFile = join(assetsDestDir, assetFile);
         if (existsSync4(destFile) && !opts.overwrite) {
           printSkippedItem(`${assetFile} ya existe`);

@@ -136,6 +136,8 @@ export const Alerta = ({
   return (
     <article
       role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
       className={clsx(
         "relative w-full rounded-xl border px-4 py-4 pr-10 flex gap-3 items-start font-medium shadow-sm shadow-black/5",
         contenedor,

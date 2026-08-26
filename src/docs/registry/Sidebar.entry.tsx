@@ -1,6 +1,6 @@
 import sidebarCode from "../../componentsUI/Sidebar.tsx?raw";
 import sidebarTestCode from "../../tests/Sidebar.test.tsx?raw";
-import { FaFileMedical, FaHospital, FaUserCircle, FaUsers } from "react-icons/fa";
+import { FaHospital, FaUserCircle, FaUsers } from "react-icons/fa";
 import type { ComponentEntry } from "./types";
 import Sidebar from "../../componentsUI/Sidebar";
 import { SidebarResponsiveWrapper } from "../SidebarResponsiveWrapper";

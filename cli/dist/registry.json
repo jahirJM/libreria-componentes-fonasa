@@ -278,8 +278,20 @@
     "name": "navbar",
     "file": "Navbar.tsx",
     "description": "Barra de navegación superior fija con logo, título, links con indicador activo (barrita inferior) y menú móvil responsive.",
-    "group": "Otros",
+    "group": "Navbar",
     "testFile": "Navbar.test.tsx"
+  },
+  {
+    "name": "navbar-vertical",
+    "file": "NavbarVertical.tsx",
+    "description": "Barra de navegación vertical (lateral) con soporte para logo, título, secciones agrupadas, estado colapsado con íconos y footer personalizable.",
+    "dependencies": [
+      "react-icons"
+    ],
+    "internalDeps": [
+      "navbar"
+    ],
+    "group": "Navbar"
   },
   {
     "name": "paginacion",

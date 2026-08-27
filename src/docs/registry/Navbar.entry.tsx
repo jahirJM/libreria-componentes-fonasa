@@ -85,7 +85,7 @@ function NavbarPillDemo() {
 
 export const navbarEntry: ComponentEntry = {
   name: "navbar",
-  group: "Otros",
+  group: "Navbar",
   description:
     "Barra de navegación superior fija con logo, título, links con indicador activo (barrita inferior) y menú móvil responsive.",
   code: navbarCode,

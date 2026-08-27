@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { CalendarioRango } from "./CalendarioRango";
 
 interface InputCalendarioProps {
@@ -77,11 +78,35 @@ export function InputCalendario({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
+  const [popoverStyle, setPopoverStyle] = useState<React.CSSProperties>({});
+
+  const calcularPosicion = useCallback(() => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const calendarWidth = mode === "double" ? 680 : 340;
+    const viewportHeight = window.innerHeight;
+    const calendarHeight = 420;
+    const espacioAbajo = viewportHeight - rect.bottom;
+    const abreArriba = espacioAbajo < calendarHeight && rect.top > calendarHeight;
+
+    setPopoverStyle({
+      position: "fixed",
+      left: rect.left,
+      width: calendarWidth,
+      zIndex: 9999,
+      ...(abreArriba
+        ? { bottom: viewportHeight - rect.top + 4 }
+        : { top: rect.bottom + 4 }),
+    });
+  }, [mode]);
 
   // Cerrar al clickear fuera
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const clickEnContainer = containerRef.current?.contains(event.target as Node);
+      const clickEnCalendar = calendarRef.current?.contains(event.target as Node);
+      if (!clickEnContainer && !clickEnCalendar) {
         setIsOpen(false);
       }
     }
@@ -91,6 +116,21 @@ export function InputCalendario({
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
+
+  // Recalculate position on scroll/resize
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleReposition = (e: Event) => {
+      if (calendarRef.current?.contains(e.target as Node)) return;
+      calcularPosicion();
+    };
+    window.addEventListener("scroll", handleReposition, true);
+    window.addEventListener("resize", calcularPosicion);
+    return () => {
+      window.removeEventListener("scroll", handleReposition, true);
+      window.removeEventListener("resize", calcularPosicion);
+    };
+  }, [isOpen, calcularPosicion]);
 
   // Modo rango — primer click: actualiza inicio al tiro
   const handleStartSelect = (date: Date) => {
@@ -127,7 +167,12 @@ export function InputCalendario({
       <div
         className={`flex items-center gap-2 rounded-md border px-3 py-1.5 transition-colors focus-within:ring-2 ${borderClass} ${disabled ? "bg-gray-100 opacity-50 cursor-not-allowed" : "bg-white cursor-pointer"
           }`}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
+        onClick={() => {
+          if (!disabled) {
+            if (!isOpen) calcularPosicion();
+            setIsOpen(!isOpen);
+          }
+        }}
         onKeyDown={(e) => {
           if (!disabled && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
@@ -195,9 +240,9 @@ export function InputCalendario({
         </svg>
       </div>
 
-      {/* Popover con calendario — no se cierra solo, el usuario lo cierra */}
-      {isOpen && (
-        <div className="absolute z-50 mt-2 left-0 shadow-xl rounded-xl" style={{ width: mode === "double" ? 680 : 340 }}>
+      {/* Popover con calendario — renderizado en portal para evitar clipping */}
+      {isOpen && createPortal(
+        <div ref={calendarRef} className="shadow-xl rounded-xl" style={popoverStyle}>
           <CalendarioRango
             mode={mode}
             showStats={tipo === "rango" ? showStats : false}
@@ -210,7 +255,8 @@ export function InputCalendario({
             onStartSelect={tipo === "rango" ? handleStartSelect : undefined}
             onDateSelect={tipo === "fecha" ? handleSingleDateSelect : undefined}
           />
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

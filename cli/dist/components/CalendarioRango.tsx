@@ -197,9 +197,11 @@ function CalendarPanel({
         </div>
       )}
 
-      <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
-        {MONTH_NAMES[month]} {year}
-      </h3>
+      {label && (
+        <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
+          {MONTH_NAMES[month]} {year}
+        </h3>
+      )}
 
       <div className="grid grid-cols-7 mb-1">
         {DAYS_OF_WEEK.map((day) => (
@@ -275,6 +277,8 @@ export function CalendarioRango({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
+  const [view, setView] = useState<"calendar" | "months" | "years">("calendar");
+  const [yearRangeStart, setYearRangeStart] = useState(leftYear - 4);
 
   const rightPanel = useMemo(() => getNextMonth(leftMonth, leftYear), [leftMonth, leftYear]);
 
@@ -365,6 +369,14 @@ export function CalendarioRango({
     setLeftYear(next.year);
   };
 
+  const prevYear = () => {
+    setLeftYear((y) => y - 1);
+  };
+
+  const nextYear = () => {
+    setLeftYear((y) => y + 1);
+  };
+
   const containerClass =
     mode === "double"
       ? `w-[680px] bg-white rounded-xl shadow-lg border border-gray-200 p-5 ${className}`
@@ -372,68 +384,155 @@ export function CalendarioRango({
 
   return (
     <div className={containerClass}>
-      {/* Header con navegación */}
-      <div className="flex items-center justify-between mb-4">
-        <button
-          type="button"
-          onClick={prevMonth}
-          className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
-          aria-label="Mes anterior"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
+      {/* Header con navegación de año y mes — clickeables para abrir selectores */}
+      <div className="flex flex-col gap-1 mb-4">
+        {/* Fila del año */}
+        <div className="flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              if (view === "years") {
+                setYearRangeStart((s) => s - 12);
+              } else {
+                prevYear();
+              }
+            }}
+            className="p-1 rounded-full hover:bg-gray-100 text-gray-500 transition-colors"
+            aria-label="Año anterior"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (view === "years") {
+                setView("calendar");
+              } else {
+                setYearRangeStart(leftYear - 4);
+                setView("years");
+              }
+            }}
+            className="text-sm font-semibold text-gray-700 min-w-12 text-center hover:text-[#0572CE] hover:underline transition-colors cursor-pointer"
+            aria-label="Seleccionar año"
+          >
+            {view === "years"
+              ? `${yearRangeStart} – ${yearRangeStart + 11}`
+              : leftYear}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (view === "years") {
+                setYearRangeStart((s) => s + 12);
+              } else {
+                nextYear();
+              }
+            }}
+            className="p-1 rounded-full hover:bg-gray-100 text-gray-500 transition-colors"
+            aria-label="Año siguiente"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
 
-        {mode === "single" && (
-          <h2 className="text-base font-semibold text-gray-800">
-            {MONTH_NAMES[leftMonth]} {leftYear}
-          </h2>
-        )}
+        {/* Fila del mes */}
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={prevMonth}
+            className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
+            aria-label="Mes anterior"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-        {mode === "double" && (
-          <h2 className="text-base font-semibold text-gray-800">
-            {MONTH_NAMES[leftMonth]} — {MONTH_NAMES[rightPanel.month]} {rightPanel.year}
-          </h2>
-        )}
+          <button
+            type="button"
+            onClick={() => setView(view === "months" ? "calendar" : "months")}
+            className="text-base font-semibold text-gray-800 hover:text-[#0572CE] hover:underline transition-colors cursor-pointer"
+            aria-label="Seleccionar mes"
+          >
+            {mode === "single"
+              ? MONTH_NAMES[leftMonth]
+              : `${MONTH_NAMES[leftMonth]} — ${MONTH_NAMES[rightPanel.month]}`}
+          </button>
 
-        <button
-          type="button"
-          onClick={nextMonth}
-          className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
-          aria-label="Mes siguiente"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+          <button
+            type="button"
+            onClick={nextMonth}
+            className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
+            aria-label="Mes siguiente"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Paneles de calendario */}
-      <div className={mode === "double" ? "flex gap-6" : ""}>
-        <CalendarPanel
-          month={leftMonth}
-          year={leftYear}
-          holidays={holidays}
-          startDate={startDate}
-          endDate={endDate}
-          hoveredDate={hoveredDate}
-          onDayClick={handleDayClick}
-          onDayHover={setHoveredDate}
-          onDayLeave={() => setHoveredDate(null)}
-          today={today}
-          label={mode === "double" ? "Fecha inicio" : undefined}
-          minDate={minDate}
-          maxDate={maxDate}
-        />
+      {/* Vista de selección de año */}
+      {view === "years" && (
+        <div className="grid grid-cols-3 gap-2 py-2">
+          {Array.from({ length: 12 }, (_, i) => yearRangeStart + i).map((year) => (
+            <button
+              key={year}
+              type="button"
+              onClick={() => {
+                setLeftYear(year);
+                setView("months");
+              }}
+              className={`py-2 rounded-lg text-sm font-medium transition-colors ${
+                year === leftYear
+                  ? "bg-[#0572CE] text-white"
+                  : year === today.getFullYear()
+                    ? "border border-[#008CB5] text-[#008CB5] hover:bg-[#D4E8F7]"
+                    : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {year}
+            </button>
+          ))}
+        </div>
+      )}
 
-        {mode === "double" && (
-          <>
-            <div className="w-px bg-gray-200 self-stretch" />
+      {/* Vista de selección de mes */}
+      {view === "months" && (
+        <div className="grid grid-cols-3 gap-2 py-2">
+          {MONTH_NAMES.map((name, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                setLeftMonth(idx);
+                setView("calendar");
+              }}
+              className={`py-2 rounded-lg text-sm font-medium transition-colors ${
+                idx === leftMonth
+                  ? "bg-[#0572CE] text-white"
+                  : idx === today.getMonth() && leftYear === today.getFullYear()
+                    ? "border border-[#008CB5] text-[#008CB5] hover:bg-[#D4E8F7]"
+                    : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {name.slice(0, 3)}
+            </button>
+          ))}
+        </div>
+      )}
 
+      {/* Paneles de calendario — solo se muestran en vista calendar */}
+      {view === "calendar" && (
+        <>
+          <div className={mode === "double" ? "flex gap-6" : ""}>
             <CalendarPanel
-              month={rightPanel.month}
-              year={rightPanel.year}
+              month={leftMonth}
+              year={leftYear}
               holidays={holidays}
               startDate={startDate}
               endDate={endDate}
@@ -442,93 +541,115 @@ export function CalendarioRango({
               onDayHover={setHoveredDate}
               onDayLeave={() => setHoveredDate(null)}
               today={today}
-              label="Fecha término"
+              label={mode === "double" ? "Fecha inicio" : undefined}
               minDate={minDate}
               maxDate={maxDate}
             />
-          </>
-        )}
-      </div>
 
-      {/* Leyenda */}
-      <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap gap-3 text-xs text-gray-600">
-        <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-red-500" />
-          Feriado
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-[#D4E8F7]" />
-          Rango seleccionado
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full border-2 border-[#008CB5]" />
-          Hoy
-        </div>
-        {/* Indicador de filtro activo */}
-        {!(feriados && habiles && finSemana) && (
-          <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-red-500" />
-            {habiles && !feriados && !finSemana && "Solo días hábiles"}
-            {habiles && feriados && !finSemana && "Días hábiles y feriados"}
-            {habiles && !feriados && finSemana && "Días hábiles y fin de semana"}
-            {!habiles && feriados && finSemana && "Solo feriados y fin de semana"}
-            {!habiles && feriados && !finSemana && "Solo feriados"}
-            {!habiles && !feriados && finSemana && "Solo fin de semana"}
-            {!habiles && !feriados && !finSemana && "Sin conteo"}
-          </div>
-        )}
-      </div>
-
-      {/* Info de selección + conteo inline + botón confirmar */}
-      {startDate && (
-        <div className="mt-3 text-xs text-gray-600 bg-gray-50 rounded-lg p-2.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {onDateSelect ? (
-              <div>
-                <span className="font-medium text-[#0572CE]">Fecha:</span>{" "}
-                {startDate.toLocaleDateString("es-CL")}
-              </div>
-            ) : (
+            {mode === "double" && (
               <>
-                <div>
-                  <span className="font-medium text-[#0572CE]">Inicio:</span>{" "}
-                  {startDate.toLocaleDateString("es-CL")}
-                </div>
-                {endDate && (
-                  <>
-                    <span className="text-gray-300">→</span>
-                    <div>
-                      <span className="font-medium text-[#0572CE]">Fin:</span>{" "}
-                      {endDate.toLocaleDateString("es-CL")}
-                    </div>
-                  </>
-                )}
-                {!endDate && (
-                  <span className="text-gray-400">(selecciona fecha fin)</span>
-                )}
+                <div className="w-px bg-gray-200 self-stretch" />
+
+                <CalendarPanel
+                  month={rightPanel.month}
+                  year={rightPanel.year}
+                  holidays={holidays}
+                  startDate={startDate}
+                  endDate={endDate}
+                  hoveredDate={hoveredDate}
+                  onDayClick={handleDayClick}
+                  onDayHover={setHoveredDate}
+                  onDayLeave={() => setHoveredDate(null)}
+                  today={today}
+                  label="Fecha término"
+                  minDate={minDate}
+                  maxDate={maxDate}
+                />
               </>
             )}
           </div>
 
-          <div className="flex items-center gap-2 ml-3">
-            {/* Conteo de días */}
-            {showStats && countedDays !== null && (
-              <span className="bg-[#0572CE] text-white px-2.5 py-1 rounded-full text-xs font-semibold">
-                {countedDays} días
-              </span>
-            )}
-            {/* Botón confirmar */}
-            {onConfirm && (
-              <button
-                type="button"
-                onClick={onConfirm}
-                className="bg-[#0572CE] text-white px-3 py-1 rounded-2xl text-xs font-medium hover:bg-blue-700 transition-colors cursor-pointer"
-              >
-                Seleccionar
-              </button>
+          {/* Leyenda */}
+          <div className="mt-4 pt-3 border-t border-gray-100 flex flex-wrap gap-3 text-xs text-gray-600">
+            <div className="flex items-center gap-1.5">
+              <span className="w-3 h-3 rounded-full bg-red-500" />
+              Feriado
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-3 h-3 rounded-full bg-[#D4E8F7]" />
+              Rango seleccionado
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-3 h-3 rounded-full border-2 border-[#008CB5]" />
+              Hoy
+            </div>
+            {/* Indicador de filtro activo */}
+            {!(feriados && habiles && finSemana) && (
+              <div className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-red-500" />
+                {habiles && !feriados && !finSemana && "Solo días hábiles"}
+                {habiles && feriados && !finSemana && "Días hábiles y feriados"}
+                {habiles && !feriados && finSemana && "Días hábiles y fin de semana"}
+                {!habiles && feriados && finSemana && "Solo feriados y fin de semana"}
+                {!habiles && feriados && !finSemana && "Solo feriados"}
+                {!habiles && !feriados && finSemana && "Solo fin de semana"}
+                {!habiles && !feriados && !finSemana && "Sin conteo"}
+              </div>
             )}
           </div>
-        </div>
+
+          {/* Info de selección + conteo inline + botón confirmar */}
+          {startDate && (
+            <div className="mt-3 text-xs text-gray-600 bg-gray-50 rounded-lg p-2.5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {onDateSelect ? (
+                  <div>
+                    <span className="font-medium text-[#0572CE]">Fecha:</span>{" "}
+                    {startDate.toLocaleDateString("es-CL")}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <span className="font-medium text-[#0572CE]">Inicio:</span>{" "}
+                      {startDate.toLocaleDateString("es-CL")}
+                    </div>
+                    {endDate && (
+                      <>
+                        <span className="text-gray-300">→</span>
+                        <div>
+                          <span className="font-medium text-[#0572CE]">Fin:</span>{" "}
+                          {endDate.toLocaleDateString("es-CL")}
+                        </div>
+                      </>
+                    )}
+                    {!endDate && (
+                      <span className="text-gray-400">(selecciona fecha fin)</span>
+                    )}
+                  </>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 ml-3">
+                {/* Conteo de días */}
+                {showStats && countedDays !== null && (
+                  <span className="bg-[#0572CE] text-white px-2.5 py-1 rounded-full text-xs font-semibold">
+                    {countedDays} días
+                  </span>
+                )}
+                {/* Botón confirmar */}
+                {onConfirm && (
+                  <button
+                    type="button"
+                    onClick={onConfirm}
+                    className="bg-[#0572CE] text-white px-3 py-1 rounded-2xl text-xs font-medium hover:bg-blue-700 transition-colors cursor-pointer"
+                  >
+                    Seleccionar
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

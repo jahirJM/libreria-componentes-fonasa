@@ -76,6 +76,7 @@ function ConDocumentosDemo() {
 
 export const solicitudCardEntry: ComponentEntry = {
   name: "solicitud-card",
+  group: "Otros",
   description:
     "Utiliza: badge. Tarjeta de solicitud con estado, fechas, documentos adjuntos y acordeón desplegable. Soporta vista compacta responsive.",
   code: solicitudCardCode,

@@ -74,7 +74,7 @@
   {
     "name": "carousel",
     "file": "Carousel.tsx",
-    "description": "Carrusel genérico con grilla configurable (cols × rows por página). Soporta navegación con flechas, indicadores de página (dots) y modo controlado/no controlado.",
+    "description": "Carrusel genérico con grilla configurable (cols × rows por página). Soporta navegación con flechas, indicadores de página (dots), loop infinito, autoplay y modo controlado/no controlado.",
     "dependencies": [
       "react-icons",
       "clsx"
@@ -322,6 +322,19 @@
     ],
     "group": "Otros",
     "testFile": "Sidebar.test.tsx"
+  },
+  {
+    "name": "solicitud-card",
+    "file": "SolicitudCard.tsx",
+    "description": "Tarjeta de solicitud con estado, fechas, documentos adjuntos y acordeón desplegable. Soporta vista compacta responsive.",
+    "dependencies": [
+      "react-icons"
+    ],
+    "internalDeps": [
+      "badge"
+    ],
+    "group": "Otros",
+    "testFile": "SolicitudCard.test.tsx"
   },
   {
     "name": "stepper",

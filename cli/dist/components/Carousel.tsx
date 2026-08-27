@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, type ReactNode } from "react";
+import { useState, useCallback, useRef, useEffect, type ReactNode } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import clsx from "clsx";
 
@@ -27,6 +27,10 @@ export interface CarouselProps<T> {
   showDots?: boolean;
   /** Si true, muestra botones de navegación. @default true */
   showArrows?: boolean;
+  /** Si true, al llegar al final vuelve al inicio y viceversa. @default false */
+  infinite?: boolean;
+  /** Intervalo en milisegundos para avance automático. Si se omite o es 0, no avanza automáticamente. */
+  autoPlay?: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -60,6 +64,8 @@ export function Carousel<T>({
   className,
   showDots = true,
   showArrows = true,
+  infinite = false,
+  autoPlay,
 }: CarouselProps<T>) {
   const itemsPerPage = cols * rows;
   const totalPages = Math.max(1, Math.ceil(items.length / itemsPerPage));
@@ -68,20 +74,40 @@ export function Carousel<T>({
   const [internalPage, setInternalPage] = useState(0);
   const currentPage = isControlled ? page : internalPage;
   const trackRef = useRef<HTMLDivElement>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const goToPage = useCallback(
     (newPage: number) => {
-      const clamped = Math.max(0, Math.min(newPage, totalPages - 1));
-      if (!isControlled) {
-        setInternalPage(clamped);
+      let target = newPage;
+      if (infinite) {
+        if (target < 0) target = totalPages - 1;
+        else if (target >= totalPages) target = 0;
+      } else {
+        target = Math.max(0, Math.min(target, totalPages - 1));
       }
-      onPageChange?.(clamped);
+      if (!isControlled) {
+        setInternalPage(target);
+      }
+      onPageChange?.(target);
     },
-    [isControlled, totalPages, onPageChange]
+    [isControlled, totalPages, onPageChange, infinite]
   );
 
   const goNext = useCallback(() => goToPage(currentPage + 1), [currentPage, goToPage]);
   const goPrev = useCallback(() => goToPage(currentPage - 1), [currentPage, goToPage]);
+
+  // AutoPlay logic
+  useEffect(() => {
+    if (!autoPlay || autoPlay <= 0) return;
+
+    autoPlayRef.current = setInterval(() => {
+      goNext();
+    }, autoPlay);
+
+    return () => {
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    };
+  }, [autoPlay, goNext]);
 
   return (
     <div className={clsx("flex flex-col", className)}>
@@ -128,10 +154,10 @@ export function Carousel<T>({
           {showArrows && (
             <button
               onClick={goPrev}
-              disabled={currentPage === 0}
+              disabled={!infinite && currentPage === 0}
               className={clsx(
                 "p-1 rounded-md transition-colors cursor-pointer",
-                currentPage === 0
+                !infinite && currentPage === 0
                   ? "text-gray-300 !cursor-not-allowed"
                   : "text-gray-500 hover:text-[#0572CE] hover:bg-gray-100"
               )}
@@ -164,10 +190,10 @@ export function Carousel<T>({
           {showArrows && (
             <button
               onClick={goNext}
-              disabled={currentPage === totalPages - 1}
+              disabled={!infinite && currentPage === totalPages - 1}
               className={clsx(
                 "p-1 rounded-md transition-colors cursor-pointer",
-                currentPage === totalPages - 1
+                !infinite && currentPage === totalPages - 1
                   ? "text-gray-300 !cursor-not-allowed"
                   : "text-gray-500 hover:text-[#0572CE] hover:bg-gray-100"
               )}

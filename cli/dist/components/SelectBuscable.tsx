@@ -10,6 +10,7 @@ import {
   type InputHTMLAttributes,
   type HTMLAttributes,
 } from "react";
+import { createPortal } from "react-dom";
 import clsx from "clsx";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { FiChevronDown, FiSearch, FiX } from "react-icons/fi";
@@ -170,12 +171,12 @@ export const SelectBuscable = ({
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
-    const dropdownHeight = 260; // altura estimada del dropdown (search + lista)
+    const dropdownHeight = 260;
     const espacioAbajo = viewportHeight - rect.bottom;
     const abreArriba =
       espacioAbajo < dropdownHeight && rect.top > dropdownHeight;
 
-    setDropdownStyle({
+    const newStyle: CSSProperties = {
       position: "fixed",
       left: rect.left,
       width: rect.width,
@@ -183,6 +184,19 @@ export const SelectBuscable = ({
       ...(abreArriba
         ? { bottom: viewportHeight - rect.top + 4 }
         : { top: rect.bottom + 4 }),
+    };
+
+    setDropdownStyle((prev) => {
+      // Only update if values actually changed to avoid re-renders
+      if (
+        prev.left === newStyle.left &&
+        prev.width === newStyle.width &&
+        prev.top === newStyle.top &&
+        prev.bottom === newStyle.bottom
+      ) {
+        return prev;
+      }
+      return newStyle;
     });
   }, []);
 
@@ -253,12 +267,16 @@ export const SelectBuscable = ({
   // Recalcular posición al hacer scroll o resize mientras el dropdown está abierto
   useEffect(() => {
     if (!isOpen) return;
-    const handleReposition = () => calcularPosicion();
+    const handleReposition = (e: Event) => {
+      // Ignore scroll events from inside the dropdown itself
+      if (dropdownRef.current?.contains(e.target as Node)) return;
+      calcularPosicion();
+    };
     window.addEventListener("scroll", handleReposition, true);
-    window.addEventListener("resize", handleReposition);
+    window.addEventListener("resize", calcularPosicion);
     return () => {
       window.removeEventListener("scroll", handleReposition, true);
-      window.removeEventListener("resize", handleReposition);
+      window.removeEventListener("resize", calcularPosicion);
     };
   }, [isOpen, calcularPosicion]);
 
@@ -334,8 +352,8 @@ export const SelectBuscable = ({
         </div>
       </button>
 
-      {/* Dropdown – se renderiza con position:fixed para flotar sobre todos los elementos */}
-      {isOpen && (
+      {/* Dropdown – renderizado en portal para evitar problemas con transform/filter en ancestros */}
+      {isOpen && createPortal(
         <Card ref={dropdownRef} style={dropdownStyle} className="">
           {/* Input de búsqueda */}
           <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100">
@@ -385,7 +403,8 @@ export const SelectBuscable = ({
               ))
             )}
           </ul>
-        </Card>
+        </Card>,
+        document.body
       )}
     </div>
   );

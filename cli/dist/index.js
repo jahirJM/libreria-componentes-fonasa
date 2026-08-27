@@ -11516,13 +11516,13 @@ var initCommand = new Command("init").description("Inicializa la configuraci\xF3
   }
   let testsDir;
   if (includeTests) {
-    const { testsDirAnswer } = await (0, import_prompts.default)({
+    const response = await (0, import_prompts.default)({
       type: "text",
       name: "testsDirAnswer",
       message: "\xBFD\xF3nde quieres guardar los tests?",
       initial: "__tests__"
     });
-    testsDir = testsDirAnswer || void 0;
+    testsDir = response.testsDirAnswer || void 0;
   }
   const config = {
     $schema: "https://github.com/jahirJM/libreria-componentes-fonasa/blob/main/cli/schema.json",

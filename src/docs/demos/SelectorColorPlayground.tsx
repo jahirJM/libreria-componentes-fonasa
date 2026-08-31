@@ -8,12 +8,14 @@ import { fonasaToast } from "../../componentsUI/Toast";
 export function SelectorColorPlayground() {
   const [disabled, setDisabled] = useState(false);
   const [mostrarGuardar, setMostrarGuardar] = useState(false);
+  const [soloColor, setSoloColor] = useState(false);
   const [color, setColor] = useState("#0572CE");
   const [copied, setCopied] = useState(false);
 
   const propsLines = [
     `  value="${color}"`,
     disabled ? "  disabled" : null,
+    soloColor ? "  soloColor" : null,
     mostrarGuardar ? "  mostrarGuardar" : null,
     mostrarGuardar
       ? "  onGuardar={(hex) => setColor(hex)}"
@@ -45,6 +47,10 @@ export function SelectorColorPlayground() {
             <span className="text-xs text-gray-600">mostrarGuardar</span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
+            <Switch checked={soloColor} onChange={setSoloColor} tamano="sm" />
+            <span className="text-xs text-gray-600">soloColor</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
             <Switch checked={disabled} onChange={setDisabled} tamano="sm" />
             <span className="text-xs text-gray-600">disabled</span>
           </label>
@@ -67,6 +73,7 @@ export function SelectorColorPlayground() {
           <SelectorColor
             value={color}
             disabled={disabled}
+            soloColor={soloColor}
             mostrarGuardar={mostrarGuardar}
             onChange={mostrarGuardar ? undefined : setColor}
             onGuardar={mostrarGuardar ? setColor : undefined}

@@ -1,7 +1,7 @@
 import selectorColorCode from "../../componentsUI/SelectorColor.tsx?raw";
 import { SelectorColor } from "../../componentsUI/SelectorColor";
 import { SelectorColorPlayground } from "../demos/SelectorColorPlayground";
-import { SelectorColorConGuardarDemo, SelectorColorEnVivoDemo } from "../demos/SelectorColorDemo";
+import { SelectorColorConGuardarDemo, SelectorColorEnVivoDemo, SelectorColorSoloColorDemo } from "../demos/SelectorColorDemo";
 import type { ComponentEntry } from "./types";
 
 export const selectorColorEntry: ComponentEntry = {
@@ -34,6 +34,8 @@ export const selectorColorEntry: ComponentEntry = {
   placeholder?: string;
   /** Deshabilita el selector. */
   disabled?: boolean;
+  /** Si true, el disparador es solo un botón circular con el color, sin dropdown, hex ni bordes. */
+  soloColor?: boolean;
   /** Clases CSS adicionales para el contenedor. */
   className?: string;
 }`,
@@ -59,6 +61,19 @@ export const selectorColorEntry: ComponentEntry = {
 
 <SelectorColor
   value={color}
+  onChange={(hex) => setColor(hex)}
+/>`,
+      responsive: true,
+    },
+    {
+      label: "Solo color (botón)",
+      props: { soloColor: true },
+      render: () => <SelectorColorSoloColorDemo />,
+      usageCode: `const [color, setColor] = useState("#0572CE");
+
+<SelectorColor
+  value={color}
+  soloColor
   onChange={(hex) => setColor(hex)}
 />`,
       responsive: true,

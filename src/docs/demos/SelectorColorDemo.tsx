@@ -34,3 +34,16 @@ export function SelectorColorEnVivoDemo() {
     </div>
   );
 }
+
+/** Demo con estado: variante que solo muestra el color como botón. */
+export function SelectorColorSoloColorDemo() {
+  const [color, setColor] = useState("#0572CE");
+  return (
+    <div className="flex flex-col items-center gap-4 w-full min-h-[420px]">
+      <div className="flex items-center gap-2 text-sm text-gray-600">
+        <span className="font-mono">{color}</span>
+      </div>
+      <SelectorColor value={color} soloColor onChange={setColor} />
+    </div>
+  );
+}

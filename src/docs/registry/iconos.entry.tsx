@@ -4,34 +4,34 @@ import type { ComponentEntry } from "./types";
 export const iconosEntry: ComponentEntry = {
   name: "iconos",
   description:
-    "Recursos gráficos institucionales de Contacto, Fonasa, Gobierno de Chile, ClaveÚnica y redes sociales. Se instalan como assets SVG en app/imgs/.",
+    "Recursos gráficos institucionales de Contacto, Fonasa, Gobierno de Chile, ClaveÚnica y redes sociales. Se instalan como assets SVG en public/app/imgs/.",
   code: iconosCode,
   colors: [
     { name: "Color primario (fonasa)", value: "#0572CE", usage: "Referencia cromática institucional para el uso de los iconos" },
   ],
   propsInterface: `export const ICON_ASSETS = {
   contact: {
-    phoneDesk: "app/imgs/mesa-telefonica.svg",
-    contactQuestions: "app/imgs/consultas-contacto.svg",
+    phoneDesk: "/app/imgs/mesa-telefonica.svg",
+    contactQuestions: "/app/imgs/consultas-contacto.svg",
   },
   fonasa: {
-    fullLogo: "app/imgs/fonasa-logo-full.svg",
-    icon: "app/imgs/fonasa-logo-icon.svg",
-    name: "app/imgs/fonasa-logo-name.svg",
-    whiteLogo: "app/imgs/fonasa-blanco.svg",
+    fullLogo: "/app/imgs/fonasa-logo-full.svg",
+    icon: "/app/imgs/fonasa-logo-icon.svg",
+    name: "/app/imgs/fonasa-logo-name.svg",
+    whiteLogo: "/app/imgs/fonasa-blanco.svg",
   },
   government: {
-    colorLogo: "app/imgs/gob-logo.svg",
-    grayLogo: "app/imgs/gob-logo-gris.svg",
-    claveUnica: "app/imgs/ico-clave-unica.svg",
+    colorLogo: "/app/imgs/gob-logo.svg",
+    grayLogo: "/app/imgs/gob-logo-gris.svg",
+    claveUnica: "/app/imgs/ico-clave-unica.svg",
   },
   social: {
-    twitter: "app/imgs/twitter-icon.svg",
-    twitterX: "app/imgs/twitter-x-icon.svg",
-    facebook: "app/imgs/facebook-icon.svg",
-    youtube: "app/imgs/youtube-icon.svg",
-    instagram: "app/imgs/instagram-icon.svg",
-    linkedIn: "app/imgs/linkedin-icon.svg",
+    twitter: "/app/imgs/twitter-icon.svg",
+    twitterX: "/app/imgs/twitter-x-icon.svg",
+    facebook: "/app/imgs/facebook-icon.svg",
+    youtube: "/app/imgs/youtube-icon.svg",
+    instagram: "/app/imgs/instagram-icon.svg",
+    linkedIn: "/app/imgs/linkedin-icon.svg",
   },
 } as const;
 
@@ -60,7 +60,7 @@ export type IconCategory = keyof typeof ICON_ASSETS;`,
     "clave-unica": ["ico-clave-unica.svg"],
     rrss: ["twitter-icon.svg", "twitter-x-icon.svg", "facebook-icon.svg", "youtube-icon.svg", "instagram-icon.svg", "linkedin-icon.svg"],
   },
-  assetsDir: "app/imgs",
+  assetsDir: "public/app/imgs",
   variants: [
     {
       label: "Recursos gráficos institucionales",

@@ -11149,7 +11149,7 @@ function printErrorItem(text) {
 }
 function printTip(text) {
   console.log("");
-  console.log(`  ${brand.secondary("\u{1F4A1}")} ${brand.dim(text)}`);
+  console.log(`  ${brand.secondary("\u203A")} ${brand.dim(text)}`);
   console.log("");
 }
 function stripAnsi2(str) {
@@ -11454,14 +11454,14 @@ var listCommand = new Command("list").description("Lista todos los componentes d
       const isLast = idx === components.length - 1;
       const connector = isLast ? "\u2514" : "\u251C";
       const deps = comp.dependencies?.length ? brand.dim(` [${comp.dependencies.join(", ")}]`) : "";
-      const testBadge = comp.testFile ? source_default.green(" \u{1F9EA}") : "";
+      const testBadge = comp.testFile ? source_default.green(" [test]") : "";
       const desc = comp.description ? brand.muted(` \u2014 ${comp.description.slice(0, 50)}${comp.description.length > 50 ? "\u2026" : ""}`) : "";
       console.log(`    ${source_default.white(connector)}\u2500 ${brand.primary(comp.name)}${testBadge}${desc}${deps}`);
     });
   }
   printSeparator();
   printTip(`Instalar \u2192 ${brand.primary("npx fonasa-ui add <nombre>")}`);
-  printTip(`Con tests \u2192 ${brand.primary("npx fonasa-ui add --with-tests <nombre>")} ${brand.dim("(\u{1F9EA} = test disponible)")}`);
+  printTip(`Con tests \u2192 ${brand.primary("npx fonasa-ui add --with-tests <nombre>")} ${brand.dim("([test] = test disponible)")}`);
 });
 
 // src/commands/init.ts

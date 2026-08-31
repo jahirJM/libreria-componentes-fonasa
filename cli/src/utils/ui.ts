@@ -79,7 +79,7 @@ export function printErrorItem(text: string) {
 // Footer con tip
 export function printTip(text: string) {
   console.log("");
-  console.log(`  ${brand.secondary("💡")} ${brand.dim(text)}`);
+  console.log(`  ${brand.secondary("›")} ${brand.dim(text)}`);
   console.log("");
 }
 

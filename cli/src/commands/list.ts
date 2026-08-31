@@ -40,7 +40,7 @@ export const listCommand = new Command("list")
         const deps = comp.dependencies?.length
           ? brand.dim(` [${comp.dependencies.join(", ")}]`)
           : "";
-        const testBadge = comp.testFile ? chalk.green(" 🧪") : "";
+        const testBadge = comp.testFile ? chalk.green(" [test]") : "";
         const desc = comp.description
           ? brand.muted(` — ${comp.description.slice(0, 50)}${comp.description.length > 50 ? "…" : ""}`)
           : "";
@@ -51,5 +51,5 @@ export const listCommand = new Command("list")
 
     printSeparator();
     printTip(`Instalar → ${brand.primary("npx fonasa-ui add <nombre>")}`);
-    printTip(`Con tests → ${brand.primary("npx fonasa-ui add --with-tests <nombre>")} ${brand.dim("(🧪 = test disponible)")}`);
+    printTip(`Con tests → ${brand.primary("npx fonasa-ui add --with-tests <nombre>")} ${brand.dim("([test] = test disponible)")}`);
   });

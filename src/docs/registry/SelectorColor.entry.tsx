@@ -36,6 +36,8 @@ export const selectorColorEntry: ComponentEntry = {
   disabled?: boolean;
   /** Si true, el disparador es solo un botón circular con el color, sin dropdown, hex ni bordes. */
   soloColor?: boolean;
+  /** Ancho del botón en la variante soloColor (px). La altura se iguala automáticamente. */
+  size?: number;
   /** Clases CSS adicionales para el contenedor. */
   className?: string;
 }`,
@@ -74,6 +76,7 @@ export const selectorColorEntry: ComponentEntry = {
 <SelectorColor
   value={color}
   soloColor
+  size={40}
   onChange={(hex) => setColor(hex)}
 />`,
       responsive: true,

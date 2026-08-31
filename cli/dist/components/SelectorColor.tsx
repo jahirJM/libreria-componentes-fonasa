@@ -25,6 +25,13 @@ interface SelectorColorProps {
    * @default false
    */
   soloColor?: boolean;
+  /**
+   * Ancho del botón circular en la variante `soloColor`, en píxeles. La altura
+   * se iguala automáticamente para mantener el círculo. No tiene efecto en la
+   * variante con dropdown.
+   * @default 32
+   */
+  size?: number;
   /** Clases CSS adicionales para el contenedor. */
   className?: string;
 }
@@ -243,6 +250,7 @@ export function SelectorColor({
   placeholder = "Seleccionar color",
   disabled = false,
   soloColor = false,
+  size = 32,
   className = "",
 }: SelectorColorProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -356,8 +364,8 @@ export function SelectorColor({
           aria-label={`${placeholder}: ${value}`}
           aria-haspopup="dialog"
           aria-expanded={isOpen}
-          className={`w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0572CE] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 ${className}`}
-          style={{ backgroundColor: value }}
+          className={`rounded-full cursor-pointer transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0572CE] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 ${className}`}
+          style={{ backgroundColor: value, width: size, height: size }}
         />
       ) : (
         <BotonOutline

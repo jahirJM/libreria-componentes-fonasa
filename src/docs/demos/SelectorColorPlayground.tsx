@@ -9,6 +9,7 @@ export function SelectorColorPlayground() {
   const [disabled, setDisabled] = useState(false);
   const [mostrarGuardar, setMostrarGuardar] = useState(false);
   const [soloColor, setSoloColor] = useState(false);
+  const [size, setSize] = useState(32);
   const [color, setColor] = useState("#0572CE");
   const [copied, setCopied] = useState(false);
 
@@ -16,6 +17,7 @@ export function SelectorColorPlayground() {
     `  value="${color}"`,
     disabled ? "  disabled" : null,
     soloColor ? "  soloColor" : null,
+    soloColor ? `  size={${size}}` : null,
     mostrarGuardar ? "  mostrarGuardar" : null,
     mostrarGuardar
       ? "  onGuardar={(hex) => setColor(hex)}"
@@ -50,6 +52,20 @@ export function SelectorColorPlayground() {
             <Switch checked={soloColor} onChange={setSoloColor} tamano="sm" />
             <span className="text-xs text-gray-600">soloColor</span>
           </label>
+          {soloColor && (
+            <label className="flex items-center gap-2">
+              <span className="text-xs text-gray-600 shrink-0">size</span>
+              <input
+                type="range"
+                min={16}
+                max={80}
+                value={size}
+                onChange={(e) => setSize(Number(e.target.value))}
+                className="accent-[#0572CE] flex-1"
+              />
+              <span className="text-xs font-mono text-gray-600 w-10 text-right">{size}px</span>
+            </label>
+          )}
           <label className="flex items-center gap-2 cursor-pointer">
             <Switch checked={disabled} onChange={setDisabled} tamano="sm" />
             <span className="text-xs text-gray-600">disabled</span>
@@ -74,6 +90,7 @@ export function SelectorColorPlayground() {
             value={color}
             disabled={disabled}
             soloColor={soloColor}
+            size={size}
             mostrarGuardar={mostrarGuardar}
             onChange={mostrarGuardar ? undefined : setColor}
             onGuardar={mostrarGuardar ? setColor : undefined}

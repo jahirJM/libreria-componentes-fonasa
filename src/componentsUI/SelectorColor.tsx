@@ -19,6 +19,12 @@ interface SelectorColorProps {
   placeholder?: string;
   /** Deshabilita el selector. @default false */
   disabled?: boolean;
+  /**
+   * Si true, el disparador es únicamente un botón circular con el color, sin
+   * dropdown, sin texto hex ni contenedor con bordes. El popover se abre igual.
+   * @default false
+   */
+  soloColor?: boolean;
   /** Clases CSS adicionales para el contenedor. */
   className?: string;
 }
@@ -236,6 +242,7 @@ export function SelectorColor({
   mostrarGuardar = false,
   placeholder = "Seleccionar color",
   disabled = false,
+  soloColor = false,
   className = "",
 }: SelectorColorProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -340,28 +347,41 @@ export function SelectorColor({
   };
 
   return (
-    <div ref={containerRef} className={`relative inline-block ${className}`}>
-      <BotonOutline
-        label={
-          <span className="flex items-center gap-2">
-            <span
-              className="w-4 h-4 rounded-full border border-gray-300 shrink-0"
-              style={{ backgroundColor: value }}
-            />
-            <span className="truncate">{value ?? placeholder}</span>
-            <svg
-              className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </span>
-        }
-        onClick={toggle}
-        isDisabled={disabled}
-      />
+    <div ref={containerRef} className={`relative inline-block ${soloColor ? "" : className}`}>
+      {soloColor ? (
+        <button
+          type="button"
+          onClick={toggle}
+          disabled={disabled}
+          aria-label={`${placeholder}: ${value}`}
+          aria-haspopup="dialog"
+          aria-expanded={isOpen}
+          className={`w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0572CE] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 ${className}`}
+          style={{ backgroundColor: value }}
+        />
+      ) : (
+        <BotonOutline
+          label={
+            <span className="flex items-center gap-2">
+              <span
+                className="w-4 h-4 rounded-full border border-gray-300 shrink-0"
+                style={{ backgroundColor: value }}
+              />
+              <span className="truncate">{value ?? placeholder}</span>
+              <svg
+                className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          }
+          onClick={toggle}
+          isDisabled={disabled}
+        />
+      )}
 
       {isOpen &&
         createPortal(

@@ -51,7 +51,7 @@ export function EditorMarkdownErrorDemo() {
 
 /** Editor deshabilitado. */
 export function EditorMarkdownDisabledDemo() {
-  const [value, setValue] = useState("Contenido de solo lectura.");
+  const [value] = useState("Contenido de solo lectura.");
   return <EditorMarkdown value={value} onChange={() => {}} disabled />;
 }
 

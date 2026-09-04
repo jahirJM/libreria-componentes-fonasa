@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Holidays from "date-holidays";
 
 interface CalendarioRangoProps {
@@ -8,6 +8,10 @@ interface CalendarioRangoProps {
   onDateSelect?: (date: Date) => void;
   /** Callback cuando se selecciona la fecha de inicio (primer click en modo rango) */
   onStartSelect?: (date: Date) => void;
+  /** Fecha de inicio seleccionada (modo controlado). Permite que la selección persista al re-montar. */
+  selectedStart?: Date | null;
+  /** Fecha de fin seleccionada (modo controlado). */
+  selectedEnd?: Date | null;
   /** Mes inicial a mostrar (0-11). Por defecto el mes actual */
   initialMonth?: number;
   /** Año inicial a mostrar. Por defecto el año actual */
@@ -259,6 +263,8 @@ export function CalendarioRango({
   onRangeSelect,
   onDateSelect,
   onStartSelect,
+  selectedStart,
+  selectedEnd,
   initialMonth,
   initialYear,
   className = "",
@@ -272,11 +278,22 @@ export function CalendarioRango({
   onConfirm,
 }: CalendarioRangoProps) {
   const today = new Date();
-  const [leftMonth, setLeftMonth] = useState(initialMonth ?? today.getMonth());
-  const [leftYear, setLeftYear] = useState(initialYear ?? today.getFullYear());
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  // El mes/año inicial prioriza: initialMonth/Year explícito > mes de la fecha seleccionada > hoy.
+  const baseDate = selectedStart ?? today;
+  const [leftMonth, setLeftMonth] = useState(initialMonth ?? baseDate.getMonth());
+  const [leftYear, setLeftYear] = useState(initialYear ?? baseDate.getFullYear());
+  const [startDate, setStartDate] = useState<Date | null>(selectedStart ?? null);
+  const [endDate, setEndDate] = useState<Date | null>(selectedEnd ?? null);
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
+
+  // Sincroniza el estado interno con los valores controlados (persiste selección al re-montar/reabrir).
+  useEffect(() => {
+    setStartDate(selectedStart ?? null);
+  }, [selectedStart]);
+
+  useEffect(() => {
+    setEndDate(selectedEnd ?? null);
+  }, [selectedEnd]);
   const [view, setView] = useState<"calendar" | "months" | "years">("calendar");
   const [yearRangeStart, setYearRangeStart] = useState(leftYear - 4);
 

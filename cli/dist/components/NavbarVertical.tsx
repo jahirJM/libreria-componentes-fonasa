@@ -47,6 +47,8 @@ export interface NavbarVerticalProps {
   onToggleCollapse?: (collapsed: boolean) => void;
   /** Contenido adicional al final del navbar (ej: botón de logout) */
   footer?: ReactNode;
+  /** Callback para cerrar sesión (muestra botón de logout en el footer) */
+  onLogout?: () => void;
   /** Clases CSS adicionales para el contenedor */
   className?: string;
 }
@@ -136,6 +138,7 @@ export function NavbarVertical({
   onLogoClick,
   onToggleCollapse,
   footer,
+  onLogout,
   className = "",
 }: NavbarVerticalProps) {
   const [internalCollapsed, setInternalCollapsed] = useState(collapsed);
@@ -231,9 +234,30 @@ export function NavbarVertical({
       </div>
 
       {/* Footer */}
-      {footer && (
+      {(footer || onLogout) && (
         <div className={`border-t border-gray-200 py-3 transition-all duration-300 ease-in-out ${isCollapsed ? "px-2" : "px-3"}`}>
           {footer}
+          {onLogout && (
+            <button
+              type="button"
+              onClick={onLogout}
+              title={isCollapsed ? "Cerrar sesión" : undefined}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-150 cursor-pointer"
+            >
+              <span className="flex-shrink-0 text-lg">
+                <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
+                </svg>
+              </span>
+              <span
+                className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
+                  isCollapsed ? "max-w-0 opacity-0" : "max-w-48 opacity-100"
+                }`}
+              >
+                Cerrar sesión
+              </span>
+            </button>
+          )}
         </div>
       )}
     </nav>

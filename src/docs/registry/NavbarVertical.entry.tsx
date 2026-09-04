@@ -5,13 +5,15 @@ import {
   NavbarVerticalSectionsDemo,
   NavbarVerticalCollapsibleDemo,
   NavbarVerticalFooterDemo,
+  NavbarVerticalLogoutDemo,
+  NavbarVerticalResponsiveDemo,
 } from "../demos/NavbarVerticalDemo";
 
 export const navbarVerticalEntry: ComponentEntry = {
   name: "navbar-vertical",
   group: "Navbar",
   description:
-    "Utiliza: navbar. Barra de navegación vertical (lateral) con soporte para logo, título, secciones agrupadas, estado colapsado con íconos y footer personalizable.",
+    "Utiliza: navbar. Barra de navegación vertical (lateral) con soporte para logo, título, secciones agrupadas, estado colapsado con íconos, footer personalizable y botón de cerrar sesión (onLogout). Nota sobre responsive: el componente NO se modifica para adaptarse a móvil; el comportamiento responsive se logra en el layout que lo envuelve. En pantallas grandes (md o más) el navbar va en el flujo normal y empuja el contenido; en pantallas chicas (menos de md) el layout debe fijar el navbar por encima del contenido con una capa oscura (backdrop) detrás, de modo que no empuje ni tape el contenido. Ver la variante 'Guía responsive (layout)' para el detalle de cómo montarlo.",
   code: navbarVerticalCode,
   dependencies: ["react-icons"],
   colors: [
@@ -68,6 +70,8 @@ interface NavbarVerticalProps {
   onToggleCollapse?: (collapsed: boolean) => void;
   /** Contenido adicional al final del navbar (ej: botón de logout) */
   footer?: ReactNode;
+  /** Callback para cerrar sesión (muestra botón de logout en el footer) */
+  onLogout?: () => void;
   /** Clases CSS adicionales para el contenedor */
   className?: string;
 }`,
@@ -207,6 +211,134 @@ const [collapsed, setCollapsed] = useState(false);
   }
   onNavigate={(path) => setActivePath(path)}
 />`,
+      responsive: true,
+    },
+    {
+      label: "Botón cerrar sesión (onLogout)",
+      props: {
+        items: [
+          { label: "Inicio", path: "/inicio", exact: true },
+          { label: "Solicitudes", path: "/solicitudes" },
+          { label: "Reportes", path: "/reportes" },
+        ],
+        activePath: "/inicio",
+      },
+      render: () => <NavbarVerticalLogoutDemo />,
+      usageCode: `// Con la prop onLogout el navbar muestra automáticamente un botón
+// "Cerrar sesión" en el footer (con ícono y estilo de hover rojo).
+// No necesitas construir el botón manualmente.
+
+<NavbarVertical
+  items={[
+    { label: "Inicio", path: "/inicio", icon: <FiHome />, exact: true },
+    { label: "Solicitudes", path: "/solicitudes", icon: <FiFileText /> },
+    { label: "Reportes", path: "/reportes", icon: <FiBarChart2 /> },
+  ]}
+  activePath={activePath}
+  logoSrc="/fonasa-favicon.ico"
+  title="Mi App"
+  onNavigate={(path) => setActivePath(path)}
+  onLogout={() => cerrarSesion()}
+/>`,
+      responsive: true,
+    },
+    {
+      label: "Guía responsive (layout)",
+      props: {
+        items: [
+          { label: "Inicio", path: "/inicio", exact: true },
+          { label: "Solicitudes", path: "/solicitudes" },
+          { label: "Reportes", path: "/reportes" },
+        ],
+        activePath: "/inicio",
+      },
+      render: () => <NavbarVerticalResponsiveDemo />,
+      usageCode: `/*
+  IMPORTANTE: el componente NavbarVertical NO se modifica para ser responsive.
+  El comportamiento móvil se arma en el LAYOUT que envuelve al navbar.
+
+  La idea, en palabras simples:
+
+  - En pantallas grandes (md o más): el navbar vive dentro del flujo normal
+    de la página, ocupa su columna a la izquierda y "empuja" el contenido
+    hacia la derecha. Todo se ve como un panel lateral clásico.
+
+  - En pantallas chicas (menos de md): el navbar deja de empujar el contenido.
+    Se "despega" y flota por encima de la página, pegado al borde izquierdo.
+    Detrás aparece una capa oscura (backdrop) que cubre el resto de la
+    pantalla; al tocarla, el navbar se cierra. Así el menú no aplasta ni
+    deforma el contenido en móvil.
+
+  Piezas que copias en TU layout (no en el componente):
+
+  1) Un detector de tamaño de pantalla (useEsDesktop con matchMedia) para
+     saber si estás en md+ o en móvil.
+  2) El estado del navbar: en móvil arranca colapsado (cerrado) y se cierra
+     solo al navegar; en desktop arranca abierto.
+  3) Tres detalles visuales en el JSX del layout:
+     - El navbar se fija (posición fija) por encima del contenido SOLO en móvil.
+     - Una capa oscura (backdrop) visible SOLO en móvil, que cierra al tocarla.
+     - El contenido reserva a la izquierda el ancho del navbar colapsado SOLO
+       en móvil, para que nada quede tapado.
+*/
+
+import { useEffect, useState } from "react";
+
+// 1) Detector de pantalla md+ (>= 768px)
+function useEsDesktop() {
+  const [esDesktop, setEsDesktop] = useState(
+    () => typeof window !== "undefined" &&
+      window.matchMedia("(min-width: 768px)").matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const handler = (e: MediaQueryListEvent) => setEsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return esDesktop;
+}
+
+function MainLayout() {
+  const esDesktop = useEsDesktop();
+  // 2) En móvil arranca cerrado; en desktop, abierto.
+  const [collapsed, setCollapsed] = useState(!esDesktop);
+  useEffect(() => { setCollapsed(!esDesktop); }, [esDesktop]);
+
+  const mobileAbierto = !esDesktop && !collapsed;
+
+  return (
+    <div className="flex h-screen">
+      {/* Capa oscura (backdrop): solo en móvil, cierra al tocar */}
+      <div
+        className={\`fixed inset-0 z-40 bg-gray-900/40 transition-opacity duration-300 md:hidden \${
+          mobileAbierto ? "opacity-100" : "pointer-events-none opacity-0"
+        }\`}
+        onClick={() => setCollapsed(true)}
+        aria-hidden="true"
+      />
+
+      {/* Navbar: fijo sobre el contenido en móvil, estático en desktop */}
+      <div className="z-50 h-full max-md:fixed max-md:inset-y-0 max-md:left-0">
+        <NavbarVertical
+          /* ...tus props: items/sections, activePath, etc. */
+          collapsible
+          collapsed={collapsed}
+          onToggleCollapse={setCollapsed}
+          onNavigate={(path) => {
+            navigate(path);
+            if (!esDesktop) setCollapsed(true); // cierra al navegar en móvil
+          }}
+        />
+      </div>
+
+      {/* Contenido: reserva el ancho del navbar colapsado solo en móvil */}
+      <main className="flex-1 overflow-y-auto p-6 max-md:pl-20">
+        {/* <Outlet /> o tu contenido */}
+      </main>
+    </div>
+  );
+}`,
       responsive: true,
     },
   ],

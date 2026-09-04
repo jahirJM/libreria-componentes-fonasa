@@ -30,6 +30,14 @@ export const calendarioRangoEntry: ComponentEntry = {
   propsInterface: `interface CalendarioRangoProps {
   /** Callback cuando se selecciona un rango completo (inicio y fin) */
   onRangeSelect?: (start: Date, end: Date) => void;
+  /** Callback cuando se selecciona una sola fecha (primer click) */
+  onDateSelect?: (date: Date) => void;
+  /** Callback cuando se selecciona la fecha de inicio (primer click en modo rango) */
+  onStartSelect?: (date: Date) => void;
+  /** Fecha de inicio seleccionada (modo controlado). Permite que la selección persista al re-montar. */
+  selectedStart?: Date | null;
+  /** Fecha de fin seleccionada (modo controlado). */
+  selectedEnd?: Date | null;
   /** Mes inicial a mostrar (0-11). Por defecto el mes actual */
   initialMonth?: number;
   /** Año inicial a mostrar. Por defecto el año actual */

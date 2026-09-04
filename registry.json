@@ -121,6 +121,16 @@
     "testFile": "Drawer.test.tsx"
   },
   {
+    "name": "editor-markdown",
+    "file": "EditorMarkdown.tsx",
+    "description": "Editor y visor Markdown unificado en un solo componente. Con mode=",
+    "dependencies": [
+      "clsx",
+      "react-icons"
+    ],
+    "group": "Formularios"
+  },
+  {
     "name": "footer",
     "file": "Footer.tsx",
     "description": "Footer institucional de FONASA con copyright dinámico (año actual) y mensaje decorativo. Color de texto configurable.",
@@ -284,7 +294,7 @@
   {
     "name": "navbar-vertical",
     "file": "NavbarVertical.tsx",
-    "description": "Barra de navegación vertical (lateral) con soporte para logo, título, secciones agrupadas, estado colapsado con íconos y footer personalizable.",
+    "description": "Barra de navegación vertical (lateral) con soporte para logo, título, secciones agrupadas, estado colapsado con íconos, footer personalizable y botón de cerrar sesión (onLogout). Nota sobre responsive: el componente NO se modifica para adaptarse a móvil; el comportamiento responsive se logra en el layout que lo envuelve. En pantallas grandes (md o más) el navbar va en el flujo normal y empuja el contenido; en pantallas chicas (menos de md) el layout debe fijar el navbar por encima del contenido con una capa oscura (backdrop) detrás, de modo que no empuje ni tape el contenido. Ver la variante",
     "dependencies": [
       "react-icons"
     ],

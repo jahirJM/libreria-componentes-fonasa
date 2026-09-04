@@ -251,6 +251,8 @@ export function InputCalendario({
             finSemana={finSemana}
             minDate={minDate}
             maxDate={maxDate}
+            selectedStart={startDate}
+            selectedEnd={endDate}
             onRangeSelect={tipo === "rango" ? handleRangeSelect : undefined}
             onStartSelect={tipo === "rango" ? handleStartSelect : undefined}
             onDateSelect={tipo === "fecha" ? handleSingleDateSelect : undefined}
